@@ -1,0 +1,20 @@
+{
+  "name": "helsingborg-stad/schema.org-transformer",
+  "description": "Fetching and transforming data from API to JSON-LD using spatie/schema-org",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "spatie/schema-org": "^3.23"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ],
+    "psr-12": {
+      "SchemaTransformer\\": "src/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.1"
+  }
+}
