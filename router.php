@@ -18,7 +18,7 @@ $output = $options['output'] ?? null;
 $transform = $options['transform'] ?? 'jobpost';
 
 if (!$input || !$output || !$transform) {
-    echo "Usage: php router.php --input=<source_path> --output=<output_path> [--transform=<jopost>]\n";
+    echo "Usage: php router.php --input=<source_path> --output=<output_path> [--transform=jobpost]\n";
     exit(1);
 }
 switch (strtolower($transform)) {

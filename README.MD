@@ -31,7 +31,7 @@ Replace `<source_path>` with the source path of the API, `<output_path>` with th
 Example:
 
 ```bash
-php router.php --source=https://reachmee --output=/tmp/output.json --model=jobpost
+php router.php --source=https://reachmee --output=/tmp/output.json --transform=jobpost
 ```
 
 ### Customizing Implementations

@@ -12,7 +12,6 @@ class JobPostTransform implements AbstractDataTransform
     public function transform(array $data): array
     {
         $output = [];
-
         foreach ($data as &$row) {
             $jobPosting = Schema::jobPosting()
                 ->identifier($row['ad_id'])
