@@ -24,7 +24,7 @@ class Service implements AbstractService
     public function execute(string $input, string $output): void
     {
         $data = $this->reader->read($input);
-        $ll = $this->transform->transform($data);
-        $this->writer->write($output, $ll);
+        $result = $this->transform->transform($data);
+        $this->writer->write($output, $result);
     }
 }
