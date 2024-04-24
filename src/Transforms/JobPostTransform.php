@@ -44,6 +44,7 @@ class JobPostTransform implements AbstractDataTransform
                 )->hiringOrganization(
                     Schema::organization()
                         ->name($name['nameorgunit'])
+                        ->ethicsPolicy($row['suffix_text'])
                 )->employmentUnit(
                     Schema::organization()
                         ->name($unit['nameorgunit'])

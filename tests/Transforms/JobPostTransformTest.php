@@ -101,7 +101,8 @@ final class JobPostTransformTest extends TestCase
             ],
             "hiringOrganization" => [
                 "@type" => "Organization",
-                "name" => "nameorgunit_1"
+                "name" => "nameorgunit_1",
+                "ethicsPolicy" => "suffix_text"
             ],
             "employmentUnit" => [
                 "@type" => "Organization",
