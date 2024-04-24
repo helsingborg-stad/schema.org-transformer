@@ -26,7 +26,7 @@ class JobPostTransform implements AbstractDataTransform
             if (is_array($row['contact_persons'])) {
                 $contacts = [];
                 foreach ($row['contact_persons'] as &$contact) {
-                    $contacts[] =                     Schema::contactPoint()
+                    $contacts[] = Schema::contactPoint()
                         ->contactType($contact['position'])
                         ->name($contact['first_name'] . ' ' . $contact['surname'])
                         ->email($contact['email'])
@@ -34,8 +34,8 @@ class JobPostTransform implements AbstractDataTransform
                 }
                 $jobPosting->applicationContact($contacts);
             }
+            $output[] = $jobPosting->toArray();
         }
-        $output[] = $jobPosting->toArray();
         return $output;
     }
 }
