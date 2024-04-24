@@ -37,8 +37,8 @@ final class JobPostTransformTest extends TestCase
                 "ad_language" => "SE",
                 "image_link" => null,
                 "image_alt_text" => null,
-                "prefix_text" => "",
-                "suffix_text" => "",
+                "prefix_text" => "prefix_text",
+                "suffix_text" => "suffix_text",
                 "link" => "https://",
                 "url" => "&r",
                 "contact_persons" => [
@@ -85,14 +85,33 @@ final class JobPostTransformTest extends TestCase
         $model = new JobPostTransform();
         $this->assertEquals($model->transform($this->data), [[
             "@context" => "https://schema.org",
+            "@id" => "1",
             "@type" => "JobPosting",
-            "@id" => 1,
             "title" => "title",
             "description" => "description",
+            "employerOverview" => "prefix_text",
             "datePosted" => "2024-04-01",
             "validThrough" => "2024-05-01",
             "employmentType" => "occupation_degree",
             "url" => "https://",
+            "directApply" => true,
+            "relevantOccupation" => [
+                "@type" => "Occupation",
+                "name" =>  "occupation_area"
+            ],
+            "hiringOrganization" => [
+                "@type" => "Organization",
+                "name" => "nameorgunit_1"
+            ],
+            "employmentUnit" => [
+                "@type" => "Organization",
+                "name" => "nameorgunit_2",
+                "address" => [
+                    "@type" => "PostalAddress",
+                    "addressRegion" => "name_1",
+                    "addressLocality" => "name_2"
+                ]
+            ],
             "applicationContact" => [[
                 "@type" => "ContactPoint",
                 "contactType" => "position_1",
