@@ -93,13 +93,19 @@ final class JobPostTransformTest extends TestCase
             "validThrough" => "2024-05-01",
             "employmentType" => "occupation_degree",
             "url" => "https://",
-            "applicationContact" => [
+            "applicationContact" => [[
                 "@type" => "ContactPoint",
                 "contactType" => "position_1",
                 "name" => "first_name_1 surname_1",
                 "email" => "email_1",
                 "telephone" => "phone_1"
-            ]
+            ], [
+                "@type" => "ContactPoint",
+                "contactType" => "position_2",
+                "name" => "first_name_2 surname_2",
+                "email" => "email_2",
+                "telephone" => "phone_2"
+            ]]
         ]]);
     }
 }

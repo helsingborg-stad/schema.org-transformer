@@ -20,20 +20,22 @@ class JobPostTransform implements AbstractDataTransform
                 ->datePosted($row['publishing_date'])
                 ->validThrough($row['expiration_date'])
                 ->employmentType($row['occupation_degree'])
+                ->image($row['image_link'])
                 ->url($row['link']);
 
-            if (isset($row['contact_persons'][0])) {
-                $contact = $row['contact_persons'][0];
-                $jobPosting->applicationContact(
-                    Schema::contactPoint()
+            if (is_array($row['contact_persons'])) {
+                $contacts = [];
+                foreach ($row['contact_persons'] as &$contact) {
+                    $contacts[] =                     Schema::contactPoint()
                         ->contactType($contact['position'])
                         ->name($contact['first_name'] . ' ' . $contact['surname'])
                         ->email($contact['email'])
-                        ->telephone($contact['phone'])
-                );
+                        ->telephone($contact['phone']);
+                }
+                $jobPosting->applicationContact($contacts);
             }
-            $output[] = $jobPosting->toArray();
         }
+        $output[] = $jobPosting->toArray();
         return $output;
     }
 }
