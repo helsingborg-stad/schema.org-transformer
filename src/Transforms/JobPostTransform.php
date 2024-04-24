@@ -41,21 +41,18 @@ class JobPostTransform implements AbstractDataTransform
                 ->relevantOccupation(
                     Schema::occupation()
                         ->name($row['occupation_area'])
+                )->hiringOrganization(
+                    Schema::organization()
+                        ->name($name['nameorgunit'])
+                )->employmentUnit(
+                    Schema::organization()
+                        ->name($unit['nameorgunit'])
+                        ->address(
+                            Schema::postalAddress()
+                                ->addressRegion($county['name'])
+                                ->addressLocality($city['name'])
+                        )
                 );
-
-            $jobPosting->hiringOrganization(
-                Schema::organization()
-                    ->name($name['nameorgunit'])
-            );
-            $jobPosting->employmentUnit(
-                Schema::organization()
-                    ->name($unit['nameorgunit'])
-                    ->address(
-                        Schema::postalAddress()
-                            ->addressRegion($county['name'])
-                            ->addressLocality($city['name'])
-                    )
-            );
 
             if (!empty($row['contact_persons']) && is_array($row['contact_persons'])) {
                 $contacts = [];
