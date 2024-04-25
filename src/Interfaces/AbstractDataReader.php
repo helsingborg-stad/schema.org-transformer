@@ -6,5 +6,5 @@ namespace SchemaTransformer\Interfaces;
 
 interface AbstractDataReader
 {
-    public function read(string $path): array;
+    public function read(string $path): array|false;
 }

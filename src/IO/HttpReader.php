@@ -8,7 +8,7 @@ use SchemaTransformer\Interfaces\AbstractDataReader;
 
 class HttpReader implements AbstractDataReader
 {
-    public function read(string $path): array
+    public function read(string $path): array|false
     {
         $curl = curl_init($path);
 
@@ -18,8 +18,8 @@ class HttpReader implements AbstractDataReader
         ]);
         $response = curl_exec($curl);
 
-        if ($response === false) {
-            die('Error: ' . curl_error($curl));
+        if (false === $response) {
+            return false;
         }
         curl_close($curl);
 

@@ -6,5 +6,5 @@ namespace SchemaTransformer\Interfaces;
 
 interface AbstractDataWriter
 {
-    public function write(string $path, array $data): void;
+    public function write(string $path, array $data): bool;
 }

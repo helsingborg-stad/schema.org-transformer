@@ -21,10 +21,17 @@ class Service implements AbstractService
         $this->writer = $writer;
         $this->transform = $transform;
     }
-    public function execute(string $input, string $output): void
+    public function execute(string $source, string $destination): bool
     {
-        $data = $this->reader->read($input);
+        $data = $this->reader->read($source);
+        if (false === $data) {
+            return false;
+        }
         $result = $this->transform->transform($data);
-        $this->writer->write($output, $result);
+
+        if (false === $this->writer->write($destination, $result)) {
+            return false;
+        }
+        return true;
     }
 }

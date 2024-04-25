@@ -8,10 +8,13 @@ use SchemaTransformer\Interfaces\AbstractDataWriter;
 
 class FileWriter implements AbstractDataWriter
 {
-    public function write(string $path, array $data): void
+    public function write(string $path, array $data): bool
     {
         $file = fopen($path, 'w');
-        fwrite($file, json_encode($data, JSON_PRETTY_PRINT));
-        fclose($file);
+
+        if (false === fwrite($file, json_encode($data, JSON_PRETTY_PRINT))) {
+            return false;
+        }
+        return fclose($file);
     }
 }

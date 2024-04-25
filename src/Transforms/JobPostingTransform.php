@@ -7,7 +7,7 @@ namespace SchemaTransformer\Transforms;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\Schema;
 
-class JobPostTransform implements AbstractDataTransform
+class JobPostingTransform implements AbstractDataTransform
 {
     protected function normalizeArray(?array $in, int $length, array $fallback): array
     {
@@ -21,7 +21,6 @@ class JobPostTransform implements AbstractDataTransform
     public function transform(array $data): array
     {
         $output = [];
-
         foreach ($data as &$row) {
             [$county, $city] = $this->normalizeArray($row['areas'], 2, ["name" => ""]);
             [$name, $unit] = $this->normalizeArray($row['organizations'], 2, ["nameorgunit" => ""]);

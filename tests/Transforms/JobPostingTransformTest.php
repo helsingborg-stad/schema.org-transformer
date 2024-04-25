@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use SchemaTransformer\Transforms\JobPostTransform;
+use SchemaTransformer\Transforms\JobPostingTransform;
 
-final class JobPostTransformTest extends TestCase
+final class JobPostingTransformTest extends TestCase
 {
     protected array $data;
 
@@ -80,9 +80,9 @@ final class JobPostTransformTest extends TestCase
             ]
         ];
     }
-    public function testJobPostTransform(): void
+    public function testJobPostingTransform(): void
     {
-        $model = new JobPostTransform();
+        $model = new JobPostingTransform();
         $this->assertEquals($model->transform($this->data), [[
             "@context" => "https://schema.org",
             "@id" => "1",

@@ -6,5 +6,5 @@ namespace SchemaTransformer\Interfaces;
 
 interface AbstractService
 {
-    public function execute(string $input, string $output): void;
+    public function execute(string $source, string $destination): bool;
 }
