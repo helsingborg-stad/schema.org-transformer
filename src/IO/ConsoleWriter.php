@@ -8,9 +8,9 @@ use SchemaTransformer\Interfaces\AbstractDataWriter;
 
 class ConsoleWriter implements AbstractDataWriter
 {
-    public function write(string $path, array $data): bool
+    public function write(string $path, string $data, array $config = null): bool
     {
-        print(json_encode($data, JSON_PRETTY_PRINT));
+        print($data);
         return true;
     }
 }

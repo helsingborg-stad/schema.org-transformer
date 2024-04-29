@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\IO;
 
-use SchemaTransformer\Interfaces\AbstractDataReader;
+use SchemaTransformer\Interfaces\AbstractDataWriter;
 
-class HttpReader implements AbstractDataReader
+class HttpWriter implements AbstractDataWriter
 {
-    public function read(string $path, array $config = null): array|false
+    public function write(string $path, string $data, array $config = null): bool
     {
         $curl = curl_init($path);
 
@@ -16,8 +16,13 @@ class HttpReader implements AbstractDataReader
             "ACCEPT" => "Accept: application/json"
         ], $config);
 
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt_array($curl, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => $data
+        ]);
+
         $response = curl_exec($curl);
 
         if (false === $response) {

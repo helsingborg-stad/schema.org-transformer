@@ -8,7 +8,7 @@ use SchemaTransformer\Interfaces\AbstractDataReader;
 
 class FileReader implements AbstractDataReader
 {
-    public function read(string $path): array|false
+    public function read(string $path, array $config = null): array|false
     {
         $file = file_get_contents($path);
 
