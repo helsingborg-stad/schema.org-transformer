@@ -13,7 +13,7 @@ class HttpWriter implements AbstractDataWriter
         $curl = curl_init($path);
 
         $headers = array_merge([
-            "ACCEPT" => "Accept: application/json"
+            "Content-Type: text/plain"
         ], $config);
 
         curl_setopt_array($curl, [
@@ -24,13 +24,12 @@ class HttpWriter implements AbstractDataWriter
         ]);
 
         $response = curl_exec($curl);
-
-        if (false === $response) {
+        print($response);
+        if (curl_errno($curl) !== 0 || curl_getinfo($curl, CURLINFO_HTTP_CODE) !== 200) {
             return false;
         }
         curl_close($curl);
 
-        // Decode JSON response
-        return json_decode($response, true);
+        return true;
     }
 }

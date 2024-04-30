@@ -14,6 +14,6 @@ class JSONLConverter implements AbstractDataConverter
         foreach ($data as &$row) {
             $jsonl[] = json_encode($row);
         }
-        return implode('\n', $jsonl);
+        return implode("\n", $jsonl);
     }
 }

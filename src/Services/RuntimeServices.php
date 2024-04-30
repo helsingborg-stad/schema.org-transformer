@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Services;
 
-use SchemaTransformer\Encoders\JSONLConverter;
 use SchemaTransformer\Interfaces\AbstractDataConverter;
 use SchemaTransformer\Interfaces\AbstractDataReader;
 use SchemaTransformer\Interfaces\AbstractDataWriter;
@@ -23,7 +22,9 @@ class RuntimeServices
             $writer,
             new JobPostingTransform(),
             $converter,
-            []
+            [
+                "x-typesense-api-key: FMEdqHClB2Kgq80j2Obl4vcxm3kAnl4H"
+            ]
         );
     }
     public function getJobPostingService(): AbstractService
