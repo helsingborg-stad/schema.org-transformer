@@ -13,7 +13,7 @@ class HttpWriter implements AbstractDataWriter
         $curl = curl_init($path);
 
         $headers = array_merge([
-            "Content-Type: text/plain"
+            "Content-Type: application/json"
         ], $config);
 
         curl_setopt_array($curl, [

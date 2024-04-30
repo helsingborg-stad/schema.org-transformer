@@ -23,10 +23,10 @@ Fetching and transforming data from API to JSON-LD using spatie/schema-org
 To run the router script, use the following command:
 
 ```bash
-Usage: php router.php --source=<source_path> [--destination=<destination_path> --transform=<transform_name>]
+Usage: php router.php --source=<source_path> [--destination=<destination_path> --transform=<jobposting> --outputformat=<json|jsonl>] --config=<config>
 ```
 
-Replace `<source_path>` with the source path of the data to transform, `<destination_path>` with the path of the output file you want to use and `<transform_name>` with the transform to apply.
+Replace `<source_path>` with the source path of the data to transform, `<destination_path>` with the path of the output file you want to use and `<transform_name>` with the transform to apply. In cases of http operations, headers can be added as a comma separated list to the <config> parameter.
 
 Example:
 

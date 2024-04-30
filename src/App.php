@@ -24,9 +24,12 @@ class App
         ], $options);
 
         if (empty($cmd->source)) {
-            echo "Usage: php router.php --source=<source_path> [--destination=<destination_path> --transform=<jobposting> --encoding=<json|jsonl>]\n";
+            echo "Usage: php router.php --source=<source_path> [--destination=<destination_path> --transform=<jobposting> --outputformat=<json|jsonl>] --config=<config>\n";
             exit(1);
         }
+        $config = !empty($cmd->config) ?
+            explode(",", $cmd->config) : [];
+
         // Check if source is url or file
         $reader = filter_var($cmd->source, FILTER_VALIDATE_URL) ?
             new HttpReader() :
@@ -37,12 +40,12 @@ class App
             new HttpWriter() :
             new FileWriter());
 
-        $converter = $cmd->encoding === 'jsonl' ?
+        $converter = $cmd->outputformat === 'jsonl' ?
             new JSONLConverter() :
             new JSONConverter();
 
         // Wire services
-        $services = new RuntimeServices($reader, $writer, $converter);
+        $services = new RuntimeServices($reader, $writer, $converter, $config);
 
         // Execute
         $result = false;

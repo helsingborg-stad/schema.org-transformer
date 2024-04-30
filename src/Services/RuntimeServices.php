@@ -15,16 +15,14 @@ class RuntimeServices
 {
     private AbstractService $jobPostingService;
 
-    public function __construct(AbstractDataReader $reader, AbstractDataWriter $writer, AbstractDataConverter $converter)
+    public function __construct(AbstractDataReader $reader, AbstractDataWriter $writer, AbstractDataConverter $converter, array $config)
     {
         $this->jobPostingService = new Service(
             $reader,
             $writer,
             new JobPostingTransform(),
             $converter,
-            [
-                "x-typesense-api-key: FMEdqHClB2Kgq80j2Obl4vcxm3kAnl4H"
-            ]
+            $config,
         );
     }
     public function getJobPostingService(): AbstractService

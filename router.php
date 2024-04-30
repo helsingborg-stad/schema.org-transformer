@@ -10,5 +10,6 @@ require_once 'vendor/autoload.php';
     "source:",
     "destination:",
     "transform:",
-    "encoding:"
+    "outputformat:",
+    "config:"
 ]));
