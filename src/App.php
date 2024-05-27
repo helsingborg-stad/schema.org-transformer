@@ -20,7 +20,7 @@ class App
             "source" => "",
             "destination" => "",
             "transform" => "jobposting",
-            "encoding" => "json"
+            "outputformat" => "json"
         ], $options);
 
         if (empty($cmd->source)) {

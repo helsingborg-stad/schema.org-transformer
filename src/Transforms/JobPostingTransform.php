@@ -65,6 +65,7 @@ class JobPostingTransform implements AbstractDataTransform
                 }
                 $jobPosting->applicationContact($contacts);
             }
+            $jobPosting->setProperty('@version', md5(json_encode($jobPosting->toArray())));
             $output[] = $jobPosting->toArray();
         }
         return $output;
