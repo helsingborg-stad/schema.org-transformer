@@ -86,6 +86,7 @@ final class JobPostingTransformTest extends TestCase
         $this->assertEquals($model->transform($this->data), [[
             "@context" => "https://schema.org",
             "@id" => "1",
+            "@version" => "4efca72bf3730a1043354801ec14268e",
             "@type" => "JobPosting",
             "title" => "title",
             "description" => "description",
