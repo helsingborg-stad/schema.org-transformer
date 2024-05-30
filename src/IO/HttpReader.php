@@ -23,6 +23,12 @@ class HttpReader implements AbstractDataReader
         if (false === $response) {
             return false;
         }
+
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        if ($httpCode >= 400) {
+            throw new \Exception("Could not retrive source. A HTTP error occurred: " . $httpCode);
+        }
+
         curl_close($curl);
 
         // Decode JSON response
