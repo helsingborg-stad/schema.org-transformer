@@ -46,7 +46,7 @@ Transformation settings
 Example:
 
 ```bash
-php router.php --source=https://reachmee --output=/tmp/output.json --transform=jobposting
+php router.php --source https://reachmee --output /tmp/output.json --transform jobposting
 ```
 
 ### Customizing Implementations
