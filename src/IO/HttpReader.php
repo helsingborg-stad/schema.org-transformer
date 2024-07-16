@@ -8,13 +8,19 @@ use SchemaTransformer\Interfaces\AbstractDataReader;
 
 class HttpReader implements AbstractDataReader
 {
-    public function read(string $path, array $config = null): array|false
+    private array $headers;
+    public function __construct(array $headers = [])
+    {
+        $this->headers = $headers;
+    }
+
+    public function read(string $path): array|false
     {
         $curl = curl_init($path);
 
         $headers = array_merge([
             "ACCEPT" => "Accept: application/json"
-        ], $config);
+        ], $this->headers);
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);

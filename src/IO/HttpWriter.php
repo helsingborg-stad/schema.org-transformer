@@ -8,13 +8,18 @@ use SchemaTransformer\Interfaces\AbstractDataWriter;
 
 class HttpWriter implements AbstractDataWriter
 {
-    public function write(string $path, string $data, array $config = null): bool
+    private array $headers;
+    public function __construct(array $headers = [])
+    {
+        $this->headers = $headers;
+    }
+    public function write(string $path, string $data): array|false
     {
         $curl = curl_init($path);
 
         $headers = array_merge([
-            "Content-Type: application/json"
-        ], $config);
+            // "Content-Type: application/json"
+        ], $this->headers);
 
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => true,
@@ -24,12 +29,12 @@ class HttpWriter implements AbstractDataWriter
         ]);
 
         $response = curl_exec($curl);
-        print($response);
+
         if (curl_errno($curl) !== 0 || curl_getinfo($curl, CURLINFO_HTTP_CODE) !== 200) {
             return false;
         }
         curl_close($curl);
 
-        return true;
+        return json_decode($response, true);
     }
 }

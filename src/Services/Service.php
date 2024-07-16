@@ -18,23 +18,22 @@ class Service implements AbstractService
     protected AbstractDataConverter $converter;
     protected array $config = [];
 
-    public function __construct(AbstractDataReader $reader, AbstractDataWriter $writer, AbstractDataTransform $transform, AbstractDataConverter $converter, array $config)
+    public function __construct(AbstractDataReader $reader, AbstractDataWriter $writer, AbstractDataTransform $transform, AbstractDataConverter $converter)
     {
         $this->reader = $reader;
         $this->writer = $writer;
         $this->transform = $transform;
         $this->converter = $converter;
-        $this->config = $config;
     }
     public function execute(string $source, string $destination): bool
     {
-        $data = $this->reader->read($source, $this->config);
+        $data = $this->reader->read($source);
         if (false === $data) {
             return false;
         }
         $result = $this->converter->encode($this->transform->transform($data));
 
-        if (false === $this->writer->write($destination, $result, $this->config)) {
+        if (false === $this->writer->write($destination, $result)) {
             return false;
         }
         return true;

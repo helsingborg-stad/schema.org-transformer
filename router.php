@@ -8,8 +8,12 @@ require_once 'vendor/autoload.php';
 
 \SchemaTransformer\App::run(getopt("", [
     "source:",
-    "destination:",
-    "transform:",
+    "sourceheaders:",
+    "output:",
+    "outputheaders:",
     "outputformat:",
-    "config:"
+    "transform:",
+    "authpath:",
+    "authclientid:",
+    "authclientsecret:"
 ]));
