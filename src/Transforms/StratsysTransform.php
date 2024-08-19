@@ -9,59 +9,52 @@ use Spatie\SchemaOrg\Schema;
 
 class StratsysTransform implements AbstractDataTransform
 {
+    private array $indexRef;
+
+    protected function getValue(string $name, array $data): string
+    {
+        $index = array_search($name, $this->indexRef);
+
+        if ($index === false) {
+            return "";
+        }
+        return $data[$index];
+    }
     public function transform(array $data): array
     {
+        $this->indexRef = $data["header"];
         $output = [];
-        // Remove non-activities
-        $filter = array_filter($data["Result"], function ($item) {
-            return $item["ScorecardColumn"]["NodeType"] === "Activity";
-        });
 
-        foreach ($filter as $row) {
-            $article = Schema::article()->headline($row["Name"]);
+        foreach ($data["values"] as $row) {
+            $article = Schema::article()->headline($this->getValue("Initiativ_Namn", $row));
+            $article->abstract($this->getValue("Initiativ_Sammanfattning", $row));
+            $article->articleBody([
+                $this->getValue("Initiativ_Vad", $row),
+                $this->getValue("Initiativ_Hur", $row),
+                $this->getValue("Initiativ_Varfor", $row),
+            ]);
+            $article->articleSection($this->getValue("Omrade_Namn", $row));
+            $article->genre($this->getValue("Transformation_Namn", $row));
+            $article->creativeWorkStatus($this->getValue("Initiativ_Status", $row));
+            $article->image($this->getValue("Initiativ_Bildtest", $row));
 
-            $parent = "";
-            foreach ($data["Result"] as $orgs) {
-                if ($orgs["Id"] === $row["ParentId"]) {
-                    $parent = $orgs["Name"];
-                }
-            }
-            $article->articleSection($parent);
-            $descriptionFields = array_filter($row["DescriptionFields"], function ($item) {
-                return !is_null($item["TextValue"]);
-            });
+            $article->setProperty("@objectives", [$this->getValue("Effektmal_FargNamn", $row)]);
+            $article->setProperty("@demarcations", [$this->getValue("Initiativ_Avgransningar", $row)]);
+            $article->setProperty("@challenges", [$this->getValue("Initiativ_Utmaningar", $row)]);
 
-            foreach ($descriptionFields as $field) {
-                $value = $field["TextValue"];
-                switch ($field["DescriptionField"]["Id"]) {
-                    case "218": // Summary
-                        $article->articleBody($value);
-                        break;
-                    case "220": // Budget
-                        $article->setProperty("@budget", $value);
-                        break;
-                    case "217": // Limitations
-                        $article->setProperty("@limitations", $value);
-                        break;
-                    case "226": // Engagement 
-                        $article->setProperty("@engagement", $value);
-                        break;
-                    case "227": // Image
-                        $article->image($value);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            $keywords = [];
-            foreach ($row["Keywords"] as $keyword) {
-                $keywords[$keyword["KeywordGroup"]["Name"]][] = $keyword["Name"];
-            }
-            $article->setProperty('@facets', $keywords);
+            $funding = Schema::monetaryGrant()->amount($this->getValue("Initiativ_Budgetuppskattning", $row));
+            $article->funding($funding);
+
+            $organization = Schema::organization()->name($this->getValue("Initiativ_Enhet", $row));
+            $article->sourceOrganization($organization);
+
+            $contact = Schema::person()
+                ->alternateName($this->getValue("Initiativ_Kontaktperson", $row));
+            $article->publisher($contact);
+
             $article->setProperty('@version', md5(json_encode($article->toArray())));
             $output[] = $article->toArray();
         }
-        print($output);
         return $output;
     }
 }

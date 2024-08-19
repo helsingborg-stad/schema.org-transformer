@@ -16,7 +16,7 @@ class AuthService implements AbstractAuth
         $this->writer = $writer;
     }
 
-    public function getToken(string $path, string $clientId, string $clientSecret): string|false
+    public function getToken(string $path, string $clientId, string $clientSecret, string $clientScope): string|false
     {
         $data = $this->writer->write(
             $path,
@@ -24,7 +24,7 @@ class AuthService implements AbstractAuth
                 "client_id" => $clientId,
                 "client_secret" => $clientSecret,
                 "grant_type" => "client_credentials",
-                "scope" => ""
+                "scope" => $clientScope
             ]),
 
         );

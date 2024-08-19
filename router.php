@@ -15,5 +15,6 @@ require_once 'vendor/autoload.php';
     "transform:",
     "authpath:",
     "authclientid:",
-    "authclientsecret:"
+    "authclientsecret:",
+    "authscope:"
 ]));

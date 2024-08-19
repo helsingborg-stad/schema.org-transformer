@@ -26,7 +26,8 @@ class App
             "transform" => "jobposting",
             "authpath" => "",
             "authclientid" => "",
-            "authclientsecret" => ""
+            "authclientsecret" => "",
+            "authscope" => ""
         ], $options);
 
         if (empty($cmd->source)) {
@@ -49,6 +50,7 @@ class App
                  --authpath <url>               URL of token service
                  --authclientid <string>        Client id 
                  --authclientsecret <string>    Client secret
+                 --authscope <string>           Client scope
 
                 TEXT;
             exit(1);
@@ -64,7 +66,7 @@ class App
         if (filter_var($cmd->authpath, FILTER_VALIDATE_URL)) {
             $token = (new AuthService(
                 new HttpWriter(["Content-Type: application/x-www-form-urlencoded"])
-            ))->getToken($cmd->authpath, $cmd->authclientid, $cmd->authclientsecret);
+            ))->getToken($cmd->authpath, $cmd->authclientid, $cmd->authclientsecret, $cmd->authscope);
 
             $sourceheaders[] = $token;
         }
