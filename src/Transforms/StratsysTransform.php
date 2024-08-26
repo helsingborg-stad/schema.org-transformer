@@ -29,9 +29,9 @@ class StratsysTransform implements AbstractDataTransform
             $article = Schema::article()->headline($this->getValue("Initiativ_Namn", $row));
             $article->abstract($this->getValue("Initiativ_Sammanfattning", $row));
             $article->articleBody([
-                $this->getValue("Initiativ_Vad", $row),
-                $this->getValue("Initiativ_Hur", $row),
-                $this->getValue("Initiativ_Varfor", $row),
+                '<h2>Vad</h2>' . '<p>' . $this->getValue("Initiativ_Vad", $row) . '</p>',
+                '<h2>Hur</h2>' . '<p>' . $this->getValue("Initiativ_Hur", $row) . '</p>',
+                '<h2>Varför</h2>' . '<p>' . $this->getValue("Initiativ_Varfor", $row) . '</p>'
             ]);
             $article->articleSection($this->getValue("Omrade_Namn", $row));
             $article->genre($this->getValue("Transformation_Namn", $row));

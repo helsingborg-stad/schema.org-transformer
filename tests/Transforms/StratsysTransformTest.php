@@ -84,9 +84,9 @@ final class StratsysTransformTest extends TestCase
                 "headline" => "Initiativ_Namn",
                 "abstract" => "Initiativ_Sammanfattning",
                 "articleBody" => [
-                    "Initiativ_Vad",
-                    "Initiativ_Hur",
-                    "Initiativ_Varfor"
+                    "<h2>Vad</h2><p>Initiativ_Vad</p>",
+                    "<h2>Hur</h2><p>Initiativ_Hur</p>",
+                    "<h2>Varför</h2><p>Initiativ_Varfor</p>"
                 ],
                 "articleSection" => "Omrade_Namn",
                 "genre" => "Transformation_Namn",
@@ -113,7 +113,7 @@ final class StratsysTransformTest extends TestCase
                     "@type" => "Person",
                     "alternateName" => "Initiativ_Kontaktperson"
                 ],
-                "@version" => "8eacc3948d6bddaee5401a8fa532bf29"
+                "@version" => "68f7e4165948652d5040c272e1efa46a"
             ]
         ]);
     }
