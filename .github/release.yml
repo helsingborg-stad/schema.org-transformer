@@ -1,0 +1,48 @@
+name: Release and deploy.
+
+on:
+  release:
+    types:
+      - released
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP with composer v2.
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ vars.PHP_VERSION }}
+          tools: composer:v2
+
+      - name: Install composer dependencies.
+        run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative
+        shell: bash
+
+      - name: Validate composer.json and composer.lock.
+        run: composer validate
+        shell: bash
+
+      - name: Install composer dependencies.
+        run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative
+        shell: bash
+
+      - name: Rsync deployment to remote
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzrog --delete s
+          path: .
+          remote_path: ${{ vars.DEPLOY_HOST_PATH }}
+          remote_host: ${{ vars.DEPLOY_HOST }}
+          remote_user: ${{ vars.DEPLOY_HOST_USER }}
+          remote_key: ${{ secrets.DEPLOY_HOST_USER_KEY }}
+          remote_port: ${{ vars.DEPLOY_PORT }}
+
+
+
+      
