@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -24,9 +24,9 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative
         shell: bash
 
-      # - name: Validate composer.json and composer.lock.
-      #   run: composer validate
-      #   shell: bash
+      - name: Validate composer.json and composer.lock.
+        run: composer validate
+        shell: bash
 
       - name: Install composer dependencies.
         run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative
@@ -35,7 +35,7 @@ jobs:
       - name: Rsync deployment to remote
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avzrog --delete s
+          switches: -avzrog --delete
           path: .
           remote_path: ${{ vars.DEPLOY_HOST_PATH }}
           remote_host: ${{ vars.DEPLOY_HOST }}
