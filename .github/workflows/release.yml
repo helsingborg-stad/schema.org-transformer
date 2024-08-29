@@ -23,15 +23,7 @@ jobs:
       - name: Install composer dependencies.
         run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative
         shell: bash
-
-      - name: Validate composer.json and composer.lock.
-        run: composer validate
-        shell: bash
-
-      - name: Install composer dependencies.
-        run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader --classmap-authoritative
-        shell: bash
-
+        
       - name: Rsync deployment to remote
         uses: burnett01/rsync-deployments@7.0.1
         with:
