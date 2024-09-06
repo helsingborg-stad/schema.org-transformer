@@ -115,11 +115,16 @@ final class StratsysTransformTest extends TestCase
                     ],
                     [
                         "@type" => "PropertyValue",
+                        "name" => "progress",
+                        "value" => 0
+                    ],
+                    [
+                        "@type" => "PropertyValue",
                         "name" => "category",
                         "value" => "Transformation_Namn"
                     ]
                 ],
-                "@version" => "f7e1543d51f3497132d3758905e1db44"
+                "@version" => "ccaab47c5f653ac32c98f7e4871b060d"
             ]
         ]);
     }

@@ -25,6 +25,31 @@ class StratsysTransform implements AbstractDataTransform
         }
         return $data[$index];
     }
+
+    protected function getProgress(string $status): int
+    {
+        switch ($status) {
+            case 'Ej påbörjad':
+                return 0;
+            case 'Idé':
+                return 1;
+            case 'Avslutad':
+                return 2;
+            case 'Avbruten':
+                return 3;
+            case 'Försenad':
+                return 4;
+            case 'Pågående':
+                return 5;
+            case 'Pilot':
+                return 6;
+            case 'Skala upp':
+                return 7;
+            case 'Realiserad':
+                return 100;
+        }
+        return 0;
+    }
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
@@ -55,6 +80,7 @@ class StratsysTransform implements AbstractDataTransform
             $project->setProperty('@meta', [
                 Schema::propertyValue()->name('technology')->value($this->getValue("Omrade_Namn", $row)),
                 Schema::propertyValue()->name('status')->value($this->getValue("Initiativ_Status", $row)),
+                Schema::propertyValue()->name('progress')->value($this->getProgress($this->getValue("Initiativ_Status", $row))),
                 Schema::propertyValue()->name('category')->value($this->getValue("Transformation_Namn", $row)),
             ]);
             $project->setProperty('@version', md5(json_encode($project->toArray())));
