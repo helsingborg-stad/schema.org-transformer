@@ -78,42 +78,48 @@ final class StratsysTransformTest extends TestCase
         $model = new StratsysTransform();
         $this->assertEquals($model->transform($this->data), [
             [
-
                 "@context" => "https://schema.org",
-                "@type" => "Article",
-                "headline" => "Initiativ_Namn",
-                "abstract" => "Initiativ_Sammanfattning",
-                "articleBody" => [
+                "@type" => "Project",
+                "name" => "Initiativ_Namn",
+                "description" => implode([
                     "<h2>Vad</h2><p>Initiativ_Vad</p>",
                     "<h2>Hur</h2><p>Initiativ_Hur</p>",
-                    "<h2>Varför</h2><p>Initiativ_Varfor</p>"
-                ],
-                "articleSection" => "Omrade_Namn",
-                "genre" => "Transformation_Namn",
-                "creativeWorkStatus" => "Initiativ_Status",
+                    "<h2>Varför</h2><p>Initiativ_Varfor</p>",
+                    "<h2>Effektmål</h2><p>Effektmal_FargNamn</p>",
+                    "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
+                    "<h2>Utmaningar</h2><p>Initiativ_Utmaningar</p>"
+                ]),
                 "image" => "Initiativ_Bildtest",
-                "@objectives" => [
-                    "Effektmal_FargNamn"
-                ],
-                "@demarcations" => [
-                    "Initiativ_Avgransningar"
-                ],
-                "@challenges" => [
-                    "Initiativ_Utmaningar"
-                ],
                 "funding" => [
                     "@type" => "MonetaryGrant",
                     "amount" => "Initiativ_Budgetuppskattning"
                 ],
-                "sourceOrganization" => [
+                "department" => [
                     "@type" => "Organization",
                     "name" => "Initiativ_Enhet"
                 ],
-                "publisher" => [
+                "employee" => [
                     "@type" => "Person",
                     "alternateName" => "Initiativ_Kontaktperson"
                 ],
-                "@version" => "68f7e4165948652d5040c272e1efa46a"
+                "@meta" => [
+                    [
+                        "@type" => "PropertyValue",
+                        "name" => "technology",
+                        "value" => "Omrade_Namn"
+                    ],
+                    [
+                        "@type" => "PropertyValue",
+                        "name" => "status",
+                        "value" => "Initiativ_Status"
+                    ],
+                    [
+                        "@type" => "PropertyValue",
+                        "name" => "category",
+                        "value" => "Transformation_Namn"
+                    ]
+                ],
+                "@version" => "f7e1543d51f3497132d3758905e1db44"
             ]
         ]);
     }

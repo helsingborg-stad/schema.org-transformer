@@ -7,6 +7,8 @@ namespace SchemaTransformer\Transforms;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\Schema;
 
+use function PHPUnit\Framework\isEmpty;
+
 class StratsysTransform implements AbstractDataTransform
 {
     private array $indexRef;
@@ -18,6 +20,9 @@ class StratsysTransform implements AbstractDataTransform
         if ($index === false) {
             return "";
         }
+        if (empty($data[$index])) {
+            return "-";
+        }
         return $data[$index];
     }
     public function transform(array $data): array
@@ -26,34 +31,34 @@ class StratsysTransform implements AbstractDataTransform
         $output = [];
 
         foreach ($data["values"] as $row) {
-            $article = Schema::article()->headline($this->getValue("Initiativ_Namn", $row));
-            $article->abstract($this->getValue("Initiativ_Sammanfattning", $row));
-            $article->articleBody([
+            $project = Schema::project()->name($this->getValue("Initiativ_Namn", $row));
+            $project->description(implode([
                 '<h2>Vad</h2>' . '<p>' . $this->getValue("Initiativ_Vad", $row) . '</p>',
                 '<h2>Hur</h2>' . '<p>' . $this->getValue("Initiativ_Hur", $row) . '</p>',
-                '<h2>Varför</h2>' . '<p>' . $this->getValue("Initiativ_Varfor", $row) . '</p>'
-            ]);
-            $article->articleSection($this->getValue("Omrade_Namn", $row));
-            $article->genre($this->getValue("Transformation_Namn", $row));
-            $article->creativeWorkStatus($this->getValue("Initiativ_Status", $row));
-            $article->image($this->getValue("Initiativ_Bildtest", $row));
-
-            $article->setProperty("@objectives", [$this->getValue("Effektmal_FargNamn", $row)]);
-            $article->setProperty("@demarcations", [$this->getValue("Initiativ_Avgransningar", $row)]);
-            $article->setProperty("@challenges", [$this->getValue("Initiativ_Utmaningar", $row)]);
+                '<h2>Varför</h2>' . '<p>' . $this->getValue("Initiativ_Varfor", $row) . '</p>',
+                '<h2>Effektmål</h2>' . '<p>' . $this->getValue("Effektmal_FargNamn", $row) . '</p>',
+                '<h2>Avgränsningar</h2>' . '<p>' . $this->getValue("Initiativ_Avgransningar", $row) . '</p>',
+                '<h2>Utmaningar</h2>' . '<p>' . $this->getValue("Initiativ_Utmaningar", $row) . '</p>',
+            ]));
+            $project->image($this->getValue("Initiativ_Bildtest", $row));
 
             $funding = Schema::monetaryGrant()->amount($this->getValue("Initiativ_Budgetuppskattning", $row));
-            $article->funding($funding);
+            $project->funding($funding);
 
             $organization = Schema::organization()->name($this->getValue("Initiativ_Enhet", $row));
-            $article->sourceOrganization($organization);
+            $project->department($organization);
 
             $contact = Schema::person()
                 ->alternateName($this->getValue("Initiativ_Kontaktperson", $row));
-            $article->publisher($contact);
+            $project->employee($contact);
 
-            $article->setProperty('@version', md5(json_encode($article->toArray())));
-            $output[] = $article->toArray();
+            $project->setProperty('@meta', [
+                Schema::propertyValue()->name('technology')->value($this->getValue("Omrade_Namn", $row)),
+                Schema::propertyValue()->name('status')->value($this->getValue("Initiativ_Status", $row)),
+                Schema::propertyValue()->name('category')->value($this->getValue("Transformation_Namn", $row)),
+            ]);
+            $project->setProperty('@version', md5(json_encode($project->toArray())));
+            $output[] = $project->toArray();
         }
         return $output;
     }
