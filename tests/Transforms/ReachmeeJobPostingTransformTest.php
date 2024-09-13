@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use SchemaTransformer\Transforms\JobPostingTransform;
+use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 
-final class JobPostingTransformTest extends TestCase
+final class ReachmeeJobPostingTransformTest extends TestCase
 {
     protected array $data;
 
@@ -82,8 +82,8 @@ final class JobPostingTransformTest extends TestCase
     }
     public function testJobPostingTransform(): void
     {
-        $model = new JobPostingTransform();
-        $this->assertEquals($model->transform($this->data), [[
+        $model = new ReachmeeJobPostingTransform();
+        $this->assertEquals([[
             "@context" => "https://schema.org",
             "@id" => "1",
             "@version" => "4efca72bf3730a1043354801ec14268e",
@@ -127,6 +127,37 @@ final class JobPostingTransformTest extends TestCase
                 "email" => "email_2",
                 "telephone" => "phone_2"
             ]]
-        ]]);
+        ]], $model->transform($this->data));
+    }
+    
+    public function testLinkIsConvertedToApplicationUrl() {
+        $data = [["ad_id" => 123, "link" => "https://host.com/path/main?site=foo&validator=123&lang=SE&rmpage=job&rmjob=321"]];
+        $model = new ReachmeeJobPostingTransform();
+
+        $url = $model->transform($data)[0]["url"];
+        parse_str(parse_url($url, PHP_URL_QUERY), $queryArray);
+
+        $this->assertStringStartsWith('https://host.com/path/apply', $url);
+        
+        $this->assertEquals('foo', $queryArray['site']);
+        $this->assertEquals('SE', $queryArray['lang']);
+        $this->assertEquals('321', $queryArray['job_id']);
+        
+        $this->assertArrayNotHasKey('rmjob', $queryArray);
+        $this->assertArrayNotHasKey('rmpage', $queryArray);
+    }
+
+    public function testRequiresAdId() {
+        $data = [[]];
+        $model = new ReachmeeJobPostingTransform();
+
+        $this->assertEmpty($model->transform($data));
+    }
+    
+    public function testEmptyDataReturnsEmptyArray() {
+        $data = [];
+        $model = new ReachmeeJobPostingTransform();
+
+        $this->assertEmpty($model->transform($data));
     }
 }

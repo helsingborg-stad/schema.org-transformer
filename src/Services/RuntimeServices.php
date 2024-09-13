@@ -9,7 +9,7 @@ use SchemaTransformer\Interfaces\AbstractDataReader;
 use SchemaTransformer\Interfaces\AbstractDataWriter;
 use SchemaTransformer\Services\Service;
 use SchemaTransformer\Interfaces\AbstractService;
-use SchemaTransformer\Transforms\JobPostingTransform;
+use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 use SchemaTransformer\Transforms\StratsysTransform;
 
 class RuntimeServices
@@ -22,7 +22,7 @@ class RuntimeServices
         $this->jobPostingService = new Service(
             $reader,
             $writer,
-            new JobPostingTransform(),
+            new ReachmeeJobPostingTransform(),
             $converter
         );
         $this->stratsysService = new Service(
