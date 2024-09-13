@@ -83,7 +83,7 @@ final class JobPostingTransformTest extends TestCase
     public function testJobPostingTransform(): void
     {
         $model = new JobPostingTransform();
-        $this->assertEquals($model->transform($this->data), [[
+        $this->assertEquals([[
             "@context" => "https://schema.org",
             "@id" => "1",
             "@version" => "4efca72bf3730a1043354801ec14268e",
@@ -127,6 +127,6 @@ final class JobPostingTransformTest extends TestCase
                 "email" => "email_2",
                 "telephone" => "phone_2"
             ]]
-        ]]);
+        ]], $model->transform($this->data));
     }
 }
