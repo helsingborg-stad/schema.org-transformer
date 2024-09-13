@@ -7,7 +7,7 @@ namespace SchemaTransformer\Transforms;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\Schema;
 
-class JobPostingTransform implements AbstractDataTransform
+class ReachmeeJobPostingTransform implements AbstractDataTransform
 {
     protected function normalizeArray(?array $in, int $length, array $fallback): array
     {

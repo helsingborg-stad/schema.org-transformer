@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use SchemaTransformer\Transforms\JobPostingTransform;
+use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 
-final class JobPostingTransformTest extends TestCase
+final class ReachmeeJobPostingTransformTest extends TestCase
 {
     protected array $data;
 
@@ -82,7 +82,7 @@ final class JobPostingTransformTest extends TestCase
     }
     public function testJobPostingTransform(): void
     {
-        $model = new JobPostingTransform();
+        $model = new ReachmeeJobPostingTransform();
         $this->assertEquals([[
             "@context" => "https://schema.org",
             "@id" => "1",
@@ -132,7 +132,7 @@ final class JobPostingTransformTest extends TestCase
     
     public function testLinkIsConvertedToApplicationUrl() {
         $data = [["ad_id" => 123, "link" => "https://host.com/path/main?site=foo&validator=123&lang=SE&rmpage=job&rmjob=321"]];
-        $model = new JobPostingTransform();
+        $model = new ReachmeeJobPostingTransform();
 
         $url = $model->transform($data)[0]["url"];
         parse_str(parse_url($url, PHP_URL_QUERY), $queryArray);
@@ -149,14 +149,14 @@ final class JobPostingTransformTest extends TestCase
 
     public function testRequiresAdId() {
         $data = [[]];
-        $model = new JobPostingTransform();
+        $model = new ReachmeeJobPostingTransform();
 
         $this->assertEmpty($model->transform($data));
     }
     
     public function testEmptyDataReturnsEmptyArray() {
         $data = [];
-        $model = new JobPostingTransform();
+        $model = new ReachmeeJobPostingTransform();
 
         $this->assertEmpty($model->transform($data));
     }
