@@ -145,4 +145,20 @@ final class ReachmeeJobPostingTransformTest extends TestCase
 
         $this->assertEmpty($model->transform($data));
     }
+
+    public function testSanitizertsAreApplied()
+    {
+        $data  = [['ad_id' => 123, 'title' => 'original']];
+        $model = new ReachmeeJobPostingTransform([
+            new class {
+                public function sanitize(array $data): array
+                {
+                    $data['title'] = 'sanitized';
+                    return $data;
+                }
+            }
+        ]);
+
+        $this->assertEquals('sanitized', $model->transform($data)[0]['title']);
+    }
 }
