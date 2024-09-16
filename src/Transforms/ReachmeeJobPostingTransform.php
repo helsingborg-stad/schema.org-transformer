@@ -9,6 +9,13 @@ use Spatie\SchemaOrg\Schema;
 
 class ReachmeeJobPostingTransform implements AbstractDataTransform
 {
+    /**
+     * @param \SchemaTransformer\Interfaces\SanitizerInterface[] $sanitizers
+     */
+    public function __construct(private array $sanitizers)
+    {
+    }
+
     protected function normalizeArray(?array $in, int $length, array $fallback): array
     {
         $array = $in;
@@ -27,6 +34,11 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
         }
 
         foreach ($data as &$row) {
+            
+            foreach($this->sanitizers as $sanitizer) {
+                $row = $sanitizer->sanitize($row);
+            }
+
             [$county, $city] = $this->normalizeArray($row['areas'] ?? [], 2, ["name" => ""]);
             [$name, $unit] = $this->normalizeArray($row['organizations'] ?? [], 2, ["nameorgunit" => ""]);
             
@@ -92,10 +104,28 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
 
         parse_str($parsed['query'] ?? '', $queryArray);
         $queryArray['job_id'] = $queryArray['rmjob'];
+        
         unset($queryArray['rmpage']);
         unset($queryArray['rmjob']);
-        $path = preg_replace('/\/main$/', '/apply', $parsed['path'] ?? '');
-        $query = join('&', array_map(fn($k, $v) => "$k=$v", array_keys($queryArray), $queryArray));        
-        return "{$parsed['scheme']}://{$parsed['host']}{$path}?{$query}";
+        
+        $path = $this->buildPath($parsed['path'] ?? '');
+        $query = $this->buildQuery($queryArray);
+        
+        return $this->buildUrl($parsed['scheme'], $parsed['host'], $path, $query);
+    }
+
+    private function buildPath(?string $path): string
+    {
+        return preg_replace('/\/main$/', '/apply', $path ?? '');
+    }
+
+    private function buildQuery(array $queryArray): string
+    {
+        return join('&', array_map(fn($k, $v) => "$k=$v", array_keys($queryArray), $queryArray));
+    }
+
+    private function buildUrl(string $scheme, string $host, string $path, string $query): string
+    {
+        return "{$scheme}://{$host}{$path}?{$query}";
     }
 }

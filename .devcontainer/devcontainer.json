@@ -9,6 +9,9 @@
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
+			"settings": {
+				"intelephense.environment.phpVersion": "8.3"
+			},
 			"extensions": [
 				"ritwickdey.liveserver"
 			]

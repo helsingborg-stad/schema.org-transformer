@@ -9,6 +9,7 @@ use SchemaTransformer\Interfaces\AbstractDataReader;
 use SchemaTransformer\Interfaces\AbstractDataWriter;
 use SchemaTransformer\Services\Service;
 use SchemaTransformer\Interfaces\AbstractService;
+use SchemaTransformer\Transforms\DataSanitizers\SanitizeReachmeeJobPostingLink;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 use SchemaTransformer\Transforms\StratsysTransform;
 
@@ -19,10 +20,14 @@ class RuntimeServices
 
     public function __construct(AbstractDataReader $reader, AbstractDataWriter $writer, AbstractDataConverter $converter)
     {
+        $reachmeeJobPostingSanitizers = [
+            new SanitizeReachmeeJobPostingLink()
+        ];
+
         $this->jobPostingService = new Service(
             $reader,
             $writer,
-            new ReachmeeJobPostingTransform(),
+            new ReachmeeJobPostingTransform($reachmeeJobPostingSanitizers),
             $converter
         );
         $this->stratsysService = new Service(
