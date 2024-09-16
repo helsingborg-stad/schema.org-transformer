@@ -56,7 +56,7 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
                 ->validThrough($row['expiration_date'] ?? null)
                 ->employmentType($row['occupation_degree'] ?? null)
                 ->image($row['image_link'] ?? null)
-                ->url($this->transformLinkToApplicationUrl($row['link'] ?? ''))
+                ->url($row['link'] ?? '')
                 ->directApply($directAppply)
                 ->workHours($row['working_hours'] ?? null)
                 ->relevantOccupation(
@@ -91,40 +91,5 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
             $output[] = $jobPosting->toArray();
         }
         return $output;
-    }
-
-    private function transformLinkToApplicationUrl(?string $link): string
-    {
-        $parsed = parse_url($link);
-
-        if (false === $parsed || !isset($parsed['query']) || !isset($parsed['path']) || !isset($parsed['scheme']) || !isset($parsed['host'])) {
-            return $link;
-        }
-
-        parse_str($parsed['query'] ?? '', $queryArray);
-        $queryArray['job_id'] = $queryArray['rmjob'];
-
-        unset($queryArray['rmpage']);
-        unset($queryArray['rmjob']);
-
-        $path  = $this->buildPath($parsed['path'] ?? '');
-        $query = $this->buildQuery($queryArray);
-
-        return $this->buildUrl($parsed['scheme'], $parsed['host'], $path, $query);
-    }
-
-    private function buildPath(?string $path): string
-    {
-        return preg_replace('/\/main$/', '/apply', $path ?? '');
-    }
-
-    private function buildQuery(array $queryArray): string
-    {
-        return join('&', array_map(fn($k, $v) => "$k=$v", array_keys($queryArray), $queryArray));
-    }
-
-    private function buildUrl(string $scheme, string $host, string $path, string $query): string
-    {
-        return "{$scheme}://{$host}{$path}?{$query}";
     }
 }
