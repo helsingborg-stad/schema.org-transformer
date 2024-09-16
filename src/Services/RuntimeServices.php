@@ -18,8 +18,11 @@ class RuntimeServices
     private AbstractService $jobPostingService;
     private AbstractService $stratsysService;
 
-    public function __construct(AbstractDataReader $reader, AbstractDataWriter $writer, AbstractDataConverter $converter)
-    {
+    public function __construct(
+        AbstractDataReader $reader,
+        AbstractDataWriter $writer,
+        AbstractDataConverter $converter
+    ) {
         $reachmeeJobPostingSanitizers = [
             new SanitizeReachmeeJobPostingLink()
         ];
@@ -30,7 +33,7 @@ class RuntimeServices
             new ReachmeeJobPostingTransform($reachmeeJobPostingSanitizers),
             $converter
         );
-        $this->stratsysService = new Service(
+        $this->stratsysService   = new Service(
             $reader,
             $writer,
             new StratsysTransform(),

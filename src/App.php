@@ -18,16 +18,16 @@ class App
     {
         // Set defaults
         $cmd = (object) array_merge([
-            "source" => "",
-            "sourceheaders" => "Content-Type: application/json",
-            "output" => "",
-            "outputheaders" => "Content-Type: application/json",
-            "outputformat" => "json",
-            "transform" => "jobposting",
-            "authpath" => "",
-            "authclientid" => "",
+            "source"           => "",
+            "sourceheaders"    => "Content-Type: application/json",
+            "output"           => "",
+            "outputheaders"    => "Content-Type: application/json",
+            "outputformat"     => "json",
+            "transform"        => "jobposting",
+            "authpath"         => "",
+            "authclientid"     => "",
             "authclientsecret" => "",
-            "authscope" => ""
+            "authscope"        => ""
         ], $options);
 
         if (empty($cmd->source)) {

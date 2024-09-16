@@ -28,21 +28,20 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
     public function transform(array $data): array
     {
         $output = [];
-        
-        if( empty($data) ) {
+
+        if (empty($data)) {
             return [];
         }
 
         foreach ($data as &$row) {
-            
-            foreach($this->sanitizers as $sanitizer) {
+            foreach ($this->sanitizers as $sanitizer) {
                 $row = $sanitizer->sanitize($row);
             }
 
             [$county, $city] = $this->normalizeArray($row['areas'] ?? [], 2, ["name" => ""]);
-            [$name, $unit] = $this->normalizeArray($row['organizations'] ?? [], 2, ["nameorgunit" => ""]);
-            
-            if( empty($row['ad_id']) ) {
+            [$name, $unit]   = $this->normalizeArray($row['organizations'] ?? [], 2, ["nameorgunit" => ""]);
+
+            if (empty($row['ad_id'])) {
                 continue;
             }
 
@@ -94,23 +93,23 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
         return $output;
     }
 
-    private function transformLinkToApplicationUrl(?string $link) : string
+    private function transformLinkToApplicationUrl(?string $link): string
     {
         $parsed = parse_url($link);
-        
-        if( false === $parsed || !isset($parsed['query']) || !isset($parsed['path']) || !isset($parsed['scheme']) || !isset($parsed['host']) ) {
+
+        if (false === $parsed || !isset($parsed['query']) || !isset($parsed['path']) || !isset($parsed['scheme']) || !isset($parsed['host'])) {
             return $link;
         }
 
         parse_str($parsed['query'] ?? '', $queryArray);
         $queryArray['job_id'] = $queryArray['rmjob'];
-        
+
         unset($queryArray['rmpage']);
         unset($queryArray['rmjob']);
-        
-        $path = $this->buildPath($parsed['path'] ?? '');
+
+        $path  = $this->buildPath($parsed['path'] ?? '');
         $query = $this->buildQuery($queryArray);
-        
+
         return $this->buildUrl($parsed['scheme'], $parsed['host'], $path, $query);
     }
 

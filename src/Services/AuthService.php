@@ -21,12 +21,11 @@ class AuthService implements AbstractAuth
         $data = $this->writer->write(
             $path,
             http_build_query([
-                "client_id" => $clientId,
+                "client_id"     => $clientId,
                 "client_secret" => $clientSecret,
-                "grant_type" => "client_credentials",
-                "scope" => $clientScope
+                "grant_type"    => "client_credentials",
+                "scope"         => $clientScope
             ]),
-
         );
         if (false === $data) {
             return false;

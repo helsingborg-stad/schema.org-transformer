@@ -23,9 +23,9 @@ class HttpWriter implements AbstractDataWriter
 
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_POSTFIELDS => $data
+            CURLOPT_CUSTOMREQUEST  => "POST",
+            CURLOPT_HTTPHEADER     => $headers,
+            CURLOPT_POSTFIELDS     => $data
         ]);
 
         $response = curl_exec($curl);

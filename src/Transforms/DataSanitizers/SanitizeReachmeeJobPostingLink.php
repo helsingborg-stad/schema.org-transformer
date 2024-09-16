@@ -4,7 +4,7 @@ namespace SchemaTransformer\Transforms\DataSanitizers;
 
 /**
  * Class SanitizeReachmeeJobPostingLink
- * 
+ *
  * Sanitizes the link field in a Reachmee job posting to point to the application form.
  */
 class SanitizeReachmeeJobPostingLink implements SanitizerInterface
@@ -33,7 +33,7 @@ class SanitizeReachmeeJobPostingLink implements SanitizerInterface
         unset($queryArray['rmpage'], $queryArray['rmjob']);
 
         // Build and return the final URL
-        $path = preg_replace('/\/main$/', '/apply', $parsed['path']);
+        $path  = preg_replace('/\/main$/', '/apply', $parsed['path']);
         $query = http_build_query($queryArray);
 
         return $this->buildUrl($parsed['scheme'], $parsed['host'], $path, $query);
