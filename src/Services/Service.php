@@ -18,10 +18,14 @@ class Service implements AbstractService
     protected AbstractDataConverter $converter;
     protected array $config = [];
 
-    public function __construct(AbstractDataReader $reader, AbstractDataWriter $writer, AbstractDataTransform $transform, AbstractDataConverter $converter)
-    {
-        $this->reader = $reader;
-        $this->writer = $writer;
+    public function __construct(
+        AbstractDataReader $reader,
+        AbstractDataWriter $writer,
+        AbstractDataTransform $transform,
+        AbstractDataConverter $converter
+    ) {
+        $this->reader    = $reader;
+        $this->writer    = $writer;
         $this->transform = $transform;
         $this->converter = $converter;
     }

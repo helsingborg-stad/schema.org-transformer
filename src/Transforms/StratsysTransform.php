@@ -53,7 +53,7 @@ class StratsysTransform implements AbstractDataTransform
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
-        $output = [];
+        $output         = [];
 
         foreach ($data["values"] as $row) {
             $project = Schema::project()->name($this->getValue("Initiativ_Namn", $row));
@@ -80,7 +80,7 @@ class StratsysTransform implements AbstractDataTransform
             $project->setProperty('@meta', [
                 Schema::propertyValue()->name('technology')->value($this->getValue("Omrade_Namn", $row)),
                 Schema::propertyValue()->name('status')->value($this->getValue("Initiativ_Status", $row)),
-                Schema::propertyValue()->name('progress')->value($this->getProgress($this->getValue("Initiativ_Status", $row))),
+                Schema::propertyValue()->name('progress')->value($this->getProgress($this->getValue("Initiativ_Status", $row))), // phpcs:ignore
                 Schema::propertyValue()->name('category')->value($this->getValue("Transformation_Namn", $row)),
             ]);
             $project->setProperty('@version', md5(json_encode($project->toArray())));

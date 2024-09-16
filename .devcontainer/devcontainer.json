@@ -10,10 +10,22 @@
 	"customizations": {
 		"vscode": {
 			"settings": {
-				"intelephense.environment.phpVersion": "8.3"
+				"intelephense.environment.phpVersion": "8.3",
+				"phpsab.fixerEnable": true,
+				"phpsab.snifferShowSources": true,
+				"phpsab.executablePathCS": "./vendor/bin/phpcs",
+				"editor.formatOnSave": true,
+				"phpsab.allowedAutoRulesets": [
+					"phpcs.xml"
+				],
+				"editor.defaultFormatter": "valeryanm.vscode-phpsab",
+				"[php]": {
+					"editor.defaultFormatter": "valeryanm.vscode-phpsab"
+				}
 			},
 			"extensions": [
-				"ritwickdey.liveserver"
+				"ritwickdey.liveserver",
+				"valeryanm.vscode-phpsab"
 			]
 		}
 	},
