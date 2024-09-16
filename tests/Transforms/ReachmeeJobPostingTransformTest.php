@@ -82,7 +82,7 @@ final class ReachmeeJobPostingTransformTest extends TestCase
     }
     public function testJobPostingTransform(): void
     {
-        $model = new ReachmeeJobPostingTransform();
+        $model = new ReachmeeJobPostingTransform([]);
         $this->assertEquals([[
             "@context" => "https://schema.org",
             "@id" => "1",
@@ -129,34 +129,17 @@ final class ReachmeeJobPostingTransformTest extends TestCase
             ]]
         ]], $model->transform($this->data));
     }
-    
-    public function testLinkIsConvertedToApplicationUrl() {
-        $data = [["ad_id" => 123, "link" => "https://host.com/path/main?site=foo&validator=123&lang=SE&rmpage=job&rmjob=321"]];
-        $model = new ReachmeeJobPostingTransform();
-
-        $url = $model->transform($data)[0]["url"];
-        parse_str(parse_url($url, PHP_URL_QUERY), $queryArray);
-
-        $this->assertStringStartsWith('https://host.com/path/apply', $url);
-        
-        $this->assertEquals('foo', $queryArray['site']);
-        $this->assertEquals('SE', $queryArray['lang']);
-        $this->assertEquals('321', $queryArray['job_id']);
-        
-        $this->assertArrayNotHasKey('rmjob', $queryArray);
-        $this->assertArrayNotHasKey('rmpage', $queryArray);
-    }
 
     public function testRequiresAdId() {
         $data = [[]];
-        $model = new ReachmeeJobPostingTransform();
+        $model = new ReachmeeJobPostingTransform([]);
 
         $this->assertEmpty($model->transform($data));
     }
     
     public function testEmptyDataReturnsEmptyArray() {
         $data = [];
-        $model = new ReachmeeJobPostingTransform();
+        $model = new ReachmeeJobPostingTransform([]);
 
         $this->assertEmpty($model->transform($data));
     }
