@@ -13,6 +13,7 @@ final class StratsysTransformTest extends TestCase
     {
         $this->data = [
             "header" => [
+                "id",
                 "Transformation_Namn",
                 "Omrade_Namn",
                 "Initiativ_Status",
@@ -42,7 +43,7 @@ final class StratsysTransformTest extends TestCase
             ],
             "values" => [
                 [
-
+                    "a1b2c3d4e5f67890abcdef1234567890",
                     "Transformation_Namn",
                     "Omrade_Namn",
                     "Initiativ_Status",
@@ -76,11 +77,12 @@ final class StratsysTransformTest extends TestCase
     public function testStratsysTransform(): void
     {
         $model = new StratsysTransform();
-        $this->assertEquals($model->transform($this->data), [
+        $this->assertEquals([
             [
-                "@context" => "https://schema.org",
-                "@type" => "Project",
-                "name" => "Initiativ_Namn",
+                "@context"    => "https://schema.org",
+                "@type"       => "Project",
+                "@id"         => "a1b2c3d4e5f67890abcdef1234567890",
+                "name"        => "Initiativ_Namn",
                 "description" => implode([
                     "<h2>Vad</h2><p>Initiativ_Vad</p>",
                     "<h2>Hur</h2><p>Initiativ_Hur</p>",
@@ -89,43 +91,43 @@ final class StratsysTransformTest extends TestCase
                     "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
                     "<h2>Utmaningar</h2><p>Initiativ_Utmaningar</p>"
                 ]),
-                "image" => "Initiativ_Bildtest",
-                "funding" => [
-                    "@type" => "MonetaryGrant",
+                "image"       => "Initiativ_Bildtest",
+                "funding"     => [
+                    "@type"  => "MonetaryGrant",
                     "amount" => "Initiativ_Budgetuppskattning"
                 ],
-                "department" => [
+                "department"  => [
                     "@type" => "Organization",
-                    "name" => "Initiativ_Enhet"
+                    "name"  => "Initiativ_Enhet"
                 ],
-                "employee" => [
-                    "@type" => "Person",
+                "employee"    => [
+                    "@type"         => "Person",
                     "alternateName" => "Initiativ_Kontaktperson"
                 ],
-                "@meta" => [
+                "@meta"       => [
                     [
                         "@type" => "PropertyValue",
-                        "name" => "technology",
+                        "name"  => "technology",
                         "value" => "Omrade_Namn"
                     ],
                     [
                         "@type" => "PropertyValue",
-                        "name" => "status",
+                        "name"  => "status",
                         "value" => "Initiativ_Status"
                     ],
                     [
                         "@type" => "PropertyValue",
-                        "name" => "progress",
+                        "name"  => "progress",
                         "value" => 0
                     ],
                     [
                         "@type" => "PropertyValue",
-                        "name" => "category",
+                        "name"  => "category",
                         "value" => "Transformation_Namn"
                     ]
                 ],
-                "@version" => "ccaab47c5f653ac32c98f7e4871b060d"
+                "@version"    => "b20fe0ae711d5437f62bc5ff3ebb75f6"
             ]
-        ]);
+        ], $model->transform($this->data));
     }
 }

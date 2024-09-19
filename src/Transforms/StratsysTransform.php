@@ -66,6 +66,7 @@ class StratsysTransform implements AbstractDataTransform
                 '<h2>Utmaningar</h2>' . '<p>' . $this->getValue("Initiativ_Utmaningar", $row) . '</p>',
             ]));
             $project->image($this->getValue("Initiativ_Bildtest", $row));
+            $project->setProperty('@id', $this->getValue('id', $row));
 
             $funding = Schema::monetaryGrant()->amount($this->getValue("Initiativ_Budgetuppskattning", $row));
             $project->funding($funding);
