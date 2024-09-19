@@ -57,14 +57,7 @@ class StratsysTransform implements AbstractDataTransform
 
         foreach ($data["values"] as $row) {
             $project = Schema::project()->name($this->getValue("Initiativ_Namn", $row));
-            $project->description(implode([
-                '<h2>Vad</h2>' . '<p>' . $this->getValue("Initiativ_Vad", $row) . '</p>',
-                '<h2>Hur</h2>' . '<p>' . $this->getValue("Initiativ_Hur", $row) . '</p>',
-                '<h2>Varför</h2>' . '<p>' . $this->getValue("Initiativ_Varfor", $row) . '</p>',
-                '<h2>Effektmål</h2>' . '<p>' . $this->getValue("Effektmal_FargNamn", $row) . '</p>',
-                '<h2>Avgränsningar</h2>' . '<p>' . $this->getValue("Initiativ_Avgransningar", $row) . '</p>',
-                '<h2>Utmaningar</h2>' . '<p>' . $this->getValue("Initiativ_Utmaningar", $row) . '</p>',
-            ]));
+            $project->description($this->getDescriptionValueFromRow($row));
             $project->image($this->getValue("Initiativ_Bildtest", $row));
             $project->setProperty('@id', $this->getValue('id', $row));
 
@@ -88,5 +81,24 @@ class StratsysTransform implements AbstractDataTransform
             $output[] = $project->toArray();
         }
         return $output;
+    }
+
+    private function getDescriptionValueFromRow($row): string
+    {
+        $descriptionArray = [
+            'Initiativ_Vad'           => '<h2>Vad</h2>',
+            'Initiativ_Hur'           => '<h2>Hur</h2>',
+            'Initiativ_Varfor'        => '<h2>Varför</h2>',
+            'Effektmal_FargNamn'      => '<h2>Effektmål</h2>',
+            'Initiativ_Avgransningar' => '<h2>Avgränsningar</h2>',
+            'Initiativ_Utmaningar'    => '<h2>Utmaningar</h2>',
+        ];
+
+        return implode(array_map(
+            fn ($key, $htmlTitle) =>
+            !empty($this->getValue($key, $row)) ? $htmlTitle . '<p>' . $this->getValue($key, $row) . '</p>' : '',
+            array_keys($descriptionArray),
+            array_values($descriptionArray)
+        ));
     }
 }
