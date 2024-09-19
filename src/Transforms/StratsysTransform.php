@@ -29,22 +29,14 @@ class StratsysTransform implements AbstractDataTransform
     protected function getProgress(string $status): int
     {
         switch ($status) {
-            case 'Ej påbörjad':
-                return 0;
             case 'Idé':
-                return 1;
-            case 'Avslutad':
-                return 2;
-            case 'Avbruten':
-                return 3;
-            case 'Försenad':
-                return 4;
-            case 'Pågående':
-                return 5;
+                return 25;
             case 'Pilot':
-                return 6;
+                return 50;
             case 'Skala upp':
-                return 7;
+                return 75;
+            case 'Avbruten':
+                return 0;
             case 'Realiserad':
                 return 100;
         }
@@ -95,7 +87,7 @@ class StratsysTransform implements AbstractDataTransform
         ];
 
         return implode(array_map(
-            fn ($key, $htmlTitle) =>
+            fn($key, $htmlTitle) =>
             !empty($this->getValue($key, $row)) ? $htmlTitle . '<p>' . $this->getValue($key, $row) . '</p>' : '',
             array_keys($descriptionArray),
             array_values($descriptionArray)
