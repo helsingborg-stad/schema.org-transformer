@@ -13,7 +13,6 @@ final class StratsysTransformTest extends TestCase
     {
         $this->data = [
             "header" => [
-                "id",
                 "Transformation_Namn",
                 "Omrade_Namn",
                 "Initiativ_Status",
@@ -44,7 +43,6 @@ final class StratsysTransformTest extends TestCase
             ],
             "values" => [
                 [
-                    "a1b2c3d4e5f67890abcdef1234567890",
                     "Transformation_Namn",
                     "Omrade_Namn",
                     "Initiativ_Status",
