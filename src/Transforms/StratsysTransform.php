@@ -7,11 +7,10 @@ namespace SchemaTransformer\Transforms;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\Schema;
 
-use function PHPUnit\Framework\isEmpty;
-
 class StratsysTransform implements AbstractDataTransform
 {
     private array $indexRef;
+    private array $lookup;
 
     protected function getValue(string $name, array $data): string
     {
@@ -45,9 +44,20 @@ class StratsysTransform implements AbstractDataTransform
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
+        $this->lookup   = [];
         $output         = [];
 
-        foreach ($data["values"] as $row) {
+        // Filter duplicates
+        $filteredData = array_filter($data["values"], function ($item) {
+            $id = $this->getValue('Initiativ_InterntID', $item);
+            if (in_array($id, $this->lookup)) {
+                return false;
+            }
+            $this->lookup[] = $id;
+            return true;
+        });
+
+        foreach ($filteredData as $row) {
             $project = Schema::project()->name($this->getValue("Initiativ_Namn", $row));
             $project->description($this->getDescriptionValueFromRow($row));
             $project->image($this->getValue("Initiativ_Bildtest", $row));
