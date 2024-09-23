@@ -10,7 +10,6 @@ use Spatie\SchemaOrg\Schema;
 class StratsysTransform implements AbstractDataTransform
 {
     private array $indexRef;
-    private array $lookup;
 
     protected function getValue(string $name, array $data): string
     {
@@ -44,16 +43,16 @@ class StratsysTransform implements AbstractDataTransform
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
-        $this->lookup   = [];
-        $output         = [];
+        $lookup = [];
+        $output = [];
 
         // Filter duplicates
-        $filteredData = array_filter($data["values"], function ($item) {
+        $filteredData = array_filter($data["values"], function ($item) use (&$lookup) {
             $id = $this->getValue('Initiativ_InterntID', $item);
-            if (in_array($id, $this->lookup)) {
+            if (in_array($id, $lookup)) {
                 return false;
             }
-            $this->lookup[] = $id;
+            $lookup[] = $id;
             return true;
         });
 
