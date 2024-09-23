@@ -43,8 +43,8 @@ class StratsysTransform implements AbstractDataTransform
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
-        $lookup = [];
-        $output = [];
+        $lookup =         [];
+        $output =         [];
 
         // Filter duplicates
         $filteredData = array_filter($data["values"], function ($item) use (&$lookup) {
