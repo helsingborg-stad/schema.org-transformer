@@ -37,6 +37,7 @@ final class StratsysTransformTest extends TestCase
                 "Initiativ_Varfor",
                 "Initiativ_Invanarinvolvering",
                 "Initiativ_Enhet",
+                "Initiativ_InterntID",
                 "Effektmal_FargNamn",
                 "Effektmal_Malvarde",
                 "Effektmal_Utfall"
@@ -67,6 +68,7 @@ final class StratsysTransformTest extends TestCase
                     "Initiativ_Varfor",
                     "Initiativ_Invanarinvolvering",
                     "Initiativ_Enhet",
+                    "Initiativ_InterntID",
                     "Effektmal_FargNamn",
                     "Effektmal_Malvarde",
                     "Effektmal_Utfall"
@@ -81,7 +83,7 @@ final class StratsysTransformTest extends TestCase
             [
                 "@context"    => "https://schema.org",
                 "@type"       => "Project",
-                "@id"         => "a1b2c3d4e5f67890abcdef1234567890",
+                "@id"         => "Initiativ_InterntID",
                 "name"        => "Initiativ_Namn",
                 "description" => implode([
                     "<h2>Vad</h2><p>Initiativ_Vad</p>",
@@ -126,7 +128,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => "Transformation_Namn"
                     ]
                 ],
-                "@version"    => "b20fe0ae711d5437f62bc5ff3ebb75f6"
+                "@version"    => "8e2473f79d74050946fc092febc55ccd"
             ]
         ], $model->transform($this->data));
     }
