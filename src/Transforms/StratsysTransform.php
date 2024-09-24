@@ -11,19 +11,6 @@ class StratsysTransform implements AbstractDataTransform
 {
     private array $indexRef;
 
-    protected function getValue(string $name, array $data): string
-    {
-        $index = array_search($name, $this->indexRef);
-
-        if ($index === false) {
-            return "";
-        }
-        if (empty($data[$index])) {
-            return "-";
-        }
-        return $data[$index];
-    }
-
     protected function getProgress(string $status): int
     {
         switch ($status) {
@@ -43,40 +30,49 @@ class StratsysTransform implements AbstractDataTransform
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
-        $lookup =         [];
         $output =         [];
 
-        // Filter duplicates
-        $filteredData = array_filter($data["values"], function ($item) use (&$lookup) {
-            $id = $this->getValue('Initiativ_InterntID', $item);
-            if (in_array($id, $lookup)) {
-                return false;
+        // Combine keys and values
+        $combined = array_map(function ($item) {
+            return array_combine($this->indexRef, $item);
+        }, $data["values"]);
+
+        // Filter duplicates, combine fields
+        $lookup = [];
+        array_walk($combined, function ($item) use (&$lookup) {
+            $key = array_search(
+                $item['Initiativ_InterntID'],
+                array_column($lookup, 'Initiativ_InterntID')
+            );
+            if ($key === false) {
+                $item["Effektmal_FargNamn"] = substr($item["Effektmal_FargNamn"], 10);
+                $lookup[] = $item;
+            } else {
+                $lookup[$key]["Effektmal_FargNamn"] .= "<br/>" . substr($item["Effektmal_FargNamn"], 10);
             }
-            $lookup[] = $id;
-            return true;
         });
 
-        foreach ($filteredData as $row) {
-            $project = Schema::project()->name($this->getValue("Initiativ_Namn", $row));
+        foreach ($lookup as $row) {
+            $project = Schema::project()->name($row["Initiativ_Namn"] ?? "");
             $project->description($this->getDescriptionValueFromRow($row));
-            $project->image($this->getValue("Initiativ_Bildtest", $row));
-            $project->setProperty('@id', $this->getValue('Initiativ_InterntID', $row));
+            $project->image($row["Initiativ_Lanktillbild"] ?? "");
+            $project->setProperty('@id', $row['Initiativ_InterntID'] ?? "");
 
-            $funding = Schema::monetaryGrant()->amount($this->getValue("Initiativ_Budgetuppskattning", $row));
+            $funding = Schema::monetaryGrant()->amount($row["Initiativ_Budgetuppskattning"] ?? "");
             $project->funding($funding);
 
-            $organization = Schema::organization()->name($this->getValue("Initiativ_Enhet", $row));
-            $project->department($organization);
+            $organization = Schema::organization()->name($row["Initiativ_Enhet"] ?? "");
+            $project->department($organization ?? "");
 
             $contact = Schema::person()
-                ->alternateName($this->getValue("Initiativ_Kontaktperson", $row));
+                ->alternateName($row["Initiativ_Kontaktperson"] ?? "");
             $project->employee($contact);
 
             $project->setProperty('@meta', [
-                Schema::propertyValue()->name('technology')->value($this->getValue("Omrade_Namn", $row)),
-                Schema::propertyValue()->name('status')->value($this->getValue("Initiativ_Status", $row)),
-                Schema::propertyValue()->name('progress')->value($this->getProgress($this->getValue("Initiativ_Status", $row))), // phpcs:ignore
-                Schema::propertyValue()->name('category')->value($this->getValue("Transformation_Namn", $row)),
+                Schema::propertyValue()->name('technology')->value($row["Omrade_Namn"] ?? ""),
+                Schema::propertyValue()->name('status')->value($row["Initiativ_Status"] ?? "N/A"),
+                Schema::propertyValue()->name('progress')->value($this->getProgress($row["Initiativ_Status"] ?? "0")), // phpcs:ignore
+                Schema::propertyValue()->name('category')->value($row["Transformation_Namn"] ?? ""),
             ]);
             $project->setProperty('@version', md5(json_encode($project->toArray())));
             $output[] = $project->toArray();
@@ -97,7 +93,7 @@ class StratsysTransform implements AbstractDataTransform
 
         return implode(array_map(
             fn($key, $htmlTitle) =>
-            !empty($this->getValue($key, $row)) ? $htmlTitle . '<p>' . $this->getValue($key, $row) . '</p>' : '',
+            !empty($row[$key]) ? $htmlTitle . '<p>' . $row[$key] . '</p>' : '',
             array_keys($descriptionArray),
             array_values($descriptionArray)
         ));

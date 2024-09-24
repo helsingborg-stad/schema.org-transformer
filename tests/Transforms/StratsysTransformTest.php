@@ -28,7 +28,7 @@ final class StratsysTransformTest extends TestCase
                 "Initiativ_Finansiering",
                 "Initiativ_Samverkanspartner",
                 "Initiativ_Utmaningar",
-                "Initiativ_Bildtest",
+                "Initiativ_Lanktillbild",
                 "Initiativ_Dokument",
                 "Initiativ_Andrafonsterikon",
                 "Initiativ_Vad",
@@ -58,7 +58,7 @@ final class StratsysTransformTest extends TestCase
                     "Initiativ_Finansiering",
                     "Initiativ_Samverkanspartner",
                     "Initiativ_Utmaningar",
-                    "Initiativ_Bildtest",
+                    "Initiativ_Lanktillbild",
                     "Initiativ_Dokument",
                     "Initiativ_Andrafonsterikon",
                     "Initiativ_Vad",
@@ -87,11 +87,11 @@ final class StratsysTransformTest extends TestCase
                     "<h2>Vad</h2><p>Initiativ_Vad</p>",
                     "<h2>Hur</h2><p>Initiativ_Hur</p>",
                     "<h2>Varför</h2><p>Initiativ_Varfor</p>",
-                    "<h2>Effektmål</h2><p>Effektmal_FargNamn</p>",
+                    "<h2>Effektmål</h2><p>FargNamn</p>",
                     "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
                     "<h2>Utmaningar</h2><p>Initiativ_Utmaningar</p>"
                 ]),
-                "image"       => "Initiativ_Bildtest",
+                "image"       => "Initiativ_Lanktillbild",
                 "funding"     => [
                     "@type"  => "MonetaryGrant",
                     "amount" => "Initiativ_Budgetuppskattning"
@@ -126,7 +126,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => "Transformation_Namn"
                     ]
                 ],
-                "@version"    => "8e2473f79d74050946fc092febc55ccd"
+                "@version"    => "b4f6c53343bd50162715ba79c6c1e1be"
             ]
         ], $model->transform($this->data));
     }
