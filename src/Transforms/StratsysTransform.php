@@ -27,6 +27,10 @@ class StratsysTransform implements AbstractDataTransform
         }
         return 0;
     }
+    protected function sanitizeString(string $data): string
+    {
+        return str_replace(["%0A", "%25"], ["<br/>", "%"], $data);
+    }
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
@@ -93,7 +97,7 @@ class StratsysTransform implements AbstractDataTransform
 
         return implode(array_map(
             fn($key, $htmlTitle) =>
-            !empty($row[$key]) ? $htmlTitle . '<p>' . $row[$key] . '</p>' : '',
+            !empty($row[$key]) ? $htmlTitle . '<p>' . $this->sanitizeString($row[$key]) . '</p>' : '',
             array_keys($descriptionArray),
             array_values($descriptionArray)
         ));
