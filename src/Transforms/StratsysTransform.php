@@ -31,7 +31,7 @@ class StratsysTransform implements AbstractDataTransform
     }
     protected function sanitizeString(string $data): string
     {
-        return str_replace(["%0A", "%25"], ["<br/>", "%"], $data);
+        return str_ireplace(["%0A", "%25"], ["<br/>", "%"], $data);
     }
     protected function stringToList(string $data): string
     {
@@ -44,6 +44,11 @@ class StratsysTransform implements AbstractDataTransform
         }
         return "";
     }
+    protected function transformImage(string $data): string
+    {
+        return str_replace(".webp", ".jpg", $data);
+    }
+
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
@@ -73,7 +78,7 @@ class StratsysTransform implements AbstractDataTransform
         foreach ($lookup as $row) {
             $project = Schema::project()->name($row["Initiativ_Namn"] ?? "");
             $project->description($this->getDescriptionValueFromRow($row));
-            $project->image($row["Initiativ_Lanktillbild"] ?? "");
+            $project->image($this->transformImage($row["Initiativ_Lanktillbild"] ?? ""));
             $project->setProperty('@id', $row['Initiativ_InterntID'] ?? "");
 
             $funding = Schema::monetaryGrant()->amount($row["Initiativ_Estimeradbudget"] ?? "");
