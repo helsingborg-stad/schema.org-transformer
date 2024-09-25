@@ -20,7 +20,7 @@ final class StratsysTransformTest extends TestCase
                 "Initiativ_Beslutspunkt",
                 "Initiativ_Sammanfattning",
                 "Initiativ_Avgransningar",
-                "Initiativ_Budgetuppskattning",
+                "Initiativ_Estimeradbudget",
                 "Initiativ_Kontaktperson",
                 "Initiativ_Ansvarigforinitiativ",
                 "Initiativ_Startdatum",
@@ -50,7 +50,7 @@ final class StratsysTransformTest extends TestCase
                     "Initiativ_Beslutspunkt",
                     "Initiativ_Sammanfattning",
                     "Initiativ_Avgransningar",
-                    "Initiativ_Budgetuppskattning",
+                    "Initiativ_Estimeradbudget",
                     "Initiativ_Kontaktperson",
                     "Initiativ_Ansvarigforinitiativ",
                     "Initiativ_Startdatum",
@@ -89,12 +89,12 @@ final class StratsysTransformTest extends TestCase
                     "<h2>Varför</h2><p>Initiativ_Varfor</p>",
                     "<h2>Effektmål</h2><p>FargNamn</p>",
                     "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
-                    "<h2>Utmaningar</h2><p>Initiativ_Utmaningar</p>"
+                    "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>"
                 ]),
                 "image"       => "Initiativ_Lanktillbild",
                 "funding"     => [
                     "@type"  => "MonetaryGrant",
-                    "amount" => "Initiativ_Budgetuppskattning"
+                    "amount" => "Initiativ_Estimeradbudget"
                 ],
                 "department"  => [
                     "@type" => "Organization",
@@ -126,7 +126,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => "Transformation_Namn"
                     ]
                 ],
-                "@version"    => "b4f6c53343bd50162715ba79c6c1e1be"
+                "@version"    => "48286b27cb1ddbfe35e865d569082a70"
             ]
         ], $model->transform($this->data));
     }

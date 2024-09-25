@@ -7,6 +7,8 @@ namespace SchemaTransformer\Transforms;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\Schema;
 
+use function PHPUnit\Framework\isEmpty;
+
 class StratsysTransform implements AbstractDataTransform
 {
     private array $indexRef;
@@ -31,6 +33,17 @@ class StratsysTransform implements AbstractDataTransform
     {
         return str_replace(["%0A", "%25"], ["<br/>", "%"], $data);
     }
+    protected function stringToList(string $data): string
+    {
+        if (!empty(trim($data))) {
+            return "<ul>" .
+                join(array_map(function ($item) {
+                    return "<li>" . $item . "</li>";
+                }, explode(";", $data)))
+                . "</ul>";
+        }
+        return "";
+    }
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
@@ -50,6 +63,7 @@ class StratsysTransform implements AbstractDataTransform
             );
             if ($key === false) {
                 $item["Effektmal_FargNamn"] = substr($item["Effektmal_FargNamn"], 10);
+                $item["Initiativ_Utmaningar"] = $this->stringToList($item["Initiativ_Utmaningar"]);
                 $lookup[] = $item;
             } else {
                 $lookup[$key]["Effektmal_FargNamn"] .= "<br/>" . substr($item["Effektmal_FargNamn"], 10);
@@ -62,7 +76,7 @@ class StratsysTransform implements AbstractDataTransform
             $project->image($row["Initiativ_Lanktillbild"] ?? "");
             $project->setProperty('@id', $row['Initiativ_InterntID'] ?? "");
 
-            $funding = Schema::monetaryGrant()->amount($row["Initiativ_Budgetuppskattning"] ?? "");
+            $funding = Schema::monetaryGrant()->amount($row["Initiativ_Estimeradbudget"] ?? "");
             $project->funding($funding);
 
             $organization = Schema::organization()->name($row["Initiativ_Enhet"] ?? "");
