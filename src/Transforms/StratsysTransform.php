@@ -106,9 +106,9 @@ class StratsysTransform implements AbstractDataTransform
     private function getDescriptionValueFromRow($row): string
     {
         $descriptionArray = [
-            'Initiativ_Vad'           => '<h2>Vad</h2>',
-            'Initiativ_Hur'           => '<h2>Hur</h2>',
-            'Initiativ_Varfor'        => '<h2>Varför</h2>',
+            'Initiativ_Vad'           => '<h2>Vad?</h2>',
+            'Initiativ_Hur'           => '<h2>Hur?</h2>',
+            'Initiativ_Varfor'        => '<h2>Varför?</h2>',
             'Effektmal_FargNamn'      => '<h2>Effektmål</h2>',
             'Initiativ_Avgransningar' => '<h2>Avgränsningar</h2>',
             'Initiativ_Utmaningar'    => '<h2>Utmaningar</h2>',
