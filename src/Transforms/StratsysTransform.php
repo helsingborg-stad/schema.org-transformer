@@ -7,8 +7,6 @@ namespace SchemaTransformer\Transforms;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\Schema;
 
-use function PHPUnit\Framework\isEmpty;
-
 class StratsysTransform implements AbstractDataTransform
 {
     private array $indexRef;
@@ -48,7 +46,20 @@ class StratsysTransform implements AbstractDataTransform
     {
         return str_replace(".webp", ".jpg", $data);
     }
-
+    protected function transformOrganisation(string $data): string
+    {
+        return str_replace([
+            "Barn- och utbildningsnämnden",
+            "Idrotts- och fritidsnämnden",
+            "nämnden",
+            "Kommunstyrelsen"
+        ], [
+            "Skol- och fritidsförvaltningen",
+            "Skol- och fritidsförvaltningen",
+            "förvaltningen",
+            "Stadsledningsförvaltningen"
+        ], $data);
+    }
     public function transform(array $data): array
     {
         $this->indexRef = $data["header"];
@@ -84,7 +95,7 @@ class StratsysTransform implements AbstractDataTransform
             $funding = Schema::monetaryGrant()->amount($row["Initiativ_Estimeradbudget"] ?? "");
             $project->funding($funding);
 
-            $organization = Schema::organization()->name($row["Initiativ_Enhet"] ?? "");
+            $organization = Schema::organization()->name($this->transformOrganisation($row["Initiativ_Enhet"] ?? ""));
             $project->department($organization ?? "");
 
             $contact = Schema::person()
