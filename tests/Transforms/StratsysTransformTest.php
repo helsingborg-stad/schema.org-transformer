@@ -84,9 +84,9 @@ final class StratsysTransformTest extends TestCase
                 "@id"         => "Initiativ_InterntID",
                 "name"        => "Initiativ_Namn",
                 "description" => implode([
-                    "<h2>Vad</h2><p>Initiativ_Vad</p>",
-                    "<h2>Hur</h2><p>Initiativ_Hur</p>",
-                    "<h2>Varför</h2><p>Initiativ_Varfor</p>",
+                    "<h2>Vad?</h2><p>Initiativ_Vad</p>",
+                    "<h2>Hur?</h2><p>Initiativ_Hur</p>",
+                    "<h2>Varför?</h2><p>Initiativ_Varfor</p>",
                     "<h2>Effektmål</h2><p>FargNamn</p>",
                     "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
                     "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>"
@@ -108,7 +108,7 @@ final class StratsysTransformTest extends TestCase
                     [
                         "@type" => "PropertyValue",
                         "name"  => "technology",
-                        "value" => "Omrade_Namn"
+                        "value" => "Transformation_Namn"
                     ],
                     [
                         "@type" => "PropertyValue",
@@ -123,10 +123,10 @@ final class StratsysTransformTest extends TestCase
                     [
                         "@type" => "PropertyValue",
                         "name"  => "category",
-                        "value" => "Transformation_Namn"
+                        "value" => "Omrade_Namn"
                     ]
                 ],
-                "@version"    => "48286b27cb1ddbfe35e865d569082a70"
+                "@version"    => "5a09a4474dd576c54a9b5e63ab9e70fd"
             ]
         ], $model->transform($this->data));
     }
