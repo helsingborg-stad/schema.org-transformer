@@ -27,6 +27,10 @@ class StratsysTransform implements AbstractDataTransform
         }
         return 0;
     }
+    protected function transformImage(string $data): string
+    {
+        return str_replace(".webp", ".jpg", $data);
+    }
     protected function sanitizeString(string $data): string
     {
         return str_ireplace(["%0A", "%25"], ["<br/>", "%"], $data);
@@ -41,10 +45,6 @@ class StratsysTransform implements AbstractDataTransform
                 . "</ul>";
         }
         return "";
-    }
-    protected function transformImage(string $data): string
-    {
-        return str_replace(".webp", ".jpg", $data);
     }
     protected function transformOrganisation(string $data): string
     {
@@ -73,8 +73,12 @@ class StratsysTransform implements AbstractDataTransform
         // Filter duplicates, combine fields
         $lookup = [];
         array_walk($combined, function ($item) use (&$lookup) {
+            $id = $item['Initiativ_InterntID'] ?? "";
+            if (empty($id)) {
+                return;
+            }
             $key = array_search(
-                $item['Initiativ_InterntID'],
+                $id,
                 array_column($lookup, 'Initiativ_InterntID')
             );
             if ($key === false) {
@@ -103,10 +107,10 @@ class StratsysTransform implements AbstractDataTransform
             $project->employee($contact);
 
             $project->setProperty('@meta', [
-                Schema::propertyValue()->name('technology')->value($row["Omrade_Namn"] ?? ""),
+                Schema::propertyValue()->name('technology')->value($row["Transformation_Namn"] ?? ""),
                 Schema::propertyValue()->name('status')->value($row["Initiativ_Status"] ?? "N/A"),
                 Schema::propertyValue()->name('progress')->value($this->getProgress($row["Initiativ_Status"] ?? "0")), // phpcs:ignore
-                Schema::propertyValue()->name('category')->value($row["Transformation_Namn"] ?? ""),
+                Schema::propertyValue()->name('category')->value($row["Omrade_Namn"] ?? ""),
             ]);
             $project->setProperty('@version', md5(json_encode($project->toArray())));
             $output[] = $project->toArray();
