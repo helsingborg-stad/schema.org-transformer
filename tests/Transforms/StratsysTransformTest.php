@@ -8,9 +8,12 @@ use SchemaTransformer\Transforms\StratsysTransform;
 final class StratsysTransformTest extends TestCase
 {
     protected array $data;
+    protected StratsysTransform $model;
 
     protected function setUp(): void
     {
+        $this->model = new StratsysTransform();
+
         $this->data = [
             "header" => [
                 "Transformation_Namn",
@@ -76,7 +79,6 @@ final class StratsysTransformTest extends TestCase
     }
     public function testStratsysTransform(): void
     {
-        $model = new StratsysTransform();
         $this->assertEquals([
             [
                 "@context"    => "https://schema.org",
@@ -128,6 +130,30 @@ final class StratsysTransformTest extends TestCase
                 ],
                 "@version"    => "5a09a4474dd576c54a9b5e63ab9e70fd"
             ]
-        ], $model->transform($this->data));
+        ], $this->model->transform($this->data));
+    }
+    public function testTransformProgress(): void
+    {
+        $this->assertEquals(0, $this->model->getProgress(""));
+        $this->assertEquals(25, $this->model->getProgress("Idé"));
+        $this->assertEquals(50, $this->model->getProgress("Pilot"));
+        $this->assertEquals(75, $this->model->getProgress("Skala upp"));
+        $this->assertEquals(100, $this->model->getProgress("Realiserad"));
+        $this->assertEquals(0, $this->model->getProgress("Avbruten"));
+    }
+    public function testTransformImageUrl(): void
+    {
+        $this->assertEquals("", $this->model->transformImage(""));
+        $this->assertEquals("test.jpg", $this->model->transformImage("test.jpg"));
+        $this->assertEquals("test.jpg", $this->model->transformImage("test.webp"));
+        $this->assertEquals("test.jpg", $this->model->transformImage("test.WEBP"));
+    }
+    public function testSanitizeString(): void
+    {
+        $this->assertEquals("<br/> <br/> %", $this->model->sanitizeString("%0A %0a %25"));
+    }
+    public function testStringToList(): void
+    {
+        $this->assertEquals("<ul><li>test1</li><li>test2</li><li>test3</li><li>test4</li></ul>", $this->model->stringToList("test1;test2; test3;  test4  "));
     }
 }

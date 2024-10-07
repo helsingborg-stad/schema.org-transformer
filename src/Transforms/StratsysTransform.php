@@ -11,7 +11,7 @@ class StratsysTransform implements AbstractDataTransform
 {
     private array $indexRef;
 
-    protected function getProgress(string $status): int
+    public function getProgress(string $status): int
     {
         switch ($status) {
             case 'Idé':
@@ -27,20 +27,20 @@ class StratsysTransform implements AbstractDataTransform
         }
         return 0;
     }
-    protected function transformImage(string $data): string
+    public function transformImage(string $data): string
     {
-        return str_replace(".webp", ".jpg", $data);
+        return str_ireplace(".webp", ".jpg", $data);
     }
-    protected function sanitizeString(string $data): string
+    public function sanitizeString(string $data): string
     {
         return str_ireplace(["%0A", "%25"], ["<br/>", "%"], $data);
     }
-    protected function stringToList(string $data): string
+    public function stringToList(string $data): string
     {
         if (!empty(trim($data))) {
             return "<ul>" .
                 join(array_map(function ($item) {
-                    return "<li>" . $item . "</li>";
+                    return "<li>" . trim($item) . "</li>";
                 }, explode(";", $data)))
                 . "</ul>";
         }
