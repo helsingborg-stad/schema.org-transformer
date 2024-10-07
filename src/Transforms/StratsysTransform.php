@@ -81,12 +81,16 @@ class StratsysTransform implements AbstractDataTransform
                 $id,
                 array_column($lookup, 'Initiativ_InterntID')
             );
+            $goal = substr($item["Effektmal_FargNamn"], 10);
+
             if ($key === false) {
-                $item["Effektmal_FargNamn"] = substr($item["Effektmal_FargNamn"], 10);
+                $item["Effektmal_FargNamn"] = $goal;
                 $item["Initiativ_Utmaningar"] = $this->stringToList($item["Initiativ_Utmaningar"]);
                 $lookup[] = $item;
             } else {
-                $lookup[$key]["Effektmal_FargNamn"] .= "<br/>" . substr($item["Effektmal_FargNamn"], 10);
+                if (stripos($lookup[$key]["Effektmal_FargNamn"], $goal) == false) {
+                    $lookup[$key]["Effektmal_FargNamn"] .= "<br/>" . substr($item["Effektmal_FargNamn"], 10);
+                }
             }
         });
 
