@@ -9,10 +9,12 @@ require_once 'vendor/autoload.php';
 \SchemaTransformer\App::run(getopt("", [
     "source:",
     "sourceheaders:",
+    "paginator:",
     "output:",
     "outputheaders:",
     "outputformat:",
     "transform:",
+    "idprefix:",
     "authpath:",
     "authclientid:",
     "authclientsecret:",

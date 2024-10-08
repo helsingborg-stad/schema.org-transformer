@@ -7,12 +7,15 @@ namespace SchemaTransformer\Transforms;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\Schema;
 
-class ReachmeeJobPostingTransform implements AbstractDataTransform
+class ReachmeeJobPostingTransform extends TransformBase implements AbstractDataTransform
 {
     /**
      * @param \SchemaTransformer\Interfaces\SanitizerInterface[] $sanitizers
      */
-    public function __construct(private array $sanitizers) {}
+    public function __construct(private array $sanitizers, string $idprefix)
+    {
+        parent::__construct($idprefix);
+    }
 
     protected function normalizeArray(?array $in, int $length, array $fallback): array
     {
@@ -46,7 +49,7 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
             $directAppply = isset($row['hide_apply_button']) && !$row['hide_apply_button'] ? true : false;
 
             $jobPosting = Schema::jobPosting()
-                ->identifier((string) $row['project_id'])
+                ->identifier($this->formatId((string)$row['project_id'] ?? ""))
                 ->title($row['title'] ?? null)
                 ->employerOverview($row['prefix_text'] ?? null)
                 ->description($row['description'] ?? null)
@@ -74,7 +77,7 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
                         )
                 );
 
-            if (!empty($row['contact_persons']) && is_array($row['contact_persons'])) {
+            if ($this->isValidArray($row, 'contact_persons')) {
                 $contacts = [];
                 foreach ($row['contact_persons'] as &$contact) {
                     $contacts[] = Schema::contactPoint()

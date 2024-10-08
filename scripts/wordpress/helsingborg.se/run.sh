@@ -1,0 +1,52 @@
+#!/bin/bash
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+
+if [ -z ${WORDPRESS_LEGACY_EVENT_PATH} ]; then
+    echo "Missing env variable WORDPRESS_LEGACY_EVENT_PATH"; exit 1
+fi
+if [ -z ${TYPESENSE_APIKEY} ]; then
+    echo "Missing env variable TYPESENSE_APIKEY"; exit 1
+fi
+if [ -z ${TYPESENSE_BASE_PATH} ]; then
+    echo "Missing env variable TYPESENSE_BASE_PATH"; exit 1
+fi
+which php
+if [ $? -ne 0 ]; then
+    echo "PHP command missing or not in path"; exit 1
+fi
+cd ${SCRIPT_DIR}
+
+TMPFILE=$(mktemp)
+TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/events/documents
+
+# Retreive and transform Stratsys export
+php ../../../router.php \
+    --source ${WORDPRESS_LEGACY_EVENT_PATH} \
+    --transform wp_legacy_event \
+    --outputformat jsonl \
+    --paginator wordpress \
+    --output ${TMPFILE} \
+    --idprefix L
+
+
+if [ $? -ne 0 ]; then
+    echo "FAILED to transform request to file ${TMPFILE}"
+else
+    # Clear collection
+    echo "Deleting documents"
+    curl ${TYPESENSE_PATH}?filter_by=@type:Event -X DELETE -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
+
+    if [ $? -ne 0 ]; then
+        echo "FAILED to delete documents"
+    fi
+
+    # POST result to typesense
+    echo "Creating documents"
+    curl ${TYPESENSE_PATH}/import?action=create -X POST --data-binary @${TMPFILE} -H "Content-Type: text/plain" -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
+
+    if [ $? -ne 0 ]; then
+        echo "FAILED to upload document"
+    fi
+fi
+# Remove temp file
+rm -f ${TMPFILE}

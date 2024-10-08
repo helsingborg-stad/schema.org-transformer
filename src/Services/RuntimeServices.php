@@ -12,16 +12,21 @@ use SchemaTransformer\Interfaces\AbstractService;
 use SchemaTransformer\Transforms\DataSanitizers\SanitizeReachmeeJobPostingLink;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 use SchemaTransformer\Transforms\StratsysTransform;
+use SchemaTransformer\Transforms\WPLegacyEventTransform;
+use SchemaTransformer\Transforms\WPReleaseEventTransform;
 
 class RuntimeServices
 {
     private AbstractService $jobPostingService;
     private AbstractService $stratsysService;
+    private AbstractService $wpLegacyEventService;
+    private AbstractService $wpReleaseEventService;
 
     public function __construct(
         AbstractDataReader $reader,
         AbstractDataWriter $writer,
-        AbstractDataConverter $converter
+        AbstractDataConverter $converter,
+        string $idprefix
     ) {
         $reachmeeJobPostingSanitizers = [
             new SanitizeReachmeeJobPostingLink()
@@ -30,13 +35,25 @@ class RuntimeServices
         $this->jobPostingService = new Service(
             $reader,
             $writer,
-            new ReachmeeJobPostingTransform($reachmeeJobPostingSanitizers),
+            new ReachmeeJobPostingTransform($reachmeeJobPostingSanitizers, $idprefix),
             $converter
         );
         $this->stratsysService   = new Service(
             $reader,
             $writer,
-            new StratsysTransform(),
+            new StratsysTransform($idprefix),
+            $converter
+        );
+        $this->wpLegacyEventService   = new Service(
+            $reader,
+            $writer,
+            new WPLegacyEventTransform($idprefix),
+            $converter
+        );
+        $this->wpReleaseEventService   = new Service(
+            $reader,
+            $writer,
+            new WPReleaseEventTransform($idprefix),
             $converter
         );
     }
@@ -47,5 +64,13 @@ class RuntimeServices
     public function getStratsysService(): AbstractService
     {
         return $this->stratsysService;
+    }
+    public function getWPLegacyEventService(): AbstractService
+    {
+        return $this->wpLegacyEventService;
+    }
+    public function getWPReleaseEventService(): AbstractService
+    {
+        return $this->wpLegacyEventService;
     }
 }

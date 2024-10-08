@@ -12,7 +12,7 @@ final class StratsysTransformTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->model = new StratsysTransform();
+        $this->model = new StratsysTransform("");
 
         $this->data = [
             "header" => [
