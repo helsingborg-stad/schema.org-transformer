@@ -156,4 +156,11 @@ final class StratsysTransformTest extends TestCase
     {
         $this->assertEquals("<ul><li>test1</li><li>test2</li><li>test3</li><li>test4</li></ul>", $this->model->arrayToList(["test1", "test2", " test3", "  test4  "]));
     }
+    public function testAppend(): void
+    {
+        $this->assertEquals([], $this->model->append([], ""));
+        $this->assertEquals(["A", "B"], $this->model->append([], "A;B"));
+        $this->assertEquals(["A", "B", "C"], $this->model->append(["A"], "B;C"));
+        $this->assertEquals(["A"], $this->model->append(["A"], ""));
+    }
 }

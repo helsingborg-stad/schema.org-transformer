@@ -35,23 +35,24 @@ class StratsysTransform implements AbstractDataTransform
     }
     public function append(array $current, string $data): array
     {
-        $input = explode(";", trim($data));
+        $input = trim($data);
         // Ignore empty
         if (empty($input)) {
             return $current;
         }
+        $array = explode(";", $input);
         if (empty($current)) {
-            return $input;
+            return $array;
         }
         // Check for duplicate text
-        $input = array_filter($input, function ($row) use ($current) {
+        $array = array_filter($array, function ($row) use ($current) {
             if (in_array($row, $current)) {
                 return false;
             }
             return true;
         });
 
-        return [...$current, ...$input];
+        return [...$current, ...$array];
     }
     public function arrayToList(array $data): string
     {
