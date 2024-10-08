@@ -109,6 +109,11 @@ final class StratsysTransformTest extends TestCase
                 "@meta"       => [
                     [
                         "@type" => "PropertyValue",
+                        "name"  => "category",
+                        "value" => "Omrade_Namn"
+                    ],
+                    [
+                        "@type" => "PropertyValue",
                         "name"  => "technology",
                         "value" => "Transformation_Namn"
                     ],
@@ -121,14 +126,9 @@ final class StratsysTransformTest extends TestCase
                         "@type" => "PropertyValue",
                         "name"  => "progress",
                         "value" => 0
-                    ],
-                    [
-                        "@type" => "PropertyValue",
-                        "name"  => "category",
-                        "value" => "Omrade_Namn"
                     ]
                 ],
-                "@version"    => "c6ae4e6b3fe52e84fdace1b520066c8b"
+                "@version"    => "48a485116d4c77d547cad1da7bf28f45"
             ]
         ], $this->model->transform($this->data));
     }

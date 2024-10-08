@@ -105,15 +105,21 @@ class StratsysTransform implements AbstractDataTransform
             // Remove first 10 characters (Which is always "Inga data ")
             $performance = trim(substr($row["Effektmal_FargNamn"] ?? "", 10));
             $challenges = trim($row["Initiativ_Utmaningar"] ?? "");
+            $categories = trim($row["Omrade_Namn"] ?? "");
+            $technologies = trim($row["Transformation_Namn"] ?? "");
 
             if ($key === false) {
                 $row["Effektmal_FargNamn"] = $this->append([], $performance);
                 $row["Initiativ_Utmaningar"] = $this->append([], $challenges);
+                $row["Omrade_Namn"] = $this->append([], $categories);
+                $row["Transformation_Namn"] = $this->append([], $technologies);
                 $lookup[] = $row;
             } else {
                 // Append to array
                 $lookup[$key]["Effektmal_FargNamn"] = $this->append($lookup[$key]["Effektmal_FargNamn"], $performance);
                 $lookup[$key]["Initiativ_Utmaningar"] = $this->append($lookup[$key]["Initiativ_Utmaningar"], $challenges);
+                $lookup[$key]["Omrade_Namn"] = $this->append($lookup[$key]["Omrade_Namn"], $categories);
+                $lookup[$key]["Transformation_Namn"] = $this->append($lookup[$key]["Transformation_Namn"], $technologies);
             }
         });
         // Expand merged strings
@@ -139,11 +145,18 @@ class StratsysTransform implements AbstractDataTransform
                 ->alternateName($row["Initiativ_Kontaktperson"] ?? "");
             $project->employee($contact);
 
+            $categories = array_map(function ($category) {
+                return Schema::propertyValue()->name('category')->value($category);
+            }, $row["Omrade_Namn"]);
+            $technologies = array_map(function ($technology) {
+                return Schema::propertyValue()->name('technology')->value($technology);
+            }, $row["Transformation_Namn"]);
+
             $project->setProperty('@meta', [
-                Schema::propertyValue()->name('technology')->value($row["Transformation_Namn"] ?? ""),
+                ...$categories,
+                ...$technologies,
                 Schema::propertyValue()->name('status')->value($row["Initiativ_Status"] ?? "N/A"),
                 Schema::propertyValue()->name('progress')->value($this->getProgress($row["Initiativ_Status"] ?? "0")), // phpcs:ignore
-                Schema::propertyValue()->name('category')->value($row["Omrade_Namn"] ?? ""),
             ]);
             $project->setProperty('@version', md5(json_encode($project->toArray())));
             $output[] = $project->toArray();
