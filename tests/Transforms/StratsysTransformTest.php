@@ -152,8 +152,8 @@ final class StratsysTransformTest extends TestCase
     {
         $this->assertEquals("<br/> <br/> %", $this->model->sanitizeString("%0A %0a %25"));
     }
-    public function testStringToList(): void
+    public function testArrayToList(): void
     {
-        $this->assertEquals("<ul><li>test1</li><li>test2</li><li>test3</li><li>test4</li></ul>", $this->model->stringToList("test1;test2; test3;  test4  "));
+        $this->assertEquals("<ul><li>test1</li><li>test2</li><li>test3</li><li>test4</li></ul>", $this->model->arrayToList(["test1", "test2", " test3", "  test4  "]));
     }
 }

@@ -33,29 +33,33 @@ class StratsysTransform implements AbstractDataTransform
     {
         return str_ireplace(["%0A", "%25"], ["<br/>", "%"], $data);
     }
-    public function concatenateString(string $current, string $data): string
+    public function append(array $current, string $data): array
     {
-        $input = trim($data);
+        $input = explode(";", trim($data));
         // Ignore empty
-        if (empty($current)) {
-            return $input;
-        }
         if (empty($input)) {
             return $current;
         }
-        // Check for duplicate text
-        if (stripos($current, $input) == false) {
-            return $current . ';' . $input;
+        if (empty($current)) {
+            return $input;
         }
-        return $current;
+        // Check for duplicate text
+        $input = array_filter($input, function ($row) use ($current) {
+            if (in_array($row, $current)) {
+                return false;
+            }
+            return true;
+        });
+
+        return [...$current, ...$input];
     }
-    public function stringToList(string $data): string
+    public function arrayToList(array $data): string
     {
-        if (!empty(trim($data))) {
+        if (!empty($data)) {
             return "<ul>" .
                 join(array_map(function ($row) {
                     return "<li>" . trim($row) . "</li>";
-                }, explode(";", $data)))
+                }, $data))
                 . "</ul>";
         }
         return "";
@@ -102,19 +106,19 @@ class StratsysTransform implements AbstractDataTransform
             $challenges = trim($row["Initiativ_Utmaningar"] ?? "");
 
             if ($key === false) {
-                $row["Effektmal_FargNamn"] = $performance;
-                $row["Initiativ_Utmaningar"] = $challenges;
+                $row["Effektmal_FargNamn"] = $this->append([], $performance);
+                $row["Initiativ_Utmaningar"] = $this->append([], $challenges);
                 $lookup[] = $row;
             } else {
-                // Concatenate strings
-                $lookup[$key]["Effektmal_FargNamn"] = $this->concatenateString($lookup[$key]["Effektmal_FargNamn"], $performance);
-                $lookup[$key]["Initiativ_Utmaningar"] = $this->concatenateString($lookup[$key]["Initiativ_Utmaningar"], $challenges);
+                // Append to array
+                $lookup[$key]["Effektmal_FargNamn"] = $this->append($lookup[$key]["Effektmal_FargNamn"], $performance);
+                $lookup[$key]["Initiativ_Utmaningar"] = $this->append($lookup[$key]["Initiativ_Utmaningar"], $challenges);
             }
         });
         // Expand merged strings
         array_walk($lookup, function (&$row) {
-            $row["Effektmal_FargNamn"] = $this->stringToList($row["Effektmal_FargNamn"]);
-            $row["Initiativ_Utmaningar"] = $this->stringToList($row["Initiativ_Utmaningar"]);
+            $row["Effektmal_FargNamn"] = $this->arrayToList($row["Effektmal_FargNamn"]);
+            $row["Initiativ_Utmaningar"] = $this->arrayToList($row["Initiativ_Utmaningar"]);
         });
 
         $output = [];
