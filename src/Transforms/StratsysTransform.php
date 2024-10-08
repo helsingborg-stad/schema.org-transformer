@@ -9,8 +9,6 @@ use Spatie\SchemaOrg\Schema;
 
 class StratsysTransform implements AbstractDataTransform
 {
-    private array $indexRef;
-
     public function getProgress(string $status): int
     {
         switch ($status) {
@@ -35,12 +33,28 @@ class StratsysTransform implements AbstractDataTransform
     {
         return str_ireplace(["%0A", "%25"], ["<br/>", "%"], $data);
     }
+    public function concatenateString(string $current, string $data): string
+    {
+        $input = trim($data);
+        // Ignore empty
+        if (empty($current)) {
+            return $input;
+        }
+        if (empty($input)) {
+            return $current;
+        }
+        // Check for duplicate text
+        if (stripos($current, $input) == false) {
+            return $current . ';' . $input;
+        }
+        return $current;
+    }
     public function stringToList(string $data): string
     {
         if (!empty(trim($data))) {
             return "<ul>" .
-                join(array_map(function ($item) {
-                    return "<li>" . trim($item) . "</li>";
+                join(array_map(function ($row) {
+                    return "<li>" . trim($row) . "</li>";
                 }, explode(";", $data)))
                 . "</ul>";
         }
@@ -62,38 +76,48 @@ class StratsysTransform implements AbstractDataTransform
     }
     public function transform(array $data): array
     {
-        $this->indexRef = $data["header"];
-        $output =         [];
-
         // Combine keys and values
-        $combined = array_map(function ($item) {
-            return array_combine($this->indexRef, $item);
+        $combined = array_map(function ($row) use ($data) {
+            return array_combine($data["header"], $row);
         }, $data["values"]);
 
-        // Filter duplicates, combine fields
+        // Remove initiatives without id
+        $combined = array_filter($combined, function ($row) {
+            return !empty(trim($row['Initiativ_InterntID'] ?? ""));
+        });
+
+        // Merge rows
         $lookup = [];
-        array_walk($combined, function ($item) use (&$lookup) {
-            $id = $item['Initiativ_InterntID'] ?? "";
-            if (empty($id)) {
-                return;
-            }
+        array_walk($combined, function ($row) use (&$lookup) {
+            $id = trim($row['Initiativ_InterntID']);
+
             $key = array_search(
                 $id,
                 array_column($lookup, 'Initiativ_InterntID')
             );
-            $goal = substr($item["Effektmal_FargNamn"], 10);
+            // Extract mergeable items
+            // ==================================
+            // Remove first 10 characters (Which is always "Inga data ")
+            $performance = trim(substr($row["Effektmal_FargNamn"] ?? "", 10));
+            $challenges = trim($row["Initiativ_Utmaningar"] ?? "");
 
             if ($key === false) {
-                $item["Effektmal_FargNamn"] = $goal;
-                $item["Initiativ_Utmaningar"] = $this->stringToList($item["Initiativ_Utmaningar"]);
-                $lookup[] = $item;
+                $row["Effektmal_FargNamn"] = $performance;
+                $row["Initiativ_Utmaningar"] = $challenges;
+                $lookup[] = $row;
             } else {
-                if (stripos($lookup[$key]["Effektmal_FargNamn"], $goal) == false) {
-                    $lookup[$key]["Effektmal_FargNamn"] .= "<br/>" . substr($item["Effektmal_FargNamn"], 10);
-                }
+                // Concatenate strings
+                $lookup[$key]["Effektmal_FargNamn"] = $this->concatenateString($lookup[$key]["Effektmal_FargNamn"], $performance);
+                $lookup[$key]["Initiativ_Utmaningar"] = $this->concatenateString($lookup[$key]["Initiativ_Utmaningar"], $challenges);
             }
         });
+        // Expand merged strings
+        array_walk($lookup, function (&$row) {
+            $row["Effektmal_FargNamn"] = $this->stringToList($row["Effektmal_FargNamn"]);
+            $row["Initiativ_Utmaningar"] = $this->stringToList($row["Initiativ_Utmaningar"]);
+        });
 
+        $output = [];
         foreach ($lookup as $row) {
             $project = Schema::project()->name($row["Initiativ_Namn"] ?? "");
             $project->description($this->getDescriptionValueFromRow($row));
