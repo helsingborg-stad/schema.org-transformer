@@ -22,17 +22,12 @@ class HttpUtils
 
     public static function getLink(string $link): array
     {
-        // Split link into rows:
-        // <https://wp-path?page=403>; rel="prev", 
-        // <https://wp-path?page=405>; rel="next"
-        $components = explode(',', trim($link));
-        foreach ($components as $row) {
-            // Split row by semicolon 
-            [$url, $rel] = explode(';', trim($row), 2);
-            // Trim characters
-            $url = trim($url, " <>");
-            $rel = trim(explode("=", $rel)[1], "\" ");
-            return [$rel, $url];
-        }
+        // Split row by semicolon 
+        // <https://wp-path?page=403>; rel="prev" 
+        [$url, $rel] = explode(';', trim($link), 2);
+        // Trim characters
+        $url = trim($url, " <>");
+        $rel = trim(explode("=", $rel)[1], "\" ");
+        return [$rel, $url];
     }
 }
