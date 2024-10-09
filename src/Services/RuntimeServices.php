@@ -71,6 +71,6 @@ class RuntimeServices
     }
     public function getWPReleaseEventService(): AbstractService
     {
-        return $this->wpLegacyEventService;
+        return $this->wpReleaseEventService;
     }
 }

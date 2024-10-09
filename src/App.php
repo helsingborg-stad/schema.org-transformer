@@ -50,13 +50,14 @@ class App
                  --outputformat <json|jsonl>    Output format
 
                 Transformation settings
-                 --transform <jobposting>       Name of transform to apply
+                 --transform <name>             Name of transform to apply
                                                 - jobposting
                                                 - stratsys
                                                 - wp_legacy_event
                                                 - wp_release_event
                 --idprefix                      prefix to avoid collision between items from multiple sources
-                 OAuth authentication parameters (Applicable for source only)
+                 
+                OAuth authentication parameters (Applicable for source only)
                  --authpath <url>               URL of token service
                  --authclientid <string>        Client id 
                  --authclientsecret <string>    Client secret

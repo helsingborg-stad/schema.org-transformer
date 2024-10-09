@@ -6,6 +6,7 @@ namespace SchemaTransformer\IO;
 
 use SchemaTransformer\Interfaces\AbstractDataReader;
 use SchemaTransformer\Interfaces\AbstractPaginator;
+use SchemaTransformer\Util\HttpUtils;
 
 class HttpReader implements AbstractDataReader
 {
@@ -31,19 +32,6 @@ class HttpReader implements AbstractDataReader
         };
         return $result;
     }
-    protected function getResponseHeaders(string $data): array
-    {
-        $headers = array();
-        $list = explode("\r\n", trim($data));
-        array_shift($list);
-
-        foreach ($list as $value) {
-            if (false !== ($matches = explode(':', $value, 2))) {
-                $headers["{$matches[0]}"] = trim($matches[1]);
-            }
-        }
-        return $headers;
-    }
     protected function curl(string $path): array|false
     {
         $curl = curl_init($path);
@@ -68,7 +56,7 @@ class HttpReader implements AbstractDataReader
         if ($code >= 400) {
             throw new \Exception("Could not retreive source. A HTTP error occurred: " . $code);
         }
-        $resHeaders = $this->getResponseHeaders(substr($response, 0, $size));
+        $resHeaders = HttpUtils::getResponseHeaders(substr($response, 0, $size));
         $body = substr($response, $size);
 
         curl_close($curl);
