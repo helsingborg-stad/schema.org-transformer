@@ -33,7 +33,7 @@ class WPLegacyEventTransform extends TransformBase implements AbstractDataTransf
         foreach ($data as &$row) {
             $event = Schema::event()
                 ->name($row["title"]["rendered"] ?? "");
-            $event->setProperty("@id", $this->formatId($row['id'] ?? ""));
+            $event->identifier($this->formatId($row['id'] ?? ""));
             $location = Schema::place()
                 ->address(Schema::postalAddress()
                     ->streetAddress($row["location"]["street_address"] ?? "")

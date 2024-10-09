@@ -19,7 +19,7 @@ fi
 if [ -z ${TYPESENSE_BASE_PATH} ]; then
     echo "Missing env variable TYPESENSE_BASE_PATH"; exit 1
 fi
-which php
+which php >/dev/null
 if [ $? -ne 0 ]; then
     echo "PHP command missing or not in path"; exit 1
 fi

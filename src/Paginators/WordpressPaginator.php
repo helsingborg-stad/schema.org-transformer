@@ -12,10 +12,13 @@ final class WordpressPaginator implements AbstractPaginator
     public function getNext(array $headers): string | false
     {
         if (array_key_exists("link", $headers)) {
-            [$rel, $url] = HttpUtils::getLink($headers["link"]);
-            // Find the link of the next page
-            if ($rel == "next") {
-                return $url;
+            $components = explode(',', $headers["link"]);
+            foreach ($components as $row) {
+                [$rel, $url] = HttpUtils::getLink($row);
+                // Find the link of the next page
+                if ($rel == "next") {
+                    return $url;
+                }
             }
         }
         return false;
