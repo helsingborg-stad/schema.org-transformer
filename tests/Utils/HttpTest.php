@@ -24,7 +24,6 @@ final class HTTPTest extends TestCase
             "server" => "nginx",
             "date" => "Tue, 08 Oct 2024 14:26:37 GMT",
             "content-type" => "application/json; charset=UTF-8"
-
         ], $data);
     }
 

@@ -15,7 +15,7 @@ php ../../../router.php \
     --source ${REACHMEE_HELSINGBORG_PATH} \
     --transform jobposting \
     --outputformat json \
-    --output '/tmp/reachmee.json'
+    --output /tmp/reachmee.json
 
 if [ $? -ne 0 ]; then
     echo "FAILED to transform request to file ${TMPFILE}"

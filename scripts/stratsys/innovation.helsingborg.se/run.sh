@@ -54,9 +54,19 @@ else
     echo "Creating documents"
     curl ${TYPESENSE_PATH}/import?action=create -X POST --data-binary @${TMPFILE} -H "Content-Type: text/plain" -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
 
+
     if [ $? -ne 0 ]; then
         echo "FAILED to upload document"
     fi
+
+    # Clear typesense cache
+    echo "Clearing Typesense cache"
+    curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_APIKEY}" -X POST ${TYPESENSE_BASE_PATH}/operations/cache/clear
+
+    if [ $? -ne 0 ]; then
+        echo "FAILED to clear Typesense cache"
+    fi
+
 fi
 # Remove temp file
 rm -f ${TMPFILE}

@@ -47,6 +47,14 @@ else
     if [ $? -ne 0 ]; then
         echo "FAILED to upload document"
     fi
+
+    # Clear typesense cache
+    echo "Clearing Typesense cache"
+    curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_APIKEY}" -X POST ${TYPESENSE_BASE_PATH}/operations/cache/clear
+
+    if [ $? -ne 0 ]; then
+        echo "FAILED to clear Typesense cache"
+    fi
 fi
 # Remove temp file
 rm -f ${TMPFILE}
