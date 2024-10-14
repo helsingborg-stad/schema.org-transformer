@@ -65,6 +65,16 @@ class StratsysTransform implements AbstractDataTransform
         }
         return "";
     }
+    public function stringToList(string $data): string
+    {
+        if (!empty($data)) {
+            // Concatenate string
+            $clean = str_replace("\xC2\xA0\xC2\xA0•", "\\", $data);
+            $clean = trim(str_replace("\xC2\xA0", "", $clean), "\n\r\t\v\0•");
+            return $this->arrayToList(explode("•", $clean));
+        }
+        return "";
+    }
     protected function transformOrganisation(string $data): string
     {
         return str_replace([
@@ -126,6 +136,7 @@ class StratsysTransform implements AbstractDataTransform
         array_walk($lookup, function (&$row) {
             $row["Effektmal_FargNamn"] = $this->arrayToList($row["Effektmal_FargNamn"]);
             $row["Initiativ_Utmaningar"] = $this->arrayToList($row["Initiativ_Utmaningar"]);
+            $row["Initiativ_Synligaenheter"] = $this->stringToList($row["Initiativ_Synligaenheter"] ?? "");
         });
 
         $output = [];
@@ -173,6 +184,7 @@ class StratsysTransform implements AbstractDataTransform
             'Effektmal_FargNamn'      => '<h2>Effektmål</h2>',
             'Initiativ_Avgransningar' => '<h2>Avgränsningar</h2>',
             'Initiativ_Utmaningar'    => '<h2>Utmaningar</h2>',
+            'Initiativ_Synligaenheter' => '<h2>Drivs av</h2>'
         ];
 
         return implode(array_map(

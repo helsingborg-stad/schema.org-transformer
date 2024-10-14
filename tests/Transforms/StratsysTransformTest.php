@@ -42,7 +42,8 @@ final class StratsysTransformTest extends TestCase
                 "Initiativ_InterntID",
                 "Effektmal_FargNamn",
                 "Effektmal_Malvarde",
-                "Effektmal_Utfall"
+                "Effektmal_Utfall",
+                "Initiativ_Synligaenheter"
             ],
             "values" => [
                 [
@@ -72,7 +73,8 @@ final class StratsysTransformTest extends TestCase
                     "Initiativ_InterntID",
                     "Effektmal_FargNamn",
                     "Effektmal_Malvarde",
-                    "Effektmal_Utfall"
+                    "Effektmal_Utfall",
+                    "Initiativ_Synligaenheter",
                 ]
             ]
         ];
@@ -91,7 +93,8 @@ final class StratsysTransformTest extends TestCase
                     "<h2>Varför?</h2><p>Initiativ_Varfor</p>",
                     "<h2>Effektmål</h2><p><ul><li>FargNamn</li></ul></p>",
                     "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
-                    "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>"
+                    "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>",
+                    "<h2>Drivs av</h2><p><ul><li>Initiativ_Synligaenheter</li></ul></p>"
                 ]),
                 "image"       => "Initiativ_Lanktillbild",
                 "funding"     => [
@@ -128,7 +131,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => 0
                     ]
                 ],
-                "@version"    => "48a485116d4c77d547cad1da7bf28f45"
+                "@version"    => "4d268bb92f3a04ff177089e4dfe8775c"
             ]
         ], $this->model->transform($this->data));
     }
