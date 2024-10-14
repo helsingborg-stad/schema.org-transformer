@@ -69,7 +69,7 @@ class StratsysTransform implements AbstractDataTransform
     {
         if (!empty($data)) {
             // Concatenate string
-            $clean = str_replace("\xC2\xA0\xC2\xA0•", "\\", $data);
+            $clean = str_replace("\xC2\xA0\xC2\xA0•", " / ", $data);
             $clean = trim(str_replace("\xC2\xA0", "", $clean), "\n\r\t\v\0•");
             return $this->arrayToList(explode("•", $clean));
         }
