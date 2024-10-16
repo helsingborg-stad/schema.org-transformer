@@ -132,7 +132,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => 0
                     ]
                 ],
-                "@version"    => "0f55001d08676df709f7f9d32d1f3073"
+                "@version"    => "71d43e2ddc9f4fe098aa498df6b21cf7"
             ]
         ], $this->model->transform($this->data));
     }
