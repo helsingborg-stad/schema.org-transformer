@@ -144,6 +144,8 @@ class StratsysTransform implements AbstractDataTransform
             $project = Schema::project()->name($row["Initiativ_Namn"] ?? "");
             $project->description($this->getDescriptionValueFromRow($row));
             $project->image($this->transformImage($row["Initiativ_Lanktillbild"] ?? ""));
+            $project->foundingDate($row["Initiativ_Startdatum"] ?? "");
+
             $project->setProperty('@id', $row['Initiativ_InterntID'] ?? "");
 
             $funding = Schema::monetaryGrant()->amount($row["Initiativ_Estimeradbudget"] ?? "");
@@ -167,7 +169,7 @@ class StratsysTransform implements AbstractDataTransform
                 ...$categories,
                 ...$technologies,
                 Schema::propertyValue()->name('status')->value($row["Initiativ_Status"] ?? "N/A"),
-                Schema::propertyValue()->name('progress')->value($this->getProgress($row["Initiativ_Status"] ?? "0")), // phpcs:ignore
+                Schema::propertyValue()->name('progress')->value($this->getProgress($row["Initiativ_Status"] ?? "0")),
             ]);
             $project->setProperty('@version', md5(json_encode($project->toArray())));
             $output[] = $project->toArray();

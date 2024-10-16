@@ -87,6 +87,7 @@ final class StratsysTransformTest extends TestCase
                 "@type"       => "Project",
                 "@id"         => "Initiativ_InterntID",
                 "name"        => "Initiativ_Namn",
+                "foundingDate" => "Initiativ_Startdatum",
                 "description" => implode([
                     "<h2>Vad?</h2><p>Initiativ_Vad</p>",
                     "<h2>Hur?</h2><p>Initiativ_Hur</p>",
@@ -131,7 +132,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => 0
                     ]
                 ],
-                "@version"    => "4d268bb92f3a04ff177089e4dfe8775c"
+                "@version"    => "0f55001d08676df709f7f9d32d1f3073"
             ]
         ], $this->model->transform($this->data));
     }
