@@ -85,8 +85,8 @@ final class ReachmeeJobPostingTransformTest extends TestCase
         $model = new ReachmeeJobPostingTransform([]);
         $this->assertEquals([[
             "@context"           => "https://schema.org",
-            "@id"                => "1",
-            "@version"           => "4efca72bf3730a1043354801ec14268e",
+            "@id"                => "2",
+            "@version"           => "035ca770a4379fca08ba74934cfc30cb",
             "@type"              => "JobPosting",
             "title"              => "title",
             "description"        => "description",
@@ -148,7 +148,7 @@ final class ReachmeeJobPostingTransformTest extends TestCase
 
     public function testSanitizertsAreApplied()
     {
-        $data  = [['ad_id' => 123, 'title' => 'original']];
+        $data  = [['project_id' => 123, 'title' => 'original']];
         $model = new ReachmeeJobPostingTransform([
             new class {
                 public function sanitize(array $data): array

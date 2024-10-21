@@ -12,9 +12,7 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
     /**
      * @param \SchemaTransformer\Interfaces\SanitizerInterface[] $sanitizers
      */
-    public function __construct(private array $sanitizers)
-    {
-    }
+    public function __construct(private array $sanitizers) {}
 
     protected function normalizeArray(?array $in, int $length, array $fallback): array
     {
@@ -41,14 +39,14 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
             [$county, $city] = $this->normalizeArray($row['areas'] ?? [], 2, ["name" => ""]);
             [$name, $unit]   = $this->normalizeArray($row['organizations'] ?? [], 2, ["nameorgunit" => ""]);
 
-            if (empty($row['ad_id'])) {
+            if (empty($row['project_id'])) {
                 continue;
             }
 
             $directAppply = isset($row['hide_apply_button']) && !$row['hide_apply_button'] ? true : false;
 
             $jobPosting = Schema::jobPosting()
-                ->identifier((string) $row['ad_id'])
+                ->identifier((string) $row['project_id'])
                 ->title($row['title'] ?? null)
                 ->employerOverview($row['prefix_text'] ?? null)
                 ->description($row['description'] ?? null)
