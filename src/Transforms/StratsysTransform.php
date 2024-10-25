@@ -89,6 +89,10 @@ class StratsysTransform implements AbstractDataTransform
             "Stadsledningsförvaltningen"
         ], $data);
     }
+    public function transformPerformance(string $data): string
+    {
+        return preg_replace("/^(Röd|Grön|Gul|Inga data)/i", "", $data);
+    }
     public function transform(array $data): array
     {
         // Combine keys and values
@@ -112,8 +116,7 @@ class StratsysTransform implements AbstractDataTransform
             );
             // Extract mergeable items
             // ==================================
-            // Remove first 10 characters (Which is always "Inga data ")
-            $performance = trim(substr($row["Effektmal_FargNamn"] ?? "", 10));
+            $performance = trim($this->transformPerformance($row["Effektmal_FargNamn"] ?? ""));
             $challenges = trim($row["Initiativ_Utmaningar"] ?? "");
             $categories = trim($row["Omrade_Namn"] ?? "");
             $technologies = trim($row["Transformation_Namn"] ?? "");
@@ -136,7 +139,9 @@ class StratsysTransform implements AbstractDataTransform
         array_walk($lookup, function (&$row) {
             $row["Effektmal_FargNamn"] = $this->arrayToList($row["Effektmal_FargNamn"]);
             $row["Initiativ_Utmaningar"] = $this->arrayToList($row["Initiativ_Utmaningar"]);
-            $row["Initiativ_Synligaenheter"] = $this->stringToList($row["Initiativ_Synligaenheter"] ?? "");
+            $row["Initiativ_Synligaenheter"] = $this->stringToList(
+                $this->transformOrganisation($row["Initiativ_Synligaenheter"] ?? "")
+            );
         });
 
         $output = [];
