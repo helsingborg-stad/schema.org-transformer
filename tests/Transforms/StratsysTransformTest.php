@@ -40,7 +40,7 @@ final class StratsysTransformTest extends TestCase
                 "Initiativ_Invanarinvolvering",
                 "Initiativ_Enhet",
                 "Initiativ_InterntID",
-                "Effektmal_FargNamn",
+                "Effektmal_Namn",
                 "Effektmal_Malvarde",
                 "Effektmal_Utfall",
                 "Initiativ_Synligaenheter"
@@ -71,7 +71,7 @@ final class StratsysTransformTest extends TestCase
                     "Initiativ_Invanarinvolvering",
                     "Initiativ_Enhet",
                     "Initiativ_InterntID",
-                    "Effektmal_FargNamn",
+                    "Effektmal_Namn",
                     "Effektmal_Malvarde",
                     "Effektmal_Utfall",
                     "Initiativ_Synligaenheter",
@@ -92,7 +92,7 @@ final class StratsysTransformTest extends TestCase
                     "<h2>Vad?</h2><p>Initiativ_Vad</p>",
                     "<h2>Hur?</h2><p>Initiativ_Hur</p>",
                     "<h2>Varför?</h2><p>Initiativ_Varfor</p>",
-                    "<h2>Effektmål</h2><p><ul><li>Effektmal_FargNamn</li></ul></p>",
+                    "<h2>Effektmål</h2><p><ul><li>Effektmal_Namn</li></ul></p>",
                     "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
                     "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>",
                     "<h2>Drivs av</h2><p><ul><li>Initiativ_Synligaenheter</li></ul></p>"
@@ -132,7 +132,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => 0
                     ]
                 ],
-                "@version"    => "3d2b2059b8e39d0375740409ec9094f4"
+                "@version"    => "9f42edba4f731dba3b458be02ea46dfb"
             ]
         ], $this->model->transform($this->data));
     }
