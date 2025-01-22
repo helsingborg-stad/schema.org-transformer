@@ -25,6 +25,7 @@ final class StratsysTransformTest extends TestCase
                 "Initiativ_Avgransningar",
                 "Initiativ_Estimeradbudget",
                 "Initiativ_Kontaktperson",
+                "Initiativ_EmailKontaktperson",
                 "Initiativ_Ansvarigforinitiativ",
                 "Initiativ_Startdatum",
                 "Initiativ_Slutdatum",
@@ -56,6 +57,7 @@ final class StratsysTransformTest extends TestCase
                     "Initiativ_Avgransningar",
                     "Initiativ_Estimeradbudget",
                     "Initiativ_Kontaktperson",
+                    "Initiativ_EmailKontaktperson",
                     "Initiativ_Ansvarigforinitiativ",
                     "Initiativ_Startdatum",
                     "Initiativ_Slutdatum",
@@ -108,7 +110,8 @@ final class StratsysTransformTest extends TestCase
                 ],
                 "employee"    => [
                     "@type"         => "Person",
-                    "alternateName" => "Initiativ_Kontaktperson"
+                    "alternateName" => "Initiativ_Kontaktperson",
+                    "email" => "Initiativ_EmailKontaktperson"
                 ],
                 "@meta"       => [
                     [
@@ -132,7 +135,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => 0
                     ]
                 ],
-                "@version"    => "9f42edba4f731dba3b458be02ea46dfb"
+                "@version"    => "229ceb2081c9586d124caefafff87dce"
             ]
         ], $this->model->transform($this->data));
     }

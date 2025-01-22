@@ -160,7 +160,9 @@ class StratsysTransform implements AbstractDataTransform
             $project->department($organization ?? "");
 
             $contact = Schema::person()
-                ->alternateName($row["Initiativ_Kontaktperson"] ?? "");
+                ->alternateName($row["Initiativ_Kontaktperson"] ?? "")
+                ->email($row["Initiativ_EmailKontaktperson"] ?? "");
+
             $project->employee($contact);
 
             $categories = array_map(function ($category) {
