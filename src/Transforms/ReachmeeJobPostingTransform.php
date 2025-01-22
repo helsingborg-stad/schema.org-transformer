@@ -12,7 +12,9 @@ class ReachmeeJobPostingTransform implements AbstractDataTransform
     /**
      * @param \SchemaTransformer\Interfaces\SanitizerInterface[] $sanitizers
      */
-    public function __construct(private array $sanitizers) {}
+    public function __construct(private array $sanitizers)
+    {
+    }
 
     protected function normalizeArray(?array $in, int $length, array $fallback): array
     {
