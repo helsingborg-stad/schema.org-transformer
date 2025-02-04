@@ -6,6 +6,7 @@ namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\Contracts\ImageObjectContract;
+use Spatie\SchemaOrg\Contracts\PlaceContract;
 use Spatie\SchemaOrg\Event;
 use Spatie\SchemaOrg\Schema;
 
@@ -36,6 +37,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $event->name($row['title']['rendered']);
         $event->image($this->getImageFromRow($row));
         $event->typicalAgeRange($this->getTypicalAgeRange($row));
+        $event->location($this->getLocationFromRow($row));
 
         return $event;
     }
@@ -78,5 +80,20 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         }
 
         return $row['age_restriction_info'];
+    }
+
+    private function getLocationFromRow(array $row): ?PlaceContract
+    {
+        if (empty($row['location'])) {
+            return null;
+        }
+
+        $place = Schema::place();
+        $place->name($row['location_name'] ?? null);
+        $place->address($row['location']['address'] ?? null);
+        $place->latitude($row['location']['lat'] ?? null);
+        $place->longitude($row['location']['lng'] ?? null);
+
+        return $place;
     }
 }

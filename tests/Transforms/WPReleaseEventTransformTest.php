@@ -72,6 +72,25 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertEquals('13-', $events[0]['typicalAgeRange']);
     }
 
+    #[TestDox('sets location from the row data if available')]
+    public function testSetsLocationFromRowDataIfAvailable(): void
+    {
+        $events = $this->transformer->transform([$this->getRow([
+            "physical_virtual" => "physical",
+            "location_name"    => "Test Location",
+            "location"         => [
+              "lat"     => 56.0473078,
+              "lng"     => 12.6921272,
+              "address" => "Drottninggatan 14, 252 21 Helsingborg, Sverige",
+            ]
+        ])]);
+
+        $this->assertEquals('Test Location', $events[0]['location']['name']);
+        $this->assertEquals(56.0473078, $events[0]['location']['latitude']);
+        $this->assertEquals(12.6921272, $events[0]['location']['longitude']);
+        $this->assertEquals('Drottninggatan 14, 252 21 Helsingborg, Sverige', $events[0]['location']['address']);
+    }
+
     /**
      * Get a row of data
      *
