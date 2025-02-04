@@ -31,11 +31,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
             return null;
         }
 
-        $event = $this->createEventTypeFromRow($row);
-
-        $this->populateEventWithRowData($event, $row);
-
-        return $event;
+        return $this->populateEventWithRowData($this->createEventTypeFromRow($row), $row);
     }
 
     private function populateEventWithRowData(BaseType $event, array $row): BaseType
@@ -46,7 +42,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $event->typicalAgeRange($this->getTypicalAgeRange($row));
         $event->location($this->getLocationFromRow($row));
         $event->offers($this->getOffersFromRow($row));
-        $event->isAccessibleForFree(!empty($row['acf']['pricing']) && $row['acf']['pricing'] === 'free' ? true : false);
+        $event->isAccessibleForFree($this->getIsAccessibleForFreeFromRow($row));
 
         return $event;
     }
@@ -176,5 +172,10 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
             ->price($priceRow['price'] ?? null)
             ->name($priceRow['priceLabel'] ?? null)
             ->priceCurrency('SEK');
+    }
+
+    private function getIsAccessibleForFreeFromRow(array $row): bool
+    {
+        return !empty($row['acf']['pricing']) && $row['acf']['pricing'] === 'free';
     }
 }
