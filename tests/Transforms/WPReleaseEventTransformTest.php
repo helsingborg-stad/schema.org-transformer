@@ -7,7 +7,6 @@ namespace SchemaTransformer\Tests\Transforms;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
-use Spatie\SchemaOrg\Event;
 
 final class WPReleaseEventTransformTest extends TestCase
 {
@@ -68,7 +67,10 @@ final class WPReleaseEventTransformTest extends TestCase
     #[TestDox('sets typicalAgeRange from the row data if available')]
     public function testSetsTypicalAgeRangeFromRowDataIfAvailable(): void
     {
-        $events = $this->transformer->transform([$this->getRow(['age_restriction' => true, 'age_restriction_info' => '13-'])]);
+        $events = $this->transformer->transform([$this->getRow(['acf' => [
+            'age_restriction'      => true,
+            'age_restriction_info' => '13-'
+        ]])]);
         $this->assertEquals('13-', $events[0]['typicalAgeRange']);
     }
 
@@ -76,12 +78,14 @@ final class WPReleaseEventTransformTest extends TestCase
     public function testSetsLocationFromRowDataIfAvailable(): void
     {
         $events = $this->transformer->transform([$this->getRow([
-            "physical_virtual" => "physical",
-            "location_name"    => "Test Location",
-            "location"         => [
-              "lat"     => 56.0473078,
-              "lng"     => 12.6921272,
-              "address" => "Drottninggatan 14, 252 21 Helsingborg, Sverige",
+            'acf' => [
+                "physical_virtual" => "physical",
+                "location_name"    => "Test Location",
+                "location"         => [
+                "lat"     => 56.0473078,
+                "lng"     => 12.6921272,
+                "address" => "Drottninggatan 14, 252 21 Helsingborg, Sverige",
+                ]
             ]
         ])]);
 

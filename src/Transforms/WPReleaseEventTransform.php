@@ -75,24 +75,32 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
 
     private function getTypicalAgeRange(array $row): ?string
     {
-        if (empty($row['age_restriction']) || $row['age_restriction'] === false || empty($row['age_restriction_info'])) {
+        if (
+            empty($row['acf']['age_restriction']) ||
+            $row['acf']['age_restriction'] === false ||
+            empty($row['acf']['age_restriction_info'])
+        ) {
             return null;
         }
 
-        return $row['age_restriction_info'];
+        return $row['acf']['age_restriction_info'];
     }
 
     private function getLocationFromRow(array $row): ?PlaceContract
     {
-        if (empty($row['location'])) {
+        if (
+            empty($row['acf']['location']) ||
+            empty($row['acf']['physical_virtual']) ||
+            $row['acf']['physical_virtual'] !== 'physical'
+        ) {
             return null;
         }
 
         $place = Schema::place();
-        $place->name($row['location_name'] ?? null);
-        $place->address($row['location']['address'] ?? null);
-        $place->latitude($row['location']['lat'] ?? null);
-        $place->longitude($row['location']['lng'] ?? null);
+        $place->name($row['acf']['location_name'] ?? null);
+        $place->address($row['acf']['location']['address'] ?? null);
+        $place->latitude($row['acf']['location']['lat'] ?? null);
+        $place->longitude($row['acf']['location']['lng'] ?? null);
 
         return $place;
     }
