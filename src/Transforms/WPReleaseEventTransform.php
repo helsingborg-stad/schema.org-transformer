@@ -48,11 +48,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
 
     private function createEventTypeFromRow(array $row): EventContract
     {
-        if (empty($row['acf']['type']) || !is_string($row['acf']['type'])) {
-            return Schema::event();
-        }
-
-        return match ($row['acf']['type']) {
+        return match ($row['acf']['type'] ?? null) {
             'BusinessEvent' => Schema::businessEvent(),
             'ChildrensEvent' => Schema::childrensEvent(),
             'ComedyEvent' => Schema::comedyEvent(),
