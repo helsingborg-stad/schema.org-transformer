@@ -35,6 +35,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $event->identifier($this->formatId($row['id']));
         $event->name($row['title']['rendered']);
         $event->image($this->getImageFromRow($row));
+        $event->typicalAgeRange($this->getTypicalAgeRange($row));
 
         return $event;
     }
@@ -68,5 +69,14 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $image->description($row['_embedded']['wp:featuredmedia'][0]['alt_text']);
 
         return $image;
+    }
+
+    private function getTypicalAgeRange(array $row): ?string
+    {
+        if (empty($row['age_restriction']) || $row['age_restriction'] === false || empty($row['age_restriction_info'])) {
+            return null;
+        }
+
+        return $row['age_restriction_info'];
     }
 }

@@ -39,7 +39,7 @@ final class WPReleaseEventTransformTest extends TestCase
     public function testIdIsSetFromIdPrefixAndIdInData(): void
     {
         $events = $this->transformer->transform([$this->getRow()]);
-        $this->assertEquals('idprefix1', $events[0]['@id']);
+        $this->assertEquals('idprefix5', $events[0]['@id']);
     }
 
     #[TestDox('skips event if id is not set')]
@@ -61,8 +61,15 @@ final class WPReleaseEventTransformTest extends TestCase
     {
         $events = $this->transformer->transform([$this->getRow()]);
 
-        $this->assertEquals('https://example.com/image.jpg', $events[0]['image']['url']);
-        $this->assertEquals('Test Image', $events[0]['image']['description']);
+        $this->assertEquals('http://localhost:8444/wp-content/uploads/2025/02/521-600x400-1.jpg', $events[0]['image']['url']);
+        $this->assertEquals('Test Description', $events[0]['image']['description']);
+    }
+
+    #[TestDox('sets typicalAgeRange from the row data if available')]
+    public function testSetsTypicalAgeRangeFromRowDataIfAvailable(): void
+    {
+        $events = $this->transformer->transform([$this->getRow(['age_restriction' => true, 'age_restriction_info' => '13-'])]);
+        $this->assertEquals('13-', $events[0]['typicalAgeRange']);
     }
 
     /**
@@ -73,18 +80,9 @@ final class WPReleaseEventTransformTest extends TestCase
      */
     private function getRow(array $data = []): array
     {
-        return array_merge([
-            'id'        => 1,
-            'title'     => ['rendered' => 'Test Event'],
-            '_embedded' => [
-                'wp:featuredmedia' => [
-                    0 => [
-                        'source_url' => 'https://example.com/image.jpg',
-                        'alt_text'   => 'Test Image',
+        $json    = file_get_contents(__DIR__ . '/../fixtures/wp-release-event-row.json');
+        $fixture = json_decode($json, true);
 
-                    ],
-                ],
-            ],
-        ], $data);
+        return array_merge($fixture, $data);
     }
 }
