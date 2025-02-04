@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
+use Spatie\SchemaOrg\Event;
 use Spatie\SchemaOrg\Schema;
 
 class WPReleaseEventTransform extends TransformBase implements AbstractDataTransform
@@ -16,8 +17,12 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
 
     public function transform(array $data): array
     {
-        $output = [];
+        $events = array_map(fn($row) => $this->getEventFromRow($row), $data);
+        return array_map(fn($event) => $event->toArray(), $events);
+    }
 
-        return $output;
+    private function getEventFromRow(array $row): Event
+    {
+        return Schema::event();
     }
 }
