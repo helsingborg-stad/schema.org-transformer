@@ -49,6 +49,13 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertEmpty($events);
     }
 
+    #[TestDox('skips event if title is not set')]
+    public function testSkipsEventIfTitleIsNotSet(): void
+    {
+        $events = $this->transformer->transform([$this->getRow(['title' => null])]);
+        $this->assertEmpty($events);
+    }
+
     #[Testdox('sets title from the title in the data')]
     public function testSetsTitleFromTitleInData(): void
     {
@@ -63,6 +70,16 @@ final class WPReleaseEventTransformTest extends TestCase
 
         $this->assertEquals('http://localhost:8444/wp-content/uploads/2025/02/521-600x400-1.jpg', $events[0]['image']['url']);
         $this->assertEquals('Test Description', $events[0]['image']['description']);
+    }
+
+    #[TestDox('does not set image if source_url is not available')]
+    public function testDoesNotSetImageIfSourceUrlIsNotAvailable(): void
+    {
+        $events = $this->transformer->transform([$this->getRow([
+            '_embedded' => ['wp:featuredmedia' => [['source_url' => null]]]
+        ])]);
+
+        $this->assertArrayNotHasKey('image', $events[0]);
     }
 
     #[TestDox('sets typicalAgeRange from the row data if available')]

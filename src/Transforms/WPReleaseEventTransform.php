@@ -6,7 +6,6 @@ namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\BaseType;
-use Spatie\SchemaOrg\Contracts\EventContract;
 use Spatie\SchemaOrg\Contracts\ImageObjectContract;
 use Spatie\SchemaOrg\Contracts\PlaceContract;
 use Spatie\SchemaOrg\Schema;
@@ -34,6 +33,13 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
 
         $event = $this->createEventTypeFromRow($row);
 
+        $this->populateEventWithRowData($event, $row);
+
+        return $event;
+    }
+
+    private function populateEventWithRowData(BaseType $event, array $row): BaseType
+    {
         $event->identifier($this->formatId($row['id']));
         $event->name($row['title']['rendered']);
         $event->image($this->getImageFromRow($row));
@@ -45,31 +51,32 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         return $event;
     }
 
-    private function createEventTypeFromRow(array $row): EventContract
+    private function createEventTypeFromRow(array $row): BaseType
     {
-        return match ($row['acf']['type'] ?? null) {
-            'BusinessEvent' => Schema::businessEvent(),
-            'ChildrensEvent' => Schema::childrensEvent(),
-            'ComedyEvent' => Schema::comedyEvent(),
-            'DanceEvent' => Schema::danceEvent(),
-            'DeliveryEvent' => Schema::deliveryEvent(),
-            'EducationEvent' => Schema::educationEvent(),
-            'EventSeries' => Schema::eventSeries(),
-            'ExhibitionEvent' => Schema::exhibitionEvent(),
-            'Festival' => Schema::festival(),
-            'FoodEvent' => Schema::foodEvent(),
-            'Hackathon' => Schema::hackathon(),
-            'LiteraryEvent' => Schema::literaryEvent(),
-            'MusicEvent' => Schema::musicEvent(),
+        $eventTypeMap = [
+            'BusinessEvent'    => Schema::businessEvent(),
+            'ChildrensEvent'   => Schema::childrensEvent(),
+            'ComedyEvent'      => Schema::comedyEvent(),
+            'DanceEvent'       => Schema::danceEvent(),
+            'DeliveryEvent'    => Schema::deliveryEvent(),
+            'EducationEvent'   => Schema::educationEvent(),
+            'EventSeries'      => Schema::eventSeries(),
+            'ExhibitionEvent'  => Schema::exhibitionEvent(),
+            'Festival'         => Schema::festival(),
+            'FoodEvent'        => Schema::foodEvent(),
+            'Hackathon'        => Schema::hackathon(),
+            'LiteraryEvent'    => Schema::literaryEvent(),
+            'MusicEvent'       => Schema::musicEvent(),
             'PublicationEvent' => Schema::publicationEvent(),
-            'SaleEvent' => Schema::saleEvent(),
-            'ScreeningEvent' => Schema::screeningEvent(),
-            'SocialEvent' => Schema::socialEvent(),
-            'SportsEvent' => Schema::sportsEvent(),
-            'TheaterEvent' => Schema::theaterEvent(),
-            'VisualArtsEvent' => Schema::visualArtsEvent(),
-            default => Schema::event(),
-        };
+            'SaleEvent'        => Schema::saleEvent(),
+            'ScreeningEvent'   => Schema::screeningEvent(),
+            'SocialEvent'      => Schema::socialEvent(),
+            'SportsEvent'      => Schema::sportsEvent(),
+            'TheaterEvent'     => Schema::theaterEvent(),
+            'VisualArtsEvent'  => Schema::visualArtsEvent(),
+        ];
+
+        return $eventTypeMap[$row['acf']['type'] ?? ''] ?? Schema::event();
     }
 
     /**
@@ -105,27 +112,36 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
 
     private function getTypicalAgeRange(array $row): ?string
     {
-        if (
-            empty($row['acf']['age_restriction']) ||
-            $row['acf']['age_restriction'] === false ||
-            empty($row['acf']['age_restriction_info'])
-        ) {
-            return null;
+        if ($this->hasAgeRestriction($row)) {
+            return $row['acf']['age_restriction_info'];
         }
 
-        return $row['acf']['age_restriction_info'];
+        return null;
+    }
+
+    private function hasAgeRestriction(array $row): bool
+    {
+        return !empty($row['acf']['age_restriction']) && $row['acf']['age_restriction'] !== false && !empty($row['acf']['age_restriction_info']);
     }
 
     private function getLocationFromRow(array $row): ?PlaceContract
     {
-        if (
-            empty($row['acf']['location']) ||
-            empty($row['acf']['physical_virtual']) ||
-            $row['acf']['physical_virtual'] !== 'physical'
-        ) {
+        if (!$this->isPhysicalLocation($row)) {
             return null;
         }
 
+        return $this->createPlaceFromRow($row);
+    }
+
+    private function isPhysicalLocation(array $row): bool
+    {
+        return !empty($row['acf']['location']) &&
+               !empty($row['acf']['physical_virtual']) &&
+               $row['acf']['physical_virtual'] === 'physical';
+    }
+
+    private function createPlaceFromRow(array $row): PlaceContract
+    {
         $place = Schema::place();
         $place->name($row['acf']['location_name'] ?? null);
         $place->address($row['acf']['location']['address'] ?? null);
@@ -137,19 +153,28 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
 
     private function getOffersFromRow(array $row): array
     {
-        if (
-            empty($row['acf']['pricing']) ||
-            $row['acf']['pricing'] !== 'expense' ||
-            empty($row['acf']['pricesList'])
-        ) {
+        if ($this->isFreeEvent($row) || !$this->hasPricesList($row)) {
             return [];
         }
 
-        return array_map(function ($priceRow) {
-            return Schema::offer()
-                ->price($priceRow['price'] ?? null)
-                ->name($priceRow['priceLabel'] ?? null)
-                ->priceCurrency('SEK');
-        }, $row['acf']['pricesList']);
+        return array_map([$this, 'createOfferFromPriceRow'], $row['acf']['pricesList']);
+    }
+
+    private function isFreeEvent(array $row): bool
+    {
+        return empty($row['acf']['pricing']) || $row['acf']['pricing'] !== 'expense';
+    }
+
+    private function hasPricesList(array $row): bool
+    {
+        return !empty($row['acf']['pricesList']);
+    }
+
+    private function createOfferFromPriceRow(array $priceRow): BaseType
+    {
+        return Schema::offer()
+            ->price($priceRow['price'] ?? null)
+            ->name($priceRow['priceLabel'] ?? null)
+            ->priceCurrency('SEK');
     }
 }
