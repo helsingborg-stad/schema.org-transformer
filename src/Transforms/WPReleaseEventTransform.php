@@ -18,11 +18,31 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
     public function transform(array $data): array
     {
         $events = array_map(fn($row) => $this->getEventFromRow($row), $data);
+        $events = array_filter($events);
+
         return array_map(fn($event) => $event->toArray(), $events);
     }
 
-    private function getEventFromRow(array $row): Event
+    private function getEventFromRow(array $row): ?Event
     {
-        return Schema::event();
+        $event = Schema::event();
+
+        if (!$this->rowIsValid($row)) {
+            return null;
+        }
+
+        $event->identifier($this->formatId($row['id']));
+
+        return $event;
+    }
+
+    /**
+     * Check if the row is valid and can be transformed
+     *
+     * @param array $row
+     */
+    private function rowIsValid(array $row): bool
+    {
+        return !empty($row['id']);
     }
 }

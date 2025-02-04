@@ -25,7 +25,7 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertInstanceOf(WPReleaseEventTransform::class, $this->transformer);
     }
 
-    #[TestDox('transform returns an array of Event objects')]
+    #[TestDox('returns an array of Event objects')]
     public function testTransformReturnsArrayOfEventObjects(): void
     {
         $events = $this->transformer->transform([['id' => 1]]);
@@ -33,5 +33,19 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertIsArray($events);
         $this->assertCount(1, $events);
         $this->assertEquals($events[0]['@type'], 'Event');
+    }
+
+    #[TestDox('id is set from the idprefix and the id in the data')]
+    public function testIdIsSetFromIdPrefixAndIdInData(): void
+    {
+        $events = $this->transformer->transform([['id' => 1]]);
+        $this->assertEquals('idprefix1', $events[0]['@id']);
+    }
+
+    #[TestDox('skips event if id is not set')]
+    public function testSkipsEventIfIdIsNotSet(): void
+    {
+        $events = $this->transformer->transform([['id' => null]]);
+        $this->assertEmpty($events);
     }
 }
