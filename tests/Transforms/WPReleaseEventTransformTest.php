@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Tests\Transforms;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
@@ -96,10 +97,38 @@ final class WPReleaseEventTransformTest extends TestCase
     }
 
     #[TestDox('sets schema type from event type in the row data')]
-    public function testSetsSchemaTypeFromEventTypeInRowData(): void
+    #[DataProvider('eventTypeProvider')]
+    public function testSetsSchemaTypeFromEventTypeInRowData($type): void
     {
-        $events = $this->transformer->transform([$this->getRow(['acf' => ['type' => 'BusinessEvent']])]);
-        $this->assertEquals('BusinessEvent', $events[0]['@type']);
+        $events = $this->transformer->transform([$this->getRow(['acf' => ['type' => $type]])]);
+        $this->assertEquals($type, $events[0]['@type']);
+    }
+
+    public static function eventTypeProvider(): array
+    {
+        return [
+            'BusinessEvent'    => ['BusinessEvent'],
+            'ChildrensEvent'   => ['ChildrensEvent'],
+            'ComedyEvent'      => ['ComedyEvent'],
+            'DanceEvent'       => ['DanceEvent'],
+            'DeliveryEvent'    => ['DeliveryEvent'],
+            'EducationEvent'   => ['EducationEvent'],
+            'EventSeries'      => ['EventSeries'],
+            'ExhibitionEvent'  => ['ExhibitionEvent'],
+            'Festival'         => ['Festival'],
+            'FoodEvent'        => ['FoodEvent'],
+            'Hackathon'        => ['Hackathon'],
+            'LiteraryEvent'    => ['LiteraryEvent'],
+            'MusicEvent'       => ['MusicEvent'],
+            'PublicationEvent' => ['PublicationEvent'],
+            'SaleEvent'        => ['SaleEvent'],
+            'ScreeningEvent'   => ['ScreeningEvent'],
+            'SocialEvent'      => ['SocialEvent'],
+            'SportsEvent'      => ['SportsEvent'],
+            'TheaterEvent'     => ['TheaterEvent'],
+            'VisualArtsEvent'  => ['VisualArtsEvent'],
+
+        ];
     }
 
     #[TestDox('sets offers from the row data if available')]

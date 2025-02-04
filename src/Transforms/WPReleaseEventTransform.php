@@ -9,7 +9,6 @@ use Spatie\SchemaOrg\BaseType;
 use Spatie\SchemaOrg\Contracts\EventContract;
 use Spatie\SchemaOrg\Contracts\ImageObjectContract;
 use Spatie\SchemaOrg\Contracts\PlaceContract;
-use Spatie\SchemaOrg\Event;
 use Spatie\SchemaOrg\Schema;
 
 class WPReleaseEventTransform extends TransformBase implements AbstractDataTransform
@@ -22,7 +21,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
     public function transform(array $data): array
     {
         $events = array_map(fn($row) => $this->getEventFromRow($row), $data);
-        $events = array_filter($events);
+        $events = array_filter($events); // Remove null values
 
         return array_map(fn($event) => $event->toArray(), $events);
     }
