@@ -63,6 +63,13 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertEquals('Test Event', $events[0]['name']);
     }
 
+    #[TestDox('sets description from the description in the data if available')]
+    public function testSetsDescriptionFromDescriptionInDataIfAvailable(): void
+    {
+        $events = $this->transformer->transform([$this->getRow(['acf' => ['description' => 'Test Description']])]);
+        $this->assertEquals('Test Description', $events[0]['description']);
+    }
+
     #[TestDox('sets image from embedded featured media')]
     public function testSetsImageFromFeaturedMediaWhenAvailableAsUrl(): void
     {

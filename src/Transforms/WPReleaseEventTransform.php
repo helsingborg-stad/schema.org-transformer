@@ -38,6 +38,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
     {
         $event->identifier($this->formatId($row['id']));
         $event->name($row['title']['rendered']);
+        $event->description($this->getDescriptionFromRow($row));
         $event->image($this->getImageFromRow($row));
         $event->typicalAgeRange($this->getTypicalAgeRange($row));
         $event->location($this->getLocationFromRow($row));
@@ -91,6 +92,11 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         }
 
         return true;
+    }
+
+    private function getDescriptionFromRow(array $row): ?string
+    {
+        return $row['acf']['description'] ?? null;
     }
 
     private function getImageFromRow(array $row): ?ImageObjectContract
