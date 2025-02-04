@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
+use Spatie\SchemaOrg\Contracts\ImageObjectContract;
 use Spatie\SchemaOrg\Event;
 use Spatie\SchemaOrg\Schema;
 
@@ -32,6 +33,8 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         }
 
         $event->identifier($this->formatId($row['id']));
+        $event->name($row['title']['rendered']);
+        $event->image($this->getImageFromRow($row));
 
         return $event;
     }
@@ -43,6 +46,27 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
      */
     private function rowIsValid(array $row): bool
     {
-        return !empty($row['id']);
+        if (empty($row['id'])) {
+            return false;
+        }
+
+        if (empty($row['title']['rendered'])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function getImageFromRow(array $row): ?ImageObjectContract
+    {
+        if (empty($row['_embedded']['wp:featuredmedia'][0]['source_url'])) {
+            return null;
+        }
+
+        $image = Schema::imageObject();
+        $image->url($row['_embedded']['wp:featuredmedia'][0]['source_url']);
+        $image->description($row['_embedded']['wp:featuredmedia'][0]['alt_text']);
+
+        return $image;
     }
 }
