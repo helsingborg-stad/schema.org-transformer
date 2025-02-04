@@ -95,6 +95,13 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertEquals('Drottninggatan 14, 252 21 Helsingborg, Sverige', $events[0]['location']['address']);
     }
 
+    #[TestDox('sets schema type from event type in the row data')]
+    public function testSetsSchemaTypeFromEventTypeInRowData(): void
+    {
+        $events = $this->transformer->transform([$this->getRow(['acf' => ['type' => 'BusinessEvent']])]);
+        $this->assertEquals('BusinessEvent', $events[0]['@type']);
+    }
+
     /**
      * Get a row of data
      *

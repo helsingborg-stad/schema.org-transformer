@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
+use Spatie\SchemaOrg\BaseType;
+use Spatie\SchemaOrg\Contracts\EventContract;
 use Spatie\SchemaOrg\Contracts\ImageObjectContract;
 use Spatie\SchemaOrg\Contracts\PlaceContract;
 use Spatie\SchemaOrg\Event;
@@ -25,13 +27,13 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         return array_map(fn($event) => $event->toArray(), $events);
     }
 
-    private function getEventFromRow(array $row): ?Event
+    private function getEventFromRow(array $row): ?BaseType
     {
-        $event = Schema::event();
-
         if (!$this->rowIsValid($row)) {
             return null;
         }
+
+        $event = $this->createEventTypeFromRow($row);
 
         $event->identifier($this->formatId($row['id']));
         $event->name($row['title']['rendered']);
@@ -40,6 +42,37 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $event->location($this->getLocationFromRow($row));
 
         return $event;
+    }
+
+    private function createEventTypeFromRow(array $row): EventContract
+    {
+        if (empty($row['acf']['type']) || !is_string($row['acf']['type'])) {
+            return Schema::event();
+        }
+
+        return match ($row['acf']['type']) {
+            'BusinessEvent' => Schema::businessEvent(),
+            'ChildrensEvent' => Schema::childrensEvent(),
+            'ComedyEvent' => Schema::comedyEvent(),
+            'DanceEvent' => Schema::danceEvent(),
+            'DeliveryEvent' => Schema::deliveryEvent(),
+            'EducationEvent' => Schema::educationEvent(),
+            'EventSeries' => Schema::eventSeries(),
+            'ExhibitionEvent' => Schema::exhibitionEvent(),
+            'Festival' => Schema::festival(),
+            'FoodEvent' => Schema::foodEvent(),
+            'Hackathon' => Schema::hackathon(),
+            'LiteraryEvent' => Schema::literaryEvent(),
+            'MusicEvent' => Schema::musicEvent(),
+            'PublicationEvent' => Schema::publicationEvent(),
+            'SaleEvent' => Schema::saleEvent(),
+            'ScreeningEvent' => Schema::screeningEvent(),
+            'SocialEvent' => Schema::socialEvent(),
+            'SportsEvent' => Schema::sportsEvent(),
+            'TheaterEvent' => Schema::theaterEvent(),
+            'VisualArtsEvent' => Schema::visualArtsEvent(),
+            default => Schema::event(),
+        };
     }
 
     /**
