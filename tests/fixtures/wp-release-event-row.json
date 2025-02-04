@@ -35,6 +35,13 @@
     ],
     "acf": {
       "type": "Event",
+      "pricing": "expense",
+      "pricesList": [
+        {
+          "priceLabel": "Standard Ticket",
+          "price": 100
+        }
+      ],
       "audience": [
         "370"
       ],

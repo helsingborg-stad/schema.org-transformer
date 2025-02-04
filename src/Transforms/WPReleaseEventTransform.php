@@ -40,6 +40,8 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $event->image($this->getImageFromRow($row));
         $event->typicalAgeRange($this->getTypicalAgeRange($row));
         $event->location($this->getLocationFromRow($row));
+        $event->offers($this->getOffersFromRow($row));
+        $event->isAccessibleForFree(!empty($row['acf']['pricing']) && $row['acf']['pricing'] === 'free' ? true : false);
 
         return $event;
     }
@@ -136,5 +138,23 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $place->longitude($row['acf']['location']['lng'] ?? null);
 
         return $place;
+    }
+
+    private function getOffersFromRow(array $row): array
+    {
+        if (
+            empty($row['acf']['pricing']) ||
+            $row['acf']['pricing'] !== 'expense' ||
+            empty($row['acf']['pricesList'])
+        ) {
+            return [];
+        }
+
+        return array_map(function ($priceRow) {
+            return Schema::offer()
+                ->price($priceRow['price'] ?? null)
+                ->name($priceRow['priceLabel'] ?? null)
+                ->priceCurrency('SEK');
+        }, $row['acf']['pricesList']);
     }
 }

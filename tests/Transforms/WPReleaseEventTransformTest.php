@@ -102,6 +102,34 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertEquals('BusinessEvent', $events[0]['@type']);
     }
 
+    #[TestDox('sets offers from the row data if available')]
+    public function testSetsOffersFromRowDataIfAvailable(): void
+    {
+        $events = $this->transformer->transform([$this->getRow([
+            'acf' => [
+                'pricing'    => 'expense',
+                'pricesList' => [
+                    [
+                        'price'      => '100',
+                        'priceLabel' => 'Standard ticket',
+                    ]
+                ]
+            ]
+        ])]);
+
+        $this->assertEquals('Offer', $events[0]['offers'][0]['@type']);
+        $this->assertEquals('100', $events[0]['offers'][0]['price']);
+        $this->assertEquals('SEK', $events[0]['offers'][0]['priceCurrency']);
+        $this->assertEquals('Standard ticket', $events[0]['offers'][0]['name']);
+    }
+
+    #[TestDox('sets isAccessibleForFree to true if pricing is "free"')]
+    public function testSetsIsAccessibleForFreeToTrueIfPricingIsNotExpense(): void
+    {
+        $events = $this->transformer->transform([$this->getRow(['acf' => ['pricing' => 'free']])]);
+        $this->assertTrue($events[0]['isAccessibleForFree']);
+    }
+
     /**
      * Get a row of data
      *
