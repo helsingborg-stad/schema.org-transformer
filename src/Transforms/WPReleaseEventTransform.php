@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms;
 
-use Generator;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\BaseType;
 use Spatie\SchemaOrg\Contracts\ImageObjectContract;
 use Spatie\SchemaOrg\Contracts\PlaceContract;
-use Spatie\SchemaOrg\Contracts\PropertyContract;
 use Spatie\SchemaOrg\Contracts\VirtualLocationContract;
 use Spatie\SchemaOrg\Schema;
 
