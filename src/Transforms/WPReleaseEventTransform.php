@@ -10,6 +10,7 @@ use Spatie\SchemaOrg\BaseType;
 use Spatie\SchemaOrg\Contracts\ImageObjectContract;
 use Spatie\SchemaOrg\Contracts\PlaceContract;
 use Spatie\SchemaOrg\Contracts\PropertyContract;
+use Spatie\SchemaOrg\Contracts\VirtualLocationContract;
 use Spatie\SchemaOrg\Schema;
 
 class WPReleaseEventTransform extends TransformBase implements AbstractDataTransform
@@ -180,13 +181,19 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         return !empty($row['acf']['age_restriction']) && $row['acf']['age_restriction'] !== false && !empty($row['acf']['age_restriction_info']);
     }
 
-    private function getLocationFromRow(array $row): ?PlaceContract
+    private function getLocationFromRow(array $row): PlaceContract|VirtualLocationContract|null
     {
-        if (!$this->isPhysicalLocation($row)) {
-            return null;
+        if ($this->isPhysicalLocation($row)) {
+            return $this->createPlaceFromRow($row);
         }
 
-        return $this->createPlaceFromRow($row);
+        if ($this->isVirtualLocation($row)) {
+            return Schema::virtualLocation()
+                ->url($row['acf']['meeting_link'] ?? null)
+                ->description($row['acf']['connect'] ?? null);
+        }
+
+        return null;
     }
 
     private function isPhysicalLocation(array $row): bool
@@ -194,6 +201,13 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         return !empty($row['acf']['location']) &&
                !empty($row['acf']['physical_virtual']) &&
                $row['acf']['physical_virtual'] === 'physical';
+    }
+
+    private function isVirtualLocation(array $row): bool
+    {
+        return !empty($row['acf']['location']) &&
+               !empty($row['acf']['physical_virtual']) &&
+               $row['acf']['physical_virtual'] === 'virtual';
     }
 
     private function createPlaceFromRow(array $row): PlaceContract

@@ -191,6 +191,21 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertEquals('Drottninggatan 14, 252 21 Helsingborg, Sverige', $events[0]['location']['address']);
     }
 
+    #[TestDox('sets location to virtual from the row data if available')]
+    public function testSetsLocationToVirtualFromRowDataIfAvailable(): void
+    {
+        $row                            = $this->getRow();
+        $row['acf']['physical_virtual'] = 'virtual';
+        $row['acf']['meeting_link']     = 'https://example.com';
+        $row['acf']['connect']          = 'Test connection information.';
+
+        $events = $this->transformer->transform([$row]);
+
+        $this->assertEquals('VirtualLocation', $events[0]['location']['@type']);
+        $this->assertEquals('https://example.com', $events[0]['location']['url']);
+        $this->assertEquals('Test connection information.', $events[0]['location']['description']);
+    }
+
     #[TestDox('sets schema type from event type in the row data')]
     #[DataProvider('eventTypeProvider')]
     public function testSetsSchemaTypeFromEventTypeInRowData($type): void
