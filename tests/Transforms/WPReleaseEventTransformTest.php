@@ -49,12 +49,56 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertCount(2, $events);
     }
 
+    #[TestDox('skips event if occasions is not set')]
+    public function testSkipsEventIfOccasionsIsNotSet(): void
+    {
+        $row = $this->getRow();
+        unset($row['acf']['occasions']);
+
+        $events = $this->transformer->transform([$row]);
+
+        $this->assertEmpty($events);
+    }
+
+    #[TestDox('uses the occasion details to set the startDate and endDate as ISO 8601 strings')]
+    public function testUsesOccasionDetailsToSetDateStartAndEndTimes(): void
+    {
+        $row                     = $this->getRow();
+        $row['acf']['occasions'] = [
+            [ "date" => "20250606", "startTime" => "12:00:00", "endTime" => "13:00:00" ],
+            [ "date" => "20250607", "startTime" => "13:00:00", "endTime" => "14:00:00" ]
+        ];
+
+        $events = $this->transformer->transform([$row]);
+
+        $this->assertEquals('2025-06-06T12:00:00+00:00', $events[0]['startDate']);
+        $this->assertEquals('2025-06-06T13:00:00+00:00', $events[0]['endDate']);
+        $this->assertEquals('2025-06-07T13:00:00+00:00', $events[1]['startDate']);
+        $this->assertEquals('2025-06-07T14:00:00+00:00', $events[1]['endDate']);
+    }
+
     #[TestDox('id is set from the idprefix and the id in the data')]
     public function testIdIsSetFromIdPrefixAndIdInData(): void
     {
         $events = $this->transformer->transform([$this->getRow()]);
         $this->assertEquals('idprefix5', $events[0]['@id']);
     }
+
+    #[TestDox('occasion index is appended to the id if there are multiple occasions')]
+    public function testOccasionIndexIsAppendedToIdIfThereAreMultipleOccasions(): void
+    {
+        $row                     = $this->getRow();
+        $row['acf']['occasions'] = [
+            [ "date" => "20250606", "startTime" => "12:00:00", "endTime" => "13:00:00" ],
+            [ "date" => "20250607", "startTime" => "13:00:00", "endTime" => "14:00:00" ]
+        ];
+
+        $events = $this->transformer->transform([$row]);
+
+        $this->assertEquals('idprefix5-0', $events[0]['@id']);
+        $this->assertEquals('idprefix5-1', $events[1]['@id']);
+    }
+
 
     #[TestDox('skips event if id is not set')]
     public function testSkipsEventIfIdIsNotSet(): void
@@ -221,6 +265,60 @@ final class WPReleaseEventTransformTest extends TestCase
         $events                    = $this->transformer->transform([$row]);
         $this->assertEquals('https://schema.org/EventCancelled', $events[0]['eventStatus']);
     }
+
+    #[TestDox('physical accesibility terms are added to the @meta property using PropertyValue schema')]
+    public function testPhysicalAccesibilityTermsAreAddedToTheMetaPropertyUsingPropertyValueSchema(): void
+    {
+        $row                         = $this->getRow();
+        $row['_embedded']['wp:term'] = [[
+            [
+                "name"     => "Accessible toilets",
+                "taxonomy" => "physical-accessibility"
+            ]
+        ]];
+
+        $events = $this->transformer->transform([$row]);
+
+        $this->assertEquals('PropertyValue', $events[0]['@meta'][0]['@type']);
+        $this->assertEquals('physical-accessibility', $events[0]['@meta'][0]['name']);
+        $this->assertEquals('Accessible toilets', $events[0]['@meta'][0]['value']);
+    }
+
+    #[TestDox('cognitive accesibility terms are added to the @meta property using PropertyValue schema')]
+    public function testCognitiveAccesibilityTermsAreAddedToTheMetaPropertyUsingPropertyValueSchema(): void
+    {
+        $row                         = $this->getRow();
+        $row['_embedded']['wp:term'] = [[
+            [
+                "name"     => "Quiet environment",
+                "taxonomy" => "cognitive-accessibility"
+            ]
+        ]];
+
+        $events = $this->transformer->transform([$row]);
+
+        $this->assertEquals('PropertyValue', $events[0]['@meta'][0]['@type']);
+        $this->assertEquals('cognitive-accessibility', $events[0]['@meta'][0]['name']);
+        $this->assertEquals('Quiet environment', $events[0]['@meta'][0]['value']);
+    }
+
+    #[TestDox('sets audience from terms in the audience taxonomy if available')]
+    public function testSetsAudienceFromTermsInAudienceTaxonomyIfAvailable(): void
+    {
+        $row                         = $this->getRow();
+        $row['_embedded']['wp:term'] = [[
+            [
+                "name"     => "Children",
+                "taxonomy" => "audience"
+            ]
+        ]];
+
+        $events = $this->transformer->transform([$row]);
+
+        $this->assertEquals('Audience', $events[0]['audience'][0]['@type']);
+        $this->assertEquals('Children', $events[0]['audience'][0]['audienceType']);
+    }
+
 
     /**
      * Get a row of data

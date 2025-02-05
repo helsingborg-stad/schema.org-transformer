@@ -195,6 +195,26 @@
       ]
     },
     "_embedded": {
+      "wp:term": [
+        [
+          {
+            "id": 2,
+            "link": "http://localhost:8444/physical-accessibility/accessible-toilets/",
+            "name": "Accessible toilets",
+            "slug": "accessible-toilets",
+            "taxonomy": "physical-accessibility"
+          }
+        ],
+        [
+          {
+            "id": 2,
+            "link": "http://localhost:8444/physical-accessibility/accessible-toilets/",
+            "name": "Low-stimulation areas",
+            "slug": "low-stimulation-areas",
+            "taxonomy": "cognitive-accessibility"
+          }
+        ]
+      ],
       "wp:featuredmedia": [
         {
           "id": 24,

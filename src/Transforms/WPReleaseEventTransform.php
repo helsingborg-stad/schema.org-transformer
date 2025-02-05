@@ -9,6 +9,7 @@ use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\BaseType;
 use Spatie\SchemaOrg\Contracts\ImageObjectContract;
 use Spatie\SchemaOrg\Contracts\PlaceContract;
+use Spatie\SchemaOrg\Contracts\PropertyContract;
 use Spatie\SchemaOrg\Schema;
 
 class WPReleaseEventTransform extends TransformBase implements AbstractDataTransform
@@ -27,9 +28,15 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
                 continue;
             }
 
-            foreach ($rowWithMultipleOccasions['acf']['occasions'] as $occasion) {
+            if (count($rowWithMultipleOccasions['acf']['occasions']) === 1) {
+                $rowsWithSingleOccasion[] = $rowWithMultipleOccasions;
+                continue;
+            }
+
+            foreach ($rowWithMultipleOccasions['acf']['occasions'] as $i => $occasion) {
                 $rowWithSingleOccasion                     = $rowWithMultipleOccasions;
-                $rowWithSingleOccasion['acf']['occasions'] = $occasion;
+                $rowWithSingleOccasion['acf']['occasions'] = [$occasion];
+                $rowWithSingleOccasion['id']               = $rowWithSingleOccasion['id'] . '-' . $i;
                 $rowsWithSingleOccasion[]                  = $rowWithSingleOccasion;
             }
         }
@@ -53,6 +60,8 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
     {
         $event->identifier($this->formatId($row['id']));
         $event->name($row['title']['rendered']);
+        $event->startDate($this->getStartDateFromRow($row));
+        $event->endDate($this->getEndDateFromRow($row));
         $event->description($this->getDescriptionFromRow($row));
         $event->eventStatus($row['acf']['eventStatus'] ?? null);
         $event->image($this->getImageFromRow($row));
@@ -60,6 +69,8 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $event->location($this->getLocationFromRow($row));
         $event->offers($this->getOffersFromRow($row));
         $event->isAccessibleForFree($this->getIsAccessibleForFreeFromRow($row));
+        $event->setProperty('@meta', $this->getMetaFromRow($row));
+        $event->audience($this->getAudiencesFromRow($row));
 
         return $event;
     }
@@ -108,6 +119,33 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         }
 
         return true;
+    }
+
+    private function getStartDateFromRow(array $row): ?string
+    {
+        $occasion = $row['acf']['occasions'][0];
+        if (empty($occasion['date']) || empty($occasion['endTime'])) {
+            return null;
+        }
+
+        $timeString = $occasion['date'] . 'T' . $occasion['startTime'];
+        $timestamp  = strtotime($timeString);
+
+        return date('c', $timestamp);
+    }
+
+    private function getEndDateFromRow(array $row): ?string
+    {
+        $occasion = $row['acf']['occasions'][0];
+
+        if (empty($occasion['date']) || empty($occasion['endTime'])) {
+            return null;
+        }
+
+        $timeString = $occasion['date'] . 'T' . $occasion['endTime'];
+        $timestamp  = strtotime($timeString);
+
+        return date('c', $timestamp);
     }
 
     private function getDescriptionFromRow(array $row): ?string
@@ -199,5 +237,51 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
     private function getIsAccessibleForFreeFromRow(array $row): bool
     {
         return !empty($row['acf']['pricing']) && $row['acf']['pricing'] === 'free';
+    }
+
+    private function getMetaFromRow(array $row): array
+    {
+        return [
+            ...$this->getPropertyValuesFromTerms($row, 'physical-accessibility'),
+            ...$this->getPropertyValuesFromTerms($row, 'cognitive-accessibility')
+        ];
+    }
+
+    private function getAudiencesFromRow(array $row): array
+    {
+        $termNames = $this->getTermsAsArrayOfStrings($row, 'audience');
+        return array_map(fn($termName) => Schema::audience()->audienceType($termName), $termNames);
+    }
+
+    private function getTermsAsArrayOfStrings(array $row, string $taxonomy): array
+    {
+        $terms = $this->getTermsFromRow($row, $taxonomy);
+        return array_map(fn($term) => $term['name'], $terms);
+    }
+
+    private function getPropertyValuesFromTerms(array $row, $taxonomy): array
+    {
+        $terms = $this->getTermsFromRow($row, $taxonomy);
+        return array_map(fn($term) => Schema::propertyValue() ->name($term['taxonomy']) ->value($term['name']), $terms);
+    }
+
+    private function getTermsFromRow(array $row, string $taxonomy): array
+    {
+        $result     = [];
+        $taxonomies = $row['_embedded']['wp:term'] ?? [];
+
+        if (empty($taxonomies)) {
+            return [];
+        }
+
+        foreach ($taxonomies as $terms) {
+            foreach ($terms as $term) {
+                if ($term['taxonomy'] === $taxonomy) {
+                    $result[] = $term;
+                }
+            }
+        }
+
+        return $result;
     }
 }
