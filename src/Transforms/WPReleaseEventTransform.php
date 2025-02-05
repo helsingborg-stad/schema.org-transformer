@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms;
 
+use Generator;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\BaseType;
 use Spatie\SchemaOrg\Contracts\ImageObjectContract;
@@ -19,7 +20,21 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
 
     public function transform(array $data): array
     {
-        $events = array_map(fn($row) => $this->getEventFromRow($row), $data);
+        $rowsWithSingleOccasion = [];
+
+        foreach ($data as $rowWithMultipleOccasions) {
+            if (empty($rowWithMultipleOccasions['acf']['occasions'])) {
+                continue;
+            }
+
+            foreach ($rowWithMultipleOccasions['acf']['occasions'] as $occasion) {
+                $rowWithSingleOccasion                     = $rowWithMultipleOccasions;
+                $rowWithSingleOccasion['acf']['occasions'] = $occasion;
+                $rowsWithSingleOccasion[]                  = $rowWithSingleOccasion;
+            }
+        }
+
+        $events = array_map(fn($row) => $this->getEventFromRow($row), $rowsWithSingleOccasion);
         $events = array_filter($events); // Remove null values
 
         return array_map(fn($event) => $event->toArray(), $events);
@@ -39,7 +54,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $event->identifier($this->formatId($row['id']));
         $event->name($row['title']['rendered']);
         $event->description($this->getDescriptionFromRow($row));
-        $event->status($row['acf']['eventStatus'] ?? null);
+        $event->eventStatus($row['acf']['eventStatus'] ?? null);
         $event->image($this->getImageFromRow($row));
         $event->typicalAgeRange($this->getTypicalAgeRange($row));
         $event->location($this->getLocationFromRow($row));

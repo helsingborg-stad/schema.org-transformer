@@ -35,6 +35,20 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertEquals($events[0]['@type'], 'Event');
     }
 
+    #[TestDox('creates one event for every occasion')]
+    public function testCreatesOneEventForEachOccasion(): void
+    {
+        $row                     = $this->getRow();
+        $row['acf']['occasions'] = [
+            [ "date" => "20250606", "startTime" => "12:00:00", "endTime" => "13:00:00" ],
+            [ "date" => "20250607", "startTime" => "12:00:00", "endTime" => "13:00:00"]
+        ];
+
+        $events = $this->transformer->transform([$row]);
+
+        $this->assertCount(2, $events);
+    }
+
     #[TestDox('id is set from the idprefix and the id in the data')]
     public function testIdIsSetFromIdPrefixAndIdInData(): void
     {
@@ -45,14 +59,22 @@ final class WPReleaseEventTransformTest extends TestCase
     #[TestDox('skips event if id is not set')]
     public function testSkipsEventIfIdIsNotSet(): void
     {
-        $events = $this->transformer->transform([$this->getRow(['id' => null])]);
+        $row = $this->getRow();
+        unset($row['id']);
+
+        $events = $this->transformer->transform([$row]);
+
         $this->assertEmpty($events);
     }
 
     #[TestDox('skips event if title is not set')]
     public function testSkipsEventIfTitleIsNotSet(): void
     {
-        $events = $this->transformer->transform([$this->getRow(['title' => null])]);
+        $row = $this->getRow();
+        unset($row['title']);
+
+        $events = $this->transformer->transform([$row]);
+
         $this->assertEmpty($events);
     }
 
@@ -66,7 +88,11 @@ final class WPReleaseEventTransformTest extends TestCase
     #[TestDox('sets description from the description in the data if available')]
     public function testSetsDescriptionFromDescriptionInDataIfAvailable(): void
     {
-        $events = $this->transformer->transform([$this->getRow(['acf' => ['description' => 'Test Description']])]);
+        $row                       = $this->getRow();
+        $row['acf']['description'] = 'Test Description';
+
+        $events = $this->transformer->transform([$row]);
+
         $this->assertEquals('Test Description', $events[0]['description']);
     }
 
@@ -82,9 +108,9 @@ final class WPReleaseEventTransformTest extends TestCase
     #[TestDox('does not set image if source_url is not available')]
     public function testDoesNotSetImageIfSourceUrlIsNotAvailable(): void
     {
-        $events = $this->transformer->transform([$this->getRow([
-            '_embedded' => ['wp:featuredmedia' => [['source_url' => null]]]
-        ])]);
+        $row = $this->getRow();
+        unset($row['_embedded']['wp:featuredmedia'][0]['source_url']);
+        $events = $this->transformer->transform([$row]);
 
         $this->assertArrayNotHasKey('image', $events[0]);
     }
@@ -92,27 +118,28 @@ final class WPReleaseEventTransformTest extends TestCase
     #[TestDox('sets typicalAgeRange from the row data if available')]
     public function testSetsTypicalAgeRangeFromRowDataIfAvailable(): void
     {
-        $events = $this->transformer->transform([$this->getRow(['acf' => [
-            'age_restriction'      => true,
-            'age_restriction_info' => '13-'
-        ]])]);
+        $row                                = $this->getRow();
+        $row['acf']['age_restriction']      = true;
+        $row['acf']['age_restriction_info'] = '13-';
+
+        $events = $this->transformer->transform([$row]);
+
         $this->assertEquals('13-', $events[0]['typicalAgeRange']);
     }
 
     #[TestDox('sets location from the row data if available')]
     public function testSetsLocationFromRowDataIfAvailable(): void
     {
-        $events = $this->transformer->transform([$this->getRow([
-            'acf' => [
-                "physical_virtual" => "physical",
-                "location_name"    => "Test Location",
-                "location"         => [
-                "lat"     => 56.0473078,
-                "lng"     => 12.6921272,
-                "address" => "Drottninggatan 14, 252 21 Helsingborg, Sverige",
-                ]
-            ]
-        ])]);
+        $row                            = $this->getRow();
+        $row['acf']['physical_virtual'] = 'physical';
+        $row['acf']['location_name']    = 'Test Location';
+        $row['acf']['location']         = [
+            'lat'     => 56.0473078,
+            'lng'     => 12.6921272,
+            'address' => 'Drottninggatan 14, 252 21 Helsingborg, Sverige',
+        ];
+
+        $events = $this->transformer->transform([$row]);
 
         $this->assertEquals('Test Location', $events[0]['location']['name']);
         $this->assertEquals(56.0473078, $events[0]['location']['latitude']);
@@ -124,7 +151,9 @@ final class WPReleaseEventTransformTest extends TestCase
     #[DataProvider('eventTypeProvider')]
     public function testSetsSchemaTypeFromEventTypeInRowData($type): void
     {
-        $events = $this->transformer->transform([$this->getRow(['acf' => ['type' => $type]])]);
+        $row                = $this->getRow();
+        $row['acf']['type'] = $type;
+        $events             = $this->transformer->transform([$row]);
         $this->assertEquals($type, $events[0]['@type']);
     }
 
@@ -158,17 +187,16 @@ final class WPReleaseEventTransformTest extends TestCase
     #[TestDox('sets offers from the row data if available')]
     public function testSetsOffersFromRowDataIfAvailable(): void
     {
-        $events = $this->transformer->transform([$this->getRow([
-            'acf' => [
-                'pricing'    => 'expense',
-                'pricesList' => [
-                    [
-                        'price'      => '100',
-                        'priceLabel' => 'Standard ticket',
-                    ]
-                ]
+        $row                      = $this->getRow();
+        $row['acf']['pricing']    = 'expense';
+        $row['acf']['pricesList'] = [
+            [
+                'price'      => '100',
+                'priceLabel' => 'Standard ticket',
             ]
-        ])]);
+        ];
+
+        $events = $this->transformer->transform([$row]);
 
         $this->assertEquals('Offer', $events[0]['offers'][0]['@type']);
         $this->assertEquals('100', $events[0]['offers'][0]['price']);
@@ -179,15 +207,19 @@ final class WPReleaseEventTransformTest extends TestCase
     #[TestDox('sets isAccessibleForFree to true if pricing is "free"')]
     public function testSetsIsAccessibleForFreeToTrueIfPricingIsNotExpense(): void
     {
-        $events = $this->transformer->transform([$this->getRow(['acf' => ['pricing' => 'free']])]);
+        $row                   = $this->getRow();
+        $row['acf']['pricing'] = 'free';
+        $events                = $this->transformer->transform([$row]);
         $this->assertTrue($events[0]['isAccessibleForFree']);
     }
 
     #[TestDox('sets the event status to any of the supported types if available')]
     public function testSetsEventStatusToAnyOfTheSupportedTypesIfAvailable(): void
     {
-        $events = $this->transformer->transform([$this->getRow(['acf' => ['eventStatus' => 'https://schema.org/EventCancelled']])]);
-        $this->assertEquals('https://schema.org/EventCancelled', $events[0]['status']);
+        $row                       = $this->getRow();
+        $row['acf']['eventStatus'] = 'https://schema.org/EventCancelled';
+        $events                    = $this->transformer->transform([$row]);
+        $this->assertEquals('https://schema.org/EventCancelled', $events[0]['eventStatus']);
     }
 
     /**
