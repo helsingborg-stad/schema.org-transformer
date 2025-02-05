@@ -35,6 +35,7 @@
     ],
     "acf": {
       "type": "Event",
+      "eventStatus": "https://schema.org/EventScheduled",
       "pricing": "expense",
       "pricesList": [
         {

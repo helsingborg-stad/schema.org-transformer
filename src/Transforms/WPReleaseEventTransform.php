@@ -39,6 +39,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         $event->identifier($this->formatId($row['id']));
         $event->name($row['title']['rendered']);
         $event->description($this->getDescriptionFromRow($row));
+        $event->status($row['acf']['eventStatus'] ?? null);
         $event->image($this->getImageFromRow($row));
         $event->typicalAgeRange($this->getTypicalAgeRange($row));
         $event->location($this->getLocationFromRow($row));

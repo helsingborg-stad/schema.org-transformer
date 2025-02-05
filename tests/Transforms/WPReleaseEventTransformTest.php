@@ -183,6 +183,13 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertTrue($events[0]['isAccessibleForFree']);
     }
 
+    #[TestDox('sets the event status to any of the supported types if available')]
+    public function testSetsEventStatusToAnyOfTheSupportedTypesIfAvailable(): void
+    {
+        $events = $this->transformer->transform([$this->getRow(['acf' => ['eventStatus' => 'https://schema.org/EventCancelled']])]);
+        $this->assertEquals('https://schema.org/EventCancelled', $events[0]['status']);
+    }
+
     /**
      * Get a row of data
      *
