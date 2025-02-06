@@ -55,7 +55,7 @@ class RuntimeServices
             $reader,
             $writer,
             new WPReleaseEventTransform(
-                'idprefix',
+                $idprefix,
                 new \SchemaTransformer\Transforms\SplitRowsByOccasion(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\EventFactory(),
                 [
