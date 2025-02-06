@@ -7,6 +7,7 @@ namespace SchemaTransformer\Tests\Transforms;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
+use SchemaTransformer\Transforms\SplitRowsByOccasion;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
 
 final class WPReleaseEventTransformTest extends TestCase
@@ -16,7 +17,7 @@ final class WPReleaseEventTransformTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->transformer = new WPReleaseEventTransform('idprefix');
+        $this->transformer = new WPReleaseEventTransform('idprefix', new SplitRowsByOccasion());
     }
 
     #[TestDox('class can be instantiated')]

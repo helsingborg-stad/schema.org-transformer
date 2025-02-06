@@ -11,6 +11,7 @@ use SchemaTransformer\Services\Service;
 use SchemaTransformer\Interfaces\AbstractService;
 use SchemaTransformer\Transforms\DataSanitizers\SanitizeReachmeeJobPostingLink;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
+use SchemaTransformer\Transforms\SplitRowsByOccasion;
 use SchemaTransformer\Transforms\StratsysTransform;
 use SchemaTransformer\Transforms\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
@@ -32,28 +33,28 @@ class RuntimeServices
             new SanitizeReachmeeJobPostingLink()
         ];
 
-        $this->jobPostingService = new Service(
+        $this->jobPostingService     = new Service(
             $reader,
             $writer,
             new ReachmeeJobPostingTransform($reachmeeJobPostingSanitizers, $idprefix),
             $converter
         );
-        $this->stratsysService   = new Service(
+        $this->stratsysService       = new Service(
             $reader,
             $writer,
             new StratsysTransform($idprefix),
             $converter
         );
-        $this->wpLegacyEventService   = new Service(
+        $this->wpLegacyEventService  = new Service(
             $reader,
             $writer,
             new WPLegacyEventTransform($idprefix),
             $converter
         );
-        $this->wpReleaseEventService   = new Service(
+        $this->wpReleaseEventService = new Service(
             $reader,
             $writer,
-            new WPReleaseEventTransform($idprefix),
+            new WPReleaseEventTransform($idprefix, new SplitRowsByOccasion()),
             $converter
         );
     }

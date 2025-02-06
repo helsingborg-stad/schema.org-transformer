@@ -6,6 +6,7 @@ namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\BaseType;
+use Spatie\SchemaOrg\Contracts\EventContract;
 use Spatie\SchemaOrg\Contracts\ImageObjectContract;
 use Spatie\SchemaOrg\Contracts\PlaceContract;
 use Spatie\SchemaOrg\Contracts\VirtualLocationContract;
@@ -13,34 +14,15 @@ use Spatie\SchemaOrg\Schema;
 
 class WPReleaseEventTransform extends TransformBase implements AbstractDataTransform
 {
-    public function __construct(string $idprefix)
+    public function __construct(string $idprefix, private AbstractDataTransform $splitRowsByOccasion)
     {
         parent::__construct($idprefix);
     }
 
     public function transform(array $data): array
     {
-        $rowsWithSingleOccasion = [];
-
-        foreach ($data as $rowWithMultipleOccasions) {
-            if (empty($rowWithMultipleOccasions['acf']['occasions'])) {
-                continue;
-            }
-
-            if (count($rowWithMultipleOccasions['acf']['occasions']) === 1) {
-                $rowsWithSingleOccasion[] = $rowWithMultipleOccasions;
-                continue;
-            }
-
-            foreach ($rowWithMultipleOccasions['acf']['occasions'] as $i => $occasion) {
-                $rowWithSingleOccasion                     = $rowWithMultipleOccasions;
-                $rowWithSingleOccasion['acf']['occasions'] = [$occasion];
-                $rowWithSingleOccasion['id']               = $rowWithSingleOccasion['id'] . '-' . $i;
-                $rowsWithSingleOccasion[]                  = $rowWithSingleOccasion;
-            }
-        }
-
-        $events = array_map(fn($row) => $this->getEventFromRow($row), $rowsWithSingleOccasion);
+        $rows   = $this->splitRowsByOccasion->transform($data);
+        $events = array_map(fn($row) => $this->getEventFromRow($row), $rows);
         $events = array_filter($events); // Remove null values
 
         return array_map(fn($event) => $event->toArray(), $events);
@@ -48,17 +30,15 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
 
     private function getEventFromRow(array $row): ?BaseType
     {
-        if (!$this->rowIsValid($row)) {
-            return null;
-        }
+        $event = $this->populateEventWithRowData($this->createEventTypeFromRow($row), $row);
 
-        return $this->populateEventWithRowData($this->createEventTypeFromRow($row), $row);
+        return $this->eventMeetsRequirements($event) ? $event : null;
     }
 
     private function populateEventWithRowData(BaseType $event, array $row): BaseType
     {
-        $event->identifier($this->formatId($row['id']));
-        $event->name($row['title']['rendered']);
+        $event->identifier(!empty($row['id']) ? $this->formatId($row['id']) : null);
+        $event->name($row['title']['rendered'] ?? null);
         $event->startDate($this->getStartDateFromRow($row));
         $event->endDate($this->getEndDateFromRow($row));
         $event->description($this->getDescriptionFromRow($row));
@@ -107,13 +87,13 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
      *
      * @param array $row
      */
-    private function rowIsValid(array $row): bool
+    private function eventMeetsRequirements(BaseType $event): bool
     {
-        if (empty($row['id'])) {
+        if (is_null($event->getProperty('identifier'))) {
             return false;
         }
 
-        if (empty($row['title']['rendered'])) {
+        if (is_null($event->getProperty('name'))) {
             return false;
         }
 
