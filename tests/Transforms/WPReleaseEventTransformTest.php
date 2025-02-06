@@ -28,7 +28,7 @@ final class WPReleaseEventTransformTest extends TestCase
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocation(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyMeta(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyKeywords(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyStartDate(),
@@ -302,42 +302,6 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertEquals('https://schema.org/EventCancelled', $events[0]['eventStatus']);
     }
 
-    #[TestDox('physical accesibility terms are added to the @meta property using PropertyValue schema')]
-    public function testPhysicalAccesibilityTermsAreAddedToTheMetaPropertyUsingPropertyValueSchema(): void
-    {
-        $row                         = $this->getRow();
-        $row['_embedded']['wp:term'] = [[
-            [
-                "name"     => "Accessible toilets",
-                "taxonomy" => "physical-accessibility"
-            ]
-        ]];
-
-        $events = $this->transformer->transform([$row]);
-
-        $this->assertEquals('PropertyValue', $events[0]['@meta'][0]['@type']);
-        $this->assertEquals('physical-accessibility', $events[0]['@meta'][0]['name']);
-        $this->assertEquals('Accessible toilets', $events[0]['@meta'][0]['value']);
-    }
-
-    #[TestDox('cognitive accesibility terms are added to the @meta property using PropertyValue schema')]
-    public function testCognitiveAccesibilityTermsAreAddedToTheMetaPropertyUsingPropertyValueSchema(): void
-    {
-        $row                         = $this->getRow();
-        $row['_embedded']['wp:term'] = [[
-            [
-                "name"     => "Quiet environment",
-                "taxonomy" => "cognitive-accessibility"
-            ]
-        ]];
-
-        $events = $this->transformer->transform([$row]);
-
-        $this->assertEquals('PropertyValue', $events[0]['@meta'][0]['@type']);
-        $this->assertEquals('cognitive-accessibility', $events[0]['@meta'][0]['name']);
-        $this->assertEquals('Quiet environment', $events[0]['@meta'][0]['value']);
-    }
-
     #[TestDox('sets audience from terms in the audience taxonomy if available')]
     public function testSetsAudienceFromTermsInAudienceTaxonomyIfAvailable(): void
     {
@@ -363,7 +327,7 @@ final class WPReleaseEventTransformTest extends TestCase
      */
     private function getRow(array $data = []): array
     {
-        $json    = file_get_contents(__DIR__ . '/../fixtures/wp-release-event-row.json');
+        $json    = file_get_contents(__DIR__ . '/../fixtures/wp-release-event.json');
         $fixture = json_decode($json, true);
 
         return array_merge($fixture, $data);
