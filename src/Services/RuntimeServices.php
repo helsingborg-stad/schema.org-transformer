@@ -11,7 +11,6 @@ use SchemaTransformer\Services\Service;
 use SchemaTransformer\Interfaces\AbstractService;
 use SchemaTransformer\Transforms\DataSanitizers\SanitizeReachmeeJobPostingLink;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
-use SchemaTransformer\Transforms\SplitRowsByOccasion;
 use SchemaTransformer\Transforms\StratsysTransform;
 use SchemaTransformer\Transforms\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
