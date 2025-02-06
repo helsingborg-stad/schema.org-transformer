@@ -34,6 +34,7 @@ final class WPReleaseEventTransformTest extends TestCase
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyStartDate(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOrganizer(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
             ],
             new \SchemaTransformer\Transforms\WPReleaseEventTransform\EventValidator()
         );
