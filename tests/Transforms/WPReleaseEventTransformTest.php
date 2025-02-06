@@ -17,7 +17,25 @@ final class WPReleaseEventTransformTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->transformer = new WPReleaseEventTransform('idprefix', new SplitRowsByOccasion());
+        $schemaDecorators  = [
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyStartDate(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEndDate(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyDescription(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventStatus(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocation(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyMeta(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyAudience(),
+        ];
+        $this->transformer = new WPReleaseEventTransform(
+            'idprefix',
+            new SplitRowsByOccasion(),
+            $schemaDecorators
+        );
     }
 
     #[TestDox('class can be instantiated')]
