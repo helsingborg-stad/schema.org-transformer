@@ -7,7 +7,6 @@ namespace SchemaTransformer\Tests\Transforms;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
-use SchemaTransformer\Transforms\SplitRowsByOccasion;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
 
 final class WPReleaseEventTransformTest extends TestCase
@@ -19,7 +18,8 @@ final class WPReleaseEventTransformTest extends TestCase
         parent::setUp();
         $this->transformer = new WPReleaseEventTransform(
             'idprefix',
-            new SplitRowsByOccasion(),
+            new \SchemaTransformer\Transforms\SplitRowsByOccasion(),
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\EventFactory(),
             [
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyAudience(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyDescription(),
@@ -33,7 +33,9 @@ final class WPReleaseEventTransformTest extends TestCase
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyStartDate(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
-            ]
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOrganizer(),
+            ],
+            new \SchemaTransformer\Transforms\WPReleaseEventTransform\EventValidator()
         );
     }
 
@@ -351,7 +353,6 @@ final class WPReleaseEventTransformTest extends TestCase
         $this->assertEquals('Audience', $events[0]['audience'][0]['@type']);
         $this->assertEquals('Children', $events[0]['audience'][0]['audienceType']);
     }
-
 
     /**
      * Get a row of data

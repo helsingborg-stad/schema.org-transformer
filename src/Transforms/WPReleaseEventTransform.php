@@ -6,8 +6,9 @@ namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\BaseType;
-use Spatie\SchemaOrg\Schema;
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
+use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaFactory;
+use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaValidator;
 
 class WPReleaseEventTransform extends TransformBase implements AbstractDataTransform
 {
@@ -21,7 +22,9 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
     public function __construct(
         string $idprefix,
         private AbstractDataTransform $splitRowsByOccasion,
-        private array $eventDecorators = []
+        private SchemaFactory $schemaFactory,
+        private array $eventDecorators,
+        private SchemaValidator $schemaValidator
     ) {
         parent::__construct($idprefix);
     }
@@ -29,21 +32,15 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
     public function transform(array $data): array
     {
         $rows   = $this->splitRowsByOccasion->transform($data);
-        $events = array_map(fn($row) => $this->getEventFromRow($row), $rows);
-        $events = array_filter($events); // Remove null values
+        $events = array_map(fn($dataRow) => $this->getEventFromRow($dataRow), $rows);
+        $events = array_filter($events, [$this->schemaValidator, 'isValid']);
 
         return array_map(fn($event) => $event->toArray(), $events);
     }
 
     private function getEventFromRow(array $row): ?BaseType
     {
-        $event = $this->populateEventWithRowData($this->createEventTypeFromRow($row), $row);
-
-        return $this->eventMeetsRequirements($event) ? $event : null;
-    }
-
-    private function populateEventWithRowData(BaseType $event, array $row): BaseType
-    {
+        $event = $this->schemaFactory->createSchema($row);
         $event->identifier(!empty($row['id']) ? $this->formatId($row['id']) : null);
 
         foreach ($this->eventDecorators as $decorator) {
@@ -51,51 +48,5 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
         }
 
         return $event;
-    }
-
-    private function createEventTypeFromRow(array $row): BaseType
-    {
-        $eventTypeMap = [
-            'BusinessEvent'    => Schema::businessEvent(),
-            'ChildrensEvent'   => Schema::childrensEvent(),
-            'ComedyEvent'      => Schema::comedyEvent(),
-            'DanceEvent'       => Schema::danceEvent(),
-            'DeliveryEvent'    => Schema::deliveryEvent(),
-            'EducationEvent'   => Schema::educationEvent(),
-            'EventSeries'      => Schema::eventSeries(),
-            'ExhibitionEvent'  => Schema::exhibitionEvent(),
-            'Festival'         => Schema::festival(),
-            'FoodEvent'        => Schema::foodEvent(),
-            'Hackathon'        => Schema::hackathon(),
-            'LiteraryEvent'    => Schema::literaryEvent(),
-            'MusicEvent'       => Schema::musicEvent(),
-            'PublicationEvent' => Schema::publicationEvent(),
-            'SaleEvent'        => Schema::saleEvent(),
-            'ScreeningEvent'   => Schema::screeningEvent(),
-            'SocialEvent'      => Schema::socialEvent(),
-            'SportsEvent'      => Schema::sportsEvent(),
-            'TheaterEvent'     => Schema::theaterEvent(),
-            'VisualArtsEvent'  => Schema::visualArtsEvent(),
-        ];
-
-        return $eventTypeMap[$row['acf']['type'] ?? ''] ?? Schema::event();
-    }
-
-    /**
-     * Check if the row is valid and can be transformed
-     *
-     * @param array $row
-     */
-    private function eventMeetsRequirements(BaseType $event): bool
-    {
-        if (is_null($event->getProperty('identifier'))) {
-            return false;
-        }
-
-        if (is_null($event->getProperty('name'))) {
-            return false;
-        }
-
-        return true;
     }
 }

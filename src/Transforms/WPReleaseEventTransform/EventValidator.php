@@ -1,0 +1,21 @@
+<?php
+
+namespace SchemaTransformer\Transforms\WPReleaseEventTransform;
+
+use Spatie\SchemaOrg\BaseType;
+
+class EventValidator implements SchemaValidator
+{
+    public function isValid(BaseType $schema): bool
+    {
+        if (is_null($schema->getProperty('identifier'))) {
+            return false;
+        }
+
+        if (is_null($schema->getProperty('name'))) {
+            return false;
+        }
+
+        return true;
+    }
+}

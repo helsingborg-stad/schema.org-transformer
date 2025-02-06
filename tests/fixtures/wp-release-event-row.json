@@ -213,6 +213,41 @@
             "slug": "low-stimulation-areas",
             "taxonomy": "cognitive-accessibility"
           }
+        ],
+        [
+          {
+            "name": "Children",
+            "taxonomy": "audience"
+          }
+        ],
+        [
+          {
+            "id": 5,
+            "link": "http://localhost:8444/organization/testorganizer/",
+            "name": "TestOrganizer",
+            "slug": "testorganizer",
+            "taxonomy": "organization",
+            "acf": {
+              "address": {
+                "address": "Aktivitetshuset Tryckeriet, Vasatorpsvägen, Helsingborg, Sweden",
+                "lat": 56.06291770000001,
+                "lng": 12.7138212,
+                "zoom": 14,
+                "place_id": "ChIJf5rw4mkyUkYRMBljXLQyqFA",
+                "name": "Aktivitetshuset Tryckeriet",
+                "street_number": "1b",
+                "street_name": "Vasatorpsvägen",
+                "city": "Helsingborg",
+                "state": "Skåne län",
+                "post_code": "254 57",
+                "country": "Sweden",
+                "country_short": "SE"
+              },
+              "url": "https://www.organizer.com",
+              "email": "org@organizer.org",
+              "telephone": "0757845312"
+            }
+          }
         ]
       ],
       "wp:featuredmedia": [
