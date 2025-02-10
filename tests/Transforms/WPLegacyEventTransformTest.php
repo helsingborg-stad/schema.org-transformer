@@ -14,7 +14,27 @@ final class WPLegacyEventTransformTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->transformer = new WPLegacyEventTransform('idprefix');
+        $pathValueAccessor = new \SchemaTransformer\Util\ArrayPathResolver();
+        $this->transformer = new WPLegacyEventTransform(
+            'idprefix',
+            new \SchemaTransformer\Transforms\SplitRowsByOccasion('occasions'),
+            new \SchemaTransformer\Transforms\WPLegacyEventTransform\EventFactory(),
+            [
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyDescription('content.rendered', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationPlace('location.title', 'location.formatted_address', 'location.latitude', 'location.longitude', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyStartDate(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEndDate(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventStatus(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyKeywords(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOrganizer(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOffers(),
+            ],
+            new \SchemaTransformer\Transforms\Validators\EventValidator()
+        );
     }
 
     #[TestDox('class can be instantiated')]
@@ -28,6 +48,14 @@ final class WPLegacyEventTransformTest extends TestCase
     {
         $events = $this->transformer->transform([$this->getRow()]);
         $this->assertIsArray($events);
+    }
+
+    #[TestDox('transform method returns array with 3 events when given one event with 3 occasions')]
+    public function testTransformMethodReturnsArrayWithThreeEventsWhenGivenOneEventWithThreeOccasions(): void
+    {
+        $row    = $this->getRow();
+        $events = $this->transformer->transform([$row]);
+        $this->assertCount(3, $events);
     }
 
     /**

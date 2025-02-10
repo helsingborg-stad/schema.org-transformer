@@ -12,6 +12,7 @@ class ApplyKeywords implements SchemaDecorator
     public function apply(BaseType $event, array $data): BaseType
     {
         $terms    = $this->getTermsFromRow($data);
+        $terms    = array_filter($terms, fn($term) => !empty($term['taxonomy']));
         $keywords = array_map([$this, 'getDefinedTermFromTerm'], $terms);
 
         if (is_array($event->getProperty('keywords'))) {

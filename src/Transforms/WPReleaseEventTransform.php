@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
+use SchemaTransformer\Interfaces\SchemaFactory;
+use SchemaTransformer\Interfaces\SchemaValidator;
 use Spatie\SchemaOrg\BaseType;
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
-use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaFactory;
-use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaValidator;
 
 class WPReleaseEventTransform extends TransformBase implements AbstractDataTransform
 {

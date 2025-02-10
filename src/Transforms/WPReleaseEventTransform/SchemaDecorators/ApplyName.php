@@ -2,19 +2,20 @@
 
 namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 
+use SchemaTransformer\Interfaces\PathValueAccessor;
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
 use Spatie\SchemaOrg\BaseType;
 
 class ApplyName implements SchemaDecorator
 {
+    public function __construct(
+        private string $valuePath,
+        private PathValueAccessor $pathValueAccessor
+    ) {
+    }
+
     public function apply(BaseType $event, array $data): BaseType
     {
-        $title = $data['title']['rendered'] ?? null;
-
-        if (!empty($title)) {
-            return $event->setProperty('name', $title);
-        }
-
-        return $event;
+        return $event->setProperty('name', $this->pathValueAccessor->getValue($data, $this->valuePath));
     }
 }

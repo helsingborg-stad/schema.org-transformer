@@ -1,7 +1,8 @@
 <?php
 
-namespace SchemaTransformer\Transforms\WPReleaseEventTransform;
+namespace SchemaTransformer\Transforms\Validators;
 
+use SchemaTransformer\Interfaces\SchemaValidator;
 use Spatie\SchemaOrg\BaseType;
 
 class EventValidator implements SchemaValidator

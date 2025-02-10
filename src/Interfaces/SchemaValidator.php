@@ -1,6 +1,6 @@
 <?php
 
-namespace SchemaTransformer\Transforms\WPReleaseEventTransform;
+namespace SchemaTransformer\Interfaces;
 
 use Spatie\SchemaOrg\BaseType;
 

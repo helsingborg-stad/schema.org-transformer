@@ -2,6 +2,7 @@
 
 namespace SchemaTransformer\Transforms\WPReleaseEventTransform;
 
+use SchemaTransformer\Interfaces\SchemaFactory;
 use Spatie\SchemaOrg\BaseType;
 use Spatie\SchemaOrg\Schema;
 

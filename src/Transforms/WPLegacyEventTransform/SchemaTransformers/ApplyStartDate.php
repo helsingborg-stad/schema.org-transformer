@@ -1,6 +1,6 @@
 <?php
 
-namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
+namespace SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators;
 
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
 use Spatie\SchemaOrg\BaseType;
@@ -9,14 +9,13 @@ class ApplyStartDate implements SchemaDecorator
 {
     public function apply(BaseType $event, array $data): BaseType
     {
-        $occasion = $data['acf']['occasions'][0] ?? null;
+        $occasion = $data['occasions'][0] ?? null;
 
-        if (empty($occasion) || empty($occasion['date']) || empty($occasion['startTime'])) {
+        if (empty($occasion) || empty($occasion['start_date'])) {
             return $event;
         }
 
-        $timeString = $occasion['date'] . 'T' . $occasion['startTime'];
-        $timestamp  = strtotime($timeString);
+        $timestamp = strtotime($occasion['start_date']);
 
         return $event->setProperty('startDate', $this->formatDate($timestamp));
     }
