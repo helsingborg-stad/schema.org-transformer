@@ -23,4 +23,4 @@ final class WordpressPaginator implements AbstractPaginator
         }
         return false;
     }
-};
+}

@@ -8,8 +8,8 @@ use SchemaTransformer\Interfaces\AbstractPaginator;
 
 final class NullPaginator implements AbstractPaginator
 {
-    function getNext(array $headers): string | false
+    public function getNext(array $headers): string | false
     {
         return false;
     }
-};
+}

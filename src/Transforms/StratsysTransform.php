@@ -118,29 +118,29 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
             // Extract mergeable items
             // ==================================
             // Remove first 10 characters (Which is always "Inga data ")
-            $performance = trim(substr($row["Effektmal_FargNamn"] ?? "", 10));
-            $challenges = trim($row["Initiativ_Utmaningar"] ?? "");
-            $categories = trim($row["Omrade_Namn"] ?? "");
+            $performance  = trim(substr($row["Effektmal_FargNamn"] ?? "", 10));
+            $challenges   = trim($row["Initiativ_Utmaningar"] ?? "");
+            $categories   = trim($row["Omrade_Namn"] ?? "");
             $technologies = trim($row["Transformation_Namn"] ?? "");
 
             if ($key === false) {
-                $row["Effektmal_FargNamn"] = $this->append([], $performance);
+                $row["Effektmal_FargNamn"]   = $this->append([], $performance);
                 $row["Initiativ_Utmaningar"] = $this->append([], $challenges);
-                $row["Omrade_Namn"] = $this->append([], $categories);
-                $row["Transformation_Namn"] = $this->append([], $technologies);
-                $lookup[] = $row;
+                $row["Omrade_Namn"]          = $this->append([], $categories);
+                $row["Transformation_Namn"]  = $this->append([], $technologies);
+                $lookup[]                    = $row;
             } else {
                 // Append to array
-                $lookup[$key]["Effektmal_FargNamn"] = $this->append($lookup[$key]["Effektmal_FargNamn"], $performance);
+                $lookup[$key]["Effektmal_FargNamn"]   = $this->append($lookup[$key]["Effektmal_FargNamn"], $performance);
                 $lookup[$key]["Initiativ_Utmaningar"] = $this->append($lookup[$key]["Initiativ_Utmaningar"], $challenges);
-                $lookup[$key]["Omrade_Namn"] = $this->append($lookup[$key]["Omrade_Namn"], $categories);
-                $lookup[$key]["Transformation_Namn"] = $this->append($lookup[$key]["Transformation_Namn"], $technologies);
+                $lookup[$key]["Omrade_Namn"]          = $this->append($lookup[$key]["Omrade_Namn"], $categories);
+                $lookup[$key]["Transformation_Namn"]  = $this->append($lookup[$key]["Transformation_Namn"], $technologies);
             }
         });
         // Expand merged strings
         array_walk($lookup, function (&$row) {
-            $row["Effektmal_FargNamn"] = $this->arrayToList($row["Effektmal_FargNamn"]);
-            $row["Initiativ_Utmaningar"] = $this->arrayToList($row["Initiativ_Utmaningar"]);
+            $row["Effektmal_FargNamn"]       = $this->arrayToList($row["Effektmal_FargNamn"]);
+            $row["Initiativ_Utmaningar"]     = $this->arrayToList($row["Initiativ_Utmaningar"]);
             $row["Initiativ_Synligaenheter"] = $this->stringToList($row["Initiativ_Synligaenheter"] ?? "");
         });
 
@@ -162,7 +162,7 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
                 ->alternateName($row["Initiativ_Kontaktperson"] ?? "");
             $project->employee($contact);
 
-            $categories = array_map(function ($category) {
+            $categories   = array_map(function ($category) {
                 return Schema::propertyValue()->name('category')->value($category);
             }, $row["Omrade_Namn"]);
             $technologies = array_map(function ($technology) {
@@ -184,12 +184,12 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
     private function getDescriptionValueFromRow($row): string
     {
         $descriptionArray = [
-            'Initiativ_Vad'           => '<h2>Vad?</h2>',
-            'Initiativ_Hur'           => '<h2>Hur?</h2>',
-            'Initiativ_Varfor'        => '<h2>Varför?</h2>',
-            'Effektmal_FargNamn'      => '<h2>Effektmål</h2>',
-            'Initiativ_Avgransningar' => '<h2>Avgränsningar</h2>',
-            'Initiativ_Utmaningar'    => '<h2>Utmaningar</h2>',
+            'Initiativ_Vad'            => '<h2>Vad?</h2>',
+            'Initiativ_Hur'            => '<h2>Hur?</h2>',
+            'Initiativ_Varfor'         => '<h2>Varför?</h2>',
+            'Effektmal_FargNamn'       => '<h2>Effektmål</h2>',
+            'Initiativ_Avgransningar'  => '<h2>Avgränsningar</h2>',
+            'Initiativ_Utmaningar'     => '<h2>Utmaningar</h2>',
             'Initiativ_Synligaenheter' => '<h2>Drivs av</h2>'
         ];
 

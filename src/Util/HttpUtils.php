@@ -9,7 +9,7 @@ class HttpUtils
     public static function getResponseHeaders(string $data): array
     {
         $headers = array();
-        $list = explode("\r\n", trim($data));
+        $list    = explode("\r\n", trim($data));
         array_shift($list);
 
         foreach ($list as $value) {
@@ -22,8 +22,8 @@ class HttpUtils
 
     public static function getLink(string $link): array
     {
-        // Split row by semicolon 
-        // <https://wp-path?page=403>; rel="prev" 
+        // Split row by semicolon
+        // <https://wp-path?page=403>; rel="prev"
         [$url, $rel] = explode(';', trim($link), 2);
         // Trim characters
         $url = trim($url, " <>");

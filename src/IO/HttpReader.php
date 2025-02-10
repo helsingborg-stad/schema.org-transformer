@@ -15,7 +15,7 @@ class HttpReader implements AbstractDataReader
 
     public function __construct(AbstractPaginator $paginator, array $headers = [])
     {
-        $this->headers = $headers;
+        $this->headers   = $headers;
         $this->paginator = $paginator;
     }
     public function read(string $path): array|false
@@ -57,7 +57,7 @@ class HttpReader implements AbstractDataReader
             throw new \Exception("Could not retreive source. A HTTP error occurred: " . $code);
         }
         $resHeaders = HttpUtils::getResponseHeaders(substr($response, 0, $size));
-        $body = substr($response, $size);
+        $body       = substr($response, $size);
 
         curl_close($curl);
 
