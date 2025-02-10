@@ -17,19 +17,19 @@ class ApplyOrganizer implements SchemaDecorator
         }
 
         return $event->setProperty('organizer', Schema::organization()
-            ->name($organizer['title']['rendered'] ?? null)
-            ->url($organizer['website'] ?? null)
-            ->email($organizer['email'] ?? null)
-            ->telephone($organizer['phone'] ?? null));
+            ->name($organizer['organizer'] ?? null)
+            ->url($organizer['organizer_link'] ?? null)
+            ->email($organizer['organizer_email'] ?? null)
+            ->telephone($organizer['organizer_phone'] ?? null));
     }
 
     private function dataContainsOrganizer(array $data): bool
     {
-         return !empty($data['_embedded']['organizers']);
+         return !empty($data['organizers']);
     }
 
-    private function getOrganizer(array $data): array
+    private function getOrganizer(array $data): ?array
     {
-        return $data['_embedded']['organizers'][0] ?? null;
+        return $data['organizers'][0] ?? null;
     }
 }

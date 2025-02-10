@@ -27,8 +27,9 @@ class SplitRowsByOccasion implements AbstractDataTransform
             }
 
             foreach ($occasions as $i => $occasion) {
-                $rowWithSingleOccasion       = $rowWithMultipleOccasions;
-                $rowWithSingleOccasion['id'] = $rowWithSingleOccasion['id'] . '-' . $i;
+                $rowWithSingleOccasion               = $rowWithMultipleOccasions;
+                $rowWithSingleOccasion['originalId'] = $rowWithSingleOccasion['id'];
+                $rowWithSingleOccasion['id']         = $rowWithSingleOccasion['id'] . '-' . $i;
 
                 $this->setOccasionData($rowWithSingleOccasion, [$occasion]);
 

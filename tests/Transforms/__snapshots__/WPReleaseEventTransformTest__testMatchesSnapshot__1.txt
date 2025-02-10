@@ -1,0 +1,91 @@
+[
+    {
+        "@context": "https:\/\/schema.org",
+        "@type": "Event",
+        "name": "Test Event",
+        "description": "Cras blandit lacus nec lorem ullamcorper, eu elementum lectus ullamcorper. Maecenas commodo, eros eget sollicitudin sagittis, nisi magna aliquet nisi, in tincidunt elit ante at nibh. Aliquam quam arcu, suscipit eget diam sit amet, viverra hendrerit est. Proin ultricies, orci nec vestibulum viverra, massa nunc faucibus odio, in interdum urna felis non orci. Aenean et dolor malesuada, mattis tellus et, fringilla urna. In hac habitasse platea dictumst.",
+        "startDate": "2025-06-06T12:00:00+00:00",
+        "endDate": "2025-06-06T13:00:00+00:00",
+        "eventStatus": "https:\/\/schema.org\/EventScheduled",
+        "image": {
+            "@type": "ImageObject",
+            "url": "http:\/\/localhost:8444\/wp-content\/uploads\/2025\/02\/521-600x400-1.jpg",
+            "description": "Test Description"
+        },
+        "keywords": [
+            {
+                "@type": "DefinedTerm",
+                "name": "Accessible toilets",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "physical-accessibility"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Low-stimulation areas",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "cognitive-accessibility"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Children",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "audience"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "TestOrganizer",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "organization"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "idprefix5",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event-ids",
+                    "url": "https:\/\/schema.org\/EventIds"
+                }
+            }
+        ],
+        "location": {
+            "@type": "Place",
+            "name": "SLF",
+            "address": "Drottninggatan 14, 252 21 Helsingborg, Sverige",
+            "latitude": 56.0473078,
+            "longitude": 12.6921272
+        },
+        "eventAttendanceMode": "https:\/\/schema.org\/OfflineEventAttendanceMode",
+        "organizer": {
+            "@type": "Organization",
+            "name": "TestOrganizer",
+            "url": "https:\/\/www.organizer.com",
+            "email": "org@organizer.org",
+            "telephone": "0757845312",
+            "address": "Aktivitetshuset Tryckeriet, Vasatorpsv\u00e4gen, Helsingborg, Sweden"
+        },
+        "typicalAgeRange": "13",
+        "offers": [
+            {
+                "@type": "Offer",
+                "price": 100,
+                "name": "Standard Ticket",
+                "priceCurrency": "SEK"
+            }
+        ],
+        "audience": [
+            {
+                "@type": "Audience",
+                "audienceType": "Children"
+            }
+        ],
+        "@id": "idprefix5"
+    }
+]

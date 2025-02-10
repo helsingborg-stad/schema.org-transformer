@@ -7,16 +7,20 @@ namespace SchemaTransformer\Tests\Transforms;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPLegacyEventTransform;
+use Spatie\Snapshots\MatchesSnapshots;
 
 final class WPLegacyEventTransformTest extends TestCase
 {
+    use MatchesSnapshots;
+
     private WPLegacyEventTransform $transformer;
 
     protected function setUp(): void
     {
+        $idPrefix          = 'idprefix';
         $pathValueAccessor = new \SchemaTransformer\Util\ArrayPathResolver();
         $this->transformer = new WPLegacyEventTransform(
-            'idprefix',
+            $idPrefix,
             new \SchemaTransformer\Transforms\SplitRowsByOccasion('occasions'),
             new \SchemaTransformer\Transforms\WPLegacyEventTransform\EventFactory(),
             [
@@ -27,11 +31,13 @@ final class WPLegacyEventTransformTest extends TestCase
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEndDate(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventStatus(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyKeywords(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyKeywords(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOrganizer(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOffers(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyUrl(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIdAsDefinedTermInKeywords($idPrefix)
             ],
             new \SchemaTransformer\Transforms\Validators\EventValidator()
         );
@@ -43,19 +49,12 @@ final class WPLegacyEventTransformTest extends TestCase
         $this->assertInstanceOf(WPLegacyEventTransform::class, $this->transformer);
     }
 
-    #[TestDox('transform method returns array')]
-    public function testTransformMethodReturnsArray(): void
+    #[TestDox('matches snapshot')]
+    public function testMatchesSnapshot(): void
     {
-        $events = $this->transformer->transform([$this->getRow()]);
-        $this->assertIsArray($events);
-    }
-
-    #[TestDox('transform method returns array with 3 events when given one event with 3 occasions')]
-    public function testTransformMethodReturnsArrayWithThreeEventsWhenGivenOneEventWithThreeOccasions(): void
-    {
-        $row    = $this->getRow();
-        $events = $this->transformer->transform([$row]);
-        $this->assertCount(3, $events);
+        $events   = $this->transformer->transform([$this->getRow()]);
+        $snapshot = json_encode($events, JSON_PRETTY_PRINT);
+        $this->assertMatchesSnapshot($snapshot);
     }
 
     /**

@@ -8,17 +8,21 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
+use Spatie\Snapshots\MatchesSnapshots;
 
 final class WPReleaseEventTransformTest extends TestCase
 {
+    use MatchesSnapshots;
+
     private WpReleaseEventTransform $transformer;
 
     protected function setUp(): void
     {
         parent::setUp();
         $pathValueAccessor = new \SchemaTransformer\Util\ArrayPathResolver();
+        $idPrefix          = 'idprefix';
         $this->transformer = new WPReleaseEventTransform(
-            'idprefix',
+            $idPrefix,
             new \SchemaTransformer\Transforms\SplitRowsByOccasion('acf.occasions'),
             new \SchemaTransformer\Transforms\WPReleaseEventTransform\EventFactory(),
             [
@@ -35,9 +39,9 @@ final class WPReleaseEventTransformTest extends TestCase
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOrganizer(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
-
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyAudience(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIdAsDefinedTermInKeywords($idPrefix)
             ],
             new \SchemaTransformer\Transforms\Validators\EventValidator()
         );
@@ -47,6 +51,14 @@ final class WPReleaseEventTransformTest extends TestCase
     public function testCanBeCreated(): void
     {
         $this->assertInstanceOf(WPReleaseEventTransform::class, $this->transformer);
+    }
+
+    #[TestDox('matches snapshot')]
+    public function testMatchesSnapshot(): void
+    {
+        $events   = $this->transformer->transform([$this->getRow()]);
+        $snapshot = json_encode($events, JSON_PRETTY_PRINT);
+        $this->assertMatchesSnapshot($snapshot);
     }
 
     #[TestDox('returns an array of Event objects')]
