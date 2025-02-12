@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SchemaTransformer\IO;
 
 use SchemaTransformer\Interfaces\AbstractDataReader;
+use SchemaTransformer\Interfaces\AbstractLogger;
 use SchemaTransformer\Interfaces\AbstractPaginator;
 use SchemaTransformer\Util\HttpUtils;
 
@@ -13,8 +14,11 @@ class HttpReader implements AbstractDataReader
     private array $headers;
     private AbstractPaginator $paginator;
 
-    public function __construct(AbstractPaginator $paginator, array $headers = [])
-    {
+    public function __construct(
+        AbstractPaginator $paginator,
+        private AbstractLogger $logger,
+        array $headers = [],
+    ) {
         $this->headers   = $headers;
         $this->paginator = $paginator;
     }
@@ -24,12 +28,17 @@ class HttpReader implements AbstractDataReader
 
         $next = $path;
         while ($next !== false) {
+            $this->logger->log("👀 Reading from source: " . $next);
+
             list($response, $headers) = $this->curl($next);
             // Extend list
             $result = [...$result, ...$response];
             // Get next page
             $next = $this->paginator->getNext($next, $headers);
         };
+
+        $this->logger->log("✅ Read " . count($result) . " items from source");
+
         return $result;
     }
     protected function curl(string $path): array|false

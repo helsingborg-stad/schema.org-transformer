@@ -35,7 +35,8 @@ php ../../../router.php \
     --outputformat jsonl \
     --paginator wordpress \
     --output ${TMPFILE} \
-    --idprefix L
+    --idprefix L \
+    --logger terminal
 
 if [ $? -ne 0 ]; then
     echo "FAILED to transform request to file ${TMPFILE}"

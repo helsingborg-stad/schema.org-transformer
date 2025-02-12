@@ -10,6 +10,8 @@ use SchemaTransformer\IO\FileWriter;
 use SchemaTransformer\IO\HttpReader;
 use SchemaTransformer\IO\HttpStatusCodeReader;
 use SchemaTransformer\IO\HttpWriter;
+use SchemaTransformer\Loggers\NullLogger;
+use SchemaTransformer\Loggers\TerminalLogger;
 use SchemaTransformer\Paginators\GetParamPaginator;
 use SchemaTransformer\Paginators\NullPaginator;
 use SchemaTransformer\Paginators\WordpressPaginator;
@@ -33,7 +35,8 @@ class App
             "authpath"         => "",
             "authclientid"     => "",
             "authclientsecret" => "",
-            "authscope"        => ""
+            "authscope"        => "",
+            "logger"           => "terminal"
         ], $options);
 
         if (empty($cmd->source)) {
@@ -65,6 +68,9 @@ class App
                  --authclientsecret <string>    Client secret
                  --authscope <string>           Client scope
 
+                Logging settings
+                 --logger <terminal|none>    Logger to use
+
                 TEXT;
             exit(1);
         }
@@ -74,6 +80,11 @@ class App
             explode(",", $cmd->sourceheaders) : [];
         $outputheaders = !empty($cmd->outputheaders) ?
             explode(",", $cmd->outputheaders) : [];
+
+        $logger = match (strtolower($cmd->logger)) {
+            'terminal' => new TerminalLogger(),
+            default => new NullLogger()
+        };
 
         // Authenticate
         if (filter_var($cmd->authpath, FILTER_VALIDATE_URL)) {
@@ -98,7 +109,7 @@ class App
 
         // Check if source is url or file
         $reader = filter_var($cmd->source, FILTER_VALIDATE_URL) ?
-            new HttpReader($paginator, $sourceheaders) :
+            new HttpReader($paginator, $logger, $sourceheaders) :
             new FileReader();
 
         // Check if output to file or screen
