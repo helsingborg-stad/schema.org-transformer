@@ -94,7 +94,6 @@ final class StratsysTransformTest extends TestCase
                     "<h2>Vad?</h2><p>Initiativ_Vad</p>",
                     "<h2>Hur?</h2><p>Initiativ_Hur</p>",
                     "<h2>Varför?</h2><p>Initiativ_Varfor</p>",
-                    "<h2>Effektmål</h2><p><ul><li>FargNamn</li></ul></p>",
                     "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
                     "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>",
                     "<h2>Drivs av</h2><p><ul><li>Initiativ_Synligaenheter</li></ul></p>"
@@ -134,7 +133,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => 0
                     ]
                 ],
-                "@version"     => "0f55001d08676df709f7f9d32d1f3073"
+                "@version"     => "66eefcfaf3c8bd8882282b5984e05319"
             ]
         ], $this->model->transform($this->data));
     }
