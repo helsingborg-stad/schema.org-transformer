@@ -13,7 +13,7 @@ fi
 if [ -z ${STRATSYS_INNOVATION_CLIENTSECRET} ]; then
     echo "Missing env variable STRATSYS_CLIENTSECRET"; exit 1
 fi
-which php
+which php >/dev/null
 if [ $? -ne 0 ]; then
     echo "PHP command missing or not in path"; exit 1
 fi

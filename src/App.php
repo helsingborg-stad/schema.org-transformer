@@ -8,7 +8,13 @@ use SchemaTransformer\IO\ConsoleWriter;
 use SchemaTransformer\IO\FileReader;
 use SchemaTransformer\IO\FileWriter;
 use SchemaTransformer\IO\HttpReader;
+use SchemaTransformer\IO\HttpStatusCodeReader;
 use SchemaTransformer\IO\HttpWriter;
+use SchemaTransformer\Loggers\NullLogger;
+use SchemaTransformer\Loggers\TerminalLogger;
+use SchemaTransformer\Paginators\GetParamPaginator;
+use SchemaTransformer\Paginators\NullPaginator;
+use SchemaTransformer\Paginators\WordpressPaginator;
 use SchemaTransformer\Services\AuthService;
 use SchemaTransformer\Services\RuntimeServices;
 
@@ -20,14 +26,17 @@ class App
         $cmd = (object) array_merge([
             "source"           => "",
             "sourceheaders"    => "Content-Type: application/json",
+            "paginator"        => "",
             "output"           => "",
             "outputheaders"    => "Content-Type: application/json",
             "outputformat"     => "json",
             "transform"        => "jobposting",
+            "idprefix"         => "",
             "authpath"         => "",
             "authclientid"     => "",
             "authclientsecret" => "",
-            "authscope"        => ""
+            "authscope"        => "",
+            "logger"           => "terminal"
         ], $options);
 
         if (empty($cmd->source)) {
@@ -37,6 +46,8 @@ class App
                 Input settings
                  --source <file|url>            Input file or URL
                  --sourceheaders <headers>      Comma separated HTTP headers when source is a URL
+                 --paginator <adapter>          The name of a pagination adapter to use (if any)
+                                                - wordpress
 
                 Output settings
                  --output <file|url>            Output file or URL
@@ -44,13 +55,21 @@ class App
                  --outputformat <json|jsonl>    Output format
 
                 Transformation settings
-                 --transform <jobposting>       Name of transform to apply 
-                
-                 OAuth authentication parameters (Applicable for source only)
+                 --transform <name>             Name of transform to apply
+                                                - jobposting
+                                                - stratsys
+                                                - wp_legacy_event
+                                                - wp_release_event
+                --idprefix                      prefix to avoid collision between items from multiple sources
+                 
+                OAuth authentication parameters (Applicable for source only)
                  --authpath <url>               URL of token service
                  --authclientid <string>        Client id 
                  --authclientsecret <string>    Client secret
                  --authscope <string>           Client scope
+
+                Logging settings
+                 --logger <terminal|none>    Logger to use
 
                 TEXT;
             exit(1);
@@ -62,6 +81,11 @@ class App
         $outputheaders = !empty($cmd->outputheaders) ?
             explode(",", $cmd->outputheaders) : [];
 
+        $logger = match (strtolower($cmd->logger)) {
+            'terminal' => new TerminalLogger(),
+            default => new NullLogger()
+        };
+
         // Authenticate
         if (filter_var($cmd->authpath, FILTER_VALIDATE_URL)) {
             $token = (new AuthService(
@@ -71,9 +95,21 @@ class App
             $sourceheaders[] = $token;
         }
 
+        switch (strtolower($cmd->paginator)) {
+            case 'wordpress':
+                $paginator = new WordpressPaginator();
+                break;
+            case 'get-param':
+                $paginator = new GetParamPaginator('page', new HttpStatusCodeReader());
+                break;
+            default:
+                $paginator = new NullPaginator();
+                break;
+        };
+
         // Check if source is url or file
         $reader = filter_var($cmd->source, FILTER_VALIDATE_URL) ?
-            new HttpReader($sourceheaders) :
+            new HttpReader($paginator, $logger, $sourceheaders) :
             new FileReader();
 
         // Check if output to file or screen
@@ -85,8 +121,8 @@ class App
             new JSONLConverter() :
             new JSONConverter();
 
-        // Wire services
-        $services = new RuntimeServices($reader, $writer, $converter);
+            // Wire services
+        $services = new RuntimeServices($reader, $writer, $converter, $cmd->idprefix);
 
         // Execute
         $result = false;
@@ -99,6 +135,18 @@ class App
                 break;
             case 'stratsys':
                 $result = $services->getStratsysService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
+            case 'wp_legacy_event':
+                $result = $services->getWPLegacyEventService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
+            case 'wp_release_event':
+                $result = $services->getWPReleaseEventService()->execute(
                     $cmd->source,
                     $cmd->output
                 );

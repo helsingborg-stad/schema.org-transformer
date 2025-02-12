@@ -7,8 +7,13 @@ namespace SchemaTransformer\Transforms;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Spatie\SchemaOrg\Schema;
 
-class StratsysTransform implements AbstractDataTransform
+class StratsysTransform extends TransformBase implements AbstractDataTransform
 {
+    public function __construct(string $idprefix)
+    {
+        parent::__construct($idprefix);
+    }
+
     public function getProgress(string $status): int
     {
         switch ($status) {
@@ -154,8 +159,7 @@ class StratsysTransform implements AbstractDataTransform
             $project->description($this->getDescriptionValueFromRow($row));
             $project->image($this->transformImage($row["Initiativ_Lanktillbild"] ?? ""));
             $project->foundingDate($row["Initiativ_Startdatum"] ?? "");
-
-            $project->setProperty('@id', $row['Initiativ_InterntID'] ?? "");
+            $project->setProperty('@id', $this->formatId($row['Initiativ_InterntID'] ?? ""));
 
             $funding = Schema::monetaryGrant()->amount($row["Initiativ_Estimeradbudget"] ?? "");
             $project->funding($funding);

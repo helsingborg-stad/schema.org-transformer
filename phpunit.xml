@@ -1,45 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.2/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         cacheDirectory=".phpunit.cache"
-         executionOrder="depends,defects"
-         requireCoverageMetadata="false"
-         beStrictAboutCoverageMetadata="false"
-         beStrictAboutOutputDuringTests="true"
-         displayDetailsOnTestsThatTriggerWarnings="true"
-         failOnRisky="true"
-         colors="true"
-         failOnWarning="true">
-
-    <php>
-        <ini name="error_reporting" value="-1"/>
-        <ini name="display_errors" value="1"/>
-        <ini name="display_startup_errors" value="1"/>
-    </php>
-    
-    <testsuites>
-        <testsuite name="default">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
-        <include>
-            <directory>src</directory>
-        </include>
-    </source>
-
-    <coverage 
-            includeUncoveredFiles="true"
-            pathCoverage="false"
-            ignoreDeprecatedCodeUnits="true"
-            disableCodeCoverageIgnore="true">
-        <report>
-            <text outputFile="coverage/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
-            <html outputDirectory="coverage"/>
-            <xml outputDirectory="coverage/xml"/>
-        </report>
-    </coverage>
-
+<phpunit 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.4/phpunit.xsd" 
+    bootstrap="vendor/autoload.php" 
+    cacheDirectory=".phpunit.cache" 
+    executionOrder="depends,defects" 
+    requireCoverageMetadata="false" 
+    beStrictAboutCoverageMetadata="false" 
+    beStrictAboutOutputDuringTests="true" 
+    displayDetailsOnTestsThatTriggerWarnings="true" 
+    failOnRisky="true" 
+    colors="true" 
+    failOnWarning="true" 
+    failOnDeprecation="true" 
+    failOnPhpunitDeprecation="true">
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="display_errors" value="1"/>
+    <ini name="display_startup_errors" value="1"/>
+  </php>
+  <testsuites>
+    <testsuite name="default">
+      <directory suffix="Test.php">src</directory>
+    </testsuite>
+  </testsuites>
+  <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+    <include>
+      <directory>src</directory>
+    </include>
+    <exclude>
+      <directory suffix="Test.php">src</directory>
+    </exclude>
+  </source>
+  <coverage pathCoverage="false" ignoreDeprecatedCodeUnits="true" disableCodeCoverageIgnore="true">
+    <report>
+      <text outputFile="coverage/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
+      <html outputDirectory="coverage"/>
+      <xml outputDirectory="coverage/xml"/>
+    </report>
+  </coverage>
 </phpunit>

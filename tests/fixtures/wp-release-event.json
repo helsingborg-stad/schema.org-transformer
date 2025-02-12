@@ -1,0 +1,332 @@
+  {
+    "id": 5,
+    "date": "2025-02-04T09:15:02",
+    "date_gmt": "2025-02-04T09:15:02",
+    "guid": {
+      "rendered": "http://localhost:8444/?post_type=event&#038;p=5"
+    },
+    "modified": "2025-02-04T10:11:23",
+    "modified_gmt": "2025-02-04T10:11:23",
+    "slug": "test-event",
+    "status": "publish",
+    "type": "event",
+    "link": "http://localhost:8444/event/test-event/",
+    "title": {
+      "rendered": "Test Event"
+    },
+    "content": {
+      "rendered": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare ornare turpis a tincidunt. Mauris lacinia cursus justo. Proin luctus feugiat iaculis. Cras blandit lacus nec lorem ullamcorper, eu elementum lectus ullamcorper. Maecenas commodo, eros eget sollicitudin sagittis, nisi magna aliquet nisi, in tincidunt elit ante at nibh. Aliquam quam arcu, suscipit eget diam sit amet, viverra hendrerit est. Proin ultricies, orci nec vestibulum viverra, massa nunc faucibus odio, in interdum urna felis non orci. Aenean et dolor malesuada, mattis tellus et, fringilla urna. In hac habitasse platea dictumst.</p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare ornare turpis a tincidunt. Mauris lacinia cursus justo. Proin luctus feugiat iaculis. Cras blandit lacus nec lorem ullamcorper, eu elementum lectus ullamcorper. Maecenas commodo, eros eget sollicitudin sagittis, nisi magna aliquet nisi, in tincidunt elit ante at nibh. Aliquam quam arcu, suscipit eget diam sit [&hellip;]</p>\n",
+      "protected": false
+    },
+    "featured_media": 24,
+    "parent": 0,
+    "menu_order": 0,
+    "template": "",
+    "class_list": [
+      "post-5",
+      "event",
+      "type-event",
+      "status-publish",
+      "hentry"
+    ],
+    "acf": {
+      "type": "Event",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "pricing": "expense",
+      "pricesList": [
+        {
+          "priceLabel": "Standard Ticket",
+          "price": 100
+        }
+      ],
+      "audience": [
+        "370"
+      ],
+      "age_restriction": true,
+      "age_restriction_info": "13",
+      "cognitive_accessibility": false,
+      "physical_accessibility": false,
+      "amenities": false,
+      "description": "Cras blandit lacus nec lorem ullamcorper, eu elementum lectus ullamcorper. Maecenas commodo, eros eget sollicitudin sagittis, nisi magna aliquet nisi, in tincidunt elit ante at nibh. Aliquam quam arcu, suscipit eget diam sit amet, viverra hendrerit est. Proin ultricies, orci nec vestibulum viverra, massa nunc faucibus odio, in interdum urna felis non orci. Aenean et dolor malesuada, mattis tellus et, fringilla urna. In hac habitasse platea dictumst.",
+      "image": 24,
+      "date": "20250702",
+      "timeFrom": "11:00:00",
+      "timeEnd": "14:00:00",
+      "recurringEvent": false,
+      "occasions": [
+        {
+          "date": "20250606",
+          "startTime": "12:00:00",
+          "endTime": "13:00:00"
+        }
+      ],
+      "physical_virtual": "physical",
+      "location_name": "SLF",
+      "location": {
+        "lat": 56.0473078,
+        "lng": 12.6921272,
+        "zoom": 12,
+        "markers": [
+          {
+            "label": "Drottninggatan 14, 252 21 Helsingborg, Sverige",
+            "default_label": "Drottninggatan 14, 252 21 Helsingborg, Sverige",
+            "lat": 56.0473605,
+            "lng": 12.6920651,
+            "geocode": [
+              {
+                "name": "14, Drottninggatan, Centrum, Helsingborg, Helsingborgs kommun, Skåne län, 252 21, Sverige",
+                "html": "Drottninggatan 14, 252 21 Helsingborg, Sverige",
+                "bbox": {
+                  "_southWest": {
+                    "lat": 56.0473105,
+                    "lng": 12.6920151
+                  },
+                  "_northEast": {
+                    "lat": 56.0474105,
+                    "lng": 12.6921151
+                  }
+                },
+                "center": {
+                  "lat": 56.0473605,
+                  "lng": 12.6920651
+                },
+                "properties": {
+                  "place_id": 153067022,
+                  "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+                  "osm_type": "node",
+                  "osm_id": 658739421,
+                  "lat": "56.0473605",
+                  "lon": "12.6920651",
+                  "class": "place",
+                  "type": "house",
+                  "place_rank": 30,
+                  "importance": 0.00006677119096661354,
+                  "addresstype": "place",
+                  "name": "",
+                  "display_name": "14, Drottninggatan, Centrum, Helsingborg, Helsingborgs kommun, Skåne län, 252 21, Sverige",
+                  "address": {
+                    "house_number": "14",
+                    "road": "Drottninggatan",
+                    "suburb": "Centrum",
+                    "city": "Helsingborg",
+                    "municipality": "Helsingborgs kommun",
+                    "county": "Skåne län",
+                    "ISO3166-2-lvl4": "SE-M",
+                    "postcode": "252 21",
+                    "country": "Sverige",
+                    "country_code": "se",
+                    "building": "",
+                    "town": "",
+                    "village": "",
+                    "hamlet": "",
+                    "state": ""
+                  },
+                  "boundingbox": [
+                    56.0473105,
+                    56.0474105,
+                    12.6920151,
+                    12.6921151
+                  ]
+                }
+              }
+            ],
+            "uuid": "marker_67a1dda082b0b"
+          }
+        ],
+        "address": "Drottninggatan 14, 252 21 Helsingborg, Sverige",
+        "layers": [
+          "OpenStreetMap.Mapnik"
+        ],
+        "version": "1.6.1"
+      },
+      "meeting_link": "",
+      "travel": "",
+      "connect": ""
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "http://localhost:8444/wp-json/wp/v2/events/5"
+        }
+      ],
+      "collection": [
+        {
+          "href": "http://localhost:8444/wp-json/wp/v2/events"
+        }
+      ],
+      "about": [
+        {
+          "href": "http://localhost:8444/wp-json/wp/v2/types/event"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 4,
+          "href": "http://localhost:8444/wp-json/wp/v2/events/5/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 25,
+          "href": "http://localhost:8444/wp-json/wp/v2/events/5/revisions/25"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "http://localhost:8444/wp-json/wp/v2/media/24"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "http://localhost:8444/wp-json/wp/v2/media?parent=5"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "wp:term": [
+        [
+          {
+            "id": 2,
+            "link": "http://localhost:8444/physical-accessibility/accessible-toilets/",
+            "name": "Accessible toilets",
+            "slug": "accessible-toilets",
+            "taxonomy": "physical-accessibility"
+          }
+        ],
+        [
+          {
+            "id": 2,
+            "link": "http://localhost:8444/physical-accessibility/accessible-toilets/",
+            "name": "Low-stimulation areas",
+            "slug": "low-stimulation-areas",
+            "taxonomy": "cognitive-accessibility"
+          }
+        ],
+        [
+          {
+            "name": "Children",
+            "taxonomy": "audience"
+          }
+        ],
+        [
+          {
+            "id": 5,
+            "link": "http://localhost:8444/organization/testorganizer/",
+            "name": "TestOrganizer",
+            "slug": "testorganizer",
+            "taxonomy": "organization",
+            "acf": {
+              "address": {
+                "address": "Aktivitetshuset Tryckeriet, Vasatorpsvägen, Helsingborg, Sweden",
+                "lat": 56.06291770000001,
+                "lng": 12.7138212,
+                "zoom": 14,
+                "place_id": "ChIJf5rw4mkyUkYRMBljXLQyqFA",
+                "name": "Aktivitetshuset Tryckeriet",
+                "street_number": "1b",
+                "street_name": "Vasatorpsvägen",
+                "city": "Helsingborg",
+                "state": "Skåne län",
+                "post_code": "254 57",
+                "country": "Sweden",
+                "country_short": "SE"
+              },
+              "url": "https://www.organizer.com",
+              "email": "org@organizer.org",
+              "telephone": "0757845312"
+            }
+          }
+        ]
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 24,
+          "date": "2025-02-04T10:11:07",
+          "slug": "521-600x400",
+          "type": "attachment",
+          "link": "http://localhost:8444/event/test-event/521-600x400/",
+          "title": {
+            "rendered": "521-600&#215;400"
+          },
+          "author": 1,
+          "featured_media": 0,
+          "acf": [
+            
+          ],
+          "caption": {
+            "rendered": ""
+          },
+          "alt_text": "Test Description",
+          "media_type": "image",
+          "mime_type": "image/jpeg",
+          "media_details": {
+            "width": 600,
+            "height": 400,
+            "file": "2025/02/521-600x400-1.jpg",
+            "filesize": 36349,
+            "sizes": {
+              
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": [
+                
+              ]
+            }
+          },
+          "source_url": "http://localhost:8444/wp-content/uploads/2025/02/521-600x400-1.jpg",
+          "_links": {
+            "self": [
+              {
+                "href": "http://localhost:8444/wp-json/wp/v2/media/24"
+              }
+            ],
+            "collection": [
+              {
+                "href": "http://localhost:8444/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "http://localhost:8444/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "http://localhost:8444/wp-json/wp/v2/users/1"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "http://localhost:8444/wp-json/wp/v2/comments?post=24"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }

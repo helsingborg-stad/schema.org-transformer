@@ -1,0 +1,503 @@
+[
+    {
+        "@context": "https:\/\/schema.org",
+        "@type": "Event",
+        "name": "Idrottsaktiviteter fr\u00f6 \u00c5rskurs 4-6",
+        "description": "<div>Vi erbjuder planerade aktiviteter f\u00f6r \u00c5rskurs 4-6 i nya idrotthallen.<\/div>\n<p>Aktiviteten \u00e4r gratis och har drop-in.<\/p>\n<p><b>Tid<\/b>: tisdagar, klockan 15.15-16.30<\/p>\n<p><strong>Plats<\/strong>: Rydeb\u00e4cks nya idrottshall, Fr\u00f6s\u00f6gatan 15, Rydeb\u00e4ck<\/p>\n<p><b>\u00c5lder: <\/b>10-12 \u00e5r<\/p>\n<p><strong>Ta med<\/strong>: Ett glatt hum\u00f6r<\/p>\n<p>Du f\u00e5r g\u00e4rna kontakta oss om du vill veta mer om aktiviteten.<\/p>\n<p>H\u00e5ll dig uppdaterad p\u00e5 instagram <a href=\"https:\/\/www.instagram.com\/rydebacksfritidsgard\/\">@rydebacksfritidsgard<\/a> f\u00f6r inspiration och senaste nytt. Avvikande tider kan f\u00f6rekomma.<\/p>\n",
+        "location": {
+            "@type": "Place",
+            "name": "Rydeb\u00e4cks idrottshall",
+            "address": "Fr\u00f6s\u00f6gatan 15, 25730, Rydeb\u00e4ck",
+            "latitude": "55.9668958",
+            "longitude": "12.7745249"
+        },
+        "startDate": "2030-02-11T15:15:00+00:00",
+        "endDate": "2030-02-11T16:30:00+00:00",
+        "eventStatus": "https:\/\/schema.org\/EventScheduled",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https:\/\/api.helsingborg.se\/wp-content\/uploads\/sites\/2\/2025\/02\/foto-till-aktivitetskalender-14.png",
+            "description": "Alt Text"
+        },
+        "keywords": [
+            {
+                "@type": "DefinedTerm",
+                "name": "Aktiviteter",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "F\u00f6r barn och ungdom",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Lovaktiviteter",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Mat &amp; dryck",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Prova p\u00e5",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Helsingborgs Konserthus",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_tags"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "jazz",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_tags"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Konsert",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_tags"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Helsingborg Stad",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "user_groups"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Lov",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "user_groups"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "idprefix2099853",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event-ids",
+                    "url": "https:\/\/schema.org\/EventIds"
+                }
+            }
+        ],
+        "eventAttendanceMode": "https:\/\/schema.org\/OfflineEventAttendanceMode",
+        "organizer": {
+            "@type": "Organization",
+            "name": "Ung Fritid Helsingborg",
+            "url": "https:\/\/helsingborg.se\/uppleva-och-gora\/",
+            "email": "joinaoss@helsingborg.se"
+        },
+        "typicalAgeRange": "10-12",
+        "offers": [
+            {
+                "@type": "Offer",
+                "price": 250,
+                "priceCurrency": "SEK",
+                "name": "Standard\/Vuxen",
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "price": 125,
+                "priceCurrency": "SEK",
+                "name": "Barn",
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "price": 200,
+                "priceCurrency": "SEK",
+                "name": "Pension\u00e4r",
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "priceCurrency": "SEK",
+                "name": "Sittplats",
+                "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 20,
+                    "maxPrice": 40
+                },
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "priceCurrency": "SEK",
+                "name": "St\u00e5plats",
+                "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 30,
+                    "maxPrice": 60
+                },
+                "url": "https:\/\/booking-link.org"
+            }
+        ],
+        "url": "https:\/\/helsingborg.se\/uppleva-och-gora\/",
+        "@id": "idprefix2099853-0"
+    },
+    {
+        "@context": "https:\/\/schema.org",
+        "@type": "Event",
+        "name": "Idrottsaktiviteter fr\u00f6 \u00c5rskurs 4-6",
+        "description": "<div>Vi erbjuder planerade aktiviteter f\u00f6r \u00c5rskurs 4-6 i nya idrotthallen.<\/div>\n<p>Aktiviteten \u00e4r gratis och har drop-in.<\/p>\n<p><b>Tid<\/b>: tisdagar, klockan 15.15-16.30<\/p>\n<p><strong>Plats<\/strong>: Rydeb\u00e4cks nya idrottshall, Fr\u00f6s\u00f6gatan 15, Rydeb\u00e4ck<\/p>\n<p><b>\u00c5lder: <\/b>10-12 \u00e5r<\/p>\n<p><strong>Ta med<\/strong>: Ett glatt hum\u00f6r<\/p>\n<p>Du f\u00e5r g\u00e4rna kontakta oss om du vill veta mer om aktiviteten.<\/p>\n<p>H\u00e5ll dig uppdaterad p\u00e5 instagram <a href=\"https:\/\/www.instagram.com\/rydebacksfritidsgard\/\">@rydebacksfritidsgard<\/a> f\u00f6r inspiration och senaste nytt. Avvikande tider kan f\u00f6rekomma.<\/p>\n",
+        "location": {
+            "@type": "Place",
+            "name": "Rydeb\u00e4cks idrottshall",
+            "address": "Fr\u00f6s\u00f6gatan 15, 25730, Rydeb\u00e4ck",
+            "latitude": "55.9668958",
+            "longitude": "12.7745249"
+        },
+        "startDate": "2025-02-18T15:15:00+00:00",
+        "endDate": "2025-02-18T16:30:00+00:00",
+        "eventStatus": "https:\/\/schema.org\/EventRescheduled",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https:\/\/api.helsingborg.se\/wp-content\/uploads\/sites\/2\/2025\/02\/foto-till-aktivitetskalender-14.png",
+            "description": "Alt Text"
+        },
+        "keywords": [
+            {
+                "@type": "DefinedTerm",
+                "name": "Aktiviteter",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "F\u00f6r barn och ungdom",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Lovaktiviteter",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Mat &amp; dryck",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Prova p\u00e5",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Helsingborgs Konserthus",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_tags"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "jazz",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_tags"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Konsert",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_tags"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Helsingborg Stad",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "user_groups"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Lov",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "user_groups"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "idprefix2099853",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event-ids",
+                    "url": "https:\/\/schema.org\/EventIds"
+                }
+            }
+        ],
+        "eventAttendanceMode": "https:\/\/schema.org\/OfflineEventAttendanceMode",
+        "organizer": {
+            "@type": "Organization",
+            "name": "Ung Fritid Helsingborg",
+            "url": "https:\/\/helsingborg.se\/uppleva-och-gora\/",
+            "email": "joinaoss@helsingborg.se"
+        },
+        "typicalAgeRange": "10-12",
+        "offers": [
+            {
+                "@type": "Offer",
+                "price": 250,
+                "priceCurrency": "SEK",
+                "name": "Standard\/Vuxen",
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "price": 125,
+                "priceCurrency": "SEK",
+                "name": "Barn",
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "price": 200,
+                "priceCurrency": "SEK",
+                "name": "Pension\u00e4r",
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "priceCurrency": "SEK",
+                "name": "Sittplats",
+                "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 20,
+                    "maxPrice": 40
+                },
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "priceCurrency": "SEK",
+                "name": "St\u00e5plats",
+                "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 30,
+                    "maxPrice": 60
+                },
+                "url": "https:\/\/booking-link.org"
+            }
+        ],
+        "url": "https:\/\/helsingborg.se\/uppleva-och-gora\/",
+        "@id": "idprefix2099853-1"
+    },
+    {
+        "@context": "https:\/\/schema.org",
+        "@type": "Event",
+        "name": "Idrottsaktiviteter fr\u00f6 \u00c5rskurs 4-6",
+        "description": "<div>Vi erbjuder planerade aktiviteter f\u00f6r \u00c5rskurs 4-6 i nya idrotthallen.<\/div>\n<p>Aktiviteten \u00e4r gratis och har drop-in.<\/p>\n<p><b>Tid<\/b>: tisdagar, klockan 15.15-16.30<\/p>\n<p><strong>Plats<\/strong>: Rydeb\u00e4cks nya idrottshall, Fr\u00f6s\u00f6gatan 15, Rydeb\u00e4ck<\/p>\n<p><b>\u00c5lder: <\/b>10-12 \u00e5r<\/p>\n<p><strong>Ta med<\/strong>: Ett glatt hum\u00f6r<\/p>\n<p>Du f\u00e5r g\u00e4rna kontakta oss om du vill veta mer om aktiviteten.<\/p>\n<p>H\u00e5ll dig uppdaterad p\u00e5 instagram <a href=\"https:\/\/www.instagram.com\/rydebacksfritidsgard\/\">@rydebacksfritidsgard<\/a> f\u00f6r inspiration och senaste nytt. Avvikande tider kan f\u00f6rekomma.<\/p>\n",
+        "location": {
+            "@type": "Place",
+            "name": "Rydeb\u00e4cks idrottshall",
+            "address": "Fr\u00f6s\u00f6gatan 15, 25730, Rydeb\u00e4ck",
+            "latitude": "55.9668958",
+            "longitude": "12.7745249"
+        },
+        "startDate": "2025-03-04T15:15:00+00:00",
+        "endDate": "2025-03-04T16:30:00+00:00",
+        "eventStatus": "https:\/\/schema.org\/EventCancelled",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https:\/\/api.helsingborg.se\/wp-content\/uploads\/sites\/2\/2025\/02\/foto-till-aktivitetskalender-14.png",
+            "description": "Alt Text"
+        },
+        "keywords": [
+            {
+                "@type": "DefinedTerm",
+                "name": "Aktiviteter",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "F\u00f6r barn och ungdom",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Lovaktiviteter",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Mat &amp; dryck",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Prova p\u00e5",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_categories"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Helsingborgs Konserthus",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_tags"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "jazz",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_tags"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Konsert",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event_tags"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Helsingborg Stad",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "user_groups"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Lov",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "user_groups"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "idprefix2099853",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "event-ids",
+                    "url": "https:\/\/schema.org\/EventIds"
+                }
+            }
+        ],
+        "eventAttendanceMode": "https:\/\/schema.org\/OfflineEventAttendanceMode",
+        "organizer": {
+            "@type": "Organization",
+            "name": "Ung Fritid Helsingborg",
+            "url": "https:\/\/helsingborg.se\/uppleva-och-gora\/",
+            "email": "joinaoss@helsingborg.se"
+        },
+        "typicalAgeRange": "10-12",
+        "offers": [
+            {
+                "@type": "Offer",
+                "price": 250,
+                "priceCurrency": "SEK",
+                "name": "Standard\/Vuxen",
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "price": 125,
+                "priceCurrency": "SEK",
+                "name": "Barn",
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "price": 200,
+                "priceCurrency": "SEK",
+                "name": "Pension\u00e4r",
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "priceCurrency": "SEK",
+                "name": "Sittplats",
+                "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 20,
+                    "maxPrice": 40
+                },
+                "url": "https:\/\/booking-link.org"
+            },
+            {
+                "@type": "Offer",
+                "priceCurrency": "SEK",
+                "name": "St\u00e5plats",
+                "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 30,
+                    "maxPrice": 60
+                },
+                "url": "https:\/\/booking-link.org"
+            }
+        ],
+        "url": "https:\/\/helsingborg.se\/uppleva-och-gora\/",
+        "@id": "idprefix2099853-2"
+    }
+]

@@ -1,0 +1,152 @@
+{
+    "id": 2099853,
+    "title": {
+      "rendered": "Idrottsaktiviteter frö Årskurs 4-6"
+    },
+    "content": {
+      "rendered": "<div>Vi erbjuder planerade aktiviteter för Årskurs 4-6 i nya idrotthallen.</div>\n<p>Aktiviteten är gratis och har drop-in.</p>\n<p><b>Tid</b>: tisdagar, klockan 15.15-16.30</p>\n<p><strong>Plats</strong>: Rydebäcks nya idrottshall, Frösögatan 15, Rydebäck</p>\n<p><b>Ålder: </b>10-12 år</p>\n<p><strong>Ta med</strong>: Ett glatt humör</p>\n<p>Du får gärna kontakta oss om du vill veta mer om aktiviteten.</p>\n<p>Håll dig uppdaterad på instagram <a href=\"https://www.instagram.com/rydebacksfritidsgard/\">@rydebacksfritidsgard</a> för inspiration och senaste nytt. Avvikande tider kan förekomma.</p>\n"
+    },
+    "user_groups": [
+      {
+        "id": 312,
+        "name": "Helsingborg Stad",
+        "slug": "helsingborg-stad"
+      },
+      {
+        "id": 6161,
+        "name": "Lov",
+        "slug": "lov"
+      }
+    ],
+    "event_categories": [
+      "Aktiviteter",
+      "För barn och ungdom",
+      "Lovaktiviteter",
+      "Mat &amp; dryck",
+      "Prova på"
+    ],
+    "event_tags": [
+      "Helsingborgs Konserthus",
+      "jazz",
+      "Konsert"
+    ],
+    "event_link": "https://helsingborg.se/uppleva-och-gora/",
+    "additional_links": null,
+    "related_events": null,
+    "occasions": [
+      {
+        "start_date": "2030-02-11 15:15",
+        "end_date": "2030-02-11 16:30",
+        "door_time": null,
+        "status": "scheduled",
+        "occ_exeption_information": null,
+        "content_mode": null,
+        "content": null,
+        "location_mode": null,
+        "location": null
+      },
+      {
+        "start_date": "2025-02-18 15:15",
+        "end_date": "2025-02-18 16:30",
+        "door_time": null,
+        "status": "rescheduled",
+        "occ_exeption_information": null,
+        "content_mode": null,
+        "content": null,
+        "location_mode": null,
+        "location": null
+      },
+      {
+        "start_date": "2025-03-04 15:15",
+        "end_date": "2025-03-04 16:30",
+        "door_time": null,
+        "status": "cancelled",
+        "occ_exeption_information": null,
+        "content_mode": null,
+        "content": null,
+        "location_mode": null,
+        "location": null
+      }
+    ],
+    "location": {
+      "id": 1851492,
+      "title": "Rydebäcks idrottshall",
+      "parent": null,
+      "content": "",
+      "street_address": "Frösögatan 15",
+      "postal_code": "25730",
+      "city": "Rydebäck",
+      "country": "",
+      "formatted_address": "Frösögatan 15, 25730, Rydebäck",
+      "latitude": "55.9668958",
+      "longitude": "12.7745249"
+    },
+    "additional_locations": null,
+    "organizers": [
+      {
+        "main_organizer": true,
+        "organizer": "Ung Fritid Helsingborg",
+        "organizer_link": "https://helsingborg.se/uppleva-och-gora/",
+        "organizer_phone": null,
+        "organizer_email": "joinaoss@helsingborg.se",
+        "contact_persons": false,
+        "contacts": null
+      }
+    ],
+    "supporters": null,
+    "booking_link": "https://booking-link.org",
+    "booking_link_type": "book_free",
+    "booking_phone": null,
+    "booking_email": null,
+    "ticket_release_date": null,
+    "age_restriction": null,
+    "ticket_stock": null,
+    "tickets_remaining": null,
+    "additional_ticket_retailers": null,
+    "membership_cards": null,
+    "price_information": null,
+    "ticket_includes": null,
+    "price_adult": "250",
+    "price_children": "125",
+    "children_age": null,
+    "price_student": null,
+    "price_senior": "200",
+    "additional_ticket_types": null,
+    "senior_age": null,
+    "booking_group": null,
+    "price_range": {
+      "seated_minimum_price": "20",
+      "seated_maximum_price": "40",
+      "standing_minimum_price": "30",
+      "standing_maximum_price": "60"
+    },
+    "contact_phone": "070-351 35 57",
+    "contact_email": "rydebacksfritidsgard@helsingborg.se",
+    "contact_information": null,
+    "gallery": null,
+    "age_group_from": "10",
+    "age_group_to": "12",
+    "accessibility": [
+      "Accessible toilet",
+      "Elevator/ramp"
+    ],
+    "_embedded": {
+      "location": [
+        {
+          "title": {
+            "rendered": "Rydebäcks idrottshall",
+            "plain_text": "Rydebäcks idrottshall"
+          },
+          "latitude": "55.9668958",
+          "longitude": "12.7745249",
+          "formatted_address": "Frösögatan 15, 25730, Rydebäck"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "alt_text": "Alt Text",
+          "source_url": "https://api.helsingborg.se/wp-content/uploads/sites/2/2025/02/foto-till-aktivitetskalender-14.png"
+        }
+      ]
+    }
+  }
