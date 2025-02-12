@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
+namespace SchemaTransformer\Util;
+
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Util\HttpUtils;
 
-final class HTTPTest extends TestCase
+final class HTTPUtilsTest extends TestCase
 {
-    protected function setUp(): void {}
+    protected function setUp(): void
+    {
+    }
 
     public function testGetResponseHeaders(): void
     {
@@ -21,8 +25,8 @@ final class HTTPTest extends TestCase
         $data = HttpUtils::getResponseHeaders($headers);
 
         $this->assertEquals([
-            "server" => "nginx",
-            "date" => "Tue, 08 Oct 2024 14:26:37 GMT",
+            "server"       => "nginx",
+            "date"         => "Tue, 08 Oct 2024 14:26:37 GMT",
             "content-type" => "application/json; charset=UTF-8"
         ], $data);
     }

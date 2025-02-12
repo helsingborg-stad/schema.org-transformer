@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace SchemaTransformer\Transforms;
+
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\StratsysTransform;
 
@@ -83,12 +85,12 @@ final class StratsysTransformTest extends TestCase
     {
         $this->assertEquals([
             [
-                "@context"    => "https://schema.org",
-                "@type"       => "Project",
-                "@id"         => "Initiativ_InterntID",
-                "name"        => "Initiativ_Namn",
+                "@context"     => "https://schema.org",
+                "@type"        => "Project",
+                "@id"          => "Initiativ_InterntID",
+                "name"         => "Initiativ_Namn",
                 "foundingDate" => "Initiativ_Startdatum",
-                "description" => implode([
+                "description"  => implode([
                     "<h2>Vad?</h2><p>Initiativ_Vad</p>",
                     "<h2>Hur?</h2><p>Initiativ_Hur</p>",
                     "<h2>Varför?</h2><p>Initiativ_Varfor</p>",
@@ -97,20 +99,20 @@ final class StratsysTransformTest extends TestCase
                     "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>",
                     "<h2>Drivs av</h2><p><ul><li>Initiativ_Synligaenheter</li></ul></p>"
                 ]),
-                "image"       => "Initiativ_Lanktillbild",
-                "funding"     => [
+                "image"        => "Initiativ_Lanktillbild",
+                "funding"      => [
                     "@type"  => "MonetaryGrant",
                     "amount" => "Initiativ_Estimeradbudget"
                 ],
-                "department"  => [
+                "department"   => [
                     "@type" => "Organization",
                     "name"  => "Initiativ_Enhet"
                 ],
-                "employee"    => [
+                "employee"     => [
                     "@type"         => "Person",
                     "alternateName" => "Initiativ_Kontaktperson"
                 ],
-                "@meta"       => [
+                "@meta"        => [
                     [
                         "@type" => "PropertyValue",
                         "name"  => "category",
@@ -132,7 +134,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => 0
                     ]
                 ],
-                "@version"    => "0f55001d08676df709f7f9d32d1f3073"
+                "@version"     => "0f55001d08676df709f7f9d32d1f3073"
             ]
         ], $this->model->transform($this->data));
     }
