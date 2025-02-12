@@ -11,8 +11,8 @@
             "latitude": "55.9668958",
             "longitude": "12.7745249"
         },
-        "startDate": "2025-02-11T15:15:00+00:00",
-        "endDate": "2025-02-11T16:30:00+00:00",
+        "startDate": "2030-02-11T15:15:00+00:00",
+        "endDate": "2030-02-11T16:30:00+00:00",
         "eventStatus": "https:\/\/schema.org\/EventScheduled",
         "image": {
             "@type": "ImageObject",
@@ -86,18 +86,18 @@
             },
             {
                 "@type": "DefinedTerm",
-                "name": "Accessible toilet",
+                "name": "Helsingborg Stad",
                 "inDefinedTermSet": {
                     "@type": "DefinedTermSet",
-                    "name": "physical-accessibility"
+                    "name": "user_groups"
                 }
             },
             {
                 "@type": "DefinedTerm",
-                "name": "Elevator\/ramp",
+                "name": "Lov",
                 "inDefinedTermSet": {
                     "@type": "DefinedTermSet",
-                    "name": "physical-accessibility"
+                    "name": "user_groups"
                 }
             },
             {
@@ -253,18 +253,18 @@
             },
             {
                 "@type": "DefinedTerm",
-                "name": "Accessible toilet",
+                "name": "Helsingborg Stad",
                 "inDefinedTermSet": {
                     "@type": "DefinedTermSet",
-                    "name": "physical-accessibility"
+                    "name": "user_groups"
                 }
             },
             {
                 "@type": "DefinedTerm",
-                "name": "Elevator\/ramp",
+                "name": "Lov",
                 "inDefinedTermSet": {
                     "@type": "DefinedTermSet",
-                    "name": "physical-accessibility"
+                    "name": "user_groups"
                 }
             },
             {
@@ -420,18 +420,18 @@
             },
             {
                 "@type": "DefinedTerm",
-                "name": "Accessible toilet",
+                "name": "Helsingborg Stad",
                 "inDefinedTermSet": {
                     "@type": "DefinedTermSet",
-                    "name": "physical-accessibility"
+                    "name": "user_groups"
                 }
             },
             {
                 "@type": "DefinedTerm",
-                "name": "Elevator\/ramp",
+                "name": "Lov",
                 "inDefinedTermSet": {
                     "@type": "DefinedTermSet",
-                    "name": "physical-accessibility"
+                    "name": "user_groups"
                 }
             },
             {

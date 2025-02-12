@@ -6,5 +6,5 @@ namespace SchemaTransformer\Interfaces;
 
 interface AbstractPaginator
 {
-    public function getNext(array $headers): string | false;
+    public function getNext(string $previous, array $headers): string | false;
 }

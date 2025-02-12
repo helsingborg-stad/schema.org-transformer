@@ -19,6 +19,15 @@ cd ${SCRIPT_DIR}
 TMPFILE=$(mktemp)
 TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/events/documents
 
+# Append param "start_date" with the value of todays date in format YYYY-MM-DD to the WORDPRESS_LEGACY_EVENT_PATH if WORDPRESS_LEGACY_EVENT_PATH is a url
+if [[ ${WORDPRESS_LEGACY_EVENT_PATH} == http* ]]; then
+    if [[ ${WORDPRESS_LEGACY_EVENT_PATH} == *\?* ]]; then
+        WORDPRESS_LEGACY_EVENT_PATH="${WORDPRESS_LEGACY_EVENT_PATH}&start_date=$(date +%Y-%m-%d)"
+    else
+        WORDPRESS_LEGACY_EVENT_PATH="${WORDPRESS_LEGACY_EVENT_PATH}?start_date=$(date +%Y-%m-%d)"
+    fi
+fi
+
 # Retreive and transform Stratsys export
 php ../../../router.php \
     --source ${WORDPRESS_LEGACY_EVENT_PATH} \
@@ -27,7 +36,6 @@ php ../../../router.php \
     --paginator wordpress \
     --output ${TMPFILE} \
     --idprefix L
-
 
 if [ $? -ne 0 ]; then
     echo "FAILED to transform request to file ${TMPFILE}"

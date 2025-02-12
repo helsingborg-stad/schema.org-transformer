@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Tests\Transforms;
+namespace SchemaTransformer\Transforms;
 
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPLegacyEventTransform;
 use Spatie\Snapshots\MatchesSnapshots;
 
+#[CoversClass(WPLegacyEventTransform::class)]
 final class WPLegacyEventTransformTest extends TestCase
 {
     use MatchesSnapshots;
@@ -65,7 +67,7 @@ final class WPLegacyEventTransformTest extends TestCase
      */
     private function getRow(array $data = []): array
     {
-        $json    = file_get_contents(__DIR__ . '/../fixtures/wp-legacy-event.json');
+        $json    = file_get_contents(__DIR__ . '/../../tests/fixtures/wp-legacy-event.json');
         $fixture = json_decode($json, true);
 
         return array_merge($fixture, $data);

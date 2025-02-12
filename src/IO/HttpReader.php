@@ -28,7 +28,7 @@ class HttpReader implements AbstractDataReader
             // Extend list
             $result = [...$result, ...$response];
             // Get next page
-            $next = $this->paginator->getNext($headers);
+            $next = $this->paginator->getNext($next, $headers);
         };
         return $result;
     }

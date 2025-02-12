@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
+namespace SchemaTransformer\Transforms\DataSanitizers;
+
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\DataSanitizers\SanitizeReachmeeJobPostingLink;
 
-class SanitizeReachmeeJobPostingLinkTest extends TestCase {
-    public function testLinkIsConvertedToApplyLink() {
+class SanitizeReachmeeJobPostingLinkTest extends TestCase
+{
+    public function testLinkIsConvertedToApplyLink()
+    {
         $data = ["link" => "https://host.com/path/main?site=foo&validator=123&lang=SE&rmpage=job&rmjob=321"];
 
         $sanitizedData = (new SanitizeReachmeeJobPostingLink())->sanitize($data);

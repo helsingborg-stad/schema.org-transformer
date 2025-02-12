@@ -60,11 +60,13 @@ class RuntimeServices
                     new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEndDate(),
                     new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventStatus(),
                     new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyKeywords(),
+                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyKeywords(),
                     new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
                     new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOrganizer(),
                     new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
                     new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOffers(),
+                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyUrl(),
+                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIdAsDefinedTermInKeywords($idprefix),
                 ],
                 new \SchemaTransformer\Transforms\Validators\EventValidator()
             ),
@@ -91,6 +93,9 @@ class RuntimeServices
                     new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOrganizer(),
                     new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
                     new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
+                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyAudience(),
+                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree(),
+                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIdAsDefinedTermInKeywords($idprefix)
                 ],
                 new \SchemaTransformer\Transforms\Validators\EventValidator()
             ),

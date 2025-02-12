@@ -35,8 +35,8 @@
     "related_events": null,
     "occasions": [
       {
-        "start_date": "2025-02-11 15:15",
-        "end_date": "2025-02-11 16:30",
+        "start_date": "2030-02-11 15:15",
+        "end_date": "2030-02-11 16:30",
         "door_time": null,
         "status": "scheduled",
         "occ_exeption_information": null,

@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Tests\Transforms;
+namespace SchemaTransformer\Transforms;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
 use Spatie\Snapshots\MatchesSnapshots;
 
+#[CoversClass(WPReleaseEventTransform::class)]
 final class WPReleaseEventTransformTest extends TestCase
 {
     use MatchesSnapshots;
@@ -342,7 +344,7 @@ final class WPReleaseEventTransformTest extends TestCase
      */
     private function getRow(array $data = []): array
     {
-        $json    = file_get_contents(__DIR__ . '/../fixtures/wp-release-event.json');
+        $json    = file_get_contents(__DIR__ . '/../../tests/fixtures/wp-release-event.json');
         $fixture = json_decode($json, true);
 
         return array_merge($fixture, $data);

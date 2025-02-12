@@ -2,9 +2,13 @@
 
 declare(strict_types=1);
 
+namespace SchemaTransformer\Transforms;
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 
+#[CoversClass(ReachmeeJobPostingTransform::class)]
 final class ReachmeeJobPostingTransformTest extends TestCase
 {
     protected array $data;

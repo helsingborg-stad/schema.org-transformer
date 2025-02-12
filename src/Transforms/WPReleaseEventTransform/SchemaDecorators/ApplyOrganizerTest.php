@@ -1,6 +1,6 @@
 <?php
 
-namespace SchemaTransformer\Tests\Transforms\WPReleaseEventTransform\SchemaDecorators;
+namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;

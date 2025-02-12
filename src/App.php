@@ -8,7 +8,9 @@ use SchemaTransformer\IO\ConsoleWriter;
 use SchemaTransformer\IO\FileReader;
 use SchemaTransformer\IO\FileWriter;
 use SchemaTransformer\IO\HttpReader;
+use SchemaTransformer\IO\HttpStatusCodeReader;
 use SchemaTransformer\IO\HttpWriter;
+use SchemaTransformer\Paginators\GetParamPaginator;
 use SchemaTransformer\Paginators\NullPaginator;
 use SchemaTransformer\Paginators\WordpressPaginator;
 use SchemaTransformer\Services\AuthService;
@@ -85,6 +87,9 @@ class App
         switch (strtolower($cmd->paginator)) {
             case 'wordpress':
                 $paginator = new WordpressPaginator();
+                break;
+            case 'get-param':
+                $paginator = new GetParamPaginator('page', new HttpStatusCodeReader());
                 break;
             default:
                 $paginator = new NullPaginator();

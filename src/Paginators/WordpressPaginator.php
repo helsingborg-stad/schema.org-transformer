@@ -9,7 +9,7 @@ use SchemaTransformer\Util\HttpUtils;
 
 final class WordpressPaginator implements AbstractPaginator
 {
-    public function getNext(array $headers): string | false
+    public function getNext(string $previous, array $headers): string | false
     {
         if (array_key_exists("link", $headers)) {
             $components = explode(',', $headers["link"]);
