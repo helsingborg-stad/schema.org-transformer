@@ -120,7 +120,8 @@ class App
         $converter = $cmd->outputformat === 'jsonl' ?
             new JSONLConverter() :
             new JSONConverter();
-        // Wire services
+
+            // Wire services
         $services = new RuntimeServices($reader, $writer, $converter, $cmd->idprefix);
 
         // Execute

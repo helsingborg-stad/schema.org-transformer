@@ -4,7 +4,9 @@ SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 if [ -z ${REACHMEE_HELSINGBORG_PATH} ]; then
     echo "Missing env variable REACHMEE_HELSINGBORG_PATH"; exit 1
 fi
-which php >/dev/null
+
+which php
+
 if [ $? -ne 0 ]; then
     echo "PHP command missing or not in path"; exit 1
 fi

@@ -77,7 +77,7 @@ class ReachmeeJobPostingTransform extends TransformBase implements AbstractDataT
                         )
                 );
 
-            if ($this->isValidArray($row, 'contact_persons')) {
+            if (!empty($row['contact_persons']) && is_array($row['contact_persons'])) {
                 $contacts = [];
                 foreach ($row['contact_persons'] as &$contact) {
                     $contacts[] = Schema::contactPoint()

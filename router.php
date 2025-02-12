@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace SchemaTransformer;
 
-// increase memory limit
-ini_set('memory_limit', '2048M');
-
 require_once 'vendor/autoload.php';
 
 \SchemaTransformer\App::run(getopt("", [
