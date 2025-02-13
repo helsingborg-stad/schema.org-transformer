@@ -12,7 +12,7 @@ final class StratsysTransformTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->model = new StratsysTransform();
+        $this->model = new StratsysTransform("");
 
         $this->data = [
             "header" => [
@@ -44,7 +44,8 @@ final class StratsysTransformTest extends TestCase
                 "Effektmal_Namn",
                 "Effektmal_Malvarde",
                 "Effektmal_Utfall",
-                "Initiativ_Synligaenheter"
+                "Initiativ_Synligaenheter",
+                "Initiativ_Samarbetesokes"
             ],
             "values" => [
                 [
@@ -77,6 +78,7 @@ final class StratsysTransformTest extends TestCase
                     "Effektmal_Malvarde",
                     "Effektmal_Utfall",
                     "Initiativ_Synligaenheter",
+                    "Initiativ_Samarbetesokes"
                 ]
             ]
         ];
@@ -96,6 +98,7 @@ final class StratsysTransformTest extends TestCase
                     "<h2>Varför?</h2><p>Initiativ_Varfor</p>",
                     "<h2>Effektmål</h2><p><ul><li>Effektmal_Namn</li></ul></p>",
                     "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
+                    "<h2>Samarbete sökes!</h2><p>Initiativ_Samarbetesokes</p>",
                     "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>",
                     "<h2>Drivs av</h2><p><ul><li>Initiativ_Synligaenheter</li></ul></p>"
                 ]),
@@ -135,7 +138,7 @@ final class StratsysTransformTest extends TestCase
                         "value" => 0
                     ]
                 ],
-                "@version"    => "229ceb2081c9586d124caefafff87dce"
+                "@version"    => "cfd8962195c2d90ba5e1c692a15e5f1e"
             ]
         ], $this->model->transform($this->data));
     }

@@ -82,7 +82,7 @@ final class ReachmeeJobPostingTransformTest extends TestCase
     }
     public function testJobPostingTransform(): void
     {
-        $model = new ReachmeeJobPostingTransform([]);
+        $model = new ReachmeeJobPostingTransform([], "");
         $this->assertEquals([[
             "@context"           => "https://schema.org",
             "@id"                => "2",
@@ -133,7 +133,7 @@ final class ReachmeeJobPostingTransformTest extends TestCase
     public function testRequiresAdId()
     {
         $data  = [[]];
-        $model = new ReachmeeJobPostingTransform([]);
+        $model = new ReachmeeJobPostingTransform([], "");
 
         $this->assertEmpty($model->transform($data));
     }
@@ -141,7 +141,7 @@ final class ReachmeeJobPostingTransformTest extends TestCase
     public function testEmptyDataReturnsEmptyArray()
     {
         $data  = [];
-        $model = new ReachmeeJobPostingTransform([]);
+        $model = new ReachmeeJobPostingTransform([], "");
 
         $this->assertEmpty($model->transform($data));
     }
@@ -157,7 +157,7 @@ final class ReachmeeJobPostingTransformTest extends TestCase
                     return $data;
                 }
             }
-        ]);
+        ], "");
 
         $this->assertEquals('sanitized', $model->transform($data)[0]['title']);
     }
