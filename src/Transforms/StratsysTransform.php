@@ -200,7 +200,7 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
             'Initiativ_Varfor'         => '<h2>Varför?</h2>',
             'Effektmal_Namn'           => '<h2>Effektmål</h2>',
             'Initiativ_Avgransningar'  => '<h2>Avgränsningar</h2>',
-            'Initiativ_Samarbetesokes'  => '<h2>Samarbete sökes!</h2>',
+            'Initiativ_Samarbetesokes' => '<h2>Samarbete sökes!</h2>',
             'Initiativ_Utmaningar'     => '<h2>Utmaningar</h2>',
             'Initiativ_Synligaenheter' => '<h2>Drivs av</h2>',
         ];
