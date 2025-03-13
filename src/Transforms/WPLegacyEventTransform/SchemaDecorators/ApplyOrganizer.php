@@ -10,26 +10,23 @@ class ApplyOrganizer implements SchemaDecorator
 {
     public function apply(BaseType $event, array $data): BaseType
     {
-        $organizer = $this->getOrganizer($data);
-
-        if (!$this->dataContainsOrganizer($data) || !$organizer) {
+        if (empty($organizers = $this->getOrganizers($data))) {
             return $event;
         }
 
-        return $event->setProperty('organizer', Schema::organization()
-            ->name($organizer['organizer'] ?? null)
-            ->url($organizer['organizer_link'] ?? null)
-            ->email($organizer['organizer_email'] ?? null)
-            ->telephone($organizer['organizer_phone'] ?? null));
+        $organizerSchemas = array_map(function ($organizer) {
+            return Schema::organization()
+                ->name($organizer['title']['rendered'] ?? null)
+                ->url($organizer['website'] ?? null)
+                ->email($organizer['email'] ?? null)
+                ->telephone($organizer['phone'] ?? null);
+        }, $organizers);
+
+        return $event->setProperty('organizer', $organizerSchemas);
     }
 
-    private function dataContainsOrganizer(array $data): bool
+    private function getOrganizers(array $data): array
     {
-         return !empty($data['organizers']);
-    }
-
-    private function getOrganizer(array $data): ?array
-    {
-        return $data['organizers'][0] ?? null;
+        return $data['_embedded']['organizers'] ?? [];
     }
 }
