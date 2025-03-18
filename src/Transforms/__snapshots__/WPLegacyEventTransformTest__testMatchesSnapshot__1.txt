@@ -4,7 +4,7 @@
             "schema": "https:\/\/schema.org",
             "municipio": "https:\/\/schema.municipio.tech\/schema.jsonld"
         },
-        "@type": "Event@anonymous\u0000\/workspaces\/schema.org-transformer\/src\/Transforms\/WPLegacyEventTransform\/EventFactory.php:14$135",
+        "@type": "schema:JobPosting",
         "name": "Idrottsaktiviteter fr\u00f6 \u00c5rskurs 4-6",
         "description": "<div>Vi erbjuder planerade aktiviteter f\u00f6r \u00c5rskurs 4-6 i nya idrotthallen.<\/div>\n<p>Aktiviteten \u00e4r gratis och har drop-in.<\/p>\n<p><b>Tid<\/b>: tisdagar, klockan 15.15-16.30<\/p>\n<p><strong>Plats<\/strong>: Rydeb\u00e4cks nya idrottshall, Fr\u00f6s\u00f6gatan 15, Rydeb\u00e4ck<\/p>\n<p><b>\u00c5lder: <\/b>10-12 \u00e5r<\/p>\n<p><strong>Ta med<\/strong>: Ett glatt hum\u00f6r<\/p>\n<p>Du f\u00e5r g\u00e4rna kontakta oss om du vill veta mer om aktiviteten.<\/p>\n<p>H\u00e5ll dig uppdaterad p\u00e5 instagram <a href=\"https:\/\/www.instagram.com\/rydebacksfritidsgard\/\">@rydebacksfritidsgard<\/a> f\u00f6r inspiration och senaste nytt. Avvikande tider kan f\u00f6rekomma.<\/p>\n",
         "location": {

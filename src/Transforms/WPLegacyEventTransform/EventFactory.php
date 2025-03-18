@@ -14,16 +14,15 @@ class EventFactory implements SchemaFactory
         return new class extends Event {
             public function toArray(): array
             {
-                $this->serializeIdentifier();
-                $properties = $this->serializeProperty($this->getProperties());
+                $array = parent::toArray();
 
-                return [
-                    '@context' => [
-                        'schema'    => 'https://schema.org',
-                        'municipio' => 'https://schema.municipio.tech/schema.jsonld',
-                    ],
-                    '@type'    => $this->getType(),
-                ] + $properties;
+                $array['@type']    = "schema:JobPosting";
+                $array['@context'] = [
+                    'schema'    => 'https://schema.org',
+                    'municipio' => 'https://schema.municipio.tech/schema.jsonld',
+                ];
+
+                return $array;
             }
         };
     }
