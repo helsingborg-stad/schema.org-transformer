@@ -10,27 +10,12 @@ class ApplyKeywords implements SchemaDecorator
 {
     public function apply(BaseType $event, array $data): BaseType
     {
-        $eventCategories    = $this->getDefinedTerms('event_categories', 'event_categories', $data);
-        $eventTags          = $this->getDefinedTerms('event_tags', 'event_tags', $data);
-        $accessibilityTerms = $this->getDefinedTerms('accessibility', 'physical-accessibility', $data);
-        $userGroups         = $this->getDefinedTermsFromArrayOfTerms('user_groups', 'user_groups', $data);
+        $eventCategories = $this->getDefinedTerms('event_categories', 'event_categories', $data);
+        $eventTags       = $this->getDefinedTerms('event_tags', 'event_tags', $data);
+        $userGroups      = $this->getDefinedTermsFromArrayOfTerms('user_groups', 'user_groups', $data);
 
-        $accessibilityTerms = $this->mapAccesibilityTermNames($accessibilityTerms);
-
-        return $event->setProperty('keywords', [...$eventCategories, ...$eventTags, ...$userGroups, ...$accessibilityTerms]);
+        return $event->setProperty('keywords', [...$eventCategories, ...$eventTags, ...$userGroups]);
     }
-
-    private function mapAccesibilityTermNames($terms): array
-    {
-        $map = ['Accessible toilet' => 'Handikapptoalett', 'Elevator/ramp' => 'Hiss/ramp'];
-
-        foreach ($terms as $term) {
-            $term->name($map[$term->getProperty('name')] ?? $term->getProperty('name'));
-        }
-
-        return $terms;
-    }
-
 
     private function getDefinedTermsFromArrayOfTerms(string $dataPath, string $taxonomy, array $data): array
     {
