@@ -102,6 +102,22 @@
             },
             {
                 "@type": "DefinedTerm",
+                "name": "Handikapptoalett",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "physical-accessibility"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "Hiss\/ramp",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "physical-accessibility"
+                }
+            },
+            {
+                "@type": "DefinedTerm",
                 "name": "idprefix2099853",
                 "inDefinedTermSet": {
                     "@type": "DefinedTermSet",

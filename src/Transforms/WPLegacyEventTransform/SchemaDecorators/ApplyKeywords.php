@@ -13,10 +13,24 @@ class ApplyKeywords implements SchemaDecorator
         $eventCategories    = $this->getDefinedTerms('event_categories', 'event_categories', $data);
         $eventTags          = $this->getDefinedTerms('event_tags', 'event_tags', $data);
         $accessibilityTerms = $this->getDefinedTerms('accessibility', 'physical-accessibility', $data);
-        $accessibilityTerms = $this->getDefinedTermsFromArrayOfTerms('user_groups', 'user_groups', $data);
+        $userGroups         = $this->getDefinedTermsFromArrayOfTerms('user_groups', 'user_groups', $data);
 
-        return $event->setProperty('keywords', [...$eventCategories, ...$eventTags, ...$accessibilityTerms]);
+        $accessibilityTerms = $this->mapAccesibilityTermNames($accessibilityTerms);
+
+        return $event->setProperty('keywords', [...$eventCategories, ...$eventTags, ...$userGroups, ...$accessibilityTerms]);
     }
+
+    private function mapAccesibilityTermNames($terms): array
+    {
+        $map = ['Accessible toilet' => 'Handikapptoalett', 'Elevator/ramp' => 'Hiss/ramp'];
+
+        foreach ($terms as $term) {
+            $term->name($map[$term->getProperty('name')] ?? $term->getProperty('name'));
+        }
+
+        return $terms;
+    }
+
 
     private function getDefinedTermsFromArrayOfTerms(string $dataPath, string $taxonomy, array $data): array
     {
