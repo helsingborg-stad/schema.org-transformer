@@ -16,7 +16,7 @@ class EventFactory implements SchemaFactory
             {
                 $array = parent::toArray();
 
-                $array['@type']    = "schema:JobPosting";
+                $array['@type']    = "schema:Event";
                 $array['@context'] = [
                     'schema'    => 'https://schema.org',
                     'municipio' => 'https://schema.municipio.tech/schema.jsonld',
