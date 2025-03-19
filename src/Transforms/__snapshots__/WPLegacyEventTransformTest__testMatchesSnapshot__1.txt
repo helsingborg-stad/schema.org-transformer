@@ -130,7 +130,7 @@
                 "telephone": "234-567 89 01"
             }
         ],
-        "municipio:physicalAccessibilityFeatures": [
+        "physicalAccessibilityFeatures": [
             "Handikapptoalett",
             "Hiss\/ramp"
         ],

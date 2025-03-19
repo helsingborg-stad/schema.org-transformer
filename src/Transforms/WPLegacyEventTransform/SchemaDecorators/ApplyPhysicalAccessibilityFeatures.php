@@ -14,7 +14,7 @@ class ApplyPhysicalAccessibilityFeatures implements SchemaDecorator
         }
 
 
-        $event->setProperty('municipio:physicalAccessibilityFeatures', $this->prepareNames($data['accessibility']));
+        $event->setProperty('physicalAccessibilityFeatures', $this->prepareNames($data['accessibility']));
 
         return $event;
     }

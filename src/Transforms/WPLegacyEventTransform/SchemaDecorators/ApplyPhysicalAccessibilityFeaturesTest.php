@@ -23,7 +23,7 @@ class ApplyPhysicalAccessibilityFeaturesTest extends TestCase
         $decorator = new ApplyPhysicalAccessibilityFeatures();
         $result    = $decorator->apply($event, $data);
 
-        $this->assertCount(2, $result->getProperty('municipio:physicalAccessibilityFeatures'));
+        $this->assertCount(2, $result->getProperty('physicalAccessibilityFeatures'));
     }
 
     #[TestDox('maps accessibility term names')]
@@ -35,6 +35,6 @@ class ApplyPhysicalAccessibilityFeaturesTest extends TestCase
         $decorator = new ApplyPhysicalAccessibilityFeatures();
         $result    = $decorator->apply($event, $data);
 
-        $this->assertEquals(['Handikapptoalett', 'Hiss/ramp'], $result->getProperty('municipio:physicalAccessibilityFeatures'));
+        $this->assertEquals(['Handikapptoalett', 'Hiss/ramp'], $result->getProperty('physicalAccessibilityFeatures'));
     }
 }
