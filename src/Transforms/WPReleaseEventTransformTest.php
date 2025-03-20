@@ -33,6 +33,7 @@ final class WPReleaseEventTransformTest extends TestCase
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyStartDate(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEndDate(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventStatus(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventSeries(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyKeywords(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationPlace('acf.location_name', 'acf.location.address', 'acf.location.lat', 'acf.location.lng', $pathValueAccessor),
@@ -60,7 +61,7 @@ final class WPReleaseEventTransformTest extends TestCase
     {
         $events   = $this->transformer->transform([$this->getRow()]);
         $snapshot = json_encode($events, JSON_PRETTY_PRINT);
-        $this->assertMatchesSnapshot($snapshot);
+        $this->assertMatchesJsonSnapshot($snapshot);
     }
 
     #[TestDox('returns an array of Event objects')]
@@ -69,7 +70,7 @@ final class WPReleaseEventTransformTest extends TestCase
         $events = $this->transformer->transform([$this->getRow()]);
 
         $this->assertIsArray($events);
-        $this->assertCount(1, $events);
+        $this->assertCount(2, $events);
         $this->assertEquals($events[0]['@type'], 'Event');
     }
 
@@ -119,7 +120,7 @@ final class WPReleaseEventTransformTest extends TestCase
     public function testIdIsSetFromIdPrefixAndIdInData(): void
     {
         $events = $this->transformer->transform([$this->getRow()]);
-        $this->assertEquals('idprefix5', $events[0]['@id']);
+        $this->assertEquals('idprefix5-0', $events[0]['@id']);
     }
 
     #[TestDox('occasion index is appended to the id if there are multiple occasions')]

@@ -59,7 +59,12 @@
       "recurringEvent": false,
       "occasions": [
         {
-          "date": "20250606",
+          "date": "20300606",
+          "startTime": "12:00:00",
+          "endTime": "13:00:00"
+        },
+        {
+          "date": "20300607",
           "startTime": "12:00:00",
           "endTime": "13:00:00"
         }
