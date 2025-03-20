@@ -4,7 +4,7 @@
   "type": "project",
   "require": {
     "php": "^8.2",
-    "spatie/schema-org": "^3.23"
+    "helsingborg-stad/schema-org": "^1.2.0"
   },
   "autoload": {
     "classmap": [

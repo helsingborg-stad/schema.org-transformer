@@ -15,6 +15,10 @@ class SplitRowsByOccasion implements AbstractDataTransform
         $rowsWithSingleOccasion = [];
 
         foreach ($data as $rowWithMultipleOccasions) {
+            if (empty($rowWithMultipleOccasions['id'])) {
+                continue;
+            }
+
             $occasions = $this->getOccasionsFromPath($rowWithMultipleOccasions, $this->occasionPathInData);
 
             if (empty($occasions)) {
@@ -37,7 +41,7 @@ class SplitRowsByOccasion implements AbstractDataTransform
             }
         }
 
-        return $rowsWithSingleOccasion;
+        return $this->applyEventsInSameSeries($rowsWithSingleOccasion);
     }
 
     private function getOccasionsFromPath(array $data, string $path)
@@ -64,5 +68,14 @@ class SplitRowsByOccasion implements AbstractDataTransform
             $data = &$data[$key];
         }
         $data[$lastKey] = $occasion;
+    }
+
+    private function applyEventsInSameSeries(array $rowsWithSingleOccasion): array
+    {
+        $allIds = array_column($rowsWithSingleOccasion, 'id');
+        return array_map(function ($row) use ($allIds) {
+            $row['eventsInSameSeries'] = array_filter($allIds, fn($id) => $id !== $row['id']);
+            return $row;
+        }, $rowsWithSingleOccasion);
     }
 }

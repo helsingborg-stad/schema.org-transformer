@@ -35,6 +35,7 @@ final class WPLegacyEventTransformTest extends TestCase
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyKeywords(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventSeries(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOrganizer(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyPhysicalAccessibilityFeatures(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
@@ -57,7 +58,7 @@ final class WPLegacyEventTransformTest extends TestCase
     {
         $events   = $this->transformer->transform([$this->getRow()]);
         $snapshot = json_encode($events, JSON_PRETTY_PRINT);
-        $this->assertMatchesSnapshot($snapshot);
+        $this->assertMatchesJsonSnapshot($snapshot);
     }
 
     /**
