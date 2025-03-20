@@ -114,10 +114,16 @@
             }
         ],
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "eventsInSameSeries": {
-            "1": "2099853-1",
-            "2": "2099853-2"
-        },
+        "eventsInSameSeries": [
+            {
+                "@type": "Event",
+                "@id": "2099853-1"
+            },
+            {
+                "@type": "Event",
+                "@id": "2099853-2"
+            }
+        ],
         "organizer": [
             {
                 "@type": "Organization",
@@ -302,10 +308,16 @@
             }
         ],
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "eventsInSameSeries": {
-            "0": "2099853-0",
-            "2": "2099853-2"
-        },
+        "eventsInSameSeries": [
+            {
+                "@type": "Event",
+                "@id": "2099853-0"
+            },
+            {
+                "@type": "Event",
+                "@id": "2099853-2"
+            }
+        ],
         "organizer": [
             {
                 "@type": "Organization",
@@ -491,8 +503,14 @@
         ],
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
         "eventsInSameSeries": [
-            "2099853-0",
-            "2099853-1"
+            {
+                "@type": "Event",
+                "@id": "2099853-0"
+            },
+            {
+                "@type": "Event",
+                "@id": "2099853-1"
+            }
         ],
         "organizer": [
             {

@@ -7,9 +7,12 @@
         "startDate": "2030-06-06T12:00:00+00:00",
         "endDate": "2030-06-06T13:00:00+00:00",
         "eventStatus": "https://schema.org/EventScheduled",
-        "eventsInSameSeries": {
-            "1": "5-1"
-        },
+        "eventsInSameSeries": [
+            {
+                "@type": "Event",
+                "@id": "5-1"
+            }
+        ],
         "image": {
             "@type": "ImageObject",
             "url": "http://localhost:8444/wp-content/uploads/2025/02/521-600x400-1.jpg",
@@ -100,7 +103,10 @@
         "endDate": "2030-06-07T13:00:00+00:00",
         "eventStatus": "https://schema.org/EventScheduled",
         "eventsInSameSeries": [
-            "5-0"
+            {
+                "@type": "Event",
+                "@id": "5-0"
+            }
         ],
         "image": {
             "@type": "ImageObject",

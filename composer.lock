@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "helsingborg-stad/schema-org",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/helsingborg-stad/schema-org.git",
-                "reference": "b9d1bee7b1afb926d8685a37aed83bb2b80a2350"
+                "reference": "789a7d1fba06761a0133a33babba6d5f8af9cd59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/helsingborg-stad/schema-org/zipball/b9d1bee7b1afb926d8685a37aed83bb2b80a2350",
-                "reference": "b9d1bee7b1afb926d8685a37aed83bb2b80a2350",
+                "url": "https://api.github.com/repos/helsingborg-stad/schema-org/zipball/789a7d1fba06761a0133a33babba6d5f8af9cd59",
+                "reference": "789a7d1fba06761a0133a33babba6d5f8af9cd59",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +64,7 @@
                 "schema-org"
             ],
             "support": {
-                "source": "https://github.com/helsingborg-stad/schema-org/tree/1.3.0"
+                "source": "https://github.com/helsingborg-stad/schema-org/tree/1.4.0"
             },
             "funding": [
                 {
@@ -76,7 +76,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-20T08:44:42+00:00"
+            "time": "2025-03-20T12:02:37+00:00"
         }
     ],
     "packages-dev": [

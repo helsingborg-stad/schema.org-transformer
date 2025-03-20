@@ -4,6 +4,7 @@ namespace SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators;
 
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
 use Spatie\SchemaOrg\BaseType;
+use Spatie\SchemaOrg\Schema;
 
 class ApplyEventSeries implements SchemaDecorator
 {
@@ -13,6 +14,8 @@ class ApplyEventSeries implements SchemaDecorator
             return $event;
         }
 
-        return $event->eventsInSameSeries($data['eventsInSameSeries']);
+        return $event->addProperties(['eventsInSameSeries' => [
+            ...array_map(fn($id) => Schema::event()->identifier($id), $data['eventsInSameSeries'])
+        ]]);
     }
 }

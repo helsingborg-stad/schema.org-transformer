@@ -19,10 +19,11 @@ class ApplyEventSeriesTest extends TestCase
     {
         $event = Schema::event();
 
-        $data = ['eventsInSameSeries' => ['123', '456']];
+        $data = ['eventsInSameSeries' => ['123','456']];
 
         $event = (new ApplyEventSeries())->apply($event, $data);
 
-        $this->assertEquals(['123', '456'], $event->getProperty('eventsInSameSeries'));
+        $this->assertEquals('123', $event->getProperty('eventsInSameSeries')[0]->getProperty('identifier'));
+        $this->assertEquals('456', $event->getProperty('eventsInSameSeries')[1]->getProperty('identifier'));
     }
 }
