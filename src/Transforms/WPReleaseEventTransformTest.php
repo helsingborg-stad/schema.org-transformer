@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
+use SchemaTransformer\Transforms\IdFormatter\FormatIdWithPrefix;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -20,12 +21,12 @@ final class WPReleaseEventTransformTest extends TestCase
 
     protected function setUp(): void
     {
+        $idFormatter = new FormatIdWithPrefix('idprefix');
         parent::setUp();
         $pathValueAccessor = new \SchemaTransformer\Util\ArrayPathResolver();
-        $idPrefix          = 'idprefix';
         $this->transformer = new WPReleaseEventTransform(
-            $idPrefix,
-            new \SchemaTransformer\Transforms\SplitRowsByOccasion('acf.occasions'),
+            $idFormatter,
+            new \SchemaTransformer\Transforms\SplitRowsByOccasion('acf.occasions', $idFormatter),
             new \SchemaTransformer\Transforms\WPReleaseEventTransform\EventFactory(),
             [
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),

@@ -7,6 +7,7 @@ namespace SchemaTransformer\Transforms;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use SchemaTransformer\Transforms\IdFormatter\FormatIdWithPrefix;
 use SchemaTransformer\Transforms\WPLegacyEventTransform;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -19,11 +20,11 @@ final class WPLegacyEventTransformTest extends TestCase
 
     protected function setUp(): void
     {
-        $idPrefix          = 'idprefix';
+        $idFormatter       = new FormatIdWithPrefix('idprefix');
         $pathValueAccessor = new \SchemaTransformer\Util\ArrayPathResolver();
         $this->transformer = new WPLegacyEventTransform(
-            $idPrefix,
-            new \SchemaTransformer\Transforms\SplitRowsByOccasion('occasions'),
+            $idFormatter,
+            new \SchemaTransformer\Transforms\SplitRowsByOccasion('occasions', $idFormatter),
             new \SchemaTransformer\Transforms\WPLegacyEventTransform\EventFactory(),
             [
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),

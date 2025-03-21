@@ -108,11 +108,11 @@
         "eventsInSameSeries": [
             {
                 "@type": "Event",
-                "@id": "2099853-1"
+                "@id": "idprefix2099853-1"
             },
             {
                 "@type": "Event",
-                "@id": "2099853-2"
+                "@id": "idprefix2099853-2"
             }
         ],
         "organizer": [
@@ -293,11 +293,11 @@
         "eventsInSameSeries": [
             {
                 "@type": "Event",
-                "@id": "2099853-0"
+                "@id": "idprefix2099853-0"
             },
             {
                 "@type": "Event",
-                "@id": "2099853-2"
+                "@id": "idprefix2099853-2"
             }
         ],
         "organizer": [
@@ -478,11 +478,11 @@
         "eventsInSameSeries": [
             {
                 "@type": "Event",
-                "@id": "2099853-0"
+                "@id": "idprefix2099853-0"
             },
             {
                 "@type": "Event",
-                "@id": "2099853-1"
+                "@id": "idprefix2099853-1"
             }
         ],
         "organizer": [

@@ -3,10 +3,11 @@
 namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
+use SchemaTransformer\Interfaces\AbstractIdFormatter;
 
 class SplitRowsByOccasion implements AbstractDataTransform
 {
-    public function __construct(private string $occasionPathInData)
+    public function __construct(private string $occasionPathInData, private AbstractIdFormatter $idFormatter)
     {
     }
 
@@ -44,7 +45,7 @@ class SplitRowsByOccasion implements AbstractDataTransform
         foreach ($occasions as $i => $occasion) {
             $rowWithSingleOccasion               = $row;
             $rowWithSingleOccasion['originalId'] = $rowWithSingleOccasion['id'];
-            $rowWithSingleOccasion['id']         = $rowWithSingleOccasion['id'] . '-' . $i;
+            $rowWithSingleOccasion['id']         = $this->idFormatter->formatId($rowWithSingleOccasion['id'] . '-' . $i);
             $allIds[]                            = $rowWithSingleOccasion['id'];
 
             $this->setOccasionData($rowWithSingleOccasion, [$occasion]);

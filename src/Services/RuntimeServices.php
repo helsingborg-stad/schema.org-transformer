@@ -10,6 +10,7 @@ use SchemaTransformer\Interfaces\AbstractDataWriter;
 use SchemaTransformer\Services\Service;
 use SchemaTransformer\Interfaces\AbstractService;
 use SchemaTransformer\Transforms\DataSanitizers\SanitizeReachmeeJobPostingLink;
+use SchemaTransformer\Transforms\IdFormatter\FormatIdWithPrefix;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 use SchemaTransformer\Transforms\StratsysTransform;
 use SchemaTransformer\Transforms\WPLegacyEventTransform;
@@ -49,8 +50,8 @@ class RuntimeServices
             $reader,
             $writer,
             new WPLegacyEventTransform(
-                $idprefix,
-                new \SchemaTransformer\Transforms\SplitRowsByOccasion('occasions'),
+                new FormatIdWithPrefix($idprefix),
+                new \SchemaTransformer\Transforms\SplitRowsByOccasion('occasions', new FormatIdWithPrefix($idprefix)),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\EventFactory(),
                 [
                     new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),
@@ -77,8 +78,8 @@ class RuntimeServices
             $reader,
             $writer,
             new WPReleaseEventTransform(
-                $idprefix,
-                new \SchemaTransformer\Transforms\SplitRowsByOccasion('acf.occasions'),
+                new FormatIdWithPrefix($idprefix),
+                new \SchemaTransformer\Transforms\SplitRowsByOccasion('acf.occasions', new FormatIdWithPrefix($idprefix)),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\EventFactory(),
                 [
                     new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),

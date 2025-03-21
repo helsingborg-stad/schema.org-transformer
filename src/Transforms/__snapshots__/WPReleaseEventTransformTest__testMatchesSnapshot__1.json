@@ -10,7 +10,7 @@
         "eventsInSameSeries": [
             {
                 "@type": "Event",
-                "@id": "5-1"
+                "@id": "idprefix5-1"
             }
         ],
         "image": {
@@ -96,7 +96,7 @@
         "eventsInSameSeries": [
             {
                 "@type": "Event",
-                "@id": "5-0"
+                "@id": "idprefix5-0"
             }
         ],
         "image": {

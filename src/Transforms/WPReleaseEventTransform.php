@@ -5,28 +5,23 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
+use SchemaTransformer\Interfaces\AbstractIdFormatter;
 use SchemaTransformer\Interfaces\SchemaFactory;
 use SchemaTransformer\Interfaces\SchemaValidator;
 use Spatie\SchemaOrg\BaseType;
-use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
 
-class WPReleaseEventTransform extends TransformBase implements AbstractDataTransform
+class WPReleaseEventTransform implements AbstractDataTransform
 {
     /**
      * WPReleaseEventTransform constructor.
-     *
-     * @param string $idprefix
-     * @param AbstractDataTransform $splitRowsByOccasion
-     * @param SchemaDecorator[] $eventDecorators
      */
     public function __construct(
-        string $idprefix,
+        private AbstractIdFormatter $idFormatter,
         private AbstractDataTransform $splitRowsByOccasion,
         private SchemaFactory $schemaFactory,
         private array $eventDecorators,
         private SchemaValidator $schemaValidator
     ) {
-        parent::__construct($idprefix);
     }
 
     public function transform(array $data): array
@@ -41,7 +36,7 @@ class WPReleaseEventTransform extends TransformBase implements AbstractDataTrans
     private function getEventFromRow(array $row): ?BaseType
     {
         $event = $this->schemaFactory->createSchema($row);
-        $event->identifier(!empty($row['id']) ? $this->formatId($row['id']) : null);
+        $event->identifier($row['id']);
 
         foreach ($this->eventDecorators as $decorator) {
             $event = $decorator->apply($event, $row);
