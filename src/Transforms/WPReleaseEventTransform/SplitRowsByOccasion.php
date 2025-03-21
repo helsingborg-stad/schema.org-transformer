@@ -30,18 +30,29 @@ class SplitRowsByOccasion implements AbstractDataTransform
                 continue;
             }
 
-            foreach ($occasions as $i => $occasion) {
-                $rowWithSingleOccasion               = $rowWithMultipleOccasions;
-                $rowWithSingleOccasion['originalId'] = $rowWithSingleOccasion['id'];
-                $rowWithSingleOccasion['id']         = $rowWithSingleOccasion['id'] . '-' . $i;
-
-                $this->setOccasionData($rowWithSingleOccasion, [$occasion]);
-
-                $rowsWithSingleOccasion[] = $rowWithSingleOccasion;
-            }
+            $rowsWithSingleOccasion = [...$rowsWithSingleOccasion, ...$this->getRowsFromOccasions($rowWithMultipleOccasions, $occasions)];
         }
 
-        return $this->applyEventsInSameSeries($rowsWithSingleOccasion);
+        return $rowsWithSingleOccasion;
+    }
+
+    private function getRowsFromOccasions(array $row, array $occasions): array
+    {
+        $allIds = [];
+        $rows   = [];
+
+        foreach ($occasions as $i => $occasion) {
+            $rowWithSingleOccasion               = $row;
+            $rowWithSingleOccasion['originalId'] = $rowWithSingleOccasion['id'];
+            $rowWithSingleOccasion['id']         = $rowWithSingleOccasion['id'] . '-' . $i;
+            $allIds[]                            = $rowWithSingleOccasion['id'];
+
+            $this->setOccasionData($rowWithSingleOccasion, [$occasion]);
+
+            $rows[] = $rowWithSingleOccasion;
+        }
+
+        return $this->applyEventsInSameSeries($rows, $allIds);
     }
 
     private function getOccasionsFromPath(array $data, string $path)
