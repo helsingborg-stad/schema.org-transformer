@@ -40,8 +40,7 @@ final class WPLegacyEventTransformTest extends TestCase
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyPhysicalAccessibilityFeatures(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOffers(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyUrl(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIdAsDefinedTermInKeywords($idPrefix)
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyUrl()
             ],
             new \SchemaTransformer\Transforms\Validators\EventValidator()
         );

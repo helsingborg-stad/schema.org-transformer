@@ -102,15 +102,6 @@
                     "@type": "DefinedTermSet",
                     "name": "user_groups"
                 }
-            },
-            {
-                "@type": "DefinedTerm",
-                "name": "idprefix2099853",
-                "inDefinedTermSet": {
-                    "@type": "DefinedTermSet",
-                    "name": "event-ids",
-                    "url": "https://schema.org/EventIds"
-                }
             }
         ],
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
@@ -296,15 +287,6 @@
                     "@type": "DefinedTermSet",
                     "name": "user_groups"
                 }
-            },
-            {
-                "@type": "DefinedTerm",
-                "name": "idprefix2099853",
-                "inDefinedTermSet": {
-                    "@type": "DefinedTermSet",
-                    "name": "event-ids",
-                    "url": "https://schema.org/EventIds"
-                }
             }
         ],
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
@@ -489,15 +471,6 @@
                 "inDefinedTermSet": {
                     "@type": "DefinedTermSet",
                     "name": "user_groups"
-                }
-            },
-            {
-                "@type": "DefinedTerm",
-                "name": "idprefix2099853",
-                "inDefinedTermSet": {
-                    "@type": "DefinedTermSet",
-                    "name": "event-ids",
-                    "url": "https://schema.org/EventIds"
                 }
             }
         ],

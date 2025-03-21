@@ -50,15 +50,6 @@
                     "@type": "DefinedTermSet",
                     "name": "organization"
                 }
-            },
-            {
-                "@type": "DefinedTerm",
-                "name": "idprefix5",
-                "inDefinedTermSet": {
-                    "@type": "DefinedTermSet",
-                    "name": "event-ids",
-                    "url": "https://schema.org/EventIds"
-                }
             }
         ],
         "location": {
@@ -144,15 +135,6 @@
                 "inDefinedTermSet": {
                     "@type": "DefinedTermSet",
                     "name": "organization"
-                }
-            },
-            {
-                "@type": "DefinedTerm",
-                "name": "idprefix5",
-                "inDefinedTermSet": {
-                    "@type": "DefinedTermSet",
-                    "name": "event-ids",
-                    "url": "https://schema.org/EventIds"
                 }
             }
         ],

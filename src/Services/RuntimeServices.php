@@ -68,7 +68,6 @@ class RuntimeServices
                     new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
                     new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOffers(),
                     new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyUrl(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIdAsDefinedTermInKeywords($idprefix),
                 ],
                 new \SchemaTransformer\Transforms\Validators\EventValidator()
             ),
@@ -97,8 +96,7 @@ class RuntimeServices
                     new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
                     new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
                     new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyAudience(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIdAsDefinedTermInKeywords($idprefix)
+                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree()
                 ],
                 new \SchemaTransformer\Transforms\Validators\EventValidator()
             ),

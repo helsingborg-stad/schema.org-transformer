@@ -43,8 +43,7 @@ final class WPReleaseEventTransformTest extends TestCase
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyAudience(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIdAsDefinedTermInKeywords($idPrefix)
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree()
             ],
             new \SchemaTransformer\Transforms\Validators\EventValidator()
         );
