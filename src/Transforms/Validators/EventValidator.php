@@ -17,7 +17,7 @@ class EventValidator implements SchemaValidator
             return false;
         }
 
-        if (is_null($schema->getProperty('startDate')) || $schema->getProperty('startDate') < date('Y-m-d')) {
+        if (is_null($schema->getProperty('startDate'))) {
             return false;
         }
 
