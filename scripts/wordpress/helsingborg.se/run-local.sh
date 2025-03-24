@@ -12,10 +12,11 @@ cd ${SCRIPT_DIR}
 
 # Append param "start_date" with the value of todays date in format YYYY-MM-DD to the WORDPRESS_LEGACY_EVENT_PATH if WORDPRESS_LEGACY_EVENT_PATH is a url
 if [[ ${WORDPRESS_LEGACY_EVENT_PATH} == http* ]]; then
+    START_DATE=$(date -d "-1 month" +%Y-%m-%d) # Default to one month back
     if [[ ${WORDPRESS_LEGACY_EVENT_PATH} == *\?* ]]; then
-        WORDPRESS_LEGACY_EVENT_PATH="${WORDPRESS_LEGACY_EVENT_PATH}&start_date=$(date +%Y-%m-%d)"
+        WORDPRESS_LEGACY_EVENT_PATH="${WORDPRESS_LEGACY_EVENT_PATH}&start_date=${START_DATE}"
     else
-        WORDPRESS_LEGACY_EVENT_PATH="${WORDPRESS_LEGACY_EVENT_PATH}?start_date=$(date +%Y-%m-%d)"
+        WORDPRESS_LEGACY_EVENT_PATH="${WORDPRESS_LEGACY_EVENT_PATH}?start_date=${START_DATE}"
     fi
 fi
 
