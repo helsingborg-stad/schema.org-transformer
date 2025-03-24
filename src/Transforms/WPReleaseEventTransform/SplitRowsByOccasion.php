@@ -26,11 +26,6 @@ class SplitRowsByOccasion implements AbstractDataTransform
                 continue;
             }
 
-            if (count($occasions) === 1) {
-                $rowsWithSingleOccasion[] = $rowWithMultipleOccasions;
-                continue;
-            }
-
             $rowsWithSingleOccasion = [...$rowsWithSingleOccasion, ...$this->getRowsFromOccasions($rowWithMultipleOccasions, $occasions)];
         }
 
