@@ -1,11 +1,10 @@
 name: Deploy
 
+# Run when new release is created
 on:
   release:
-    types:
-      - released
-    branches:
-      - main
+    types: [created]
+  workflow_dispatch:
 
 jobs:
   deploy:
