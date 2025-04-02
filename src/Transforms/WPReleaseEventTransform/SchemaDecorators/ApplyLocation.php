@@ -3,10 +3,10 @@
 namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
-use Spatie\SchemaOrg\BaseType;
-use Spatie\SchemaOrg\Contracts\PlaceContract;
-use Spatie\SchemaOrg\Contracts\VirtualLocationContract;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\BaseType;
+use Municipio\Schema\Contracts\PlaceContract;
+use Municipio\Schema\Contracts\VirtualLocationContract;
+use Municipio\Schema\Schema;
 
 class ApplyLocation implements SchemaDecorator
 {

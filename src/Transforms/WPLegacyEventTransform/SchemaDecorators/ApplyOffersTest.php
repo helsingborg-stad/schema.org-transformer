@@ -5,7 +5,7 @@ namespace SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOffers;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\Schema;
 
 class ApplyOffersTest extends TestCase
 {

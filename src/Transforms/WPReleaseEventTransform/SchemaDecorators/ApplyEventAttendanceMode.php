@@ -3,8 +3,8 @@
 namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
-use Spatie\SchemaOrg\BaseType;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\BaseType;
+use Municipio\Schema\Schema;
 
 class ApplyEventAttendanceMode implements SchemaDecorator
 {

@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventAttendanceMode;
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOrganizer;
-use Spatie\SchemaOrg\Event;
+use Municipio\Schema\Event;
 
 class ApplyEventAttendanceModeTest extends TestCase
 {

@@ -3,9 +3,9 @@
 namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
-use Spatie\SchemaOrg\BaseType;
-use Spatie\SchemaOrg\Contracts\DefinedTermContract;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\BaseType;
+use Municipio\Schema\Contracts\DefinedTermContract;
+use Municipio\Schema\Schema;
 
 class ApplyKeywords implements SchemaDecorator
 {

@@ -3,9 +3,9 @@
 namespace SchemaTransformer\Transforms\WPLegacyEventTransform;
 
 use SchemaTransformer\Interfaces\SchemaFactory;
-use Spatie\SchemaOrg\BaseType;
-use Spatie\SchemaOrg\Event;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\BaseType;
+use Municipio\Schema\Event;
+use Municipio\Schema\Schema;
 
 class EventFactory implements SchemaFactory
 {

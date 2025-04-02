@@ -2,7 +2,7 @@
 
 namespace SchemaTransformer\Interfaces;
 
-use Spatie\SchemaOrg\BaseType;
+use Municipio\Schema\BaseType;
 
 interface SchemaFactory
 {

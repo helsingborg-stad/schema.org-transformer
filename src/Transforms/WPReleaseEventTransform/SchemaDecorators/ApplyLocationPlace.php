@@ -4,8 +4,8 @@ namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 
 use SchemaTransformer\Interfaces\PathValueAccessor;
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
-use Spatie\SchemaOrg\BaseType;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\BaseType;
+use Municipio\Schema\Schema;
 
 class ApplyLocationPlace implements SchemaDecorator
 {

@@ -3,7 +3,7 @@
 namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
-use Spatie\SchemaOrg\BaseType;
+use Municipio\Schema\BaseType;
 
 class ApplyStartDate implements SchemaDecorator
 {

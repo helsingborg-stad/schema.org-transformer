@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\Schema;
 
 class StratsysTransform extends TransformBase implements AbstractDataTransform
 {

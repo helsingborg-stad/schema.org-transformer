@@ -2,7 +2,7 @@
 
 namespace SchemaTransformer\Transforms\WPReleaseEventTransform;
 
-use Spatie\SchemaOrg\BaseType;
+use Municipio\Schema\BaseType;
 
 interface SchemaDecorator
 {

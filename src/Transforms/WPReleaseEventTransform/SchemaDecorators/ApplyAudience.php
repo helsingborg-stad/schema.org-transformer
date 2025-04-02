@@ -3,9 +3,9 @@
 namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
-use Spatie\SchemaOrg\BaseType;
-use Spatie\SchemaOrg\Contracts\AudienceContract;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\BaseType;
+use Municipio\Schema\Contracts\AudienceContract;
+use Municipio\Schema\Schema;
 
 class ApplyAudience implements SchemaDecorator
 {

@@ -5,7 +5,7 @@ namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOrganizer;
-use Spatie\SchemaOrg\Event;
+use Municipio\Schema\Event;
 
 class ApplyOrganizerTest extends TestCase
 {

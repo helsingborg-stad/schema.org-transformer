@@ -3,7 +3,7 @@
 namespace SchemaTransformer\Transforms\Validators;
 
 use SchemaTransformer\Interfaces\SchemaValidator;
-use Spatie\SchemaOrg\BaseType;
+use Municipio\Schema\BaseType;
 
 class EventValidator implements SchemaValidator
 {

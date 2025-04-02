@@ -5,8 +5,8 @@ namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyKeywords;
-use Spatie\SchemaOrg\Event;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\Event;
+use Municipio\Schema\Schema;
 
 class ApplyKeywordsTest extends TestCase
 {

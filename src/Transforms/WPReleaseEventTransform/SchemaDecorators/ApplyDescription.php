@@ -4,7 +4,7 @@ namespace SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators;
 
 use SchemaTransformer\Interfaces\PathValueAccessor;
 use SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorator;
-use Spatie\SchemaOrg\BaseType;
+use Municipio\Schema\BaseType;
 
 class ApplyDescription implements SchemaDecorator
 {

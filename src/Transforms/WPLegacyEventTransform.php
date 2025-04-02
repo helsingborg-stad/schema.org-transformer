@@ -8,7 +8,7 @@ use SchemaTransformer\Interfaces\AbstractDataTransform;
 use SchemaTransformer\Interfaces\AbstractIdFormatter;
 use SchemaTransformer\Interfaces\SchemaFactory;
 use SchemaTransformer\Interfaces\SchemaValidator;
-use Spatie\SchemaOrg\BaseType;
+use Municipio\Schema\BaseType;
 
 class WPLegacyEventTransform implements AbstractDataTransform
 {

@@ -3,8 +3,8 @@
 namespace SchemaTransformer\Transforms\WPReleaseEventTransform;
 
 use SchemaTransformer\Interfaces\SchemaFactory;
-use Spatie\SchemaOrg\BaseType;
-use Spatie\SchemaOrg\Schema;
+use Municipio\Schema\BaseType;
+use Municipio\Schema\Schema;
 
 class EventFactory implements SchemaFactory
 {
