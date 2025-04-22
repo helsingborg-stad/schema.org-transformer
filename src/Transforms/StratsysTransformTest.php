@@ -6,11 +6,15 @@ namespace SchemaTransformer\Transforms;
 
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\StratsysTransform;
+use Spatie\Snapshots\MatchesSnapshots;
 
 final class StratsysTransformTest extends TestCase
 {
+    use MatchesSnapshots;
+
     protected array $data;
     protected StratsysTransform $model;
+
 
     protected function setUp(): void
     {
@@ -83,59 +87,7 @@ final class StratsysTransformTest extends TestCase
     }
     public function testStratsysTransform(): void
     {
-        $this->assertEquals([
-            [
-                "@context"     => "https://schema.org",
-                "@type"        => "Project",
-                "@id"          => "Initiativ_InterntID",
-                "name"         => "Initiativ_Namn",
-                "foundingDate" => "Initiativ_Startdatum",
-                "description"  => implode([
-                    "<h2>Vad?</h2><p>Initiativ_Vad</p>",
-                    "<h2>Hur?</h2><p>Initiativ_Hur</p>",
-                    "<h2>Varför?</h2><p>Initiativ_Varfor</p>",
-                    "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
-                    "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>",
-                    "<h2>Drivs av</h2><p><ul><li>Initiativ_Synligaenheter</li></ul></p>"
-                ]),
-                "image"        => "Initiativ_Lanktillbild",
-                "funding"      => [
-                    "@type"  => "MonetaryGrant",
-                    "amount" => "Initiativ_Estimeradbudget"
-                ],
-                "department"   => [
-                    "@type" => "Organization",
-                    "name"  => "Initiativ_Enhet"
-                ],
-                "employee"     => [
-                    "@type"         => "Person",
-                    "alternateName" => "Initiativ_Kontaktperson"
-                ],
-                "@meta"        => [
-                    [
-                        "@type" => "PropertyValue",
-                        "name"  => "category",
-                        "value" => "Omrade_Namn"
-                    ],
-                    [
-                        "@type" => "PropertyValue",
-                        "name"  => "technology",
-                        "value" => "Transformation_Namn"
-                    ],
-                    [
-                        "@type" => "PropertyValue",
-                        "name"  => "status",
-                        "value" => "Initiativ_Status"
-                    ],
-                    [
-                        "@type" => "PropertyValue",
-                        "name"  => "progress",
-                        "value" => 0
-                    ]
-                ],
-                "@version"     => "66eefcfaf3c8bd8882282b5984e05319"
-            ]
-        ], $this->model->transform($this->data));
+        $this->assertMatchesJsonSnapshot(json_encode($this->model->transform($this->data), JSON_PRETTY_PRINT));
     }
     public function testTransformProgress(): void
     {

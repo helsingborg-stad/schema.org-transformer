@@ -1,0 +1,49 @@
+[
+    {
+        "@context": {
+            "schema": "https://schema.org",
+            "municipio": "https://schema.municipio.tech/schema.jsonld"
+        },
+        "@type": "Project",
+        "name": "Initiativ_Namn",
+        "description": "<h2>Vad?</h2><p>Initiativ_Vad</p><h2>Hur?</h2><p>Initiativ_Hur</p><h2>Varför?</h2><p>Initiativ_Varfor</p><h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p><h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p><h2>Drivs av</h2><p><ul><li>Initiativ_Synligaenheter</li></ul></p>",
+        "image": "Initiativ_Lanktillbild",
+        "foundingDate": "Initiativ_Startdatum",
+        "@id": "Initiativ_InterntID",
+        "funding": {
+            "@type": "MonetaryGrant",
+            "amount": "Initiativ_Estimeradbudget"
+        },
+        "department": {
+            "@type": "Organization",
+            "name": "Initiativ_Enhet"
+        },
+        "employee": {
+            "@type": "Person",
+            "alternateName": "Initiativ_Kontaktperson"
+        },
+        "@meta": [
+            {
+                "@type": "PropertyValue",
+                "name": "category",
+                "value": "Omrade_Namn"
+            },
+            {
+                "@type": "PropertyValue",
+                "name": "technology",
+                "value": "Transformation_Namn"
+            },
+            {
+                "@type": "PropertyValue",
+                "name": "status",
+                "value": "Initiativ_Status"
+            },
+            {
+                "@type": "PropertyValue",
+                "name": "progress",
+                "value": 0
+            }
+        ],
+        "@version": "82fed30b2e73d9e1443ed613fa5b8aa7"
+    }
+]

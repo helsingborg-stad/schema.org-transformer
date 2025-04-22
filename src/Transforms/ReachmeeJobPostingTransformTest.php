@@ -7,10 +7,13 @@ namespace SchemaTransformer\Transforms;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
+use Spatie\Snapshots\MatchesSnapshots;
 
 #[CoversClass(ReachmeeJobPostingTransform::class)]
 final class ReachmeeJobPostingTransformTest extends TestCase
 {
+    use MatchesSnapshots;
+
     protected array $data;
 
     protected function setUp(): void
@@ -87,51 +90,7 @@ final class ReachmeeJobPostingTransformTest extends TestCase
     public function testJobPostingTransform(): void
     {
         $model = new ReachmeeJobPostingTransform([], "");
-        $this->assertEquals([[
-            "@context"           => "https://schema.org",
-            "@id"                => "2",
-            "@version"           => "035ca770a4379fca08ba74934cfc30cb",
-            "@type"              => "JobPosting",
-            "title"              => "title",
-            "description"        => "description",
-            "employerOverview"   => "prefix_text",
-            "datePosted"         => "2024-04-01",
-            "validThrough"       => "2024-05-01",
-            "employmentType"     => "occupation_degree",
-            "url"                => "https://",
-            "directApply"        => true,
-            "relevantOccupation" => [
-                "@type" => "Occupation",
-                "name"  =>  "occupation_area"
-            ],
-            "hiringOrganization" => [
-                "@type"        => "Organization",
-                "name"         => "nameorgunit_1",
-                "ethicsPolicy" => "suffix_text"
-            ],
-            "employmentUnit"     => [
-                "@type"   => "Organization",
-                "name"    => "nameorgunit_2",
-                "address" => [
-                    "@type"           => "PostalAddress",
-                    "addressRegion"   => "name_1",
-                    "addressLocality" => "name_2"
-                ]
-            ],
-            "applicationContact" => [[
-                "@type"       => "ContactPoint",
-                "contactType" => "position_1",
-                "name"        => "first_name_1 surname_1",
-                "email"       => "email_1",
-                "telephone"   => "phone_1"
-            ], [
-                "@type"       => "ContactPoint",
-                "contactType" => "position_2",
-                "name"        => "first_name_2 surname_2",
-                "email"       => "email_2",
-                "telephone"   => "phone_2"
-            ]]
-        ]], $model->transform($this->data));
+        $this->assertMatchesJsonSnapshot(json_encode($model->transform($this->data), JSON_PRETTY_PRINT));
     }
 
     public function testRequiresAdId()
