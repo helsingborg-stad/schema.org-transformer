@@ -55,7 +55,7 @@ final class StratsysTransformTest extends TestCase
                 [
                     "Transformation_Namn",
                     "Omrade_Namn",
-                    "Initiativ_Status",
+                    "Idé",
                     "Initiativ_Namn",
                     "Initiativ_Beslutspunkt",
                     "Initiativ_Sammanfattning",
@@ -91,12 +91,17 @@ final class StratsysTransformTest extends TestCase
     }
     public function testTransformProgress(): void
     {
-        $this->assertEquals(0, $this->model->getProgress(""));
-        $this->assertEquals(25, $this->model->getProgress("Idé"));
-        $this->assertEquals(50, $this->model->getProgress("Pilot"));
-        $this->assertEquals(75, $this->model->getProgress("Skala upp"));
-        $this->assertEquals(100, $this->model->getProgress("Realiserad"));
-        $this->assertEquals(0, $this->model->getProgress("Avbruten"));
+        $this->assertEquals(0, $this->model->getStatus("")->getProperty("number"));
+        $this->assertEquals(25, $this->model->getStatus("Idé")->getProperty("number"));
+        $this->assertEquals("Idé", $this->model->getStatus("Idé")->getProperty("name"));
+        $this->assertEquals(50, $this->model->getStatus("Pilot")->getProperty("number"));
+        $this->assertEquals("Pilot", $this->model->getStatus("Pilot")->getProperty("name"));
+        $this->assertEquals(75, $this->model->getStatus("Skala upp")->getProperty("number"));
+        $this->assertEquals("Skala upp", $this->model->getStatus("Skala upp")->getProperty("name"));
+        $this->assertEquals(100, $this->model->getStatus("Realiserad")->getProperty("number"));
+        $this->assertEquals("Realiserad", $this->model->getStatus("Realiserad")->getProperty("name"));
+        $this->assertEquals(0, $this->model->getStatus("Avbruten")->getProperty("number"));
+        $this->assertEquals("Avbruten", $this->model->getStatus("Avbruten")->getProperty("name"));
     }
     public function testTransformImageUrl(): void
     {

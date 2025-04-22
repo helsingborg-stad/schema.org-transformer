@@ -36,14 +36,16 @@
             {
                 "@type": "PropertyValue",
                 "name": "status",
-                "value": "Initiativ_Status"
-            },
-            {
-                "@type": "PropertyValue",
-                "name": "progress",
-                "value": 0
+                "value": "Idé"
             }
         ],
-        "@version": "82fed30b2e73d9e1443ed613fa5b8aa7"
+        "status": {
+            "@type": "ProgressStatus",
+            "minNumber": 0,
+            "maxNumber": 100,
+            "name": "Idé",
+            "number": 25
+        },
+        "@version": "1d6f4bcd9c4d48554f14e676293b4831"
     }
 ]
