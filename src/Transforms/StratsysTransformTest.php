@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\StratsysTransform;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -89,20 +90,25 @@ final class StratsysTransformTest extends TestCase
     {
         $this->assertMatchesJsonSnapshot(json_encode($this->model->transform($this->data), JSON_PRETTY_PRINT));
     }
-    public function testTransformProgress(): void
+
+    #[DataProvider("progressProvider")]
+    public function testTransformProgress($input, $expectedNumber, $expectedName): void
     {
-        $this->assertEquals(0, $this->model->getStatus("")->getProperty("number"));
-        $this->assertEquals(25, $this->model->getStatus("Idé")->getProperty("number"));
-        $this->assertEquals("Idé", $this->model->getStatus("Idé")->getProperty("name"));
-        $this->assertEquals(50, $this->model->getStatus("Pilot")->getProperty("number"));
-        $this->assertEquals("Pilot", $this->model->getStatus("Pilot")->getProperty("name"));
-        $this->assertEquals(75, $this->model->getStatus("Skala upp")->getProperty("number"));
-        $this->assertEquals("Skala upp", $this->model->getStatus("Skala upp")->getProperty("name"));
-        $this->assertEquals(100, $this->model->getStatus("Realiserad")->getProperty("number"));
-        $this->assertEquals("Realiserad", $this->model->getStatus("Realiserad")->getProperty("name"));
-        $this->assertEquals(0, $this->model->getStatus("Avbruten")->getProperty("number"));
-        $this->assertEquals("Avbruten", $this->model->getStatus("Avbruten")->getProperty("name"));
+        $this->assertEquals($expectedNumber, $this->model->getStatus($input)->getProperty("number"));
+        $this->assertEquals($expectedName, $this->model->getStatus($input)->getProperty("name"));
     }
+
+    public static function progressProvider(): array
+    {
+        return [
+            'Idé'        => ['Idé', 25, 'Idé'],
+            'Pilot'      => ['Pilot', 50, 'Pilot'],
+            'Skala upp'  => ['Skala upp', 75, 'Skala upp'],
+            'Avbruten'   => ['Avbruten', 0, 'Avbruten'],
+            'Realiserad' => ['Realiserad', 100, 'Realiserad'],
+        ];
+    }
+
     public function testTransformImageUrl(): void
     {
         $this->assertEquals("", $this->model->transformImage(""));

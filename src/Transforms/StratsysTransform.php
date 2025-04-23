@@ -18,34 +18,16 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
 
     public function getStatus(string $status): ProgressStatus
     {
-        $progressStatus = Schema::progressStatus()->minNumber(0)->maxNumber(100);
+        $progressStatus = Schema::progressStatus()->minNumber(0)->maxNumber(100)->name($status);
 
-        switch ($status) {
-            case 'Idé':
-                return $progressStatus
-                    ->name('Idé')
-                    ->number(25);
-            case 'Pilot':
-                return $progressStatus
-                    ->name('Pilot')
-                    ->number(50);
-            case 'Skala upp':
-                return $progressStatus
-                    ->name('Skala upp')
-                    ->number(75);
-            case 'Avbruten':
-                return $progressStatus
-                    ->name('Avbruten')
-                    ->number(0);
-            case 'Realiserad':
-                return $progressStatus
-                    ->name('Realiserad')
-                    ->number(100);
-            default:
-                return $progressStatus
-                    ->name('Status ej angiven')
-                    ->number(0);
-        }
+        return match ($status) {
+            'Realiserad'    => $progressStatus->number(100),
+            'Skala upp'     => $progressStatus->number(75),
+            'Pilot'         => $progressStatus->number(50),
+            'Idé'           => $progressStatus->number(25),
+            'Avbruten'      => $progressStatus->number(0),
+            default         => $progressStatus->name('Status ej angiven')->number(0),
+        };
     }
     public function transformImage(string $data): string
     {
