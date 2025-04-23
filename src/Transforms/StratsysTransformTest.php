@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\StratsysTransform;
+use Spatie\Snapshots\MatchesSnapshots;
 
 final class StratsysTransformTest extends TestCase
 {
+    use MatchesSnapshots;
+
     protected array $data;
     protected StratsysTransform $model;
+
 
     protected function setUp(): void
     {
@@ -51,7 +56,7 @@ final class StratsysTransformTest extends TestCase
                 [
                     "Transformation_Namn",
                     "Omrade_Namn",
-                    "Initiativ_Status",
+                    "Idé",
                     "Initiativ_Namn",
                     "Initiativ_Beslutspunkt",
                     "Initiativ_Sammanfattning",
@@ -83,69 +88,27 @@ final class StratsysTransformTest extends TestCase
     }
     public function testStratsysTransform(): void
     {
-        $this->assertEquals([
-            [
-                "@context"     => "https://schema.org",
-                "@type"        => "Project",
-                "@id"          => "Initiativ_InterntID",
-                "name"         => "Initiativ_Namn",
-                "foundingDate" => "Initiativ_Startdatum",
-                "description"  => implode([
-                    "<h2>Vad?</h2><p>Initiativ_Vad</p>",
-                    "<h2>Hur?</h2><p>Initiativ_Hur</p>",
-                    "<h2>Varför?</h2><p>Initiativ_Varfor</p>",
-                    "<h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p>",
-                    "<h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p>",
-                    "<h2>Drivs av</h2><p><ul><li>Initiativ_Synligaenheter</li></ul></p>"
-                ]),
-                "image"        => "Initiativ_Lanktillbild",
-                "funding"      => [
-                    "@type"  => "MonetaryGrant",
-                    "amount" => "Initiativ_Estimeradbudget"
-                ],
-                "department"   => [
-                    "@type" => "Organization",
-                    "name"  => "Initiativ_Enhet"
-                ],
-                "employee"     => [
-                    "@type"         => "Person",
-                    "alternateName" => "Initiativ_Kontaktperson"
-                ],
-                "@meta"        => [
-                    [
-                        "@type" => "PropertyValue",
-                        "name"  => "category",
-                        "value" => "Omrade_Namn"
-                    ],
-                    [
-                        "@type" => "PropertyValue",
-                        "name"  => "technology",
-                        "value" => "Transformation_Namn"
-                    ],
-                    [
-                        "@type" => "PropertyValue",
-                        "name"  => "status",
-                        "value" => "Initiativ_Status"
-                    ],
-                    [
-                        "@type" => "PropertyValue",
-                        "name"  => "progress",
-                        "value" => 0
-                    ]
-                ],
-                "@version"     => "66eefcfaf3c8bd8882282b5984e05319"
-            ]
-        ], $this->model->transform($this->data));
+        $this->assertMatchesJsonSnapshot(json_encode($this->model->transform($this->data), JSON_PRETTY_PRINT));
     }
-    public function testTransformProgress(): void
+
+    #[DataProvider("progressProvider")]
+    public function testTransformProgress($input, $expectedNumber, $expectedName): void
     {
-        $this->assertEquals(0, $this->model->getProgress(""));
-        $this->assertEquals(25, $this->model->getProgress("Idé"));
-        $this->assertEquals(50, $this->model->getProgress("Pilot"));
-        $this->assertEquals(75, $this->model->getProgress("Skala upp"));
-        $this->assertEquals(100, $this->model->getProgress("Realiserad"));
-        $this->assertEquals(0, $this->model->getProgress("Avbruten"));
+        $this->assertEquals($expectedNumber, $this->model->getStatus($input)->getProperty("number"));
+        $this->assertEquals($expectedName, $this->model->getStatus($input)->getProperty("name"));
     }
+
+    public static function progressProvider(): array
+    {
+        return [
+            'Idé'        => ['Idé', 25, 'Idé'],
+            'Pilot'      => ['Pilot', 50, 'Pilot'],
+            'Skala upp'  => ['Skala upp', 75, 'Skala upp'],
+            'Avbruten'   => ['Avbruten', 0, 'Avbruten'],
+            'Realiserad' => ['Realiserad', 100, 'Realiserad'],
+        ];
+    }
+
     public function testTransformImageUrl(): void
     {
         $this->assertEquals("", $this->model->transformImage(""));

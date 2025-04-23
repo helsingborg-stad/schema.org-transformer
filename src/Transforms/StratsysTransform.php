@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms;
 
+use Municipio\Schema\Contracts\ProgressStatusContract;
+use Municipio\Schema\ProgressStatus;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
 
@@ -14,21 +16,18 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
         parent::__construct($idprefix);
     }
 
-    public function getProgress(string $status): int
+    public function getStatus(string $status): ProgressStatus
     {
-        switch ($status) {
-            case 'Idé':
-                return 25;
-            case 'Pilot':
-                return 50;
-            case 'Skala upp':
-                return 75;
-            case 'Avbruten':
-                return 0;
-            case 'Realiserad':
-                return 100;
-        }
-        return 0;
+        $progressStatus = Schema::progressStatus()->minNumber(0)->maxNumber(100)->name($status);
+
+        return match ($status) {
+            'Realiserad'    => $progressStatus->number(100),
+            'Skala upp'     => $progressStatus->number(75),
+            'Pilot'         => $progressStatus->number(50),
+            'Idé'           => $progressStatus->number(25),
+            'Avbruten'      => $progressStatus->number(0),
+            default         => $progressStatus->name('Status ej angiven')->number(0),
+        };
     }
     public function transformImage(string $data): string
     {
@@ -183,9 +182,9 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
             $project->setProperty('@meta', [
                 ...$categories,
                 ...$technologies,
-                Schema::propertyValue()->name('status')->value($row["Initiativ_Status"] ?? "N/A"),
-                Schema::propertyValue()->name('progress')->value($this->getProgress($row["Initiativ_Status"] ?? "0")),
+                Schema::propertyValue()->name('status')->value($row["Initiativ_Status"] ?? "N/A")
             ]);
+            $project->status($this->getStatus($row["Initiativ_Status"] ?? ""));
             $project->setProperty('@version', md5(json_encode($project->toArray())));
             $output[] = $project->toArray();
         }
