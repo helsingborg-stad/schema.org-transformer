@@ -197,11 +197,12 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
             'Initiativ_Vad'            => '<h2>Vad?</h2>',
             'Initiativ_Hur'            => '<h2>Hur?</h2>',
             'Initiativ_Varfor'         => '<h2>Varför?</h2>',
+            'Initiativ_Lardomar'    => '<h2>Lärdomar</h2>',
             'Effektmal_Namn'           => '<h2>Effektmål</h2>',
             'Initiativ_Avgransningar'  => '<h2>Avgränsningar</h2>',
             'Initiativ_Samarbetesokes' => '<h2>Samarbete sökes!</h2>',
             'Initiativ_Utmaningar'     => '<h2>Utmaningar</h2>',
-            'Initiativ_Synligaenheter' => '<h2>Drivs av</h2>',
+            'Initiativ_Synligaenheter' => '<h2>Drivs av</h2>'
         ];
 
         return implode(array_map(
