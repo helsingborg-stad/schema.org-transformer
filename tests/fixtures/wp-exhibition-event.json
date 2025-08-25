@@ -1,0 +1,379 @@
+{
+  "id": 5,
+  "date": "2025-08-25T13:30:48",
+  "date_gmt": "2025-08-25T11:30:48",
+  "guid": {
+    "rendered": "https://source.api/?post_type=exhibition&#038;p=5"
+  },
+  "modified": "2025-08-25T13:35:33",
+  "modified_gmt": "2025-08-25T11:35:33",
+  "slug": "testutstallning",
+  "status": "publish",
+  "type": "exhibition",
+  "link": "https://source.api/exhibition/testutstallning/",
+  "title": {
+    "rendered": "Testutställning"
+  },
+  "template": "",
+  "class_list": [
+    "post-5",
+    "exhibition",
+    "type-exhibition",
+    "status-publish",
+    "hentry"
+  ],
+  "acf": {
+    "organizer": "Testorganizer",
+    "startDate": "20250801",
+    "endDate": "20250831",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi bibendum faucibus interdum. Cras ut neque molestie, sollicitudin neque in, vehicula eros. Aenean blandit quam vehicula nisi mollis scelerisque. In vehicula quis nisl at feugiat. Vivamus at quam lorem. Nunc dignissim velit metus, vel gravida tortor egestas eget. In vehicula, velit vel aliquam semper, justo magna hendrerit mi, a convallis risus nisl a sapien. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc auctor consequat sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi risus magna, fringilla at suscipit sollicitudin, blandit ut massa. Donec dictum, ex ut varius fringilla, turpis nunc convallis odio, vel volutpat dolor enim nec tortor. Ut ac massa ac nisi semper congue. Suspendisse volutpat ultrices bibendum. Quisque dictum id sapien a molestie. Pellentesque a metus ultrices, euismod lacus eget, lobortis nibh.\r\n\r\nMorbi at leo nisl. Suspendisse sollicitudin fermentum lorem vitae venenatis. Nulla felis mauris, consectetur a lorem et, maximus tincidunt lectus. Mauris tincidunt vel urna sit amet iaculis. Suspendisse ut malesuada erat. Donec non mauris faucibus, lacinia ipsum mattis, elementum orci. Praesent viverra luctus aliquet. Sed sit amet imperdiet nulla. Integer tempus malesuada erat, facilisis volutpat erat.",
+    "image": [
+      7,
+      8
+    ],
+    "openingHoursSpecification": [
+      {
+        "days": [
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday"
+        ],
+        "open": true,
+        "opens": "09:00:00",
+        "closes": "18:00:00"
+      },
+      {
+        "days": [
+          "sunday"
+        ],
+        "open": false,
+        "opens": null,
+        "closes": null
+      }
+    ],
+    "locationname": "Testlocation",
+    "location": {
+      "address": "Dunkers kulturhus, Kungsgatan, Helsingborg, Sverige",
+      "lat": 56.0478422,
+      "lng": 12.6890694,
+      "zoom": 14,
+      "place_id": "ChIJhX209zMyUkYR23v1_qmcpyc",
+      "name": "Dunkers kulturhus",
+      "street_number": 11,
+      "street_name": "Kungsgatan",
+      "city": "Helsingborg",
+      "state": "Skåne län",
+      "post_code": "252 21",
+      "country": "Sverige",
+      "country_short": "SE"
+    },
+    "offers": [
+      {
+        "name": "Vuxen",
+        "free": false,
+        "amount": "120"
+      },
+      {
+        "name": "Barn och unga till och med 18",
+        "free": true,
+        "amount": ""
+      },
+      {
+        "name": "Kulturkortet",
+        "free": true,
+        "amount": ""
+      }
+    ]
+  },
+  "_links": {
+    "self": [
+      {
+        "href": "https://source.api/wp-json/wp/v2/exhibition/5"
+      }
+    ],
+    "collection": [
+      {
+        "href": "https://source.api/wp-json/wp/v2/exhibition"
+      }
+    ],
+    "about": [
+      {
+        "href": "https://source.api/wp-json/wp/v2/types/exhibition"
+      }
+    ],
+    "acf:attachment": [
+      {
+        "embeddable": true,
+        "href": "https://source.api/wp-json/wp/v2/media/8"
+      },
+      {
+        "embeddable": true,
+        "href": "https://source.api/wp-json/wp/v2/media/7"
+      }
+    ],
+    "wp:attachment": [
+      {
+        "href": "https://source.api/wp-json/wp/v2/media?parent=5"
+      }
+    ],
+    "curies": [
+      {
+        "name": "wp",
+        "href": "https://api.w.org/{rel}",
+        "templated": true
+      }
+    ]
+  },
+  "_embedded": {
+    "acf:attachment": [
+      {
+        "id": 8,
+        "date": "2025-08-25T13:31:29",
+        "slug": "manuelthelensman-oeap5q-iysy-unsplash",
+        "type": "attachment",
+        "link": "https://source.api/exhibition/testutstallning/manuelthelensman-oeap5q-iysy-unsplash/",
+        "title": {
+          "rendered": "manuelthelensman-OeAp5Q-IYsY-unsplash"
+        },
+        "author": 13,
+        "featured_media": 0,
+        "acf": [],
+        "caption": {
+          "rendered": ""
+        },
+        "alt_text": "Test alt",
+        "media_type": "image",
+        "mime_type": "image/jpeg",
+        "media_details": {
+          "width": 2560,
+          "height": 1707,
+          "file": "2025/08/manuelthelensman-OeAp5Q-IYsY-unsplash-scaled.jpg",
+          "filesize": 580650,
+          "sizes": {
+            "medium": {
+              "file": "manuelthelensman-OeAp5Q-IYsY-unsplash-300x200.jpg",
+              "width": 300,
+              "height": 200,
+              "filesize": 14134,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/manuelthelensman-OeAp5Q-IYsY-unsplash-300x200.jpg"
+            },
+            "large": {
+              "file": "manuelthelensman-OeAp5Q-IYsY-unsplash-1024x683.jpg",
+              "width": 1024,
+              "height": 683,
+              "filesize": 100765,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/manuelthelensman-OeAp5Q-IYsY-unsplash-1024x683.jpg"
+            },
+            "thumbnail": {
+              "file": "manuelthelensman-OeAp5Q-IYsY-unsplash-150x150.jpg",
+              "width": 150,
+              "height": 150,
+              "filesize": 8286,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/manuelthelensman-OeAp5Q-IYsY-unsplash-150x150.jpg"
+            },
+            "medium_large": {
+              "file": "manuelthelensman-OeAp5Q-IYsY-unsplash-768x512.jpg",
+              "width": 768,
+              "height": 512,
+              "filesize": 59726,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/manuelthelensman-OeAp5Q-IYsY-unsplash-768x512.jpg"
+            },
+            "1536x1536": {
+              "file": "manuelthelensman-OeAp5Q-IYsY-unsplash-1536x1024.jpg",
+              "width": 1536,
+              "height": 1024,
+              "filesize": 213630,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/manuelthelensman-OeAp5Q-IYsY-unsplash-1536x1024.jpg"
+            },
+            "2048x2048": {
+              "file": "manuelthelensman-OeAp5Q-IYsY-unsplash-2048x1365.jpg",
+              "width": 2048,
+              "height": 1365,
+              "filesize": 373681,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/manuelthelensman-OeAp5Q-IYsY-unsplash-2048x1365.jpg"
+            },
+            "full": {
+              "file": "manuelthelensman-OeAp5Q-IYsY-unsplash-scaled.jpg",
+              "width": 2560,
+              "height": 1707,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/manuelthelensman-OeAp5Q-IYsY-unsplash-scaled.jpg"
+            }
+          },
+          "image_meta": {
+            "aperture": "0",
+            "credit": "",
+            "camera": "",
+            "caption": "",
+            "created_timestamp": "0",
+            "copyright": "",
+            "focal_length": "0",
+            "iso": "0",
+            "shutter_speed": "0",
+            "title": "",
+            "orientation": "0",
+            "keywords": []
+          },
+          "original_image": "manuelthelensman-OeAp5Q-IYsY-unsplash.jpg"
+        },
+        "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/manuelthelensman-OeAp5Q-IYsY-unsplash-scaled.jpg",
+        "_links": {
+          "self": [
+            {
+              "href": "https://source.api/wp-json/wp/v2/media/8"
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://source.api/wp-json/wp/v2/media"
+            }
+          ],
+          "about": [
+            {
+              "href": "https://source.api/wp-json/wp/v2/types/attachment"
+            }
+          ],
+          "author": [
+            {
+              "embeddable": true,
+              "href": "https://source.api/wp-json/wp/v2/users/13"
+            }
+          ],
+          "replies": [
+            {
+              "embeddable": true,
+              "href": "https://source.api/wp-json/wp/v2/comments?post=8"
+            }
+          ]
+        }
+      },
+      {
+        "id": 7,
+        "date": "2025-08-25T13:31:22",
+        "slug": "picsum-id-871",
+        "type": "attachment",
+        "link": "https://source.api/exhibition/testutstallning/picsum-id-871/",
+        "title": {
+          "rendered": "Picsum ID: 871"
+        },
+        "author": 13,
+        "featured_media": 0,
+        "acf": [],
+        "caption": {
+          "rendered": "<p>Picsum ID: 871</p>\n"
+        },
+        "alt_text": "Test alt",
+        "media_type": "image",
+        "mime_type": "image/jpeg",
+        "media_details": {
+          "width": 1920,
+          "height": 1024,
+          "file": "2025/08/871-1920x1024-1.jpg",
+          "filesize": 346906,
+          "sizes": {
+            "medium": {
+              "file": "871-1920x1024-1-300x160.jpg",
+              "width": 300,
+              "height": 160,
+              "filesize": 12570,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/871-1920x1024-1-300x160.jpg"
+            },
+            "large": {
+              "file": "871-1920x1024-1-1024x546.jpg",
+              "width": 1024,
+              "height": 546,
+              "filesize": 126644,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/871-1920x1024-1-1024x546.jpg"
+            },
+            "thumbnail": {
+              "file": "871-1920x1024-1-150x150.jpg",
+              "width": 150,
+              "height": 150,
+              "filesize": 5784,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/871-1920x1024-1-150x150.jpg"
+            },
+            "medium_large": {
+              "file": "871-1920x1024-1-768x410.jpg",
+              "width": 768,
+              "height": 410,
+              "filesize": 72651,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/871-1920x1024-1-768x410.jpg"
+            },
+            "1536x1536": {
+              "file": "871-1920x1024-1-1536x819.jpg",
+              "width": 1536,
+              "height": 819,
+              "filesize": 265992,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/871-1920x1024-1-1536x819.jpg"
+            },
+            "full": {
+              "file": "871-1920x1024-1.jpg",
+              "width": 1920,
+              "height": 1024,
+              "mime_type": "image/jpeg",
+              "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/871-1920x1024-1.jpg"
+            }
+          },
+          "image_meta": {
+            "aperture": "0",
+            "credit": "",
+            "camera": "",
+            "caption": "Picsum ID: 871",
+            "created_timestamp": "0",
+            "copyright": "",
+            "focal_length": "0",
+            "iso": "0",
+            "shutter_speed": "0",
+            "title": "Picsum ID: 871",
+            "orientation": "1",
+            "keywords": []
+          }
+        },
+        "source_url": "https://source.api/wp-content/uploads/sites/6/2025/08/871-1920x1024-1.jpg",
+        "_links": {
+          "self": [
+            {
+              "href": "https://source.api/wp-json/wp/v2/media/7"
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://source.api/wp-json/wp/v2/media"
+            }
+          ],
+          "about": [
+            {
+              "href": "https://source.api/wp-json/wp/v2/types/attachment"
+            }
+          ],
+          "author": [
+            {
+              "embeddable": true,
+              "href": "https://source.api/wp-json/wp/v2/users/13"
+            }
+          ],
+          "replies": [
+            {
+              "embeddable": true,
+              "href": "https://source.api/wp-json/wp/v2/comments?post=7"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

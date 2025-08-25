@@ -13,6 +13,7 @@ use SchemaTransformer\Transforms\DataSanitizers\SanitizeReachmeeJobPostingLink;
 use SchemaTransformer\Transforms\IdFormatter\FormatIdWithPrefix;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 use SchemaTransformer\Transforms\StratsysTransform;
+use SchemaTransformer\Transforms\WPExhibitionEventTransform;
 use SchemaTransformer\Transforms\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
 
@@ -22,6 +23,7 @@ class RuntimeServices
     private AbstractService $stratsysService;
     private AbstractService $wpLegacyEventService;
     private AbstractService $wpReleaseEventService;
+    private AbstractService $wpExhibitionEventService;
 
     public function __construct(
         AbstractDataReader $reader,
@@ -34,19 +36,19 @@ class RuntimeServices
             new SanitizeReachmeeJobPostingLink()
         ];
 
-        $this->jobPostingService     = new Service(
+        $this->jobPostingService        = new Service(
             $reader,
             $writer,
             new ReachmeeJobPostingTransform($reachmeeJobPostingSanitizers, $idprefix),
             $converter
         );
-        $this->stratsysService       = new Service(
+        $this->stratsysService          = new Service(
             $reader,
             $writer,
             new StratsysTransform($idprefix),
             $converter
         );
-        $this->wpLegacyEventService  = new Service(
+        $this->wpLegacyEventService     = new Service(
             $reader,
             $writer,
             new WPLegacyEventTransform(
@@ -74,7 +76,7 @@ class RuntimeServices
             ),
             $converter
         );
-        $this->wpReleaseEventService = new Service(
+        $this->wpReleaseEventService    = new Service(
             $reader,
             $writer,
             new WPReleaseEventTransform(
@@ -103,6 +105,7 @@ class RuntimeServices
             ),
             $converter
         );
+        $this->wpExhibitionEventService = new Service($reader, $writer, new WPExhibitionEventTransform(), $converter);
     }
     public function getJobPostingService(): AbstractService
     {
@@ -119,5 +122,9 @@ class RuntimeServices
     public function getWPReleaseEventService(): AbstractService
     {
         return $this->wpReleaseEventService;
+    }
+    public function getWPExhibitionEventService(): AbstractService
+    {
+        return $this->wpExhibitionEventService;
     }
 }

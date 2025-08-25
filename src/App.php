@@ -151,6 +151,12 @@ class App
                     $cmd->output
                 );
                 break;
+            case 'wp_exhibition_event':
+                $result = $services->getWPExhibitionEventService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
             default:
                 printf('Missing transform for (%s)\n', $cmd->transform);
                 break;
