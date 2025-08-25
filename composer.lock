@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93db12c7240f0dbd3202ca7fdac9fa93",
+    "content-hash": "b535bef84794bc9c401883c179515420",
     "packages": [
         {
             "name": "helsingborg-stad/schema-library",
