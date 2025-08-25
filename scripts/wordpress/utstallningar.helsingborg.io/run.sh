@@ -19,15 +19,6 @@ cd ${SCRIPT_DIR}
 TMPFILE=$(mktemp)
 TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/ExhibitionEvents/documents
 
-if [[ ${WORDPRESS_EXHIBITION_EVENT_PATH} == http* ]]; then
-    START_DATE=$(date -d "-1 month" +%Y-%m-%d) # Default to one month back
-    if [[ ${WORDPRESS_EXHIBITION_EVENT_PATH} == *\?* ]]; then
-        WORDPRESS_EXHIBITION_EVENT_PATH="${WORDPRESS_EXHIBITION_EVENT_PATH}&start_date=${START_DATE}"
-    else
-        WORDPRESS_EXHIBITION_EVENT_PATH="${WORDPRESS_EXHIBITION_EVENT_PATH}?start_date=${START_DATE}"
-    fi
-fi
-
 # Retreive and transform Stratsys export
 php ../../../router.php \
     --source ${WORDPRESS_EXHIBITION_EVENT_PATH} \
@@ -43,7 +34,7 @@ if [ $? -ne 0 ]; then
 else
     # Clear collection
     echo "Deleting documents"
-    curl ${TYPESENSE_PATH}?filter_by=@type:schema:Event -X DELETE -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
+    curl ${TYPESENSE_PATH}?filter_by=@type:schema:ExhibitionEvent -X DELETE -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
 
     if [ $? -ne 0 ]; then
         echo "FAILED to delete documents"
