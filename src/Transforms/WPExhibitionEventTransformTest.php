@@ -42,6 +42,15 @@ class WPExhibitionEventTransformTest extends TestCase
         $this->assertEquals('ExhibitionEvent', $result['@type']);
     }
 
+    #[TestDox('@id is set')]
+    public function testResultContainsId(): void
+    {
+        $result = $this->getTransformedResult();
+
+        $this->assertArrayHasKey('@id', $result);
+        $this->assertEquals('5', $result['@id']);
+    }
+
     #[TestDox('name is set')]
     public function testResultContainsName(): void
     {

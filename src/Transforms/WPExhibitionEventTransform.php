@@ -28,6 +28,7 @@ class WPExhibitionEventTransform implements AbstractDataTransform
 
             return
                 Schema::exhibitionEvent()
+                    ->identifier((string)$item['id'])
                     ->name($item['title']['rendered'] ?? null)
                     ->description($item['acf']['description'] ?? null)
                     ->organizer($organizer)
