@@ -85,6 +85,11 @@
         "name": "Kulturkortet",
         "free": true,
         "amount": ""
+      },
+      {
+        "name": "Student",
+        "free": false,
+        "amount": ""
       }
     ]
   },

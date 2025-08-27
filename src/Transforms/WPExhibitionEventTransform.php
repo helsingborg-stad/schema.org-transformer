@@ -55,9 +55,10 @@ class WPExhibitionEventTransform implements AbstractDataTransform
     private function getOffers($dataItem): array
     {
         return array_map(function ($offer) {
+            $price = $offer['amount'] ?: 0;
             return [
                 'name'          => $offer['name'] ?? null,
-                'price'         => $offer['free'] === true ? 0 : $offer['amount'] ?? null,
+                'price'         => $offer['free'] === true ? 0 : $price,
                 'priceCurrency' => 'SEK',
             ];
         }, $dataItem['acf']['offers'] ?? []);

@@ -147,6 +147,9 @@ class WPExhibitionEventTransformTest extends TestCase
 
         $this->assertEquals('Kulturkortet', $result['offers'][2]['name']);
         $this->assertEquals(0, $result['offers'][2]['price']);
+
+        $this->assertEquals('Student', $result['offers'][3]['name']);
+        $this->assertEquals(0, $result['offers'][3]['price']);
     }
 
     #[TestDox('image is set')]
