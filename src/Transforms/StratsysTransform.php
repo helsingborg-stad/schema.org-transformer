@@ -35,7 +35,7 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
     }
     public function sanitizeString(string $data): string
     {
-        return str_ireplace(["%0A", "%25"], ["<br/>", "%"], $data);
+        return str_ireplace(["%0A", "%25", "%09"], ["<br/>", "%", "\t"], $data);
     }
     public function append(array $current, string $data): array
     {
