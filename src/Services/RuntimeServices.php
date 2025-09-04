@@ -16,6 +16,7 @@ use SchemaTransformer\Transforms\StratsysTransform;
 use SchemaTransformer\Transforms\WPExhibitionEventTransform;
 use SchemaTransformer\Transforms\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
+use SchemaTransformer\Transforms\ElementarySchoolTransform;
 
 class RuntimeServices
 {
@@ -24,6 +25,7 @@ class RuntimeServices
     private AbstractService $wpLegacyEventService;
     private AbstractService $wpReleaseEventService;
     private AbstractService $wpExhibitionEventService;
+    private AbstractService $elementarySchoolService;
 
     public function __construct(
         AbstractDataReader $reader,
@@ -106,6 +108,7 @@ class RuntimeServices
             $converter
         );
         $this->wpExhibitionEventService = new Service($reader, $writer, new WPExhibitionEventTransform(), $converter);
+        $this->elementarySchoolService  = new Service($reader, $writer, new ElementarySchoolTransform(), $converter);
     }
     public function getJobPostingService(): AbstractService
     {
@@ -126,5 +129,9 @@ class RuntimeServices
     public function getWPExhibitionEventService(): AbstractService
     {
         return $this->wpExhibitionEventService;
+    }
+    public function getElementarySchoolService(): AbstractService
+    {
+        return $this->elementarySchoolService;
     }
 }

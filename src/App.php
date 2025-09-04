@@ -157,6 +157,12 @@ class App
                     $cmd->output
                 );
                 break;
+            case 'elementary-school':
+                $result = $services->getElementarySchoolService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
             default:
                 printf('Missing transform for (%s)\n', $cmd->transform);
                 break;
