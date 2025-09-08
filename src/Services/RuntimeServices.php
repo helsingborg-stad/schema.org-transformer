@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Services;
 
+use Typesense\Client as TypesenseClient;
 use SchemaTransformer\Interfaces\AbstractDataConverter;
 use SchemaTransformer\Interfaces\AbstractDataReader;
 use SchemaTransformer\Interfaces\AbstractDataWriter;
@@ -31,11 +32,12 @@ class RuntimeServices
         AbstractDataReader $reader,
         AbstractDataWriter $writer,
         AbstractDataConverter $converter,
-        string $idprefix
+        string $idprefix,
+        private ?TypesenseClient $typesenseClient = null
     ) {
         $pathValueAccessor            = new \SchemaTransformer\Util\ArrayPathResolver();
         $reachmeeJobPostingSanitizers = [
-            new SanitizeReachmeeJobPostingLink()
+        new SanitizeReachmeeJobPostingLink()
         ];
 
         $this->jobPostingService        = new Service(
@@ -58,21 +60,21 @@ class RuntimeServices
                 new \SchemaTransformer\Transforms\SplitRowsByOccasion('occasions', new FormatIdWithPrefix($idprefix)),
                 new \SchemaTransformer\Transforms\WPLegacyEventTransform\EventFactory(),
                 [
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyDescription('content.rendered', $pathValueAccessor),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationPlace('location.title', 'location.formatted_address', 'location.latitude', 'location.longitude', $pathValueAccessor),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyStartDate(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEndDate(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventStatus(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventSeries(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyKeywords(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOrganizer(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyPhysicalAccessibilityFeatures(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOffers(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyUrl(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyDescription('content.rendered', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationPlace('location.title', 'location.formatted_address', 'location.latitude', 'location.longitude', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyStartDate(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEndDate(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventStatus(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventSeries(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyKeywords(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOrganizer(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyPhysicalAccessibilityFeatures(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOffers(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyUrl(),
                 ],
                 new \SchemaTransformer\Transforms\Validators\EventValidator()
             ),
@@ -86,30 +88,31 @@ class RuntimeServices
                 new \SchemaTransformer\Transforms\SplitRowsByOccasion('acf.occasions', new FormatIdWithPrefix($idprefix)),
                 new \SchemaTransformer\Transforms\WPReleaseEventTransform\EventFactory(),
                 [
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyDescription('acf.description', $pathValueAccessor),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyStartDate(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEndDate(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventStatus(),
-                    new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventSeries(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyKeywords(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationPlace('acf.location_name', 'acf.location.address', 'acf.location.lat', 'acf.location.lng', $pathValueAccessor),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationVirtualLocation('acf.meeting_link', 'acf.connect', $pathValueAccessor),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOrganizer(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyAudience(),
-                    new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree()
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyDescription('acf.description', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyStartDate(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEndDate(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventStatus(),
+                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventSeries(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyKeywords(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationPlace('acf.location_name', 'acf.location.address', 'acf.location.lat', 'acf.location.lng', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationVirtualLocation('acf.meeting_link', 'acf.connect', $pathValueAccessor),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOrganizer(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyAudience(),
+                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree()
                 ],
                 new \SchemaTransformer\Transforms\Validators\EventValidator()
             ),
             $converter
         );
         $this->wpExhibitionEventService = new Service($reader, $writer, new WPExhibitionEventTransform(), $converter);
-        $this->elementarySchoolService  = new Service($reader, $writer, new ElementarySchoolTransform(), $converter);
+        $this->elementarySchoolService  = new Service($reader, $writer, new ElementarySchoolTransform($this->typesenseClient), $converter);
     }
+
     public function getJobPostingService(): AbstractService
     {
         return $this->jobPostingService;
@@ -130,7 +133,7 @@ class RuntimeServices
     {
         return $this->wpExhibitionEventService;
     }
-    public function getElementarySchoolService(): AbstractService
+    public function getElementarySchoolService($typesenseClient): AbstractService
     {
         return $this->elementarySchoolService;
     }

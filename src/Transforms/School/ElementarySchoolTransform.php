@@ -4,32 +4,38 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms;
 
+use Typesense\Client as TypesenseClient;
 use Municipio\Schema\ElementarySchool;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
 use Municipio\Schema\Place;
+use Municipio\Schema\TextObject;
 
 class ElementarySchoolTransform implements AbstractDataTransform
 {
     /**
      * ElementarySchoolTransform constructor.
      */
-    public function __construct()
+    public function __construct(private ?TypesenseClient $typesenseClient = null)
     {
     }
 
     public function transform(array $data): array
     {
-        return array_map(function ($item) {
-            return $this->transformDescription(
-                $this->transformPlace(
-                    $this->transformBase(
-                        Schema::elementarySchool(),
-                        $item
-                    ),
-                    $item
-                ),
-                $item
+        $transformations = [
+            'transformBase',
+            'transformDescription',
+            'transformPlace',
+            'transformEvents'
+        ];
+
+        return array_map(function ($item) use ($transformations) {
+            return array_reduce(
+                $transformations,
+                function ($school, $method) use ($item) {
+                    return $this->$method($school, $item);
+                },
+                Schema::elementarySchool()
             )->toArray();
         }, $data);
     }
@@ -57,6 +63,31 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 );
     }
 
+    public function transformEvents(ElementarySchool $school, $data): ElementarySchool
+    {
+        if (!$this->typesenseClient) {
+            return $school;
+        }
+
+        // We perform one events search per school
+        // - limited by page size
+        // This could be optimized by batching searches if needed
+        // - requires paginated reads
+        // - required caching of first (large and complete) batch
+        $x = $this->typesenseClient->collections['events']->documents->search([
+            'q'        => '"' . $school->getProperty('name') . '"',
+            'query_by' => 'keywords.name',
+        ]);
+
+        // $x['hits'][index]['document'] conains a wellformed event object (albeit not a constructed Schema::event)
+        $school->event(array_map(
+            function ($hit) {
+                return $hit['document'];
+            },
+            $x['hits'] ?? []
+        ));
+        return $school;
+    }
 
     private function getPlace($dataItem): ?Place
     {
@@ -76,29 +107,29 @@ class ElementarySchoolTransform implements AbstractDataTransform
         $a = array(
             $dataItem['acf']['custom_excerpt']);
 
-        function tryCreateTextObject($key, $text)
-        {
-            if (is_string($key) && is_string($text) && !(empty($key) || empty($text))) {
-                return
-                    Schema::textObject()
-                    ->name($key)
-                    ->text($text);
-            }
-            return null;
-        }
-
         foreach ($dataItem['acf']['information'] ?? [] as $key => $text) {
             $to =
                 (
-                    is_string($text) ? tryCreateTextObject($key, $text) : null
+                    is_string($text) ? $this->tryCreateTextObject($key, $text) : null
                 ) ?? (
                     is_array($text) && is_array($text[0]) ?
-                    tryCreateTextObject($text[0]['heading'], $text[0]['content']) : null
+                    $this->tryCreateTextObject($text[0]['heading'], $text[0]['content']) : null
                 );
             if ($to) {
                 array_push($a, $to);
             }
         }
         return $a;
+    }
+
+    private function tryCreateTextObject($key, $text): ?TextObject
+    {
+        if (is_string($key) && is_string($text) && !(empty($key) || empty($text))) {
+            return
+                Schema::textObject()
+                ->name($key)
+                ->text($text);
+        }
+        return null;
     }
 }

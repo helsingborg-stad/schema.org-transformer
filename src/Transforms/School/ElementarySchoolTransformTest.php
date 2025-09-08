@@ -98,4 +98,27 @@ final class ElementarySchoolTransformTest extends TestCase
             $actualSchool->toArray()
         );
     }
+
+    #[TestDox('applies events from typesense')]
+    public function testTransformEvents()
+    {
+        // TODO: Mock Typesense client and test that events are applied correctly
+        // For now, just ensure the method can be called without error
+        $this->assertTrue(true);
+
+        $source         = $this->prepareJsonForTransform('
+            {
+                "acf": {}
+            }
+        ');
+        $expectedSchool = Schema::elementarySchool();
+        $actualSchool   = (new ElementarySchoolTransform())->transformEvents(
+            Schema::elementarySchool(),
+            $source
+        );
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
 }

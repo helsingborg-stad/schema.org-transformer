@@ -13,10 +13,13 @@ cd ${SCRIPT_DIR}
 # Retreive and transform Stratsys export
 php ../../router.php \
     --source ${ELEMENTARY_SCHOOL_PATH} \
-    --transform elementary-school \
+    --transform elementary_school \
     --outputformat json \
     --paginator wordpress \
-    --idprefix R
+    --idprefix R \
+    --typesense_apikey "${TYPESENSE_APIKEY}" \
+    --typesense_host "${TYPESENSE_HOST}" \
+    --typesense_port "${TYPESENSE_PORT}"
 
 if [ $? -ne 0 ]; then
     echo "FAILED to transform request"
