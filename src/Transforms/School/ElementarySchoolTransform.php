@@ -13,6 +13,17 @@ use Municipio\Schema\TextObject;
 
 class ElementarySchoolTransform implements AbstractDataTransform
 {
+    private array $wellknownTextObjectHeadlinesByKey = [
+        'about_us'           => 'Om oss',
+        'how_we_work'        => 'Hur vi arbetar',
+        // 'our_mission'        => 'Vår mission',
+        // 'our_vision'         => 'Vår vision',
+        // 'our_values'         => 'Våra värderingar',
+        'our_leisure_center' => 'Vår fritidsverksamhet',
+        // 'history'            => 'Historia',
+        // 'extra'              => 'Extra information'
+    ];
+
     /**
      * ElementarySchoolTransform constructor.
      */
@@ -29,6 +40,9 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformEvents'
         ];
 
+        // TODO:
+        // - usp: ['_embedded']['acf:term']['name'] => keywords
+        // - ansökningar: ['cta_application']['cta_xxx'] =>
         return array_map(function ($item) use ($transformations) {
             return array_reduce(
                 $transformations,
@@ -79,7 +93,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'query_by' => 'keywords.name',
         ]);
 
-        // $x['hits'][index]['document'] conains a wellformed event object (albeit not a constructed Schema::event)
+        // $x['hits'][index]['document'] contains a wellformed event object (albeit not a constructed Schema::event)
         $school->event(array_map(
             function ($hit) {
                 return $hit['document'];
@@ -128,6 +142,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
             return
                 Schema::textObject()
                 ->name($key)
+                ->headline($this->wellknownTextObjectHeadlinesByKey[$key] ?? $key)
                 ->text($text);
         }
         return null;

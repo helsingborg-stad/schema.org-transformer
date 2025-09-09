@@ -27,8 +27,8 @@ final class ElementarySchoolTransformTest extends TestCase
                     "custom_excerpt": "Detta är en beskrivning av skolan",
                     "information": {
                         "": null,
-                        "about_us": "om oss",
-                        "how_we_work": "hur vi arbetar",
+                        "about_us": "redaktionell om oss",
+                        "how_we_work": "redaktionell hur vi arbetar",
                         "optional": [
                         {
                             "heading": "extra rubrik",
@@ -41,9 +41,9 @@ final class ElementarySchoolTransformTest extends TestCase
         $expectedSchool = Schema::elementarySchool()
                 ->description([
                     "Detta är en beskrivning av skolan",
-                    Schema::textObject()->name("about_us")->text("om oss"),
-                    Schema::textObject()->name("how_we_work")->text("hur vi arbetar"),
-                    Schema::textObject()->name("extra rubrik")->text("extra innehåll")
+                    Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
+                    Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
+                    Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik')
                 ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformDescription(
