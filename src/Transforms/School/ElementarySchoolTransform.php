@@ -71,16 +71,15 @@ class ElementarySchoolTransform implements AbstractDataTransform
     public function transformBase($school, $data): ElementarySchool
     {
         return $school
-                ->identifier((string)$data['id'])
+                ->identifier($data['id'] ?? null ? (string)$data['id'] : null)
                 ->name($data['title']['rendered'] ?? null);
     }
 
     public function transformActions($school, $data): ElementarySchool
     {
-        $description = $this->getPath($data, 'acf', 'cta_application', 'description');
-
-        $actions = [];
-        foreach ($data['acf']['cta_application'] as $key => $cta) {
+        $description = $data['acf']['cta_application']['description'] ?? null;
+        $actions     = [];
+        foreach (($data['acf']['cta_application'] ?? []) as $key => $cta) {
             if (!is_array($cta) || !is_string($cta['title'])) {
                 continue;
             }
@@ -109,12 +108,14 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transformPlace($school, $data): ElementarySchool
     {
-        return $school
-                ->location($this->getPlace($data))
+        $place = $this->getPlace($data);
+        return $place ? $school
+                ->location($place)
                 // ElementarySchool is a Place also
                 ->addProperties(
-                    $this->getPlace($data)->toArray()
-                );
+                    $place->toArray()
+                )
+                : $school;
     }
 
     public function transformEvents(ElementarySchool $school, $data): ElementarySchool
@@ -126,7 +127,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     private function getPlace($dataItem): ?Place
     {
-        foreach ($dataItem['acf']['visiting_address'] as $address) {
+        foreach (($dataItem['acf']['visiting_address'] ?? []) as $address) {
             $a = $address['address'];
             return Schema::place()
                 ->name($a['name'] ?? null)
@@ -140,7 +141,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
     private function getDescription($dataItem): array
     {
         $a = array(
-            $dataItem['acf']['custom_excerpt']);
+            $dataItem['acf']['custom_excerpt'] ?? null);
 
         foreach ($dataItem['acf']['information'] ?? [] as $key => $text) {
             $to =
@@ -154,7 +155,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 array_push($a, $to);
             }
         }
-        return $a;
+        return array_filter($a);
     }
 
     private function tryCreateTextObject($key, $text): ?TextObject
@@ -167,10 +168,5 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 ->text($text);
         }
         return null;
-    }
-
-    private function getPath($dataItem, ...$path)
-    {
-        return array_reduce($path, fn($acc, $key) => $acc ? $acc[$key] ?? null : null, $dataItem);
     }
 }

@@ -18,23 +18,28 @@ final class ElementarySchoolTransformTest extends TestCase
         return json_decode($json, true);
     }
 
-    // #[TestDox('its doesnt break when a lot is missing')]
-    // public function testAlmostNoSourceData()
-    // {
-    //     $source         = $this->prepareJsonForTransform('{
-    //         "id": 123
-    //     }');
-    //     $expectedSchool = Schema::elementarySchool();
+    #[TestDox('its doesnt break when a lot is missing')]
+    public function testAlmostNoSourceData()
+    {
+        $source         = $this->prepareJsonForTransform('{
+            "id": 123
+        }');
+        $expectedSchool = Schema::elementarySchool()
+            ->identifier("123")
+            ->description([])
+            ->keywords([])
+            ->event([])
+            ->potentialAction([]);
 
-    //     $actualSchool = (new ElementarySchoolTransform())->transform(
-    //         [$source]
-    //     )[0];
+        $actualSchool = (new ElementarySchoolTransform())->transform(
+            [$source]
+        )[0];
 
-    //     $this->assertEquals(
-    //         $expectedSchool->toArray(),
-    //         $actualSchool->toArray()
-    //     );
-    // }
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool
+        );
+    }
 
     #[TestDox('description is mined from acf.information')]
     public function testTransformDescription()
@@ -189,6 +194,50 @@ final class ElementarySchoolTransformTest extends TestCase
                 Schema::elementarySchool(),
                 $source
             );
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
+
+    public function testTransformActions()
+    {
+        $source         = $this->prepareJsonForTransform('
+            {
+                "acf": {
+                    "cta_application": {
+                        "description": "Ansök till skolan via någon av nedan länkar",
+                        "school_website": {
+                            "title": "Skolans webbplats",
+                            "url": "https://skolan.se"
+                        },
+                        "apply_via_email": {
+                            "title": "Ansök via e-post",
+                            "url": "mailto:ansokan@skolan.se"
+                        }
+                    }
+                }
+            }
+        ');
+        $expectedSchool = Schema::elementarySchool()
+            ->potentialAction([
+                Schema::action()
+                    ->name('school_website')
+                    ->description('Ansök till skolan via någon av nedan länkar')
+                    ->title('Skolans webbplats')
+                    ->url('https://skolan.se'),
+                Schema::action()
+                    ->name('apply_via_email')
+                    ->description('Ansök till skolan via någon av nedan länkar')
+                    ->title('Ansök via e-post')
+                    ->url('mailto:ansokan@skolan.se')
+            ]);
+
+        $actualSchool = (new ElementarySchoolTransform())->transformActions(
+            Schema::elementarySchool(),
+            $source
+        );
+
         $this->assertEquals(
             $expectedSchool->toArray(),
             $actualSchool->toArray()
