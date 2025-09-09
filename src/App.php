@@ -64,6 +64,8 @@ class App
                                                 - stratsys
                                                 - wp_legacy_event
                                                 - wp_release_event
+                                                - wp_exhibition_event
+                                                - elementary_school
                 --idprefix                      prefix to avoid collision between items from multiple sources
                  
                 OAuth authentication parameters (Applicable for source only)

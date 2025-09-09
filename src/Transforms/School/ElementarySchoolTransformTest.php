@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\ElementarySchoolTransform;
 use Municipio\Schema\Schema;
+use Typesense\Documents;
 
 #[CoversClass(ElementarySchoolTransform::class)]
 final class ElementarySchoolTransformTest extends TestCase
@@ -104,18 +105,47 @@ final class ElementarySchoolTransformTest extends TestCase
     {
         // TODO: Mock Typesense client and test that events are applied correctly
         // For now, just ensure the method can be called without error
-        $this->assertTrue(true);
+        // $this->assertTrue(true);
 
-        $source         = $this->prepareJsonForTransform('
+        $source                = $this->prepareJsonForTransform('
             {
                 "acf": {}
             }
         ');
-        $expectedSchool = Schema::elementarySchool();
-        $actualSchool   = (new ElementarySchoolTransform())->transformEvents(
-            Schema::elementarySchool(),
-            $source
-        );
+        $mockEventSearchClient = new class implements \SchemaTransformer\Transforms\School\Events\EventsSearchClient {
+            public function searchEventsBySchoolName(string $schoolName): array
+            {
+                return [
+                    [
+                        '@context' => [
+                            'schema'    => 'https://schema.org',
+                            'municipio' => 'https://schema.municipio.tech/schema.jsonld'
+                        ],
+                        '@type'    => 'Event',
+                        'name'     => 'Skolfest',
+                    ],
+                    [
+                        '@context' => [
+                            'schema'    => 'https://schema.org',
+                            'municipio' => 'https://schema.municipio.tech/schema.jsonld'
+                        ],
+                        '@type'    => 'Event',
+                        'name'     => 'Idrottsdag',
+                    ],
+                ];
+            }
+        };
+
+        $expectedSchool = Schema::elementarySchool()->event([
+            Schema::event()->name('Skolfest')->toArray(),
+            Schema::event()->name('Idrottsdag')->toArray(),
+        ]);
+        $actualSchool   = (new ElementarySchoolTransform())
+            ->withEventSearchClient($mockEventSearchClient)
+            ->transformEvents(
+                Schema::elementarySchool(),
+                $source
+            );
         $this->assertEquals(
             $expectedSchool->toArray(),
             $actualSchool->toArray()

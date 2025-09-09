@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms;
 
 use Typesense\Client as TypesenseClient;
+use SchemaTransformer\Transforms\School\Events\EventsSearchClient;
+use SchemaTransformer\Transforms\School\Events\EventsSearchClientOnTypesense;
+use SchemaTransformer\Transforms\School\Events\NullEventsSearchClient;
 use Municipio\Schema\ElementarySchool;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
@@ -16,19 +19,30 @@ class ElementarySchoolTransform implements AbstractDataTransform
     private array $wellknownTextObjectHeadlinesByKey = [
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Hur vi arbetar',
+        'our_leisure_center' => 'Vår fritidsverksamhet',
         // 'our_mission'        => 'Vår mission',
         // 'our_vision'         => 'Vår vision',
         // 'our_values'         => 'Våra värderingar',
-        'our_leisure_center' => 'Vår fritidsverksamhet',
         // 'history'            => 'Historia',
         // 'extra'              => 'Extra information'
     ];
+
+    private EventsSearchClient $eventsSearchClient;
 
     /**
      * ElementarySchoolTransform constructor.
      */
     public function __construct(private ?TypesenseClient $typesenseClient = null)
     {
+        $this->eventsSearchClient = $typesenseClient
+            ? new EventsSearchClientOnTypesense($typesenseClient)
+            : new NullEventsSearchClient();
+    }
+
+    public function withEventSearchClient(EventsSearchClient $client): ElementarySchoolTransform
+    {
+        $this->eventsSearchClient = $client;
+        return $this;
     }
 
     public function transform(array $data): array
@@ -79,28 +93,9 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transformEvents(ElementarySchool $school, $data): ElementarySchool
     {
-        if (!$this->typesenseClient) {
-            return $school;
-        }
-
-        // We perform one events search per school
-        // - limited by page size
-        // This could be optimized by batching searches if needed
-        // - requires paginated reads
-        // - required caching of first (large and complete) batch
-        $x = $this->typesenseClient->collections['events']->documents->search([
-            'q'        => '"' . $school->getProperty('name') . '"',
-            'query_by' => 'keywords.name',
-        ]);
-
-        // $x['hits'][index]['document'] contains a wellformed event object (albeit not a constructed Schema::event)
-        $school->event(array_map(
-            function ($hit) {
-                return $hit['document'];
-            },
-            $x['hits'] ?? []
-        ));
-        return $school;
+        return $school->event(
+            $this->eventsSearchClient->searchEventsBySchoolName($school->getProperty('name') ?? '')
+        );
     }
 
     private function getPlace($dataItem): ?Place
