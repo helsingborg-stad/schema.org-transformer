@@ -52,13 +52,11 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformDescription',
             'transformKeywords',
             'transformPlace',
-            'transformEvents'
+            'transformEvents',
+            'transformActions'
         ];
 
-        // TODO:
-        // - usp: ['_embedded']['acf:term']['name'] => keywords
-        // - ansökningar: ['cta_application']['cta_xxx'] =>
-        return array_map(function ($item) use ($transformations) {
+        $result = array_map(function ($item) use ($transformations) {
             return array_reduce(
                 $transformations,
                 function ($school, $method) use ($item) {
@@ -67,6 +65,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 Schema::elementarySchool()
             )->toArray();
         }, $data);
+        return $result;
     }
 
     public function transformBase($school, $data): ElementarySchool
@@ -74,6 +73,20 @@ class ElementarySchoolTransform implements AbstractDataTransform
         return $school
                 ->identifier((string)$data['id'])
                 ->name($data['title']['rendered'] ?? null);
+    }
+
+    public function transformActions($school, $data): ElementarySchool
+    {
+        $description = $this->getPath($data, 'acf', 'cta_application', 'description');
+
+        $actions = [];
+        foreach ($data['acf']['cta_application'] as $key => $cta) {
+            if (!is_array($cta) || !is_string($cta['title'])) {
+                continue;
+            }
+            $actions[] = Schema::action()->name($key)->title($cta['title'])->description($description)->url($cta['url']);
+        }
+        return $school->potentialAction($actions);
     }
 
     public function transformKeywords($school, $data): ElementarySchool
@@ -154,5 +167,10 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 ->text($text);
         }
         return null;
+    }
+
+    private function getPath($dataItem, ...$path)
+    {
+        return array_reduce($path, fn($acc, $key) => $acc ? $acc[$key] ?? null : null, $dataItem);
     }
 }
