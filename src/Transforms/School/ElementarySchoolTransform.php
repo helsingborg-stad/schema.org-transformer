@@ -50,6 +50,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
         $transformations = [
             'transformBase',
             'transformDescription',
+            'transformKeywords',
             'transformPlace',
             'transformEvents'
         ];
@@ -73,6 +74,18 @@ class ElementarySchoolTransform implements AbstractDataTransform
         return $school
                 ->identifier((string)$data['id'])
                 ->name($data['title']['rendered'] ?? null);
+    }
+
+    public function transformKeywords($school, $data): ElementarySchool
+    {
+        $keywords = [];
+        foreach ((($data['_embedded'] ?? [])['acf:term'] ?? []) as $term) {
+            $name = $term['name'] ?? null;
+            if (is_string($name) && !empty($name)) {
+                $keywords[] = $name;
+            }
+        }
+        return $school->keywords($keywords);
     }
 
     public function transformDescription($school, $data): ElementarySchool

@@ -9,7 +9,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\ElementarySchoolTransform;
 use Municipio\Schema\Schema;
-use Typesense\Documents;
 
 #[CoversClass(ElementarySchoolTransform::class)]
 final class ElementarySchoolTransformTest extends TestCase
@@ -18,6 +17,24 @@ final class ElementarySchoolTransformTest extends TestCase
     {
         return json_decode($json, true);
     }
+
+    // #[TestDox('its doesnt break when a lot is missing')]
+    // public function testAlmostNoSourceData()
+    // {
+    //     $source         = $this->prepareJsonForTransform('{
+    //         "id": 123
+    //     }');
+    //     $expectedSchool = Schema::elementarySchool();
+
+    //     $actualSchool = (new ElementarySchoolTransform())->transform(
+    //         [$source]
+    //     )[0];
+
+    //     $this->assertEquals(
+    //         $expectedSchool->toArray(),
+    //         $actualSchool->toArray()
+    //     );
+    // }
 
     #[TestDox('description is mined from acf.information')]
     public function testTransformDescription()
@@ -48,6 +65,36 @@ final class ElementarySchoolTransformTest extends TestCase
                 ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformDescription(
+            Schema::elementarySchool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
+
+    #[TestDox('applies keywords')]
+    public function testTransformKeywords()
+    {
+        $source         = $this->prepareJsonForTransform('
+            {
+                "_embedded": {
+                    "acf:term": [
+                        {
+                            "name": "Pingisbord"
+                        },
+                        {
+                            "name": "Bibliotek"
+                        }]
+                }
+            }
+        ');
+        $expectedSchool = Schema::elementarySchool()
+            ->keywords(['Pingisbord', 'Bibliotek']);
+
+        $actualSchool = (new ElementarySchoolTransform())->transformKeywords(
             Schema::elementarySchool(),
             $source
         );
@@ -103,10 +150,6 @@ final class ElementarySchoolTransformTest extends TestCase
     #[TestDox('applies events from typesense')]
     public function testTransformEvents()
     {
-        // TODO: Mock Typesense client and test that events are applied correctly
-        // For now, just ensure the method can be called without error
-        // $this->assertTrue(true);
-
         $source                = $this->prepareJsonForTransform('
             {
                 "acf": {}
