@@ -51,9 +51,6 @@ class ElementarySchoolTransform implements AbstractDataTransform
         // -> number_of_students
         // -> grade
 
-        // TODO: keywords
-        // -> DefinedTerm from acf:term (inDefindedTermSet)
-
         // TODO:
         // acf::term::area -> areaServed (Place or AdministrativeArea)
 
@@ -63,7 +60,8 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformKeywords',
             'transformPlace',
             'transformEvents',
-            'transformActions'
+            'transformActions',
+            'transformAreaServed'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -88,14 +86,21 @@ class ElementarySchoolTransform implements AbstractDataTransform
     public function transformActions($school, $data): ElementarySchool
     {
         $description = $data['acf']['cta_application']['description'] ?? null;
-        $actions     = [];
-        foreach (($data['acf']['cta_application'] ?? []) as $key => $cta) {
-            if (!is_array($cta) || !is_string($cta['title'])) {
-                continue;
-            }
-            $actions[] = Schema::action()->name($key)->title($cta['title'])->description($description)->url($cta['url']);
-        }
-        return $school->potentialAction($actions);
+
+        return $school->potentialAction(
+            array_values(
+                array_filter(
+                    array_map(
+                        fn ($t, $k) =>
+                            is_array($t) && is_string($t['title'] ?? null) && !empty($t['title'] ?? null)
+                            ? Schema::action()->name($k)->title($t['title'])->description($description)->url($t['url'] ?? null)
+                            : null,
+                        ($data['acf']['cta_application'] ?? []),
+                        array_keys($data['acf']['cta_application'] ?? [])
+                    )
+                )
+            )
+        );
     }
 
     public function transformKeywords($school, $data): ElementarySchool
@@ -141,6 +146,19 @@ class ElementarySchoolTransform implements AbstractDataTransform
         return $school->event(
             $this->eventsSearchClient->searchEventsBySchoolName($school->getProperty('name') ?? '')
         );
+    }
+
+    public function transformAreaServed($school, $data): ElementarySchool
+    {
+        return $school->areaServed(array_values(array_filter(
+            array_map(
+                fn ($t) =>
+                    !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'area'
+                    ? $t['name']
+                    : null,
+                ($data['_embedded']['acf:term'] ?? [])
+            )
+        )));
     }
 
     private function getPlace($dataItem): ?Place

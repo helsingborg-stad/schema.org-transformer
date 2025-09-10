@@ -29,7 +29,8 @@ final class ElementarySchoolTransformTest extends TestCase
             ->description([])
             ->keywords([])
             ->event([])
-            ->potentialAction([]);
+            ->potentialAction([])
+            ->areaServed([]);
 
         $actualSchool = (new ElementarySchoolTransform())->transform(
             [$source]
@@ -213,6 +214,7 @@ final class ElementarySchoolTransformTest extends TestCase
         );
     }
 
+    #[TestDox('applies potentialActions from acf.cta_application')]
     public function testTransformActions()
     {
         $source         = $this->prepareJsonForTransform('
@@ -247,6 +249,43 @@ final class ElementarySchoolTransformTest extends TestCase
             ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformActions(
+            Schema::elementarySchool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
+
+    #[TestDox('applies areaServed from acf:term with taxonomy area')]
+    public function testTransformAreaServed()
+    {
+        $source         = $this->prepareJsonForTransform('
+            {
+                "_embedded": {
+                    "acf:term": [
+                        {
+                            "name": "Område A",
+                            "taxonomy": "area"
+                        },
+                        {
+                            "name": "x",
+                            "taxonomy": "y"
+                        },
+                        {
+                            "name": "Område B",
+                            "taxonomy": "area"
+                        }
+                    ]
+                }
+            }
+        ');
+        $expectedSchool = Schema::elementarySchool()
+            ->areaServed(['Område A', 'Område B']);
+
+        $actualSchool = (new ElementarySchoolTransform())->transformAreaServed(
             Schema::elementarySchool(),
             $source
         );
