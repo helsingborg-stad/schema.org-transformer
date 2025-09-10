@@ -65,7 +65,7 @@ final class ElementarySchoolTransformTest extends TestCase
         ');
         $expectedSchool = Schema::elementarySchool()
                 ->description([
-                    "Detta är en beskrivning av skolan",
+                    Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
                     Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
                     Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
                     Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik')

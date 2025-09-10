@@ -17,6 +17,7 @@ use Municipio\Schema\TextObject;
 class ElementarySchoolTransform implements AbstractDataTransform
 {
     private array $wellknownTextObjectHeadlinesByKey = [
+        'custom_excerpt'     => '',
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Hur vi arbetar',
         'our_leisure_center' => 'Vår fritidsverksamhet',
@@ -184,7 +185,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
     private function getDescription($dataItem): array
     {
         $a = array(
-        $dataItem['acf']['custom_excerpt'] ?? null);
+            $this->tryCreateTextObject('custom_excerpt', $dataItem['acf']['custom_excerpt'] ?? null));
 
         foreach ($dataItem['acf']['information'] ?? [] as $key => $text) {
             $to =
