@@ -88,16 +88,29 @@ final class ElementarySchoolTransformTest extends TestCase
                 "_embedded": {
                     "acf:term": [
                         {
-                            "name": "Pingisbord"
+                            "name": "Pingisbord",
+                            "taxonomy": "usp"
                         },
+                        {},
+                        null,
                         {
-                            "name": "Bibliotek"
+                            "name": "Innerstad",
+                            "taxonomy": "area"
                         }]
                 }
             }
         ');
         $expectedSchool = Schema::elementarySchool()
-            ->keywords(['Pingisbord', 'Bibliotek']);
+            ->keywords([
+                Schema::definedTerm()
+                    ->name('Pingisbord')
+                    ->description('Pingisbord')
+                    ->inDefinedTermSet('usp'),
+                Schema::definedTerm()
+                    ->name('Innerstad')
+                    ->description('Innerstad')
+                    ->inDefinedTermSet('area')
+                ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformKeywords(
             Schema::elementarySchool(),
@@ -207,13 +220,13 @@ final class ElementarySchoolTransformTest extends TestCase
                 "acf": {
                     "cta_application": {
                         "description": "Ansök till skolan via någon av nedan länkar",
-                        "school_website": {
-                            "title": "Skolans webbplats",
+                        "cta_apply_here": {
+                            "title": "Välj skola här",
                             "url": "https://skolan.se"
                         },
-                        "apply_via_email": {
-                            "title": "Ansök via e-post",
-                            "url": "mailto:ansokan@skolan.se"
+                        "cta_how_to_apply": {
+                            "title": "Så här söker du",
+                            "url": "https://skolan.se/sa-har-soker-du"
                         }
                     }
                 }
@@ -222,15 +235,15 @@ final class ElementarySchoolTransformTest extends TestCase
         $expectedSchool = Schema::elementarySchool()
             ->potentialAction([
                 Schema::action()
-                    ->name('school_website')
+                    ->name('cta_apply_here')
                     ->description('Ansök till skolan via någon av nedan länkar')
-                    ->title('Skolans webbplats')
+                    ->title('Välj skola här')
                     ->url('https://skolan.se'),
                 Schema::action()
-                    ->name('apply_via_email')
+                    ->name('cta_how_to_apply')
                     ->description('Ansök till skolan via någon av nedan länkar')
-                    ->title('Ansök via e-post')
-                    ->url('mailto:ansokan@skolan.se')
+                    ->title('Så här söker du')
+                    ->url('https://skolan.se/sa-har-soker-du')
             ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformActions(

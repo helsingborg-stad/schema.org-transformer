@@ -47,6 +47,16 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transform(array $data): array
     {
+        // TODO: additionalProperties
+        // -> number_of_students
+        // -> grade
+
+        // TODO: keywords
+        // -> DefinedTerm from acf:term (inDefindedTermSet)
+
+        // TODO:
+        // acf::term::area -> areaServed (Place or AdministrativeArea)
+
         $transformations = [
             'transformBase',
             'transformDescription',
@@ -90,14 +100,22 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transformKeywords($school, $data): ElementarySchool
     {
-        $keywords = [];
-        foreach ((($data['_embedded'] ?? [])['acf:term'] ?? []) as $term) {
-            $name = $term['name'] ?? null;
-            if (is_string($name) && !empty($name)) {
-                $keywords[] = $name;
-            }
-        }
-        return $school->keywords($keywords);
+        return $school->keywords(
+            array_values(
+                array_filter(
+                    array_map(
+                        fn ($t) =>
+                            !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null)
+                            ? Schema::definedTerm()
+                                ->name($t['name'])
+                                ->description($t['name'])
+                                ->inDefinedTermSet($t['taxonomy'] ?? null)
+                            : null,
+                        ($data['_embedded']['acf:term'] ?? [])
+                    )
+                )
+            )
+        );
     }
 
     public function transformDescription($school, $data): ElementarySchool
