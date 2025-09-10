@@ -31,7 +31,8 @@ final class ElementarySchoolTransformTest extends TestCase
             ->keywords([])
             ->event([])
             ->potentialAction([])
-            ->areaServed([]);
+            ->areaServed([])
+            ->image([]);
 
         $actualSchool = (new ElementarySchoolTransform())->transform(
             [$source]
@@ -314,6 +315,93 @@ final class ElementarySchoolTransformTest extends TestCase
             ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformAdditionalProperties(
+            Schema::elementarySchool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
+
+    #[TestDox('applies featured media images')]
+    public function testTransformImages()
+    {
+        $source = $this->prepareJsonForTransform('
+            {
+                "_embedded": {
+                    "wp:featuredmedia": [
+                        {
+                            "media_type": "image",
+                            "title": {
+                                "rendered": "Bildtitel 1"
+                            },
+                            "caption": {
+                                "rendered": "Bildtext 1"
+                            },
+                            "alt_text": "Alternativ text 1",
+                            "media_details": {
+                                "sizes": {
+                                    "full": {
+                                        "source_url": "https://skolan.se/image1.jpg"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "media_type": "image",
+                            "title": {
+                                "rendered": "Bildtitel 2"
+                            },
+                            "caption": {
+                                "rendered": "Bildtext 2"
+                            },
+                            "alt_text": "Alternativ text 2",
+                            "media_details": {
+                                "sizes": {
+                                    "full": {
+                                        "source_url": "https://skolan.se/image2.jpg"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "media_type": "image",
+                            "title": {
+                                "rendered": "bild utan original"
+                            },
+                            "caption": {
+                                "rendered": "bild utan original"
+                            },
+                            "alt_text": "bild utan original",
+                            "media_details": {
+                                "sizes": {
+                                    "thunbnail": {
+                                        "source_url": "https://skolan.se/image.jpg"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }');
+
+        $expectedSchool = Schema::elementarySchool()
+            ->image([
+                Schema::imageObject()
+                    ->name('Bildtitel 1')
+                    ->caption('Bildtext 1')
+                    ->description('Alternativ text 1')
+                    ->url('https://skolan.se/image1.jpg'),
+                Schema::imageObject()
+                    ->name('Bildtitel 2')
+                    ->caption('Bildtext 2')
+                    ->description('Alternativ text 2')
+                    ->url('https://skolan.se/image2.jpg')
+            ]);
+
+        $actualSchool = (new ElementarySchoolTransform())->transformImages(
             Schema::elementarySchool(),
             $source
         );

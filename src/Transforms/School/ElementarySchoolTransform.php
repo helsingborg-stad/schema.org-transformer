@@ -56,7 +56,8 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformEvents',
             'transformActions',
             'transformAreaServed',
-            'transformAdditionalProperties'
+            'transformAdditionalProperties',
+            'transformImages'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -167,6 +168,28 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 ($data['_embedded']['acf:term'] ?? [])
             )
         )));
+    }
+
+    public function transformImages($school, $data): ElementarySchool
+    {
+        return $school->image(
+            array_values(
+                array_filter(
+                    array_map(
+                        fn ($t) =>
+                        $t['media_type'] === 'image'
+                        && ($t['media_details']['sizes']['full']['source_url'] ?? null)
+                        ? Schema::imageObject()
+                            ->name($t['title']['rendered'] ?? null)
+                            ->caption($t['caption']['rendered'] ?? null)
+                            ->description($t['alt_text'] ?? null)
+                            ->url($t['media_details']['sizes']['full']['source_url'] ?? null)
+                        : null,
+                        $data['_embedded']['wp:featuredmedia'] ?? []
+                    )
+                )
+            )
+        );
     }
 
     private function getPlace($dataItem): ?Place
