@@ -75,25 +75,35 @@ class ElementarySchoolTransform implements AbstractDataTransform
         return $school->additionalProperty(
             array_filter(
                 [
-                    'number_of_students' => is_numeric($data['acf']['number_of_students'] ?? null)
-                        ? (int)$data['acf']['number_of_students']
-                        : null,
-                    'grades'             =>
-                        array_values(
-                            array_filter(
-                                array_map(
-                                    fn ($t) =>
-                                        !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'grade'
-                                        ? $t['name']
-                                        : null,
-                                    ($data['_embedded']['acf:term'] ?? [])
-                                )
-                            )
-                        )
-                ],
-                fn($v) => !empty($v) && (is_array($v) ? count($v) > 0 : true)
+                is_numeric($data['acf']['number_of_students'] ?? null)
+                                ? Schema::propertyValue()->name('number_of_students')->value((int)$data['acf']['number_of_students'])
+                                : null
+                ]
             )
         );
+
+        // return $school->additionalProperty(
+        //     array_filter(
+        //         [
+        //             'number_of_students' => is_numeric($data['acf']['number_of_students'] ?? null)
+        //                 ? (int)$data['acf']['number_of_students']
+        //                 : null,
+        //             'grades'             =>
+        //                 array_values(
+        //                     array_filter(
+        //                         array_map(
+        //                             fn ($t) =>
+        //                                 !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'grade'
+        //                                 ? $t['name']
+        //                                 : null,
+        //                             ($data['_embedded']['acf:term'] ?? [])
+        //                         )
+        //                     )
+        //                 )
+        //         ],
+        //         fn($v) => !empty($v) && (is_array($v) ? count($v) > 0 : true)
+        //     )
+        // );
     }
 
     public function transformBase($school, $data): ElementarySchool

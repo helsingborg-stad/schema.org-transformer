@@ -304,30 +304,13 @@ final class ElementarySchoolTransformTest extends TestCase
             {
                 "acf": {
                     "number_of_students": "350"
-                },
-                "_embedded": {
-                    "acf:term": [
-                        {
-                            "name": "ettan",
-                            "taxonomy": "grade"
-                        },
-                        {
-                            "name": "tvåan",
-                            "taxonomy": "grade"
-                        },
-                        {
-                            "name": "x",
-                            "taxonomy": "y"
-                        }
-                    ]
                 }
             }
         ');
 
         $expectedSchool = Schema::elementarySchool()
             ->additionalProperty([
-                'number_of_students' => 350,
-                'grades'             => ['ettan', 'tvåan']
+                Schema::propertyValue()->name('number_of_students')->value(350)
             ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformAdditionalProperties(
