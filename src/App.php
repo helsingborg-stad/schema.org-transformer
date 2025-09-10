@@ -182,7 +182,7 @@ class App
                 );
                 break;
             case 'elementary_school':
-                $result = $services->getElementarySchoolService($typesense)->execute(
+                $result = $services->getElementarySchoolService()->execute(
                     $cmd->source,
                     $cmd->output
                 );

@@ -133,7 +133,7 @@ class RuntimeServices
     {
         return $this->wpExhibitionEventService;
     }
-    public function getElementarySchoolService($typesenseClient): AbstractService
+    public function getElementarySchoolService(): AbstractService
     {
         return $this->elementarySchoolService;
     }
