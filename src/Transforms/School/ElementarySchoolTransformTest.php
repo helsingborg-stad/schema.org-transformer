@@ -377,7 +377,7 @@ final class ElementarySchoolTransformTest extends TestCase
                             "alt_text": "bild utan original",
                             "media_details": {
                                 "sizes": {
-                                    "thunbnail": {
+                                    "thumbnail": {
                                         "source_url": "https://skolan.se/image.jpg"
                                     }
                                 }
