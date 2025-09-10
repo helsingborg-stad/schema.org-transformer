@@ -47,10 +47,6 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transform(array $data): array
     {
-        // TODO: additionalProperties
-        // -> number_of_students
-        // -> grade
-
         $transformations = [
             'transformBase',
             'transformDescription',
@@ -90,7 +86,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
                                         !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'grade'
                                         ? $t['name']
                                         : null,
-                                    ($data['acf']['_embedded']['acf:term'] ?? [])
+                                    ($data['_embedded']['acf:term'] ?? [])
                                 )
                             )
                         )

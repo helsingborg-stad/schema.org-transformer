@@ -300,29 +300,30 @@ final class ElementarySchoolTransformTest extends TestCase
     #[TestDox('applies number of students and grades as additional properties')]
     public function testTransformAdditionalProperties()
     {
-        $source         = $this->prepareJsonForTransform('
+        $source = $this->prepareJsonForTransform('
             {
                 "acf": {
-                    "number_of_students": "350",
-                    "_embedded": {
-                        "acf:term": [
-                            {
-                                "name": "ettan",
-                                "taxonomy": "grade"
-                            },
-                            {
-                                "name": "tvåan",
-                                "taxonomy": "grade"
-                            },
-                            {
-                                "name": "x",
-                                "taxonomy": "y"
-                            }
-                        ]
-                    }
+                    "number_of_students": "350"
+                },
+                "_embedded": {
+                    "acf:term": [
+                        {
+                            "name": "ettan",
+                            "taxonomy": "grade"
+                        },
+                        {
+                            "name": "tvåan",
+                            "taxonomy": "grade"
+                        },
+                        {
+                            "name": "x",
+                            "taxonomy": "y"
+                        }
+                    ]
                 }
             }
         ');
+
         $expectedSchool = Schema::elementarySchool()
             ->additionalProperty([
                 'number_of_students' => 350,
