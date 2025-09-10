@@ -18,7 +18,7 @@ final class ElementarySchoolTransformTest extends TestCase
         return json_decode($json, true);
     }
 
-    #[TestDox('its doesnt break when a lot is missing')]
+    #[TestDox('it doesn\'t break when a lot is missing')]
     public function testAlmostNoSourceData()
     {
         $source         = $this->prepareJsonForTransform('{
