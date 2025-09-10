@@ -26,6 +26,7 @@ final class ElementarySchoolTransformTest extends TestCase
         }');
         $expectedSchool = Schema::elementarySchool()
             ->identifier("123")
+            ->additionalProperty([])
             ->description([])
             ->keywords([])
             ->event([])
@@ -286,6 +287,49 @@ final class ElementarySchoolTransformTest extends TestCase
             ->areaServed(['Område A', 'Område B']);
 
         $actualSchool = (new ElementarySchoolTransform())->transformAreaServed(
+            Schema::elementarySchool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
+
+    #[TestDox('applies number of students and grades as additional properties')]
+    public function testTransformAdditionalProperties()
+    {
+        $source         = $this->prepareJsonForTransform('
+            {
+                "acf": {
+                    "number_of_students": "350",
+                    "_embedded": {
+                        "acf:term": [
+                            {
+                                "name": "ettan",
+                                "taxonomy": "grade"
+                            },
+                            {
+                                "name": "tvåan",
+                                "taxonomy": "grade"
+                            },
+                            {
+                                "name": "x",
+                                "taxonomy": "y"
+                            }
+                        ]
+                    }
+                }
+            }
+        ');
+        $expectedSchool = Schema::elementarySchool()
+            ->additionalProperty([
+                'number_of_students' => 350,
+                'grades'             => ['ettan', 'tvåan']
+            ]);
+
+        $actualSchool = (new ElementarySchoolTransform())->transformAdditionalProperties(
             Schema::elementarySchool(),
             $source
         );

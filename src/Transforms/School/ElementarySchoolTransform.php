@@ -51,9 +51,6 @@ class ElementarySchoolTransform implements AbstractDataTransform
         // -> number_of_students
         // -> grade
 
-        // TODO:
-        // acf::term::area -> areaServed (Place or AdministrativeArea)
-
         $transformations = [
             'transformBase',
             'transformDescription',
@@ -61,7 +58,8 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformPlace',
             'transformEvents',
             'transformActions',
-            'transformAreaServed'
+            'transformAreaServed',
+            'transformAdditionalProperties'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -76,11 +74,37 @@ class ElementarySchoolTransform implements AbstractDataTransform
         return $result;
     }
 
+    public function transformAdditionalProperties($school, $data): ElementarySchool
+    {
+        return $school->additionalProperty(
+            array_filter(
+                [
+                    'number_of_students' => is_numeric($data['acf']['number_of_students'] ?? null)
+                        ? (int)$data['acf']['number_of_students']
+                        : null,
+                    'grades'             =>
+                        array_values(
+                            array_filter(
+                                array_map(
+                                    fn ($t) =>
+                                        !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'grade'
+                                        ? $t['name']
+                                        : null,
+                                    ($data['acf']['_embedded']['acf:term'] ?? [])
+                                )
+                            )
+                        )
+                ],
+                fn($v) => !empty($v) && (is_array($v) ? count($v) > 0 : true)
+            )
+        );
+    }
+
     public function transformBase($school, $data): ElementarySchool
     {
         return $school
-                ->identifier($data['id'] ?? null ? (string)$data['id'] : null)
-                ->name($data['title']['rendered'] ?? null);
+            ->identifier($data['id'] ?? null ? (string)$data['id'] : null)
+            ->name($data['title']['rendered'] ?? null);
     }
 
     public function transformActions($school, $data): ElementarySchool
@@ -92,9 +116,9 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 array_filter(
                     array_map(
                         fn ($t, $k) =>
-                            is_array($t) && is_string($t['title'] ?? null) && !empty($t['title'] ?? null)
-                            ? Schema::action()->name($k)->title($t['title'])->description($description)->url($t['url'] ?? null)
-                            : null,
+                                is_array($t) && is_string($t['title'] ?? null) && !empty($t['title'] ?? null)
+                                ? Schema::action()->name($k)->title($t['title'])->description($description)->url($t['url'] ?? null)
+                                : null,
                         ($data['acf']['cta_application'] ?? []),
                         array_keys($data['acf']['cta_application'] ?? [])
                     )
@@ -110,12 +134,12 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 array_filter(
                     array_map(
                         fn ($t) =>
-                            !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null)
-                            ? Schema::definedTerm()
-                                ->name($t['name'])
-                                ->description($t['name'])
-                                ->inDefinedTermSet($t['taxonomy'] ?? null)
-                            : null,
+                                !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null)
+                                ? Schema::definedTerm()
+                                    ->name($t['name'])
+                                    ->description($t['name'])
+                                    ->inDefinedTermSet($t['taxonomy'] ?? null)
+                                : null,
                         ($data['_embedded']['acf:term'] ?? [])
                     )
                 )
@@ -126,19 +150,19 @@ class ElementarySchoolTransform implements AbstractDataTransform
     public function transformDescription($school, $data): ElementarySchool
     {
         return $school
-                ->description($this->getDescription($data));
+            ->description($this->getDescription($data));
     }
 
     public function transformPlace($school, $data): ElementarySchool
     {
         $place = $this->getPlace($data);
         return $place ? $school
-                ->location($place)
-                // ElementarySchool is a Place also
-                ->addProperties(
-                    $place->toArray()
-                )
-                : $school;
+            ->location($place)
+            // ElementarySchool is a Place also
+            ->addProperties(
+                $place->toArray()
+            )
+            : $school;
     }
 
     public function transformEvents(ElementarySchool $school, $data): ElementarySchool
@@ -153,9 +177,9 @@ class ElementarySchoolTransform implements AbstractDataTransform
         return $school->areaServed(array_values(array_filter(
             array_map(
                 fn ($t) =>
-                    !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'area'
-                    ? $t['name']
-                    : null,
+                        !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'area'
+                        ? $t['name']
+                        : null,
                 ($data['_embedded']['acf:term'] ?? [])
             )
         )));
@@ -166,10 +190,10 @@ class ElementarySchoolTransform implements AbstractDataTransform
         foreach (($dataItem['acf']['visiting_address'] ?? []) as $address) {
             $a = $address['address'];
             return Schema::place()
-                ->name($a['name'] ?? null)
-                ->address($a['address'] ?? null)
-                ->latitude($a['lat'] ?? null)
-                ->longitude($a['lng'] ?? null);
+            ->name($a['name'] ?? null)
+            ->address($a['address'] ?? null)
+            ->latitude($a['lat'] ?? null)
+            ->longitude($a['lng'] ?? null);
         }
         return null;
     }
@@ -177,15 +201,15 @@ class ElementarySchoolTransform implements AbstractDataTransform
     private function getDescription($dataItem): array
     {
         $a = array(
-            $dataItem['acf']['custom_excerpt'] ?? null);
+        $dataItem['acf']['custom_excerpt'] ?? null);
 
         foreach ($dataItem['acf']['information'] ?? [] as $key => $text) {
             $to =
-                (
-                    is_string($text) ? $this->tryCreateTextObject($key, $text) : null
+            (
+                is_string($text) ? $this->tryCreateTextObject($key, $text) : null
                 ) ?? (
-                    is_array($text) && is_array($text[0]) ?
-                    $this->tryCreateTextObject($text[0]['heading'], $text[0]['content']) : null
+                is_array($text) && is_array($text[0]) ?
+                $this->tryCreateTextObject($text[0]['heading'], $text[0]['content']) : null
                 );
             if ($to) {
                 array_push($a, $to);
@@ -198,10 +222,10 @@ class ElementarySchoolTransform implements AbstractDataTransform
     {
         if (is_string($key) && is_string($text) && !(empty($key) || empty($text))) {
             return
-                Schema::textObject()
-                ->name($key)
-                ->headline($this->wellknownTextObjectHeadlinesByKey[$key] ?? $key)
-                ->text($text);
+            Schema::textObject()
+            ->name($key)
+            ->headline($this->wellknownTextObjectHeadlinesByKey[$key] ?? $key)
+            ->text($text);
         }
         return null;
     }
