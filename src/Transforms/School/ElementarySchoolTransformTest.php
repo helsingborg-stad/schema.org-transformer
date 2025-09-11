@@ -426,11 +426,14 @@ final class ElementarySchoolTransformTest extends TestCase
     {
         $source = $this->prepareJsonForTransform('
             {
-                "open_hours_leisure_center": {
-                    "open": "06:00:00",
-                    "close": "18:00:00"
+                "acf":
+                {
+                    "open_hours_leisure_center": {
+                        "open": "06:00:00",
+                        "close": "18:00:00"
+                    }
                 }
-            }
+        }
         ');
 
         $expectedSchool = Schema::elementarySchool()

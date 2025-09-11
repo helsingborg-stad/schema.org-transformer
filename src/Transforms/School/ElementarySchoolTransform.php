@@ -63,6 +63,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformImages',
             'transformEmployees',
             'transformNumberOfStudents',
+            'transformAfterSchoolCareHours'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -206,7 +207,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transformAfterSchoolCareHours($school, $data): ElementarySchool
     {
-        return ($data['open_hours_leisure_center']['open'] ?? null) && ($data['open_hours_leisure_center']['close'] ?? null)
+        return ($data['acf']['open_hours_leisure_center']['open'] ?? null) && ($data['acf']['open_hours_leisure_center']['close'] ?? null)
             ? $school
                 ->afterSchoolCare(
                     Schema::service()
@@ -214,11 +215,11 @@ class ElementarySchoolTransform implements AbstractDataTransform
                         ->description('Öppettider för fritidsverksamhet')
                         ->hoursAvailable(
                             Schema::openingHoursSpecification()
-                                ->opens($data['open_hours_leisure_center']['open'] ?? null)
-                                ->closes($data['open_hours_leisure_center']['close'] ?? null)
+                                ->opens($data['acf']['open_hours_leisure_center']['open'] ?? null)
+                                ->closes($data['acf']['open_hours_leisure_center']['close'] ?? null)
                         )
                 )
-            : null;
+            : $school;
     }
 
     private function getPlace($dataItem): ?Place
