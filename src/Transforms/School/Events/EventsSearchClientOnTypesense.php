@@ -17,17 +17,17 @@ class EventsSearchClientOnTypesense implements EventsSearchClient
             return [];
         }
 
-        $x = $this->typesenseClient->collections['events']->documents->search([
+        $result = $this->typesenseClient->collections['events']->documents->search([
             'q'        => '"' . $schoolName . '"',
             'query_by' => 'keywords.name',
         ]);
 
-        // $x['hits'][index]['document'] contains a wellformed event object (albeit not a constructed Schema::event)
+        // $result['hits'][index]['document'] contains a wellformed event object (albeit not a constructed Schema::event)
         return array_map(
             function ($hit) {
                 return $hit['document'];
             },
-            $x['hits'] ?? []
+            $result['hits'] ?? []
         );
     }
 }

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Transforms;
+namespace SchemaTransformer\Transforms\School;
 
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use SchemaTransformer\Transforms\ElementarySchoolTransform;
+use SchemaTransformer\Transforms\School\ElementarySchoolTransform;
 use Municipio\Schema\Schema;
 
 #[CoversClass(ElementarySchoolTransform::class)]
@@ -103,7 +103,8 @@ final class ElementarySchoolTransformTest extends TestCase
                         {
                             "name": "Hoppborg",
                             "taxonomy": "usp"
-                        }]
+                        }
+                    ]
                 }
             }
         ');

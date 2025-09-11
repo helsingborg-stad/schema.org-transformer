@@ -17,7 +17,7 @@ use SchemaTransformer\Transforms\StratsysTransform;
 use SchemaTransformer\Transforms\WPExhibitionEventTransform;
 use SchemaTransformer\Transforms\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
-use SchemaTransformer\Transforms\ElementarySchoolTransform;
+use SchemaTransformer\Transforms\School\ElementarySchoolTransform;
 
 class RuntimeServices
 {

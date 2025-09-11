@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Transforms;
+namespace SchemaTransformer\Transforms\School;
 
 use Typesense\Client as TypesenseClient;
 use SchemaTransformer\Transforms\School\Events\EventsSearchClient;
