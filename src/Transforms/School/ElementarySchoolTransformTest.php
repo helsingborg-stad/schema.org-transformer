@@ -32,7 +32,8 @@ final class ElementarySchoolTransformTest extends TestCase
             ->event([])
             ->potentialAction([])
             ->areaServed([])
-            ->image([]);
+            ->image([])
+            ->employee([]);
 
         $actualSchool = (new ElementarySchoolTransform())->transform(
             [$source]
@@ -65,12 +66,12 @@ final class ElementarySchoolTransformTest extends TestCase
             }
         ');
         $expectedSchool = Schema::elementarySchool()
-                ->description([
-                    Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
-                    Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
-                    Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
-                    Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik')
-                ]);
+            ->description([
+                Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
+                Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
+                Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
+                Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik')
+            ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformDescription(
             Schema::elementarySchool(),
@@ -109,16 +110,16 @@ final class ElementarySchoolTransformTest extends TestCase
             }
         ');
         $expectedSchool = Schema::elementarySchool()
-            ->keywords([
-                Schema::definedTerm()
-                    ->name('Pingisbord')
-                    ->description('Pingisbord')
-                    ->inDefinedTermSet('usp'),
-                Schema::definedTerm()
-                    ->name('Hoppborg')
-                    ->description('Hoppborg')
-                    ->inDefinedTermSet('usp')
-            ]);
+        ->keywords([
+            Schema::definedTerm()
+                ->name('Pingisbord')
+                ->description('Pingisbord')
+                ->inDefinedTermSet('usp'),
+            Schema::definedTerm()
+                ->name('Hoppborg')
+                ->description('Hoppborg')
+                ->inDefinedTermSet('usp')
+        ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformKeywords(
             Schema::elementarySchool(),
@@ -149,18 +150,18 @@ final class ElementarySchoolTransformTest extends TestCase
             }
         ');
         $expectedSchool = Schema::elementarySchool()
-            ->location(
-                Schema::place()
-                    ->name("Testskolan")
-                    ->address("Testskolan, Skolgatan 1")
-                    ->latitude(1.234)
-                    ->longitude(5.678)
-            )
-            // Place properties
-            ->name("Testskolan")
-            ->address("Testskolan, Skolgatan 1")
-            ->latitude(1.234)
-            ->longitude(5.678);
+        ->location(
+            Schema::place()
+                ->name("Testskolan")
+                ->address("Testskolan, Skolgatan 1")
+                ->latitude(1.234)
+                ->longitude(5.678)
+        )
+        // Place properties
+        ->name("Testskolan")
+        ->address("Testskolan, Skolgatan 1")
+        ->latitude(1.234)
+        ->longitude(5.678);
 
         $actualSchool = (new ElementarySchoolTransform())->transformPlace(
             Schema::elementarySchool(),
@@ -185,36 +186,36 @@ final class ElementarySchoolTransformTest extends TestCase
             public function searchEventsBySchoolName(string $schoolName): array
             {
                 return [
-                    [
-                        '@context' => [
-                            'schema'    => 'https://schema.org',
-                            'municipio' => 'https://schema.municipio.tech/schema.jsonld'
-                        ],
-                        '@type'    => 'Event',
-                        'name'     => 'Skolfest',
+                [
+                    '@context' => [
+                        'schema'    => 'https://schema.org',
+                        'municipio' => 'https://schema.municipio.tech/schema.jsonld'
                     ],
-                    [
-                        '@context' => [
-                            'schema'    => 'https://schema.org',
-                            'municipio' => 'https://schema.municipio.tech/schema.jsonld'
-                        ],
-                        '@type'    => 'Event',
-                        'name'     => 'Idrottsdag',
+                    '@type'    => 'Event',
+                    'name'     => 'Skolfest',
+                ],
+                [
+                    '@context' => [
+                        'schema'    => 'https://schema.org',
+                        'municipio' => 'https://schema.municipio.tech/schema.jsonld'
                     ],
+                    '@type'    => 'Event',
+                    'name'     => 'Idrottsdag',
+                ],
                 ];
             }
         };
 
         $expectedSchool = Schema::elementarySchool()->event([
-            Schema::event()->name('Skolfest')->toArray(),
-            Schema::event()->name('Idrottsdag')->toArray(),
+        Schema::event()->name('Skolfest')->toArray(),
+        Schema::event()->name('Idrottsdag')->toArray(),
         ]);
         $actualSchool   = (new ElementarySchoolTransform())
-            ->withEventSearchClient($mockEventSearchClient)
-            ->transformEvents(
-                Schema::elementarySchool(),
-                $source
-            );
+        ->withEventSearchClient($mockEventSearchClient)
+        ->transformEvents(
+            Schema::elementarySchool(),
+            $source
+        );
         $this->assertEquals(
             $expectedSchool->toArray(),
             $actualSchool->toArray()
@@ -242,18 +243,18 @@ final class ElementarySchoolTransformTest extends TestCase
             }
         ');
         $expectedSchool = Schema::elementarySchool()
-            ->potentialAction([
-                Schema::action()
-                    ->name('cta_apply_here')
-                    ->description('Ansök till skolan via någon av nedan länkar')
-                    ->title('Välj skola här')
-                    ->url('https://skolan.se'),
-                Schema::action()
-                    ->name('cta_how_to_apply')
-                    ->description('Ansök till skolan via någon av nedan länkar')
-                    ->title('Så här söker du')
-                    ->url('https://skolan.se/sa-har-soker-du')
-            ]);
+        ->potentialAction([
+            Schema::action()
+                ->name('cta_apply_here')
+                ->description('Ansök till skolan via någon av nedan länkar')
+                ->title('Välj skola här')
+                ->url('https://skolan.se'),
+            Schema::action()
+                ->name('cta_how_to_apply')
+                ->description('Ansök till skolan via någon av nedan länkar')
+                ->title('Så här söker du')
+                ->url('https://skolan.se/sa-har-soker-du')
+        ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformActions(
             Schema::elementarySchool(),
@@ -290,7 +291,7 @@ final class ElementarySchoolTransformTest extends TestCase
             }
         ');
         $expectedSchool = Schema::elementarySchool()
-            ->areaServed(['Område A', 'Område B']);
+        ->areaServed(['Område A', 'Område B']);
 
         $actualSchool = (new ElementarySchoolTransform())->transformAreaServed(
             Schema::elementarySchool(),
@@ -315,9 +316,9 @@ final class ElementarySchoolTransformTest extends TestCase
         ');
 
         $expectedSchool = Schema::elementarySchool()
-            ->additionalProperty([
-                Schema::propertyValue()->name('number_of_students')->value(350)
-            ]);
+        ->additionalProperty([
+            Schema::propertyValue()->name('number_of_students')->value(350)
+        ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformAdditionalProperties(
             Schema::elementarySchool(),
@@ -354,18 +355,18 @@ final class ElementarySchoolTransformTest extends TestCase
             }');
 
         $expectedSchool = Schema::elementarySchool()
-            ->image([
-                Schema::imageObject()
-                    ->name('Bildtitel 1')
-                    ->caption('Bildtext 1')
-                    ->description('Alternativ text 1')
-                    ->url('https://skolan.se/image1.jpg'),
-                Schema::imageObject()
-                    ->name('Bildtitel 2')
-                    ->caption('Bildtext 2')
-                    ->description('Alternativ text 2')
-                    ->url('https://skolan.se/image2.jpg')
-            ]);
+        ->image([
+            Schema::imageObject()
+                ->name('Bildtitel 1')
+                ->caption('Bildtext 1')
+                ->description('Alternativ text 1')
+                ->url('https://skolan.se/image1.jpg'),
+            Schema::imageObject()
+                ->name('Bildtitel 2')
+                ->caption('Bildtext 2')
+                ->description('Alternativ text 2')
+                ->url('https://skolan.se/image2.jpg')
+        ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformImages(
             Schema::elementarySchool(),
@@ -376,5 +377,50 @@ final class ElementarySchoolTransformTest extends TestCase
             $expectedSchool->toArray(),
             $actualSchool->toArray()
         );
+    }
+
+    #[TestDox('applies employees from source')]
+    public function testTransformEmployees()
+    {
+        $source           = $this->prepareJsonForTransform('
+            {
+                "employee": [
+                    {
+                        "job_title": "Administrativ samordnare",
+                        "name": "Test person",
+                        "email": "test.person@example.com",
+                        "telephone": "123-456789",
+                        "image": {
+                            "ID": 0,
+                            "url": "https://skolan.se/testperson.jpg",
+                            "alt": "alternativ text",
+                            "name": "testperson.jpg",
+                            "caption": "Porträtt av Test Person"
+                        }
+                    }
+                ]
+            }');
+        $expectedSchool   = Schema::elementarySchool()
+            ->employee([
+                Schema::person()
+                    ->name('Test person')
+                    ->jobTitle('Administrativ samordnare')
+                    ->email('test.person@example.com')
+                    ->telephone('123-456789')
+                    ->image(Schema::imageObject()
+                        ->name('testperson.jpg')
+                        ->caption('Porträtt av Test Person')
+                        ->description('alternativ text')
+                        ->url('https://skolan.se/testperson.jpg'))
+            ]);
+            $actualSchool = (new ElementarySchoolTransform())->transformEmployees(
+                Schema::elementarySchool(),
+                $source
+            );
+
+            $this->assertEquals(
+                $expectedSchool->toArray(),
+                $actualSchool->toArray()
+            );
     }
 }

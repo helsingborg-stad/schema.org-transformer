@@ -61,7 +61,8 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformActions',
             'transformAreaServed',
             'transformAdditionalProperties',
-            'transformImages'
+            'transformImages',
+            'transformEmployees'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -184,6 +185,29 @@ class ElementarySchoolTransform implements AbstractDataTransform
                     ->description($image['alt'] ?? null)
                     ->url($image['url'] ?? null),
                 $data['images'] ?? []
+            )
+        );
+    }
+
+    public function transformEmployees($school, $data): ElementarySchool
+    {
+        return $school->employee(
+            array_map(
+                fn($person) => Schema::person()
+                    ->name($person['name'] ?? null)
+                    ->jobTitle($person['job_title'] ?? null)
+                    ->email($person['email'] ?? null)
+                    ->telephone($person['telephone'] ?? null)
+                    ->image(
+                        isset($person['image']) && is_array($person['image']) ?
+                        Schema::imageObject()
+                            ->name($person['image']['name'] ?? null)
+                            ->caption($person['image']['caption'] ?? null)
+                            ->description($person['image']['alt'] ?? null)
+                            ->url($person['image']['url'] ?? null)
+                        : null
+                    ),
+                $data['employee'] ?? []
             )
         );
     }
