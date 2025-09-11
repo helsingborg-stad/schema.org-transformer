@@ -28,6 +28,10 @@ class ElementarySchoolTransform implements AbstractDataTransform
         // 'extra'              => 'Extra information'
     ];
 
+    private array $taxonomiesExcludedFromKeywords = [
+        'area' => true,
+    ];
+
     private EventsSearchClient $eventsSearchClient;
 
     /**
@@ -119,7 +123,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 array_filter(
                     array_map(
                         fn ($t) =>
-                                !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null)
+                                !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && !($this->taxonomiesExcludedFromKeywords[$t['taxonomy'] ?? ''] ?? false)
                                 ? Schema::definedTerm()
                                     ->name($t['name'])
                                     ->description($t['name'])

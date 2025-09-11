@@ -97,8 +97,12 @@ final class ElementarySchoolTransformTest extends TestCase
                         {},
                         null,
                         {
-                            "name": "Innerstad",
+                            "name": "Will be skipped since area taxonomy is blacklisted",
                             "taxonomy": "area"
+                        },
+                        {
+                            "name": "Hoppborg",
+                            "taxonomy": "usp"
                         }]
                 }
             }
@@ -110,10 +114,10 @@ final class ElementarySchoolTransformTest extends TestCase
                     ->description('Pingisbord')
                     ->inDefinedTermSet('usp'),
                 Schema::definedTerm()
-                    ->name('Innerstad')
-                    ->description('Innerstad')
-                    ->inDefinedTermSet('area')
-                ]);
+                    ->name('Hoppborg')
+                    ->description('Hoppborg')
+                    ->inDefinedTermSet('usp')
+            ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformKeywords(
             Schema::elementarySchool(),
