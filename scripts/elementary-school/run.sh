@@ -11,7 +11,7 @@ if [ $? -ne 0 ]; then
 fi
 cd ${SCRIPT_DIR}
 
-# Retrieve and transform Stratsys export
+# Retrieve and transform elementary school data
 php ../../router.php \
     --source ${ELEMENTARY_SCHOOL_API_URL} \
     --transform elementary_school \
