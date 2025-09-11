@@ -203,7 +203,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     private function getDescription($dataItem): array
     {
-        $a = array(
+        $descriptions = array(
             $this->tryCreateTextObject('custom_excerpt', $dataItem['acf']['custom_excerpt'] ?? null));
 
         foreach ($dataItem['acf']['information'] ?? [] as $key => $text) {
@@ -215,10 +215,10 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 $this->tryCreateTextObject($text[0]['heading'], $text[0]['content']) : null
                 );
             if ($to) {
-                array_push($a, $to);
+                array_push($descriptions, $to);
             }
         }
-        return array_filter($a);
+        return array_filter($descriptions);
     }
 
     private function tryCreateTextObject($key, $text): ?TextObject
