@@ -173,21 +173,13 @@ class ElementarySchoolTransform implements AbstractDataTransform
     public function transformImages($school, $data): ElementarySchool
     {
         return $school->image(
-            array_values(
-                array_filter(
-                    array_map(
-                        fn ($t) =>
-                        $t['media_type'] === 'image'
-                        && ($t['media_details']['sizes']['full']['source_url'] ?? null)
-                        ? Schema::imageObject()
-                            ->name($t['title']['rendered'] ?? null)
-                            ->caption($t['caption']['rendered'] ?? null)
-                            ->description($t['alt_text'] ?? null)
-                            ->url($t['media_details']['sizes']['full']['source_url'] ?? null)
-                        : null,
-                        $data['_embedded']['wp:featuredmedia'] ?? []
-                    )
-                )
+            array_map(
+                fn($image) => Schema::imageObject()
+                    ->name($image['title'] ?? null)
+                    ->caption($image['caption'] ?? null)
+                    ->description($image['alt'] ?? null)
+                    ->url($image['url'] ?? null),
+                $data['images'] ?? []
             )
         );
     }
@@ -197,10 +189,10 @@ class ElementarySchoolTransform implements AbstractDataTransform
         foreach (($dataItem['acf']['visiting_address'] ?? []) as $address) {
             $a = $address['address'];
             return Schema::place()
-            ->name($a['name'] ?? null)
-            ->address($a['address'] ?? null)
-            ->latitude($a['lat'] ?? null)
-            ->longitude($a['lng'] ?? null);
+                ->name($a['name'] ?? null)
+                ->address($a['address'] ?? null)
+                ->latitude($a['lat'] ?? null)
+                ->longitude($a['lng'] ?? null);
         }
         return null;
     }
@@ -228,11 +220,10 @@ class ElementarySchoolTransform implements AbstractDataTransform
     private function tryCreateTextObject($key, $text): ?TextObject
     {
         if (is_string($key) && is_string($text) && !(empty($key) || empty($text))) {
-            return
-            Schema::textObject()
-            ->name($key)
-            ->headline($this->wellknownTextObjectHeadlinesByKey[$key] ?? $key)
-            ->text($text);
+            return Schema::textObject()
+                ->name($key)
+                ->headline($this->wellknownTextObjectHeadlinesByKey[$key] ?? $key)
+                ->text($text);
         }
         return null;
     }

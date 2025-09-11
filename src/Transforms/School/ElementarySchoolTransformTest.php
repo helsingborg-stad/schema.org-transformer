@@ -330,61 +330,22 @@ final class ElementarySchoolTransformTest extends TestCase
     {
         $source = $this->prepareJsonForTransform('
             {
-                "_embedded": {
-                    "wp:featuredmedia": [
-                        {
-                            "media_type": "image",
-                            "title": {
-                                "rendered": "Bildtitel 1"
-                            },
-                            "caption": {
-                                "rendered": "Bildtext 1"
-                            },
-                            "alt_text": "Alternativ text 1",
-                            "media_details": {
-                                "sizes": {
-                                    "full": {
-                                        "source_url": "https://skolan.se/image1.jpg"
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            "media_type": "image",
-                            "title": {
-                                "rendered": "Bildtitel 2"
-                            },
-                            "caption": {
-                                "rendered": "Bildtext 2"
-                            },
-                            "alt_text": "Alternativ text 2",
-                            "media_details": {
-                                "sizes": {
-                                    "full": {
-                                        "source_url": "https://skolan.se/image2.jpg"
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            "media_type": "image",
-                            "title": {
-                                "rendered": "bild utan original"
-                            },
-                            "caption": {
-                                "rendered": "bild utan original"
-                            },
-                            "alt_text": "bild utan original",
-                            "media_details": {
-                                "sizes": {
-                                    "thumbnail": {
-                                        "source_url": "https://skolan.se/image.jpg"
-                                    }
-                                }
-                            }
-                        }
-                    ]
-                }
+                "images": [
+                    {
+                        "ID": 1,
+                        "title": "Bildtitel 1",
+                        "caption": "Bildtext 1",
+                        "alt": "Alternativ text 1",
+                        "url": "https://skolan.se/image1.jpg"
+                    },
+                    {
+                        "ID": 2,
+                        "title": "Bildtitel 2",
+                        "caption": "Bildtext 2",
+                        "alt": "Alternativ text 2",
+                        "url": "https://skolan.se/image2.jpg"
+                    }
+                ]
             }');
 
         $expectedSchool = Schema::elementarySchool()
