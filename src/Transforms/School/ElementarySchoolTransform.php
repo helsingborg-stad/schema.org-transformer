@@ -84,7 +84,10 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 [
                 is_numeric($data['acf']['number_of_students'] ?? null)
                                 ? Schema::propertyValue()->name('number_of_students')->value((int)$data['acf']['number_of_students'])
-                                : null
+                                : null,
+
+                $data['open_hours_leisure_center']['open'] ?? null ? Schema::propertyValue()->name('after_school_care_open')->value($data['open_hours_leisure_center']['open'] ?? null) : null,
+                $data['open_hours_leisure_center']['close'] ?? null ? Schema::propertyValue()->name('after_school_care_close')->value($data['open_hours_leisure_center']['close'] ?? null) : null
                 ]
             )
         );

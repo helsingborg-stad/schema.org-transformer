@@ -311,14 +311,20 @@ final class ElementarySchoolTransformTest extends TestCase
             {
                 "acf": {
                     "number_of_students": "350"
+                },
+                "open_hours_leisure_center": {
+                    "open": "06:00:00",
+                    "close": "18:00:00"
                 }
             }
         ');
 
         $expectedSchool = Schema::elementarySchool()
-        ->additionalProperty([
-            Schema::propertyValue()->name('number_of_students')->value(350)
-        ]);
+            ->additionalProperty([
+                Schema::propertyValue()->name('number_of_students')->value(350),
+                Schema::propertyValue()->name('after_school_care_open')->value('06:00:00'),
+                Schema::propertyValue()->name('after_school_care_close')->value('18:00:00')
+            ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformAdditionalProperties(
             Schema::elementarySchool(),
