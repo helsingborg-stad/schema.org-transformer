@@ -60,9 +60,9 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformEvents',
             'transformActions',
             'transformAreaServed',
-            'transformAdditionalProperties',
             'transformImages',
-            'transformEmployees'
+            'transformEmployees',
+            'transformNumberOfStudents',
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -75,22 +75,6 @@ class ElementarySchoolTransform implements AbstractDataTransform
             )->toArray();
         }, $data);
         return $result;
-    }
-
-    public function transformAdditionalProperties($school, $data): ElementarySchool
-    {
-        return $school->additionalProperty(
-            array_filter(
-                [
-                is_numeric($data['acf']['number_of_students'] ?? null)
-                                ? Schema::propertyValue()->name('number_of_students')->value((int)$data['acf']['number_of_students'])
-                                : null,
-
-                $data['open_hours_leisure_center']['open'] ?? null ? Schema::propertyValue()->name('after_school_care_open')->value($data['open_hours_leisure_center']['open'] ?? null) : null,
-                $data['open_hours_leisure_center']['close'] ?? null ? Schema::propertyValue()->name('after_school_care_close')->value($data['open_hours_leisure_center']['close'] ?? null) : null
-                ]
-            )
-        );
     }
 
     public function transformBase($school, $data): ElementarySchool
@@ -213,6 +197,28 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 $data['employee'] ?? []
             )
         );
+    }
+
+    public function transformNumberOfStudents($school, $data): ElementarySchool
+    {
+        return $school->numberOfStudents($data['acf']['number_of_students'] ?? null);
+    }
+
+    public function transformAfterSchoolCareHours($school, $data): ElementarySchool
+    {
+        return ($data['open_hours_leisure_center']['open'] ?? null) && ($data['open_hours_leisure_center']['close'] ?? null)
+            ? $school
+                ->afterSchoolCare(
+                    Schema::service()
+                        ->name('Fritidsverksamhet')
+                        ->description('Öppettider för fritidsverksamhet')
+                        ->hoursAvailable(
+                            Schema::openingHoursSpecification()
+                                ->opens($data['open_hours_leisure_center']['open'] ?? null)
+                                ->closes($data['open_hours_leisure_center']['close'] ?? null)
+                        )
+                )
+            : null;
     }
 
     private function getPlace($dataItem): ?Place

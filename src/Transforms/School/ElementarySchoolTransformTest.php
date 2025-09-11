@@ -26,7 +26,6 @@ final class ElementarySchoolTransformTest extends TestCase
         }');
         $expectedSchool = Schema::elementarySchool()
             ->identifier("123")
-            ->additionalProperty([])
             ->description([])
             ->keywords([])
             ->event([])
@@ -150,18 +149,18 @@ final class ElementarySchoolTransformTest extends TestCase
             }
         ');
         $expectedSchool = Schema::elementarySchool()
-        ->location(
-            Schema::place()
-                ->name("Testskolan")
-                ->address("Testskolan, Skolgatan 1")
-                ->latitude(1.234)
-                ->longitude(5.678)
-        )
-        // Place properties
-        ->name("Testskolan")
-        ->address("Testskolan, Skolgatan 1")
-        ->latitude(1.234)
-        ->longitude(5.678);
+            ->location(
+                Schema::place()
+                    ->name("Testskolan")
+                    ->address("Testskolan, Skolgatan 1")
+                    ->latitude(1.234)
+                    ->longitude(5.678)
+            )
+            // Place properties
+            ->name("Testskolan")
+            ->address("Testskolan, Skolgatan 1")
+            ->latitude(1.234)
+            ->longitude(5.678);
 
         $actualSchool = (new ElementarySchoolTransform())->transformPlace(
             Schema::elementarySchool(),
@@ -207,15 +206,15 @@ final class ElementarySchoolTransformTest extends TestCase
         };
 
         $expectedSchool = Schema::elementarySchool()->event([
-        Schema::event()->name('Skolfest')->toArray(),
-        Schema::event()->name('Idrottsdag')->toArray(),
+            Schema::event()->name('Skolfest')->toArray(),
+            Schema::event()->name('Idrottsdag')->toArray(),
         ]);
         $actualSchool   = (new ElementarySchoolTransform())
-        ->withEventSearchClient($mockEventSearchClient)
-        ->transformEvents(
-            Schema::elementarySchool(),
-            $source
-        );
+            ->withEventSearchClient($mockEventSearchClient)
+            ->transformEvents(
+                Schema::elementarySchool(),
+                $source
+            );
         $this->assertEquals(
             $expectedSchool->toArray(),
             $actualSchool->toArray()
@@ -291,42 +290,9 @@ final class ElementarySchoolTransformTest extends TestCase
             }
         ');
         $expectedSchool = Schema::elementarySchool()
-        ->areaServed(['Område A', 'Område B']);
+            ->areaServed(['Område A', 'Område B']);
 
         $actualSchool = (new ElementarySchoolTransform())->transformAreaServed(
-            Schema::elementarySchool(),
-            $source
-        );
-
-        $this->assertEquals(
-            $expectedSchool->toArray(),
-            $actualSchool->toArray()
-        );
-    }
-
-    #[TestDox('applies number of students and grades as additional properties')]
-    public function testTransformAdditionalProperties()
-    {
-        $source = $this->prepareJsonForTransform('
-            {
-                "acf": {
-                    "number_of_students": "350"
-                },
-                "open_hours_leisure_center": {
-                    "open": "06:00:00",
-                    "close": "18:00:00"
-                }
-            }
-        ');
-
-        $expectedSchool = Schema::elementarySchool()
-            ->additionalProperty([
-                Schema::propertyValue()->name('number_of_students')->value(350),
-                Schema::propertyValue()->name('after_school_care_open')->value('06:00:00'),
-                Schema::propertyValue()->name('after_school_care_close')->value('18:00:00')
-            ]);
-
-        $actualSchool = (new ElementarySchoolTransform())->transformAdditionalProperties(
             Schema::elementarySchool(),
             $source
         );
@@ -428,5 +394,63 @@ final class ElementarySchoolTransformTest extends TestCase
                 $expectedSchool->toArray(),
                 $actualSchool->toArray()
             );
+    }
+
+    #[TestDox('applies number of students from acf.number_of_students')]
+    public function testTransformNumberOfStudents()
+    {
+        $source = $this->prepareJsonForTransform('
+            {
+                "acf": {
+                    "number_of_students": "350"
+                }
+            }
+        ');
+
+        $expectedSchool = Schema::elementarySchool()
+            ->numberOfStudents(350);
+
+        $actualSchool = (new ElementarySchoolTransform())->transformNumberOfStudents(
+            Schema::elementarySchool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
+
+    #[TestDox('applies after school care hours from open_hours_leisure_center')]
+    public function testTransformAfterSchoolCareHours()
+    {
+        $source = $this->prepareJsonForTransform('
+            {
+                "open_hours_leisure_center": {
+                    "open": "06:00:00",
+                    "close": "18:00:00"
+                }
+            }
+        ');
+
+        $expectedSchool = Schema::elementarySchool()
+            ->afterSchoolCare(Schema::service()
+                ->name('Fritidsverksamhet')
+                ->description('Öppettider för fritidsverksamhet')
+                ->hoursAvailable(
+                    Schema::openingHoursSpecification()
+                        ->opens("06:00:00")
+                        ->closes("18:00:00")
+                ));
+
+        $actualSchool = (new ElementarySchoolTransform())->transformAfterSchoolCareHours(
+            Schema::elementarySchool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
     }
 }
