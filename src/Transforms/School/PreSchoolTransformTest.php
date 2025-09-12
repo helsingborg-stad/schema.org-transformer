@@ -52,6 +52,7 @@ final class PreSchoolTransformTest extends TestCase
             {
                 "acf": {
                     "custom_excerpt": "Detta är en beskrivning av skolan",
+                    "visit_us": "Välkommen på besök",
                     "information": {
                         "": null,
                         "about_us": "redaktionell om oss",
@@ -68,6 +69,7 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
         ->description([
             Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
+            Schema::textObject()->name("visit_us")->text("Välkommen på besök"),
             Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
             Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
             Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik')
@@ -387,67 +389,6 @@ final class PreSchoolTransformTest extends TestCase
                     ->url('https://skolan.se/testperson.jpg'))
         ]);
         $actualSchool   = (new PreSchoolTransform())->transformEmployees(
-            Schema::preschool(),
-            $source
-        );
-
-        $this->assertEquals(
-            $expectedSchool->toArray(),
-            $actualSchool->toArray()
-        );
-    }
-
-    #[TestDox('applies number of students from acf.number_of_students')]
-    public function testTransformNumberOfStudents()
-    {
-        $source = $this->prepareJsonForTransform('
-            {
-                "acf": {
-                    "number_of_students": "350"
-                }
-            }
-        ');
-
-        $expectedSchool = Schema::preschool()
-        ->numberOfStudents(350);
-
-        $actualSchool = (new PreSchoolTransform())->transformNumberOfStudents(
-            Schema::preschool(),
-            $source
-        );
-
-        $this->assertEquals(
-            $expectedSchool->toArray(),
-            $actualSchool->toArray()
-        );
-    }
-
-    #[TestDox('applies after school care hours from open_hours_leisure_center')]
-    public function testTransformAfterSchoolCareHours()
-    {
-        $source = $this->prepareJsonForTransform('
-            {
-                "acf":
-                {
-                    "open_hours_leisure_center": {
-                        "open": "06:00:00",
-                        "close": "18:00:00"
-                    }
-                }
-        }
-        ');
-
-        $expectedSchool = Schema::preschool()
-        ->afterSchoolCare(Schema::service()
-            ->name('Fritidsverksamhet')
-            ->description('Öppettider för fritidsverksamhet')
-            ->hoursAvailable(
-                Schema::openingHoursSpecification()
-                    ->opens("06:00:00")
-                    ->closes("18:00:00")
-            ));
-
-        $actualSchool = (new PreSchoolTransform())->transformAfterSchoolCareHours(
             Schema::preschool(),
             $source
         );

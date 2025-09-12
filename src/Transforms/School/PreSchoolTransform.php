@@ -11,13 +11,13 @@ use SchemaTransformer\Transforms\School\Events\NullEventsSearchClient;
 use Municipio\Schema\PreSchool;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
-use Municipio\Schema\Place;
 use Municipio\Schema\TextObject;
 
 class PreSchoolTransform implements AbstractDataTransform
 {
     private array $wellknownTextObjectHeadlinesByKey = [
         'custom_excerpt'     => '',
+        'visit_us'           => '',
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Hur vi arbetar',
         'our_leisure_center' => 'Vår fritidsverksamhet',
@@ -62,8 +62,6 @@ class PreSchoolTransform implements AbstractDataTransform
             'transformAreaServed',
             'transformImages',
             'transformEmployees',
-            'transformNumberOfStudents',
-            'transformAfterSchoolCareHours',
             'transformContactPoint',
         ];
 
@@ -128,35 +126,41 @@ class PreSchoolTransform implements AbstractDataTransform
 
     public function transformDescription($school, $data): PreSchool
     {
-        $descriptions = array(
-            $this->tryCreateTextObject('custom_excerpt', $data['acf']['custom_excerpt'] ?? null));
+        $descriptions = [
+            $this->tryCreateTextObject('custom_excerpt', $data['acf']['custom_excerpt'] ?? null),
+            $this->tryCreateTextObject('visit_us', $data['acf']['visit_us'] ?? null),
+        ];
 
         foreach ($data['acf']['information'] ?? [] as $key => $text) {
-            $to =
+            $descriptions[] =
             (
                 is_string($text) ? $this->tryCreateTextObject($key, $text) : null
                 ) ?? (
                 is_array($text) && is_array($text[0]) ?
                 $this->tryCreateTextObject($text[0]['heading'], $text[0]['content']) : null
                 );
-            if ($to) {
-                array_push($descriptions, $to);
-            }
         }
+        $d = array_values(array_filter($descriptions));
         return $school
-            ->description(array_filter(array_values($descriptions)));
+            ->description($d);
     }
 
     public function transformPlace($school, $data): PreSchool
     {
-        $place = $this->getPlace($data);
-        return $place ? $school
-            ->location($place)
-            // PreSchool is a Place also
-            ->addProperties(
-                $place->toArray()
-            )
-            : $school;
+        foreach (($data['acf']['visiting_address'] ?? []) as $address) {
+            $a     = $address['address'];
+            $place = Schema::place()
+                ->name($a['name'] ?? null)
+                ->address($a['address'] ?? null)
+                ->latitude($a['lat'] ?? null)
+                ->longitude($a['lng'] ?? null);
+
+            return $school
+                ->location($place)
+                // PreSchool is a Place also
+                ->addProperties($place->toArray());
+        }
+        return $school;
     }
 
     public function transformEvents(PreSchool $school, $data): PreSchool
@@ -216,28 +220,6 @@ class PreSchoolTransform implements AbstractDataTransform
         );
     }
 
-    public function transformNumberOfStudents($school, $data): PreSchool
-    {
-        return $school->numberOfStudents($data['acf']['number_of_students'] ?? null);
-    }
-
-    public function transformAfterSchoolCareHours($school, $data): PreSchool
-    {
-        return ($data['acf']['open_hours_leisure_center']['open'] ?? null) && ($data['acf']['open_hours_leisure_center']['close'] ?? null)
-            ? $school
-                ->afterSchoolCare(
-                    Schema::service()
-                        ->name('Fritidsverksamhet')
-                        ->description('Öppettider för fritidsverksamhet')
-                        ->hoursAvailable(
-                            Schema::openingHoursSpecification()
-                                ->opens($data['acf']['open_hours_leisure_center']['open'] ?? null)
-                                ->closes($data['acf']['open_hours_leisure_center']['close'] ?? null)
-                        )
-                )
-            : $school;
-    }
-
     public function transformContactPoint($school, $data): PreSchool
     {
         return $school->contactPoint(
@@ -252,18 +234,6 @@ class PreSchoolTransform implements AbstractDataTransform
         );
     }
 
-    private function getPlace($dataItem): ?Place
-    {
-        foreach (($dataItem['acf']['visiting_address'] ?? []) as $address) {
-            $a = $address['address'];
-            return Schema::place()
-                ->name($a['name'] ?? null)
-                ->address($a['address'] ?? null)
-                ->latitude($a['lat'] ?? null)
-                ->longitude($a['lng'] ?? null);
-        }
-        return null;
-    }
 
     private function tryCreateTextObject($key, $text): ?TextObject
     {
