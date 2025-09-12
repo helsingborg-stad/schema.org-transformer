@@ -63,6 +63,7 @@ class PreSchoolTransform implements AbstractDataTransform
             'transformImages',
             'transformEmployees',
             'transformContactPoint',
+            'transformNumberOfChildren'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -140,9 +141,8 @@ class PreSchoolTransform implements AbstractDataTransform
                 $this->tryCreateTextObject($text[0]['heading'], $text[0]['content']) : null
                 );
         }
-        $d = array_values(array_filter($descriptions));
         return $school
-            ->description($d);
+            ->description(array_values(array_filter($descriptions)));
     }
 
     public function transformPlace($school, $data): PreSchool
@@ -231,6 +231,13 @@ class PreSchoolTransform implements AbstractDataTransform
                     ]
                 )
             )
+        );
+    }
+
+    public function transformNumberOfChildren($school, $data): PreSchool
+    {
+        return $school->numberOfChildren(
+            is_numeric($data['acf']['number_of_children'] ?? null) ? (int)$data['acf']['number_of_children'] : null
         );
     }
 

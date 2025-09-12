@@ -68,11 +68,11 @@ final class PreSchoolTransformTest extends TestCase
         ');
         $expectedSchool = Schema::preschool()
         ->description([
-            Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
-            Schema::textObject()->name("visit_us")->text("Välkommen på besök"),
-            Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
-            Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
-            Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik')
+        Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
+        Schema::textObject()->name("visit_us")->text("Välkommen på besök"),
+        Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
+        Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
+        Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik')
         ]);
 
         $actualSchool = (new PreSchoolTransform())->transformDescription(
@@ -114,13 +114,13 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
         ->keywords([
         Schema::definedTerm()
-            ->name('Pingisbord')
-            ->description('Pingisbord')
-            ->inDefinedTermSet('usp'),
+        ->name('Pingisbord')
+        ->description('Pingisbord')
+        ->inDefinedTermSet('usp'),
         Schema::definedTerm()
-            ->name('Hoppborg')
-            ->description('Hoppborg')
-            ->inDefinedTermSet('usp')
+        ->name('Hoppborg')
+        ->description('Hoppborg')
+        ->inDefinedTermSet('usp')
         ]);
 
         $actualSchool = (new PreSchoolTransform())->transformKeywords(
@@ -154,10 +154,10 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
         ->location(
             Schema::place()
-                ->name("Testskolan")
-                ->address("Testskolan, Skolgatan 1")
-                ->latitude(1.234)
-                ->longitude(5.678)
+            ->name("Testskolan")
+            ->address("Testskolan, Skolgatan 1")
+            ->latitude(1.234)
+            ->longitude(5.678)
         )
         // Place properties
         ->name("Testskolan")
@@ -190,16 +190,16 @@ final class PreSchoolTransformTest extends TestCase
                 return [
                 [
                 '@context' => [
-                    'schema'    => 'https://schema.org',
-                    'municipio' => 'https://schema.municipio.tech/schema.jsonld'
+                'schema'    => 'https://schema.org',
+                'municipio' => 'https://schema.municipio.tech/schema.jsonld'
                 ],
                 '@type'    => 'Event',
                 'name'     => 'Skolfest',
                 ],
                 [
                 '@context' => [
-                    'schema'    => 'https://schema.org',
-                    'municipio' => 'https://schema.municipio.tech/schema.jsonld'
+                'schema'    => 'https://schema.org',
+                'municipio' => 'https://schema.municipio.tech/schema.jsonld'
                 ],
                 '@type'    => 'Event',
                 'name'     => 'Idrottsdag',
@@ -247,15 +247,15 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
         ->potentialAction([
         Schema::action()
-            ->name('cta_apply_here')
-            ->description('Ansök till skolan via någon av nedan länkar')
-            ->title('Välj skola här')
-            ->url('https://skolan.se'),
+        ->name('cta_apply_here')
+        ->description('Ansök till skolan via någon av nedan länkar')
+        ->title('Välj skola här')
+        ->url('https://skolan.se'),
         Schema::action()
-            ->name('cta_how_to_apply')
-            ->description('Ansök till skolan via någon av nedan länkar')
-            ->title('Så här söker du')
-            ->url('https://skolan.se/sa-har-soker-du')
+        ->name('cta_how_to_apply')
+        ->description('Ansök till skolan via någon av nedan länkar')
+        ->title('Så här söker du')
+        ->url('https://skolan.se/sa-har-soker-du')
         ]);
 
         $actualSchool = (new PreSchoolTransform())->transformActions(
@@ -332,15 +332,15 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
         ->image([
         Schema::imageObject()
-            ->name('Bildtitel 1')
-            ->caption('Bildtext 1')
-            ->description('Alternativ text 1')
-            ->url('https://skolan.se/image1.jpg'),
+        ->name('Bildtitel 1')
+        ->caption('Bildtext 1')
+        ->description('Alternativ text 1')
+        ->url('https://skolan.se/image1.jpg'),
         Schema::imageObject()
-            ->name('Bildtitel 2')
-            ->caption('Bildtext 2')
-            ->description('Alternativ text 2')
-            ->url('https://skolan.se/image2.jpg')
+        ->name('Bildtitel 2')
+        ->caption('Bildtext 2')
+        ->description('Alternativ text 2')
+        ->url('https://skolan.se/image2.jpg')
         ]);
 
         $actualSchool = (new PreSchoolTransform())->transformImages(
@@ -377,16 +377,16 @@ final class PreSchoolTransformTest extends TestCase
             }');
         $expectedSchool = Schema::preschool()
         ->employee([
-            Schema::person()
-                ->name('Test person')
-                ->jobTitle('Administrativ samordnare')
-                ->email('test.person@example.com')
-                ->telephone('123-456789')
-                ->image(Schema::imageObject()
-                    ->name('testperson.jpg')
-                    ->caption('Porträtt av Test Person')
-                    ->description('alternativ text')
-                    ->url('https://skolan.se/testperson.jpg'))
+        Schema::person()
+            ->name('Test person')
+            ->jobTitle('Administrativ samordnare')
+            ->email('test.person@example.com')
+            ->telephone('123-456789')
+            ->image(Schema::imageObject()
+                ->name('testperson.jpg')
+                ->caption('Porträtt av Test Person')
+                ->description('alternativ text')
+                ->url('https://skolan.se/testperson.jpg'))
         ]);
         $actualSchool   = (new PreSchoolTransform())->transformEmployees(
             Schema::preschool(),
@@ -399,6 +399,7 @@ final class PreSchoolTransformTest extends TestCase
         );
     }
 
+    #[TestDox('applies social media links as contact points')]
     public function testTransformContactPoint()
     {
         $source = $this->prepareJsonForTransform('
@@ -413,17 +414,43 @@ final class PreSchoolTransformTest extends TestCase
 
         $expectedSchool = Schema::preschool()
         ->contactPoint([
-            Schema::contactPoint()
-                ->name('facebook')
-                ->contactType('socialmedia')
-                ->url('https://facebook.com/skolan'),
-            Schema::contactPoint()
-                ->name('instagram')
-                ->contactType('socialmedia')
-                ->url('https://instagram.com/skolan')
+        Schema::contactPoint()
+            ->name('facebook')
+            ->contactType('socialmedia')
+            ->url('https://facebook.com/skolan'),
+        Schema::contactPoint()
+            ->name('instagram')
+            ->contactType('socialmedia')
+            ->url('https://instagram.com/skolan')
         ]);
 
         $actualSchool = (new PreSchoolTransform())->transformContactPoint(
+            Schema::preschool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
+
+    #[TestDox('applies acf.number_of_children as numberOfChildren')]
+    public function testTransformNumberOfChildren()
+    {
+        $source = $this->prepareJsonForTransform('
+            {
+                "acf":
+                    {
+                        "number_of_children": "42"
+                    }
+            }
+        ');
+
+        $expectedSchool = Schema::preschool()
+        ->numberOfChildren(42);
+
+        $actualSchool = (new PreSchoolTransform())->transformNumberOfChildren(
             Schema::preschool(),
             $source
         );
