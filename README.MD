@@ -63,6 +63,7 @@ php router.php --source https://reachmee --output /tmp/output.json --transform j
 | wp_release_event | |
 | wp_exhibition_event | |
 | elementary_school | events collection |
+| pre_school | events collection |
 
 ### Customizing Implementations
 
