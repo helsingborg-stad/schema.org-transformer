@@ -63,7 +63,8 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformImages',
             'transformEmployees',
             'transformNumberOfStudents',
-            'transformAfterSchoolCareHours'
+            'transformAfterSchoolCareHours',
+            'transformContactPoint',
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -220,6 +221,20 @@ class ElementarySchoolTransform implements AbstractDataTransform
                         )
                 )
             : $school;
+    }
+
+    public function transformContactPoint($school, $data): ElementarySchool
+    {
+        return $school->contactPoint(
+            array_values(
+                array_filter(
+                    [
+                        $data["link_facebook"] ?? null ? Schema::contactPoint()->name('facebook')->contactType('socialmedia')->url($data["link_facebook"]) : null,
+                        $data["link_instagram"] ?? null ? Schema::contactPoint()->name('instagram')->contactType('socialmedia')->url($data["link_instagram"]) : null,
+                    ]
+                )
+            )
+        );
     }
 
     private function getPlace($dataItem): ?Place
