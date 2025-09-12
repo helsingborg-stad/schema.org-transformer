@@ -229,8 +229,8 @@ class ElementarySchoolTransform implements AbstractDataTransform
             array_values(
                 array_filter(
                     [
-                        $data["link_facebook"] ?? null ? Schema::contactPoint()->name('facebook')->contactType('socialmedia')->url($data["link_facebook"]) : null,
-                        $data["link_instagram"] ?? null ? Schema::contactPoint()->name('instagram')->contactType('socialmedia')->url($data["link_instagram"]) : null,
+                        $data['acf']["link_facebook"] ?? null ? Schema::contactPoint()->name('facebook')->contactType('socialmedia')->url($data['acf']["link_facebook"]) : null,
+                        $data['acf']["link_instagram"] ?? null ? Schema::contactPoint()->name('instagram')->contactType('socialmedia')->url($data['acf']["link_instagram"]) : null,
                     ]
                 )
             )

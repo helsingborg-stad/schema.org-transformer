@@ -462,8 +462,11 @@ final class ElementarySchoolTransformTest extends TestCase
     {
         $source = $this->prepareJsonForTransform('
             {
-                "link_facebook": "https://facebook.com/skolan",
-                "link_instagram": "https://instagram.com/skolan"
+                "acf":
+                    {
+                        "link_facebook": "https://facebook.com/skolan",
+                        "link_instagram": "https://instagram.com/skolan"
+                    }
             }
         ');
 
