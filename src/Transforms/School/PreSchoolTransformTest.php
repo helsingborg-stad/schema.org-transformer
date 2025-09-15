@@ -460,4 +460,37 @@ final class PreSchoolTransformTest extends TestCase
             $actualSchool->toArray()
         );
     }
+
+    #[TestDox('applies acf.open_hours as openingHoursSpecification')]
+    public function testTransformOpeningHours()
+    {
+        $source = $this->prepareJsonForTransform('
+            {
+                "acf":
+                    {
+                        "open_hours": {
+                            "open": "08:00",
+                            "close": "16:00"
+                        }
+                    }
+            }
+        ');
+
+        $expectedSchool = Schema::preschool()
+            ->openingHoursSpecification(
+                Schema::openingHoursSpecification()
+                ->opens('08:00')
+                ->closes('16:00')
+            );
+
+        $actualSchool = (new PreSchoolTransform())->transformOpeningHours(
+            Schema::preschool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
 }
