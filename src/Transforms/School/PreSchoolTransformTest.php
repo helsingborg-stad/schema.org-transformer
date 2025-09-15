@@ -69,7 +69,7 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
         ->description([
         Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
-        Schema::textObject()->name("visit_us")->text("Välkommen på besök"),
+        Schema::textObject()->name("visit_us")->text("Välkommen på besök")->headline('Besök oss'),
         Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
         Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
         Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik')

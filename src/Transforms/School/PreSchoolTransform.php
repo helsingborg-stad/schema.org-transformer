@@ -17,7 +17,7 @@ class PreSchoolTransform implements AbstractDataTransform
 {
     private array $wellknownTextObjectHeadlinesByKey = [
         'custom_excerpt'     => '',
-        'visit_us'           => '',
+        'visit_us'           => 'Besök oss',
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Hur vi arbetar',
         'our_leisure_center' => 'Vår fritidsverksamhet',
