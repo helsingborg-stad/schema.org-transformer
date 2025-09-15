@@ -11,7 +11,6 @@ use SchemaTransformer\Transforms\School\Events\NullEventsSearchClient;
 use Municipio\Schema\ElementarySchool;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
-use Municipio\Schema\Place;
 use Municipio\Schema\TextObject;
 
 class ElementarySchoolTransform implements AbstractDataTransform
@@ -29,7 +28,8 @@ class ElementarySchoolTransform implements AbstractDataTransform
     ];
 
     private array $taxonomiesExcludedFromKeywords = [
-        'area' => true,
+        'area'  => true,
+        'grade' => true,
     ];
 
     private EventsSearchClient $eventsSearchClient;
@@ -52,6 +52,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transform(array $data): array
     {
+        // TODO: taxonomy grade -> hasOfferCatalog, kolla även preschool
         $transformations = [
             'transformBase',
             'transformDescription',
@@ -65,6 +66,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
             'transformNumberOfStudents',
             'transformAfterSchoolCareHours',
             'transformContactPoint',
+            'transformHasOfferCatalog',
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -260,6 +262,44 @@ class ElementarySchoolTransform implements AbstractDataTransform
             }
         }
         return array_filter($descriptions);
+    }
+
+    public function transformHasOfferCatalog($school, $data): ElementarySchool
+    {
+        // return $school->hasOfferCatalog(array_values(array_filter(
+        //     array_map(
+        //         fn ($t) =>
+        //                 !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'grade'
+        //                 ? Schema::offerCatalog()
+        //                     ->name($t['name'])
+        //                     ->description($t['name'])
+        //                     ->disambiguatingDescription('grade')
+        //                 : null,
+        //         ($data['_embedded']['acf:term'] ?? [])
+        //     )
+        // )));
+
+        $grades = array_values(array_filter(
+            array_map(
+                fn ($t) =>
+                        !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'grade'
+                        ? Schema::listItem()
+                            ->name($t['name'])
+                            ->description($t['name'])
+                        : null,
+                ($data['_embedded']['acf:term'] ?? [])
+            )
+        ));
+
+        return !empty($grades)
+            ? $school->hasOfferCatalog(
+                [Schema::offerCatalog()
+                    ->name('Årskurser')
+                    ->description('Årskurser som skolan erbjuder')
+                    ->itemListElement($grades)
+                ]
+            )
+            : $school->hasOfferCatalog([]);
     }
 
     private function tryCreateTextObject($key, $text): ?TextObject

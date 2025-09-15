@@ -33,7 +33,8 @@ final class ElementarySchoolTransformTest extends TestCase
         ->areaServed([])
         ->image([])
         ->employee([])
-        ->contactPoint([]);
+        ->contactPoint([])
+        ->hasOfferCatalog([]);
 
         $actualSchool = (new ElementarySchoolTransform())->transform(
             [$source]
@@ -100,6 +101,10 @@ final class ElementarySchoolTransformTest extends TestCase
                         {
                             "name": "Will be skipped since area taxonomy is blacklisted",
                             "taxonomy": "area"
+                        },
+                        {
+                            "name": "Will be skipped since grade taxonomy is blacklisted",
+                            "taxonomy": "grade"
                         },
                         {
                             "name": "Hoppborg",
@@ -507,6 +512,55 @@ final class ElementarySchoolTransformTest extends TestCase
         ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformContactPoint(
+            Schema::elementarySchool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
+
+    #[TestDox('applies hasOfferCatalog from acf:term with taxonomy grade')]
+    public function testTransformHasOfferCatalog()
+    {
+        $source         = $this->prepareJsonForTransform('
+            {
+                "_embedded": {
+                    "acf:term": [
+                        {
+                            "name": "Anpassad skola",
+                            "taxonomy": "grade"
+                        },
+                        {
+                            "name": "Årskurs F-9",
+                            "taxonomy": "grade"
+                        },
+                        {
+                            "name": "x",
+                            "taxonomy": "y"
+                        }
+                    ]
+                }
+            }
+        ');
+        $expectedSchool = Schema::elementarySchool()
+            ->hasOfferCatalog([
+                Schema::offerCatalog()
+                    ->name('Årskurser')
+                    ->description('Årskurser som skolan erbjuder')
+                    ->itemListElement([
+                        Schema::listItem()
+                            ->name('Anpassad skola')
+                            ->description('Anpassad skola'),
+                        Schema::listItem()
+                            ->name('Årskurs F-9')
+                            ->description('Årskurs F-9')
+                    ])
+                ]);
+
+        $actualSchool = (new ElementarySchoolTransform())->transformHasOfferCatalog(
             Schema::elementarySchool(),
             $source
         );
