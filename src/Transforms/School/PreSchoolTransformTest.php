@@ -513,4 +513,30 @@ final class PreSchoolTransformTest extends TestCase
             $actualSchool->toArray()
         );
     }
+
+    #[TestDox('applies acf.number_of_units as numberOfGroups')]
+    public function testTransformNumberOfGroups()
+    {
+        $source = $this->prepareJsonForTransform('
+            {
+                "acf":
+                    {
+                        "number_of_units": "5"
+                    }
+            }
+        ');
+
+        $expectedSchool = Schema::preschool()
+            ->numberOfGroups(5);
+
+        $actualSchool = (new PreSchoolTransform())->tranformNumberOfGroups(
+            Schema::preschool(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5476450bca17c5780c8a86b00640881b",
+    "content-hash": "e01923e41fa7b189910ebe5df0061928",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -74,16 +74,16 @@
         },
         {
             "name": "helsingborg-stad/schema-library",
-            "version": "0.5.0",
+            "version": "0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/helsingborg-stad/schema-library.git",
-                "reference": "2ffc6ead768fe0eb826c194b54da0135cbade801"
+                "reference": "6b434cdc24bdf5f5dc9594d43939c9dd389608c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/helsingborg-stad/schema-library/zipball/2ffc6ead768fe0eb826c194b54da0135cbade801",
-                "reference": "2ffc6ead768fe0eb826c194b54da0135cbade801",
+                "url": "https://api.github.com/repos/helsingborg-stad/schema-library/zipball/6b434cdc24bdf5f5dc9594d43939c9dd389608c0",
+                "reference": "6b434cdc24bdf5f5dc9594d43939c9dd389608c0",
                 "shasum": ""
             },
             "require-dev": {
@@ -105,9 +105,9 @@
             ],
             "support": {
                 "issues": "https://github.com/helsingborg-stad/schema-library/issues",
-                "source": "https://github.com/helsingborg-stad/schema-library/tree/0.5.0"
+                "source": "https://github.com/helsingborg-stad/schema-library/tree/0.5.2"
             },
-            "time": "2025-09-12T10:35:47+00:00"
+            "time": "2025-09-15T10:41:44+00:00"
         },
         {
             "name": "monolog/monolog",

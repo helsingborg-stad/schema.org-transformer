@@ -70,6 +70,7 @@ class PreSchoolTransform implements AbstractDataTransform
             'transformContactPoint',
             'transformNumberOfChildren',
             'transformOpeningHours',
+            'tranformNumberOfGroups'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -260,6 +261,13 @@ class PreSchoolTransform implements AbstractDataTransform
                     ->closes($data['acf']['open_hours']['close'] ?? null)
             )
             : $school;
+    }
+
+    public function tranformNumberOfGroups($school, $data): PreSchool
+    {
+        return $school->numberOfGroups(
+            is_numeric($data['acf']['number_of_units'] ?? null) ? (int)$data['acf']['number_of_units'] : null
+        );
     }
 
 
