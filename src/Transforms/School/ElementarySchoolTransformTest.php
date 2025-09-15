@@ -158,7 +158,6 @@ final class ElementarySchoolTransformTest extends TestCase
                 ->longitude(5.678)
         )
         // Place properties
-        ->name("Testskolan")
         ->address("Testskolan, Skolgatan 1")
         ->latitude(1.234)
         ->longitude(5.678);
@@ -172,6 +171,31 @@ final class ElementarySchoolTransformTest extends TestCase
             $expectedSchool->toArray(),
             $actualSchool->toArray()
         );
+    }
+
+    #[TestDox('place and location attributes does not override elementary school name')]
+    public function testTransformPlaceDoesNotOverrideName()
+    {
+        $source = [
+            'acf' => [
+                'visiting_address' => [[
+                    'address' => [
+                        'name'    => 'Testskolan',
+                        'address' => 'Testskolan, Skolgatan 1',
+                        'lat'     => 1.234,
+                        'lng'     => 5.678
+                    ]
+                ]]
+            ]
+        ];
+
+        $actualSchool = (new ElementarySchoolTransform())->transformPlace(
+            Schema::elementarySchool()
+                ->name("Bästa skolan"),
+            $source
+        );
+
+        $this->assertEquals('Bästa skolan', $actualSchool->getProperty('name'));
     }
 
     #[TestDox('applies events from typesense')]

@@ -134,14 +134,19 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transformPlace($school, $data): ElementarySchool
     {
-        $place = $this->getPlace($data);
-        return $place ? $school
-            ->location($place)
-            // ElementarySchool is a Place also
-            ->addProperties(
-                $place->toArray()
-            )
-            : $school;
+        foreach (($data['acf']['visiting_address'] ?? []) as $address) {
+            $a = $address['address'];
+            return $school
+                ->address($a['address'] ?? null)
+                ->latitude($a['lat'] ?? null)
+                ->longitude($a['lng'] ?? null)
+                ->location(Schema::place()
+                    ->name($a['name'] ?? null)
+                    ->address($a['address'] ?? null)
+                    ->latitude($a['lat'] ?? null)
+                    ->longitude($a['lng'] ?? null));
+        }
+        return $school;
     }
 
     public function transformEvents(ElementarySchool $school, $data): ElementarySchool
@@ -235,19 +240,6 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 )
             )
         );
-    }
-
-    private function getPlace($dataItem): ?Place
-    {
-        foreach (($dataItem['acf']['visiting_address'] ?? []) as $address) {
-            $a = $address['address'];
-            return Schema::place()
-                ->name($a['name'] ?? null)
-                ->address($a['address'] ?? null)
-                ->latitude($a['lat'] ?? null)
-                ->longitude($a['lng'] ?? null);
-        }
-        return null;
     }
 
     private function getDescription($dataItem): array

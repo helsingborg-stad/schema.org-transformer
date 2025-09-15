@@ -155,19 +155,16 @@ class PreSchoolTransform implements AbstractDataTransform
     public function transformPlace($school, $data): PreSchool
     {
         foreach (($data['acf']['visiting_address'] ?? []) as $address) {
-            $a     = $address['address'];
-            $place = Schema::place()
-                ->name($a['name'] ?? null)
+            $a = $address['address'];
+            return $school
                 ->address($a['address'] ?? null)
                 ->latitude($a['lat'] ?? null)
-                ->longitude($a['lng'] ?? null);
-
-            return $school
-                ->location($place)
-                // PreSchool is a Place also
-                ->addProperties(
-                    array_filter($place->toArray(), fn($key) => $key !== 'name', ARRAY_FILTER_USE_KEY)
-                );
+                ->longitude($a['lng'] ?? null)
+                ->location(Schema::place()
+                    ->name($a['name'] ?? null)
+                    ->address($a['address'] ?? null)
+                    ->latitude($a['lat'] ?? null)
+                    ->longitude($a['lng'] ?? null));
         }
         return $school;
     }
