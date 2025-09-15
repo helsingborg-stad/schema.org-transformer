@@ -21,6 +21,7 @@ class PreSchoolTransform implements AbstractDataTransform
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Hur vi arbetar',
         'our_leisure_center' => 'Vår fritidsverksamhet',
+        'orientation'        => 'Inskolning',
         // 'our_mission'        => 'Vår mission',
         // 'our_vision'         => 'Vår vision',
         // 'our_values'         => 'Våra värderingar',
