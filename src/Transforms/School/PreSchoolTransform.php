@@ -17,7 +17,7 @@ class PreSchoolTransform implements AbstractDataTransform
 {
     private array $wellknownTextObjectHeadlinesByKey = [
         'custom_excerpt'     => '',
-        'visit_us'           => '',
+        'visit_us'           => 'Besök oss',
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Hur vi arbetar',
         'our_leisure_center' => 'Vår fritidsverksamhet',
@@ -164,7 +164,9 @@ class PreSchoolTransform implements AbstractDataTransform
             return $school
                 ->location($place)
                 // PreSchool is a Place also
-                ->addProperties($place->toArray());
+                ->addProperties(
+                    array_filter($place->toArray(), fn($key) => $key !== 'name', ARRAY_FILTER_USE_KEY)
+                );
         }
         return $school;
     }
