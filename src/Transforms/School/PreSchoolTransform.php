@@ -158,7 +158,9 @@ class PreSchoolTransform implements AbstractDataTransform
             return $school
                 ->location($place)
                 // PreSchool is a Place also
-                ->addProperties($place->toArray());
+                ->addProperties(
+                    array_filter($place->toArray(), fn($key) => $key !== 'name', ARRAY_FILTER_USE_KEY)
+                );
         }
         return $school;
     }
