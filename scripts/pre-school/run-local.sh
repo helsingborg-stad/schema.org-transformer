@@ -10,7 +10,7 @@ if [ $? -ne 0 ]; then
 fi
 cd ${SCRIPT_DIR}
 
-# Retrieve and transform Stratsys export
+# Retrieve and transform pre-school data
 php ../../router.php \
     --source ${PRE_SCHOOL_API_URL} \
     --transform pre_school \
