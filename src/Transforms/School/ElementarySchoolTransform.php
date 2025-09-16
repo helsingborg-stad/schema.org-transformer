@@ -209,7 +209,11 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transformNumberOfStudents($school, $data): ElementarySchool
     {
-        return $school->numberOfStudents($data['acf']['number_of_students'] ?? null);
+        return $school->numberOfStudents(
+            is_numeric($data['acf']['number_of_students'] ?? null)
+                ? (int)$data['acf']['number_of_students']
+                : null
+        );
     }
 
     public function transformAfterSchoolCareHours($school, $data): ElementarySchool
