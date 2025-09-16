@@ -539,4 +539,24 @@ final class PreSchoolTransformTest extends TestCase
             $actualSchool->toArray()
         );
     }
+
+    #[TestDox('only allows positive integers in numberOfGroups')]
+    public function testTransformNumberOfGroupsNegative()
+    {
+        $source = $this->prepareJsonForTransform('
+            {
+                "acf":
+                    {
+                        "number_of_units": "-5"
+                    }
+            }
+        ');
+
+        $actualSchool = (new PreSchoolTransform())->tranformNumberOfGroups(
+            Schema::preschool(),
+            $source
+        );
+
+        $this->assertArrayNotHasKey('numberOfGroups', $actualSchool->toArray());
+    }
 }

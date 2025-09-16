@@ -264,7 +264,9 @@ class PreSchoolTransform implements AbstractDataTransform
     public function tranformNumberOfGroups($school, $data): PreSchool
     {
         return $school->numberOfGroups(
-            is_numeric($data['acf']['number_of_units'] ?? null) ? (int)$data['acf']['number_of_units'] : null
+            (is_numeric($data['acf']['number_of_units'] ?? null) && (int)($data['acf']['number_of_units']) > 0)
+                ? (int)($data['acf']['number_of_units'])
+                : null
         );
     }
 
