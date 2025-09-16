@@ -2,6 +2,7 @@
 
 namespace SchemaTransformer;
 
+use Typesense\Client as TypesenseClient;
 use SchemaTransformer\Converters\JSONConverter;
 use SchemaTransformer\Converters\JSONLConverter;
 use SchemaTransformer\IO\ConsoleWriter;
@@ -36,7 +37,10 @@ class App
             "authclientid"     => "",
             "authclientsecret" => "",
             "authscope"        => "",
-            "logger"           => "terminal"
+            "logger"           => "terminal",
+            "typesense_apikey" => "",
+            "typesense_host"   => "",
+            "typesense_port"   => "",
         ], $options);
 
         if (empty($cmd->source)) {
@@ -60,6 +64,8 @@ class App
                                                 - stratsys
                                                 - wp_legacy_event
                                                 - wp_release_event
+                                                - wp_exhibition_event
+                                                - elementary_school
                 --idprefix                      prefix to avoid collision between items from multiple sources
                  
                 OAuth authentication parameters (Applicable for source only)
@@ -70,6 +76,11 @@ class App
 
                 Logging settings
                  --logger <terminal|none>    Logger to use
+                
+                Typesense connection (optional, used for some transforms)
+                 --typesense_apikey <string>    Typesense API key
+                 --typesense_host <string>      Typesense host
+                 --typesense_port <int>         Typesense port (default 443)
 
                 TEXT;
             exit(1);
@@ -94,6 +105,19 @@ class App
 
             $sourceheaders[] = $token;
         }
+
+        // Typesense - convenience utility for merged indexing
+        $typesenseClient = !empty($cmd->typesense_apikey) && !empty($cmd->typesense_host) ? new TypesenseClient([
+            'api_key'                    => $cmd->typesense_apikey,
+            'nodes'                      => [
+                [
+                    'host'     => $cmd->typesense_host,
+                    'port'     => !empty($cmd->typesense_port) ? $cmd->typesense_port : 443,
+                    'protocol' => 'https'
+                ]
+            ],
+            'connection_timeout_seconds' => 2
+        ]) : null;
 
         switch (strtolower($cmd->paginator)) {
             case 'wordpress':
@@ -122,7 +146,7 @@ class App
             new JSONConverter();
 
             // Wire services
-        $services = new RuntimeServices($reader, $writer, $converter, $cmd->idprefix);
+        $services = new RuntimeServices($reader, $writer, $converter, $cmd->idprefix, $typesenseClient);
 
         // Execute
         $result = false;
@@ -153,6 +177,18 @@ class App
                 break;
             case 'wp_exhibition_event':
                 $result = $services->getWPExhibitionEventService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
+            case 'elementary_school':
+                $result = $services->getElementarySchoolService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
+            case 'pre_school':
+                $result = $services->getPreSchoolService()->execute(
                     $cmd->source,
                     $cmd->output
                 );

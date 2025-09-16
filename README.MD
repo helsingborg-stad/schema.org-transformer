@@ -41,6 +41,11 @@ Transformation settings
  --authpath <url>               URL of token service
  --authclientid <string>        Client id
  --authclientsecret <string>    Client secret
+
+ Typesense connection (optional, used for some transforms)
+ --typesense_apikey <string>    Typesense API key
+ --typesense_host <string>      Typesense host
+ --typesense_port <int>         Typesense port (default 443)
 ```
 
 Example:
@@ -48,6 +53,17 @@ Example:
 ```bash
 php router.php --source https://reachmee --output /tmp/output.json --transform jobposting
 ```
+
+### Transforms
+| Transform | Typesense data for joins |
+| --- | --- |
+| jobposting  |  |
+| stratsys | |
+| wp_legacy_event | |
+| wp_release_event | |
+| wp_exhibition_event | |
+| elementary_school | events collection |
+| pre_school | events collection |
 
 ### Customizing Implementations
 

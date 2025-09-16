@@ -18,5 +18,8 @@ require_once 'vendor/autoload.php';
     "authpath:",
     "authclientid:",
     "authclientsecret:",
-    "authscope:"
+    "authscope:",
+    "typesense_apikey:",
+    "typesense_host:",
+    "typesense_port:"
 ]));
