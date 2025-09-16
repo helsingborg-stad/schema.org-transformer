@@ -19,12 +19,7 @@ class ElementarySchoolTransform implements AbstractDataTransform
         'custom_excerpt'     => '',
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Hur vi arbetar',
-        'our_leisure_center' => 'Vår fritidsverksamhet',
-        // 'our_mission'        => 'Vår mission',
-        // 'our_vision'         => 'Vår vision',
-        // 'our_values'         => 'Våra värderingar',
-        // 'history'            => 'Historia',
-        // 'extra'              => 'Extra information'
+        'our_leisure_center' => 'Vår fritidsverksamhet'
     ];
 
     private array $taxonomiesExcludedFromKeywords = [
