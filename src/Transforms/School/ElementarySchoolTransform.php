@@ -52,7 +52,6 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transform(array $data): array
     {
-        // TODO: taxonomy grade -> hasOfferCatalog, kolla även preschool
         $transformations = [
             'transformBase',
             'transformDescription',
@@ -266,19 +265,6 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transformHasOfferCatalog($school, $data): ElementarySchool
     {
-        // return $school->hasOfferCatalog(array_values(array_filter(
-        //     array_map(
-        //         fn ($t) =>
-        //                 !empty($t) && is_string($t['name'] ?? null) && !empty($t['name'] ?? null) && ($t['taxonomy'] ?? null) === 'grade'
-        //                 ? Schema::offerCatalog()
-        //                     ->name($t['name'])
-        //                     ->description($t['name'])
-        //                     ->disambiguatingDescription('grade')
-        //                 : null,
-        //         ($data['_embedded']['acf:term'] ?? [])
-        //     )
-        // )));
-
         $grades = array_values(array_filter(
             array_map(
                 fn ($t) =>

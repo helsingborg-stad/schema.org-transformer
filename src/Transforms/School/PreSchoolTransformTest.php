@@ -529,7 +529,7 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
             ->numberOfGroups(5);
 
-        $actualSchool = (new PreSchoolTransform())->tranformNumberOfGroups(
+        $actualSchool = (new PreSchoolTransform())->transformNumberOfGroups(
             Schema::preschool(),
             $source
         );
@@ -551,8 +551,8 @@ final class PreSchoolTransformTest extends TestCase
                     }
             }
         ');
-
-        $actualSchool = (new PreSchoolTransform())->tranformNumberOfGroups(
+        
+        $actualSchool = (new PreSchoolTransform())->transformNumberOfGroups(
             Schema::preschool(),
             $source
         );

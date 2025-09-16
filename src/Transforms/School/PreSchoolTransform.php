@@ -22,11 +22,6 @@ class PreSchoolTransform implements AbstractDataTransform
         'how_we_work'        => 'Hur vi arbetar',
         'our_leisure_center' => 'Vår fritidsverksamhet',
         'orientation'        => 'Inskolning',
-        // 'our_mission'        => 'Vår mission',
-        // 'our_vision'         => 'Vår vision',
-        // 'our_values'         => 'Våra värderingar',
-        // 'history'            => 'Historia',
-        // 'extra'              => 'Extra information'
     ];
 
     private array $taxonomiesExcludedFromKeywords = [
@@ -53,11 +48,6 @@ class PreSchoolTransform implements AbstractDataTransform
 
     public function transform(array $data): array
     {
-        // TODO:
-        // - acf::open_hours -> openingHoursSpecification
-        // - acf::number_of_units antal avdelningar
-
-
         $transformations = [
             'transformBase',
             'transformDescription',
@@ -71,7 +61,7 @@ class PreSchoolTransform implements AbstractDataTransform
             'transformContactPoint',
             'transformNumberOfChildren',
             'transformOpeningHours',
-            'tranformNumberOfGroups'
+            'transformNumberOfGroups'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -261,7 +251,7 @@ class PreSchoolTransform implements AbstractDataTransform
             : $school;
     }
 
-    public function tranformNumberOfGroups($school, $data): PreSchool
+    public function transformNumberOfGroups($school, $data): PreSchool
     {
         return $school->numberOfGroups(
             (is_numeric($data['acf']['number_of_units'] ?? null) && (int)($data['acf']['number_of_units']) > 0)
