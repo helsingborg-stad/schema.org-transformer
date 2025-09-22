@@ -16,6 +16,16 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
         parent::__construct($idprefix);
     }
 
+    private function firstNonEmptyArray(...$values)
+    {
+        foreach ($values as $value) {
+            if (is_array($value) && !empty($value)) {
+                return $value;
+            }
+        }
+        return [];
+    }
+
     private function getValidDatesFromSource($data)
     {
         return array_filter(
@@ -32,7 +42,8 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
             'transformImages',
             'transformLocation',
             'transformEventSchedule',
-            'transformIsAccessibleForFree'
+            'transformIsAccessibleForFree',
+            'transformOffers'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -126,6 +137,53 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
                 fn ($carry, $d) => $carry || ($d['IsFreeEvent'] ?? false),
                 false
             ) || false
+        );
+    }
+
+    public function transformOffers($event, $data): Event
+    {
+        $effectivePrices   = $this->firstNonEmptyArray($data['Prices'] ?? null, $data['Dates'][0]['Prices'] ?? null);
+        $effectiveProducts = array_values(
+            array_filter(
+                $this->firstNonEmptyArray(
+                    $data['PurchaseUrls'] ?? null,
+                    $data['Dates'][0]['PurchaseUrls'] ?? null
+                ),
+                fn ($d) => $d['Culture'] === 'sv-SE'
+            )
+        );
+
+        return $event->offers(
+            array_values(
+                array_map(
+                    fn($d) => Schema::offer()
+                        ->url($d['Link'] ?? null)
+                        ->mainEntityOfPage($d['Link'] ?? null)
+                        ->availabilityStarts($data['OnlineSaleStart'] ?? null)
+                        ->availabilityEnds($data['OnlineSaleEnd'] ?? null)
+                        ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+                        ->priceSpecification(
+                            array_map(
+                                fn ($p) => Schema::priceSpecification()
+                                    ->name($p['TicketType'] ?? null)
+                                    ->description($p['TicketType'] ?? null)
+                                    ->price(
+                                        array_filter(
+                                            array_values(
+                                                array_map(
+                                                    fn ($pp) => $pp['Price'] ?? null,
+                                                    $p['Prices'] ?? []
+                                                )
+                                            ),
+                                            fn ($val) => is_numeric($val)
+                                        )
+                                    ),
+                                $effectivePrices
+                            )
+                        ),
+                    $effectiveProducts
+                )
+            )
         );
     }
 }
