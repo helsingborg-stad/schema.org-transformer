@@ -28,8 +28,9 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
     {
         $transformations = [
             'transformBase',
+            'transformOrganizer',
             'transformImages',
-            'transformPlace',
+            'transformLocation',
             'transformEventSchedule',
             'transformIsAccessibleForFree'
         ];
@@ -68,6 +69,13 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
                 );
     }
 
+    public function transformOrganizer($event, $data): Event
+    {
+        return $data['Organizer'] ?? null ? $event->organizer(
+            Schema::organization()->name($data['Organizer'] ?? null)
+        ) : $event;
+    }
+
     public function transformImages($event, $data): Event
     {
         return $event->image(
@@ -83,10 +91,10 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
             )
         );
     }
-    public function transformPlace($event, $data): Event
+    public function transformLocation($event, $data): Event
     {
         foreach ($this->getValidDatesFromSource($data) as $date) {
-            return $event->place(
+            return $event->location(
                 Schema::place()
                     ->name($date['Venue'] ?? null)
                     ->description($date['Hall'] ?? null)

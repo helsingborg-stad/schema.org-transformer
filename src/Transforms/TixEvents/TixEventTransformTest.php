@@ -127,8 +127,8 @@ final class TixEventTransformTest extends TestCase
         );
     }
 
-    #[TestDox('event::place is guessed from first occurence in source -> Dates')]
-    public function testTransformPlace()
+    #[TestDox('event::location is guessed from first occurence in source -> Dates')]
+    public function testTransformLocation()
     {
         $source = $this->prepareJsonForTransform('{
             "EventGroupId": 123,
@@ -149,13 +149,13 @@ final class TixEventTransformTest extends TestCase
         }');
 
         $expectedEvent = Schema::event()
-            ->place(
+            ->location(
                 Schema::place()
                     ->name('Rådhuset')
                     ->description('Rådssalen')
             );
 
-        $actualEvent = (new TixEventTransform('tix_'))->transformPlace(
+        $actualEvent = (new TixEventTransform('tix_'))->transformLocation(
             Schema::event(),
             $source
         );
@@ -189,6 +189,29 @@ final class TixEventTransformTest extends TestCase
             ->isAccessibleForFree(true);
 
         $actualEvent = (new TixEventTransform('tix_'))->transformIsAccessibleForFree(
+            Schema::event(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedEvent->toArray(),
+            $actualEvent->toArray()
+        );
+    }
+
+    #[TestDox('event::organizer is extracted from source')]
+    public function testTransformOrganizer()
+    {
+        $source        = $this->prepareJsonForTransform('{
+            "EventGroupId": 123,
+            "Organizer": "Event organizer name"
+        }');
+        $expectedEvent = Schema::event()
+            ->organizer(
+                Schema::organization()
+                    ->name('Event organizer name')
+            );
+        $actualEvent   = (new TixEventTransform('tix_'))->transformOrganizer(
             Schema::event(),
             $source
         );
