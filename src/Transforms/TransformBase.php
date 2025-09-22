@@ -12,7 +12,7 @@ abstract class TransformBase
     {
         $this->idprefix = $idprefix;
     }
-    protected function formatId(string | int $value): string
+    public function formatId(string | int $value): string
     {
         return trim($this->idprefix . $value);
     }
