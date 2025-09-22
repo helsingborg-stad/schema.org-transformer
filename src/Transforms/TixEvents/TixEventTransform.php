@@ -71,8 +71,8 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
 
     public function transformOrganizer($event, $data): Event
     {
-        return $data['Organizer'] ?? null ? $event->organizer(
-            Schema::organization()->name($data['Organizer'] ?? null)
+        return $data['Organisation'] ?? null ? $event->organizer(
+            Schema::organization()->name($data['Organisation'] ?? null)
         ) : $event;
     }
 

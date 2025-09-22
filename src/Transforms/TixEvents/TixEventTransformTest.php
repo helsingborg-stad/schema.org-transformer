@@ -204,7 +204,7 @@ final class TixEventTransformTest extends TestCase
     {
         $source        = $this->prepareJsonForTransform('{
             "EventGroupId": 123,
-            "Organizer": "Event organizer name"
+            "Organisation": "Event organizer name"
         }');
         $expectedEvent = Schema::event()
             ->organizer(
