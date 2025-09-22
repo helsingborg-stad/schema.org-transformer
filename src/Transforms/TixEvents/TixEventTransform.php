@@ -31,6 +31,7 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
             'transformImages',
             'transformPlace',
             'transformEventSchedule',
+            'transformIsAccessibleForFree'
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -106,6 +107,17 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
                     $this->getValidDatesFromSource($data)
                 )
             )
+        );
+    }
+
+    public function transformIsAccessibleForFree($event, $data): Event
+    {
+        return $event->isAccessibleForFree(
+            array_reduce(
+                $this->getValidDatesFromSource($data),
+                fn ($carry, $d) => $carry || ($d['IsFreeEvent'] ?? false),
+                false
+            ) || false
         );
     }
 }

@@ -26,6 +26,7 @@ final class TixEventTransformTest extends TestCase
             }');
         $expectedEvent = Schema::event()
             ->identifier("tix_123")
+            ->isAccessibleForFree(false)
             ->image([])
             ->eventSchedule([]);
 
@@ -155,6 +156,39 @@ final class TixEventTransformTest extends TestCase
             );
 
         $actualEvent = (new TixEventTransform('tix_'))->transformPlace(
+            Schema::event(),
+            $source
+        );
+
+        $this->assertEquals(
+            $expectedEvent->toArray(),
+            $actualEvent->toArray()
+        );
+    }
+
+    #[TestDox('event::isAccessibleForFree is guessed from first occurence in source -> Dates')]
+    public function testTransformIsAccessibleForFree()
+    {
+        $source = $this->prepareJsonForTransform('{
+            "EventGroupId": 123,
+            "Dates": [
+                {
+                    "EventId": 1,
+                    "DefaultEventGroupId": 123,
+                    "IsFreeEvent": true
+                },
+                {
+                    "EventId": 2,
+                    "DefaultEventGroupId": 123,
+                    "IsFreeEvent": false
+                }
+            ]
+        }');
+
+        $expectedEvent = Schema::event()
+            ->isAccessibleForFree(true);
+
+        $actualEvent = (new TixEventTransform('tix_'))->transformIsAccessibleForFree(
             Schema::event(),
             $source
         );
