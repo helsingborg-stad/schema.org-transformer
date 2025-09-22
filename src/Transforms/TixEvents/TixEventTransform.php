@@ -1,0 +1,125 @@
+<?php
+
+declare(strict_types=1);
+
+namespace SchemaTransformer\Transforms\TixEvents;
+
+use Municipio\Schema\Schema;
+use Municipio\Schema\Event;
+use SchemaTransformer\Transforms\TransformBase;
+use SchemaTransformer\Interfaces\AbstractDataTransform;
+
+class TixEventTransform extends TransformBase implements AbstractDataTransform
+{
+    public function __construct(string $idprefix)
+    {
+        parent::__construct($idprefix);
+    }
+
+    private function getValidDatesFromSource($data)
+    {
+        return array_filter(
+            $data['Dates'] ?? [],
+            fn ($d) => !empty($d['EventId']) && $d['DefaultEventGroupId'] === $data['EventGroupId']
+        );
+    }
+
+    public function transform(array $data): array
+    {
+        $transformations = [
+            'transformBase',
+            'transformImages',
+            'transformPlace',
+            'transformEventSchedule',
+        ];
+
+        $result = array_map(function ($item) use ($transformations) {
+            return array_reduce(
+                $transformations,
+                function ($event, $method) use ($item) {
+                    return $this->$method($event, $item);
+                },
+                Schema::event()
+            )->toArray();
+        }, $data);
+        return $result;
+    }
+
+    public function transformBase($event, $data): Event
+    {
+        return $event
+                ->identifier(
+                    $this->formatId((string)$data['EventGroupId'] ?? '')
+                )
+                ->name($data['SubTitle'] ?? null)
+                ->description($data['Description'] ?? null)
+                ->startDate(
+                    min(array_map(
+                        fn ($d) => $d['StartDate'] ?? null,
+                        [...$this->getValidDatesFromSource($data), null]
+                    )) ?? null
+                )
+                ->endDate(
+                    max(array_map(
+                        fn ($d) => $d['EndDate'] ?? null,
+                        [...$this->getValidDatesFromSource($data), null]
+                    )) ?? null
+                );
+    }
+
+    public function transformImages($event, $data): Event
+    {
+        return $event->image(
+            array_map(
+                fn ($path) => Schema::imageObject()
+                    ->url($path)
+                    ->name($data['SubTitle'] ?? null)
+                    ->caption($data['SubTitle'] ?? null)
+                    ->description($data['SubTitle'] ?? null),
+                array_filter(
+                    [$data['FeaturedImagePath'] ?? null]
+                )
+            )[0] ?? null
+        );
+    }
+    public function transformPlace($event, $data): Event
+    {
+        foreach ($this->getValidDatesFromSource($data) as $date) {
+            return $event->place(
+                Schema::place()
+                    ->name($date['Venue'] ?? null)
+                    ->description($date['Hall'] ?? null)
+            );
+        }
+        return $event;
+    }
+
+    public function transformEventSchedule($event, $data): Event
+    {
+        return $event->eventSchedule(
+            array_map(
+                fn($d) => Schema::schedule()
+                    ->startDate($d['StartDate'] ?? null)
+                    ->endDate($d['EndDate'] ?? null)
+                    ->identifier($this->formatId((string)$d['EventId'] ?? '')),
+                $this->getValidDatesFromSource($data)
+            )
+        );
+    }
+
+/*
+    public function transformEventsInSameSeries($event, $date, $eventGroup): Event
+    {
+        return $event->eventsInSameSeries(
+            array_values(array_filter(
+                array_map(
+                    fn($d) => $d['EventId'] === $date['EventId']
+                        ? null
+                        : Schema::event()->identifier($this->formatId((string)$d['EventId'] ?? '')),
+                    $this->getValidDatesFromSource($eventGroup)
+                )
+            ))
+        );
+    }
+*/
+}

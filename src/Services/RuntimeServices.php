@@ -19,6 +19,7 @@ use SchemaTransformer\Transforms\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\WPReleaseEventTransform;
 use SchemaTransformer\Transforms\School\ElementarySchoolTransform;
 use SchemaTransformer\Transforms\School\PreSchoolTransform;
+use SchemaTransformer\Transforms\TixEvents\TixEventTransform;
 
 class RuntimeServices
 {
@@ -29,6 +30,7 @@ class RuntimeServices
     private AbstractService $wpExhibitionEventService;
     private AbstractService $elementarySchoolService;
     private AbstractService $preSchoolService;
+    private AbstractService $tixEventService;
 
     public function __construct(
         AbstractDataReader $reader,
@@ -114,6 +116,7 @@ class RuntimeServices
         $this->wpExhibitionEventService = new Service($reader, $writer, new WPExhibitionEventTransform(), $converter);
         $this->elementarySchoolService  = new Service($reader, $writer, new ElementarySchoolTransform($this->typesenseClient), $converter);
         $this->preSchoolService         = new Service($reader, $writer, new PreSchoolTransform($this->typesenseClient), $converter);
+        $this->tixEventService          = new Service($reader, $writer, new TixEventTransform($idprefix), $converter);
     }
 
     public function getJobPostingService(): AbstractService
@@ -143,5 +146,10 @@ class RuntimeServices
     public function getPreSchoolService(): AbstractService
     {
         return $this->preSchoolService;
+    }
+
+    public function getTixService(): AbstractService
+    {
+        return $this->tixEventService;
     }
 }
