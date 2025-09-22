@@ -77,9 +77,9 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
                     ->caption($data['SubTitle'] ?? null)
                     ->description($data['SubTitle'] ?? null),
                 array_filter(
-                    [$data['FeaturedImagePath'] ?? null]
+                    [($data['HasFeaturedImage'] ?? null) ? $data['FeaturedImagePath'] ?? null : null]
                 )
-            )[0] ?? null
+            )
         );
     }
     public function transformPlace($event, $data): Event
@@ -97,29 +97,15 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
     public function transformEventSchedule($event, $data): Event
     {
         return $event->eventSchedule(
-            array_map(
-                fn($d) => Schema::schedule()
-                    ->startDate($d['StartDate'] ?? null)
-                    ->endDate($d['EndDate'] ?? null)
-                    ->identifier($this->formatId((string)$d['EventId'] ?? '')),
-                $this->getValidDatesFromSource($data)
+            array_values(
+                array_map(
+                    fn($d) => Schema::schedule()
+                        ->startDate($d['StartDate'] ?? null)
+                        ->endDate($d['EndDate'] ?? null)
+                        ->identifier($this->formatId((string)$data['EventGroupId'] ?? '') . '_' . ($d['EventId'] ?? '')),
+                    $this->getValidDatesFromSource($data)
+                )
             )
         );
     }
-
-/*
-    public function transformEventsInSameSeries($event, $date, $eventGroup): Event
-    {
-        return $event->eventsInSameSeries(
-            array_values(array_filter(
-                array_map(
-                    fn($d) => $d['EventId'] === $date['EventId']
-                        ? null
-                        : Schema::event()->identifier($this->formatId((string)$d['EventId'] ?? '')),
-                    $this->getValidDatesFromSource($eventGroup)
-                )
-            ))
-        );
-    }
-*/
 }
