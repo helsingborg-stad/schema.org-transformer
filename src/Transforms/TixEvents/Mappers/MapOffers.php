@@ -16,38 +16,49 @@ class MapOffers extends AbstractTixDataMapper
 
     public function map(Event $event, array $data): Event
     {
-        // Iterate eagerly to find the first date with products and prices
-        foreach ($this->getValidDatesFromSource($data) as $date) {
-            $offers = $this->tryCreateOffers($date);
-            if ($offers !== null) {
-                return $event->offers($offers);
-            }
-        }
-        return $event->offers($this->tryCreateOffers($data) ?? []); // No valid offers found
+        return $event->offers(
+            array_merge(
+                $this->tryCreatePurchaseOffers($data) ?? [],
+                $this->tryCreateProductOffers($data) ?? []
+            ),
+        );
     }
 
-    private function tryCreateOffers($date): ?array
+    private function tryCreatePurchaseOffers($data): ?array
+    {
+        // Iterate eagerly to find the first date with purchase and prices
+        foreach ($this->getValidDatesFromSource($data) as $date) {
+            $offers = $this->tryCreatePurchaseOffersFromDateLikeObject($date);
+            if ($offers !== null) {
+                return $offers;
+            }
+        }
+        // Test if event group itself has purchase and prices
+        return $this->tryCreatePurchaseOffersFromDateLikeObject($data); // No valid offers found
+    }
+
+    private function tryCreatePurchaseOffersFromDateLikeObject($dateLike): ?array
     {
         // Iterate eagerly to find the first date with products and prices
-        $products = array_filter(
-            $date['PurchaseUrls'] ?? [],
+        $purchaseUrls = array_filter(
+            $dateLike['PurchaseUrls'] ?? [],
             fn ($d) => $d['Culture'] === 'sv-SE'
         );
-        if (empty($products)) {
+        if (empty($purchaseUrls)) {
             return null;
         }
-            $prices = $date['Prices'] ?? null;
+            $prices = $dateLike['Prices'] ?? null;
         if (empty($prices)) {
             return null;
         }
 
-        foreach ($products as $product) {
+        foreach ($purchaseUrls as $purchaseUrl) {
             return [
                 Schema::offer()
-                    ->availabilityStarts($date['OnlineSaleStart'] ?? null)
-                    ->availabilityEnds($date['OnlineSaleEnd'] ?? null)
-                    ->url($product['Link'] ?? null)
-                    ->mainEntityOfPage($product['Link'] ?? null)
+                    ->availabilityStarts($dateLike['OnlineSaleStart'] ?? null)
+                    ->availabilityEnds($dateLike['OnlineSaleEnd'] ?? null)
+                    ->url($purchaseUrl['Link'] ?? null)
+                    ->mainEntityOfPage($purchaseUrl['Link'] ?? null)
                     ->businessFunction('http://purl.org/goodrelations/v1#Sell')
 
                 ->priceSpecification(
@@ -56,6 +67,7 @@ class MapOffers extends AbstractTixDataMapper
                             fn ($p) => Schema::priceSpecification()
                                     ->name($p['TicketType'] ?? null)
                                     ->description($p['TicketType'] ?? null)
+                                    ->priceCurrency('SEK')
                                     ->price(
                                         array_filter(
                                             array_values(
@@ -72,6 +84,59 @@ class MapOffers extends AbstractTixDataMapper
                     )
                 )
             ];
+        }
+        return null;
+    }
+
+    private function tryCreateProductOffers($data): ?array
+    {
+        // Iterate eagerly to find the first date with products
+        foreach ($this->getValidDatesFromSource($data) as $date) {
+            $offers = $this->tryCreateProductOffersFromDateLikeObject($date);
+            if ($offers !== null) {
+                return $offers;
+            }
+        }
+        // Test if event group itself has products
+        return $this->tryCreateProductOffersFromDateLikeObject($data); // No valid offers found
+    }
+
+    private function tryCreateProductOffersFromDateLikeObject($data): ?array
+    {
+        $productPurchaseUrls = array_filter(
+            $data['ProductPurchaseUrls'] ?? [],
+            fn ($d) => $d['Culture'] === 'sv-SE'
+        );
+        if (empty($productPurchaseUrls)) {
+            return null;
+        }
+        $products = $data['Products'] ?? null;
+        if (empty($products)) {
+            return null;
+        }
+
+        $link = $productPurchaseUrls[0]['Link'] ?? null;
+
+        foreach ($products as $product) {
+            return [
+                Schema::offer()
+                    ->url($link)
+                    ->mainEntityOfPage($link)
+                    ->name($product['Name'] ?? null)
+                    ->description($product['Description'] ?? null)
+                    ->price($product['Price'] ?? null)
+                    ->priceCurrency('SEK')
+                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+                    ->image(
+                        ($product['ProductImagePath'] ?? null) ?
+                            Schema::imageObject()
+                                ->name($product['Name'] ?? null)
+                                ->description($product['Name'] ?? null)
+                                ->caption($product['Name'] ?? null)
+                                ->url($product['ProductImagePath'] ?? null)
+                         : null
+                    )
+                ];
         }
         return null;
     }
