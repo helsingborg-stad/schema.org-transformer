@@ -61,7 +61,8 @@ final class MapEndDateTest extends TestCase
             '{
                 "EventGroupId": 123
             }',
-            Schema::event()
+            Schema::event()->endDate(null),
+            'Unexpected endDate in source'
         );
     }
 }

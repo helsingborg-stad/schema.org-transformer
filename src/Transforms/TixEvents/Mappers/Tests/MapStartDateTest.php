@@ -61,7 +61,8 @@ final class MapStartDateTest extends TestCase
             '{
                 "EventGroupId": 123
             }',
-            Schema::event()
+            Schema::event()->startDate(null),
+            'Did not expect to find startDate in source'
         );
     }
 }

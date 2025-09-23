@@ -17,7 +17,7 @@ class MapOrganizer extends AbstractTixDataMapper
     public function map(Event $event, array $data): Event
     {
         return $data['Organisation'] ?? null ? $event->organizer(
-            Schema::organization()->name($data['Organisation'] ?? null)
+            [Schema::organization()->name($data['Organisation'] ?? null)]
         ) : $event;
     }
 }

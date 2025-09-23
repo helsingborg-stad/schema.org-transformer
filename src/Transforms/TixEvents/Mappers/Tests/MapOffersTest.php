@@ -13,8 +13,8 @@ use SchemaTransformer\Transforms\TixEvents\Mappers\MapOffers;
 #[CoversClass(MapOffers::class)]
 final class MapOffersTest extends TestCase
 {
-    #[TestDox('event::name is set from source->SubTitle')]
-    public function testItWorks()
+    #[TestDox('event::offers is set from source->Dates->PurchaseUrls and Prices')]
+    public function testMappedFromDates()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapOffers(),
@@ -62,9 +62,7 @@ final class MapOffersTest extends TestCase
                         ]
                     }
                 ]
-            }
-
-            ',
+            }',
             Schema::event()
                 ->offers([
                     Schema::offer()
@@ -86,4 +84,69 @@ final class MapOffersTest extends TestCase
                 ])
         );
     }
+/*
+    public function testMappedFromEventGroup()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapOffers(),
+            '{
+                "EventId": 456,
+                "DefaultEventGroupId": 123,
+                "OnlineSaleStart": "2025-09-03T12:00:00+02:00",
+                "OnlineSaleEnd": "2025-09-27T23:00:00+02:00",
+                "ProductPurchaseUrls": [
+                    {
+                        "LanguageName": "Svensk",
+                        "Culture": "sv-SE",
+                        "TwoLetterCulture": "sv",
+                        "Link": "https://example.com/se/tickets/12345",
+                        "QueueLink": ""
+                    },
+                    {
+                        "LanguageName": "English",
+                        "Culture": "en-GB",
+                        "TwoLetterCulture": "en",
+                        "Link": "https://example.com/en/tickets/12345",
+                        "QueueLink": ""
+                    }
+                ],
+                "Prices": [
+                    {
+                        "TicketType": "Ordinarie",
+                        "Prices": [
+                            {
+                                "Price": 195
+                            }
+                        ]
+                    },
+                    {
+                        "TicketType": "Kulturkort",
+                        "Prices": [
+                            {
+                                "Price": 145
+                            }
+                        ]
+                    }
+                ]
+            }',
+            Schema::event()
+                ->offers([
+                    Schema::offer()
+                        ->url('https://example.com/se/tickets/1234')
+                        ->mainEntityOfPage('https://example.com/se/tickets/12345')
+                        ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+                        ->priceSpecification([
+                            Schema::priceSpecification()
+                                ->name('Ordinarie')
+                                ->description('Ordinarie')
+                                ->price([195]),
+                            Schema::priceSpecification()
+                                ->name('Kulturort')
+                                ->description('Kulturort')
+                                ->price([145])
+                        ])
+                ])
+        );
+    }
+*/
 }

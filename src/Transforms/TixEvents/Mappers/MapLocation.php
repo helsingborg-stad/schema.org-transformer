@@ -17,11 +17,11 @@ class MapLocation extends AbstractTixDataMapper
     public function map(Event $event, array $data): Event
     {
         foreach ($this->getValidDatesFromSource($data) as $date) {
-            return $event->location(
+            return $event->location([
                 Schema::place()
                 ->name($date['Venue'] ?? null)
                 ->description($date['Hall'] ?? null)
-            );
+            ]);
         }
         return $event;
     }

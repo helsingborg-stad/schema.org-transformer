@@ -26,10 +26,13 @@ final class TixEventTransformTest extends TestCase
             }');
         $expectedEvent = Schema::event()
             ->identifier("tix_123")
+            ->name(null)
+            ->description([])
             ->isAccessibleForFree(false)
             ->image([])
             ->eventSchedule([])
-            ->offers([]);
+            ->offers([])
+            ;
 
         $actualEvent = (new TixEventTransform('tix_'))->transform(
             [$source]

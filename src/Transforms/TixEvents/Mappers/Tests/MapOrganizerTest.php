@@ -22,7 +22,7 @@ final class MapOrganizerTest extends TestCase
                 "Organisation": "Event organizer from source"
             }',
             Schema::event()
-                ->organizer(Schema::organization()->name('Event organizer from source'))
+                ->organizer([Schema::organization()->name('Event organizer from source')])
         );
     }
 }

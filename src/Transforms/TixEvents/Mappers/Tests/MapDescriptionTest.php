@@ -22,7 +22,7 @@ final class MapDescriptionTest extends TestCase
                 "SubTitle": "Event description from source"
             }',
             Schema::event()
-                ->description("Event description from source")
+                ->description(["Event description from source"])
         );
     }
 }

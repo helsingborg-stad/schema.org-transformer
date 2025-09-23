@@ -16,6 +16,12 @@ class MapDescription extends AbstractTixDataMapper
     public function map(Event $event, array $data): Event
     {
         return $event
-                ->description($data['SubTitle'] ?? null);
+                ->description(
+                    array_values(
+                        array_filter(
+                            [$data['SubTitle'] ?? null]
+                        )
+                    )
+                );
     }
 }

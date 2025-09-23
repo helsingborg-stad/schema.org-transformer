@@ -13,16 +13,16 @@ use SchemaTransformer\Transforms\TixEvents\Mappers\MapName;
 #[CoversClass(MapName::class)]
 final class MapNameTest extends TestCase
 {
-    #[TestDox('event::name is set from source->SubTitle')]
+    #[TestDox('event::name is set from source->Name')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapName(),
             '{
-                "SubTitle": "Event description from source"
+                "Name": "Event name from source"
             }',
             Schema::event()
-                ->name("Event description from source")
+                ->name("Event name from source")
         );
     }
 }

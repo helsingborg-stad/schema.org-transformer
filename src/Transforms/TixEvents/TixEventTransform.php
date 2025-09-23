@@ -29,17 +29,17 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
     public function transform(array $data): array
     {
         $mappers = [
-            new MapDescription(),
-            new MapEndDate(),
-            new MapEventSchedule($this),
             new MapIdentifier($this),
-            new MapImage(),
-            new MapIsAccessibleForFree(),
-            new MapLocation(),
             new MapName(),
-            new MapOffers(),
-            new MapOrganizer(),
+            new MapDescription(),
+            new MapIsAccessibleForFree(),
             new MapStartDate(),
+            new MapEndDate(),
+            new MapOrganizer(),
+            new MapLocation(),
+            new MapImage(),
+            new MapEventSchedule($this),
+            new MapOffers(),
         ];
         $result  = array_map(function ($item) use ($mappers) {
             return array_reduce(

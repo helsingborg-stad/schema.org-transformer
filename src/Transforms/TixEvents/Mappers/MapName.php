@@ -17,6 +17,6 @@ class MapName extends AbstractTixDataMapper
     public function map(Event $event, array $data): Event
     {
         return $event
-            ->name($data['SubTitle'] ?? null);
+            ->name($data['Name'] ?? null);
     }
 }

@@ -19,9 +19,7 @@ class MapOffers extends AbstractTixDataMapper
         // Iterate eagerly to find the first date with products and prices
         foreach ($this->getValidDatesFromSource($data) as $date) {
             $products =             array_filter(
-                $this->firstNonEmptyArray(
-                    $date['PurchaseUrls'] ?? null
-                ),
+                $date['PurchaseUrls'] ?? [],
                 fn ($d) => $d['Culture'] === 'sv-SE'
             );
             if (empty($products)) {

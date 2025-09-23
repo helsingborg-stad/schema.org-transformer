@@ -35,11 +35,11 @@ final class MapLocationTest extends TestCase
                     }
                 ]
             }',
-            Schema::event()->location(
+            Schema::event()->location([
                 Schema::place()
                     ->name('Rådhuset')
                     ->description('Rådssalen')
-            )
+            ])
         );
     }
 
@@ -51,8 +51,8 @@ final class MapLocationTest extends TestCase
             '{
                 "EventGroupId": 123
             }',
-            Schema::event(),
-            'No location data found in source'
+            Schema::event()->location(null),
+            'Did not expect to find location in source'
         );
     }
 }

@@ -27,14 +27,4 @@ abstract class AbstractTixDataMapper implements TixDataMapperInterface
             fn ($d) => !empty($d['EventId']) && $d['DefaultEventGroupId'] === $data['EventGroupId']
         );
     }
-
-    protected function firstNonEmptyArray(...$values)
-    {
-        foreach ($values as $value) {
-            if (is_array($value) && !empty($value)) {
-                return $value;
-            }
-        }
-        return [];
-    }
 }
