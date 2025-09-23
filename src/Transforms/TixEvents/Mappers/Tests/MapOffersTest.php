@@ -84,7 +84,7 @@ final class MapOffersTest extends TestCase
                 ])
         );
     }
-/*
+
     public function testMappedFromEventGroup()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -94,7 +94,7 @@ final class MapOffersTest extends TestCase
                 "DefaultEventGroupId": 123,
                 "OnlineSaleStart": "2025-09-03T12:00:00+02:00",
                 "OnlineSaleEnd": "2025-09-27T23:00:00+02:00",
-                "ProductPurchaseUrls": [
+                "PurchaseUrls": [
                     {
                         "LanguageName": "Svensk",
                         "Culture": "sv-SE",
@@ -132,8 +132,10 @@ final class MapOffersTest extends TestCase
             Schema::event()
                 ->offers([
                     Schema::offer()
-                        ->url('https://example.com/se/tickets/1234')
+                        ->url('https://example.com/se/tickets/12345')
                         ->mainEntityOfPage('https://example.com/se/tickets/12345')
+                        ->availabilityStarts('2025-09-03T12:00:00+02:00')
+                        ->availabilityEnds('2025-09-27T23:00:00+02:00')
                         ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                         ->priceSpecification([
                             Schema::priceSpecification()
@@ -141,12 +143,11 @@ final class MapOffersTest extends TestCase
                                 ->description('Ordinarie')
                                 ->price([195]),
                             Schema::priceSpecification()
-                                ->name('Kulturort')
-                                ->description('Kulturort')
+                                ->name('Kulturkort')
+                                ->description('Kulturkort')
                                 ->price([145])
                         ])
                 ])
         );
     }
-*/
 }
