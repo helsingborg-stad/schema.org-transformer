@@ -28,6 +28,7 @@ final class TixEventTransformTest extends TestCase
             ->identifier("tix_123")
             ->name(null)
             ->description([])
+            ->eventAttendanceMode(Schema::eventAttendanceModeEnumeration()::OfflineEventAttendanceMode)
             ->isAccessibleForFree(false)
             ->image([])
             ->eventSchedule([])

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms\TixEvents\Mappers;
 
+use Municipio\Schema\Schema;
 use Municipio\Schema\Event;
 
-class MapName extends AbstractTixDataMapper
+class MapEventAttendanceMode extends AbstractTixDataMapper
 {
     public function __construct()
     {
@@ -16,6 +17,6 @@ class MapName extends AbstractTixDataMapper
     public function map(Event $event, array $data): Event
     {
         return $event
-            ->name($data['Name'] ?? null);
+            ->eventAttendanceMode(Schema::eventAttendanceModeEnumeration()::OfflineEventAttendanceMode);
     }
 }

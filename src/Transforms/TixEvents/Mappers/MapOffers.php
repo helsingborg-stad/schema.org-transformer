@@ -9,7 +9,7 @@ use Municipio\Schema\Event;
 
 class MapOffers extends AbstractTixDataMapper
 {
-    public function __construct()
+    public function __construct(private ?bool $includeProducts = false)
     {
         parent::__construct();
     }
@@ -19,7 +19,7 @@ class MapOffers extends AbstractTixDataMapper
         return $event->offers(
             array_merge(
                 $this->tryCreatePurchaseOffers($data) ?? [],
-                // $this->tryCreateProductOffers($data) ?? []
+                $this->includeProducts ? ($this->tryCreateProductOffers($data) ?? []) : []
             ),
         );
     }

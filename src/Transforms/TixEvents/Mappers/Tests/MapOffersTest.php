@@ -156,13 +156,13 @@ final class MapOffersTest extends TestCase
         );
     }
 
-    #[TestDox('event::offers is set to products from source when source has product and product urls')]
+    #[TestDox('event::offers is set to products from source when source has product and product urls when includeProducts=true')]
     public function testMappedProductsFromDates()
     {
-        $this->markTestSkipped('We dont promote purchases over products yet');
+        $includeProducts = true;
 
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapOffers(),
+            new MapOffers($includeProducts),
             '{
                 "EventGroupId": 26538,
                 "Dates": [
@@ -218,13 +218,57 @@ final class MapOffersTest extends TestCase
         );
     }
 
-    #[TestDox('a realistic example with a mix of purchases and products taken from souce->Dates')]
+    #[TestDox('event::offers does not contain products from source when source has product and product urls when includeProducts=false')]
+    public function testNotMappedProductsFromDates()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapOffers(/* $includeProducts = false */),
+            '{
+                "EventGroupId": 26538,
+                "Dates": [
+                    {
+                        "EventId": 110395,
+                        "DefaultEventGroupId": 26538,
+                        "ProductPurchaseUrls": [
+                            {
+                                "LanguageName": "Svensk",
+                                "Culture": "sv-SE",
+                                "TwoLetterCulture": "sv",
+                                "Link": "https://example.com/se/products/1234",
+                                "QueueLink": ""
+                            },
+                            {
+                                "LanguageName": "English",
+                                "Culture": "en-GB",
+                                "TwoLetterCulture": "en",
+                                "Link": "https://example.com/en/products/1234",
+                                "QueueLink": ""
+                            }
+                        ],
+                        "Products": [
+                            {
+                                "ProductId": 3841,
+                                "Name": "Stora fina boken",
+                                "Description": "<p>Med inspiration från galaxen</p>",
+                                "Price": 265,
+                                "ProductImagePath": "https://example.org/book.jpg"
+                            }                        
+                        ]
+                    }
+                ]
+            }',
+            Schema::event()
+                ->offers([])
+        );
+    }
+
+    #[TestDox('a realistic example with a mix of purchases and products taken from souce->Dates when includeProducts=true')]
     public function testBigOneWithPurchaseAndProductInDates()
     {
-        $this->markTestSkipped('We dont promote purchases over products yet');
+        $includeProducts = true;
 
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapOffers(),
+            new MapOffers($includeProducts),
             '{
                 "EventGroupId": 26538,
                 "Dates": [
