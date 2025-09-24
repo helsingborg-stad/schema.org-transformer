@@ -33,6 +33,9 @@ final class TixEventTransformTest extends TestCase
             ->image([])
             ->eventSchedule([])
             ->offers([])
+            ->keywords([])
+            ->physicalAccessibilityFeatures([])
+            ->eventStatus(Schema::eventStatusType()::EventScheduled)
             ;
 
         $actualEvent = (new TixEventTransform('tix_'))->transform(

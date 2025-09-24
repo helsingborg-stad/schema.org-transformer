@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms\TixEvents;
 
-use Municipio\Schema\Map;
 use Municipio\Schema\Schema;
 use SchemaTransformer\Transforms\TransformBase;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
@@ -20,6 +19,9 @@ use SchemaTransformer\Transforms\TixEvents\Mappers\MapImage;
 use SchemaTransformer\Transforms\TixEvents\Mappers\MapLocation;
 use SchemaTransformer\Transforms\TixEvents\Mappers\MapOffers;
 use SchemaTransformer\Transforms\TixEvents\Mappers\MapOrganizer;
+use SchemaTransformer\Transforms\TixEvents\Mappers\MapEventStatus;
+use SchemaTransformer\Transforms\TixEvents\Mappers\MapKeywords;
+use SchemaTransformer\Transforms\TixEvents\Mappers\MapPhysicalAccessibilityFeatures;
 
 class TixEventTransform extends TransformBase implements AbstractDataTransform
 {
@@ -42,9 +44,13 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
             new MapLocation(),
             new MapImage(),
             new MapEventSchedule($this),
-            new MapOffers(false) // Do not include products in offers
+            new MapOffers(false), // Do not include products in offers
+            new MapEventStatus(),
+            new MapKeywords(),
+            new MapPhysicalAccessibilityFeatures()
+
         ];
-        $result  = array_map(function ($item) use ($mappers) {
+        $result = array_map(function ($item) use ($mappers) {
             return array_reduce(
                 $mappers,
                 function ($event, $mapper) use ($item) {
