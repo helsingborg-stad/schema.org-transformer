@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Transforms\School;
+namespace SchemaTransformer\Transforms\TixEvents;
 
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\TixEvents\TixEventTransform;
 use Municipio\Schema\Schema;
 
-#[CoversClass(ElementarySchoolTransform::class)]
+#[CoversClass(TixEventTransform::class)]
 final class TixEventTransformTest extends TestCase
 {
     private function prepareJsonForTransform($json)
