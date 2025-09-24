@@ -20,6 +20,7 @@ use SchemaTransformer\Transforms\WPReleaseEventTransform;
 use SchemaTransformer\Transforms\School\ElementarySchoolTransform;
 use SchemaTransformer\Transforms\School\PreSchoolTransform;
 use SchemaTransformer\Transforms\TixEvents\TixEventTransform;
+use SchemaTransformer\Transforms\WPLegacyEvents\WPLegacyEventTransform2;
 
 class RuntimeServices
 {
@@ -44,18 +45,25 @@ class RuntimeServices
         new SanitizeReachmeeJobPostingLink()
         ];
 
-        $this->jobPostingService        = new Service(
+        $this->jobPostingService    = new Service(
             $reader,
             $writer,
             new ReachmeeJobPostingTransform($reachmeeJobPostingSanitizers, $idprefix),
             $converter
         );
-        $this->stratsysService          = new Service(
+        $this->stratsysService      = new Service(
             $reader,
             $writer,
             new StratsysTransform($idprefix),
             $converter
         );
+        $this->wpLegacyEventService = new Service(
+            $reader,
+            $writer,
+            new WPLegacyEventTransform2($idprefix),
+            $converter
+        );
+        /*
         $this->wpLegacyEventService     = new Service(
             $reader,
             $writer,
@@ -84,6 +92,7 @@ class RuntimeServices
             ),
             $converter
         );
+        */
         $this->wpReleaseEventService    = new Service(
             $reader,
             $writer,
