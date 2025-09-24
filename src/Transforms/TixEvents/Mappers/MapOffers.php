@@ -19,7 +19,7 @@ class MapOffers extends AbstractTixDataMapper
         return $event->offers(
             array_merge(
                 $this->tryCreatePurchaseOffers($data) ?? [],
-                $this->tryCreateProductOffers($data) ?? []
+                // $this->tryCreateProductOffers($data) ?? []
             ),
         );
     }

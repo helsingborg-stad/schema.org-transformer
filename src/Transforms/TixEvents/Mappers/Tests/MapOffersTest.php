@@ -159,6 +159,8 @@ final class MapOffersTest extends TestCase
     #[TestDox('event::offers is set to products from source when source has product and product urls')]
     public function testMappedProductsFromDates()
     {
+        $this->markTestSkipped('We dont promote purchases over products yet');
+
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapOffers(),
             '{
@@ -219,6 +221,8 @@ final class MapOffersTest extends TestCase
     #[TestDox('a realistic example with a mix of purchases and products taken from souce->Dates')]
     public function testBigOneWithPurchaseAndProductInDates()
     {
+        $this->markTestSkipped('We dont promote purchases over products yet');
+
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapOffers(),
             '{
