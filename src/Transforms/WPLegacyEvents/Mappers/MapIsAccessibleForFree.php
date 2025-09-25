@@ -16,15 +16,14 @@ class MapIsAccessibleForFree extends AbstractWPLegacyEventMapper
 
     public function map(Event $event, array $data): Event
     {
-        $maxPrice = array_map(
-            fn($key) => $data[$key] ?? 0,
+        $maxPrice = max(array_map(
+            fn($key) => (int)($data[$key] ?? 0),
             ['price_adult',
             'price_children',
-            'children_age',
             'price_student',
             'price_senior']
-        );
+        ));
 
-        return $event->isAccessibleForFree($maxPrice > 0);
+        return $event->isAccessibleForFree($maxPrice <= 0);
     }
 }
