@@ -20,6 +20,7 @@ final class MapOffersTest extends TestCase
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapOffers(),
             '{
+                "booking_link": "https://booking-link.org",
                 "price_adult": "250",
                 "price_children": "125",
                 "price_student": "175",
@@ -35,28 +36,34 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->price('250')
                     ->priceCurrency('SEK')
-                    ->name('Standard/Vuxen'),
+                    ->name('Standard/Vuxen')
+                    ->url('https://booking-link.org'),
                 Schema::offer()
                     ->price('125')
                     ->priceCurrency('SEK')
-                    ->name('Barn'),
+                    ->name('Barn')
+                    ->url('https://booking-link.org'),
                 Schema::offer()
                     ->price('175')
                     ->priceCurrency('SEK')
-                    ->name('Student'),
+                    ->name('Student')
+                    ->url('https://booking-link.org'),
                 Schema::offer()
                     ->price('200')
                     ->priceCurrency('SEK')
-                    ->name('Pensionär'),
+                    ->name('Pensionär')
+                    ->url('https://booking-link.org'),
                 Schema::offer()
                     ->priceCurrency('SEK')
                     ->name('Sittplats')
+                    ->url('https://booking-link.org')
                     ->priceSpecification(Schema::priceSpecification()
                         ->minPrice('20')
                         ->maxPrice('40')),
                 Schema::offer()
                     ->priceCurrency('SEK')
                     ->name('Ståplats')
+                    ->url('https://booking-link.org')
                     ->priceSpecification(Schema::priceSpecification()
                         ->minPrice('30')
                         ->maxPrice('60')),
@@ -110,6 +117,19 @@ final class MapOffersTest extends TestCase
             new MapOffers(),
             '{"id": 123}',
             Schema::event()->offers([])
+        );
+    }
+
+    #[TestDox('event::offers has one offer if only booking link is present')]
+    public function testMakesOfferIfBookingLinkIsPresent()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapOffers(),
+            '{"booking_link": "https://booking-link.org"}',
+            Schema::event()->offers([
+                Schema::offer()
+                    ->url('https://booking-link.org')
+            ])
         );
     }
 }
