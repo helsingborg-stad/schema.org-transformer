@@ -21,6 +21,7 @@ class MapOffers extends AbstractWPLegacyEventMapper
             array_filter(
                 [$this->tryMakeOffer('Standard/Vuxen', $data['price_adult'] ?? null),
                 $this->tryMakeOffer('Barn', $data['price_children'] ?? null),
+                $this->tryMakeOffer('Student', $data['price_student'] ?? null),
                 $this->tryMakeOffer('Pensionär', $data['price_senior'] ?? null, 'Pensionär'),
                 $this->tryMakeOfferWithPriceRange(
                     'Sittplats',
