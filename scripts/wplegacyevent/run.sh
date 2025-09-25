@@ -30,7 +30,7 @@ if [[ ${WP_LEGACY_EVENTS_API_URL} == http* ]]; then
 fi
 
 # Retreive and transform wordpress events to temp file
-php ../../router.php \
+php -d memory_limit=1024M ../../router.php \
     --source ${WP_LEGACY_EVENTS_API_URL} \
     --paginator wordpress \
     --transform wp_legacy_event \
