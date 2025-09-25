@@ -17,11 +17,15 @@ class MapLocation extends AbstractWPLegacyEventMapper
 
     public function map(Event $event, array $data): Event
     {
-        return $data['location'] ?? null ? $event->location(
-            Schema::place()->name($data['location']['title'] ?? null)
-            ->address($data['location']['formatted_address'] ?? null)
-            ->latitude($data['location']['latitude'] ?? null)
-            ->longitude($data['location']['longitude'] ?? null)
-        ) : $event;
+        return $event->location(
+            $data['location'] ?? null
+            ? [
+                Schema::place()->name($data['location']['title'] ?? null)
+                ->address($data['location']['formatted_address'] ?? null)
+                ->latitude($data['location']['latitude'] ?? null)
+                ->longitude($data['location']['longitude'] ?? null)
+            ]
+            : []
+        );
     }
 }

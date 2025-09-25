@@ -34,21 +34,21 @@ final class MapLocationTest extends TestCase
                     "longitude": "12.7745249"
                 }
             }',
-            Schema::event()->location(Schema::place()
+            Schema::event()->location([Schema::place()
                 ->name("Rydebäcks idrottshall")
                 ->address("Frösögatan 15, 25730, Rydebäck")
                 ->latitude("55.9668958")
-                ->longitude("12.7745249"))
+                ->longitude("12.7745249")])
         );
     }
 
-    #[TestDox('event::location(null) when location is missing')]
+    #[TestDox('event::location([]) when location is missing')]
     public function testHandlesMissingLocation()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapLocation(),
             '{"id": 123}',
-            Schema::event()->location(null)
+            Schema::event()->location([])
         );
     }
 }
