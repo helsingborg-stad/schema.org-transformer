@@ -18,7 +18,7 @@ class MapOffers extends AbstractWPLegacyEventMapper
     public function map(Event $event, array $data): Event
     {
         return $event->offers(
-            array_filter(
+            array_values(array_filter(
                 [$this->tryMakeOffer('Standard/Vuxen', $data['price_adult'] ?? null),
                 $this->tryMakeOffer('Barn', $data['price_children'] ?? null),
                 $this->tryMakeOffer('Student', $data['price_student'] ?? null),
@@ -33,7 +33,7 @@ class MapOffers extends AbstractWPLegacyEventMapper
                         $data['price_range']['standing_minimum_price'] ?? null,
                         $data['price_range']['standing_maximum_price'] ?? null
                     )]
-            )
+            ))
         );
     }
 

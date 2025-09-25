@@ -64,6 +64,45 @@ final class MapOffersTest extends TestCase
         );
     }
 
+    #[TestDox('event::offers with seated price range only')]
+    public function testOnlySeatedRange()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapOffers(),
+            '{
+                "price_range": {
+                    "seated_minimum_price": "20",
+                    "seated_maximum_price": "40"
+                }
+            }',
+            Schema::event()->offers([
+                Schema::offer()
+                    ->priceCurrency('SEK')
+                    ->name('Sittplats')
+                    ->priceSpecification(Schema::priceSpecification()
+                        ->minPrice('20')
+                        ->maxPrice('40')),
+            ])
+        );
+    }
+
+    #[TestDox('event::offers with senior price only')]
+    public function testOnlySenior()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapOffers(),
+            '{
+                "price_senior": "200"
+            }',
+            Schema::event()->offers([
+                Schema::offer()
+                    ->price('200')
+                    ->priceCurrency('SEK')
+                    ->name('Pensionär'),
+            ])
+        );
+    }
+
     #[TestDox('event::offers is not mapped when no offers are available')]
     public function testItDoesNotMapWhenNoOffers()
     {
