@@ -25,7 +25,10 @@ if [ $? -ne 0 ]; then
 else
     # Clear collection
     echo "Deleting documents"
-    curl "${TYPESENSE_PATH}?filter_by=x-created-by:tix-transform" -X DELETE -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
+    curl -X DELETE \
+        -H "x-typesense-api-key: ${TYPESENSE_APIKEY}" \
+        -H "Content-Type: application/json" \
+        "${TYPESENSE_BASE_PATH}/collections/events-dev/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Ftix"
 
     if [ $? -ne 0 ]; then
         echo "FAILED to delete documents"

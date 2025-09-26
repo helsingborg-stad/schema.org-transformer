@@ -42,7 +42,7 @@ final class WPLegacyEventTransform2Test extends TestCase
             ->physicalAccessibilityFeatures([])
             ->typicalAgeRange(null)
             ->url(null)
-            ->setProperty('x-created-by', 'wp-legacy-transform');
+            ->setProperty('x-created-by', 'municipio://schema.org-transformer/wp-legacy');
 
         $actualEvent = (new WPLegacyEventTransform2('L'))->transform(
             [$source]

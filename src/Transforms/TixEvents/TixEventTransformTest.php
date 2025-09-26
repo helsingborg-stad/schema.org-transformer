@@ -36,7 +36,7 @@ final class TixEventTransformTest extends TestCase
             ->keywords([])
             ->physicalAccessibilityFeatures([])
             ->eventStatus(Schema::eventStatusType()::EventScheduled)
-            ->setProperty('x-created-by', 'tix-transform')
+            ->setProperty('x-created-by', 'municipio://schema.org-transformer/tix')
             ;
 
         $actualEvent = (new TixEventTransform('tix_'))->transform(

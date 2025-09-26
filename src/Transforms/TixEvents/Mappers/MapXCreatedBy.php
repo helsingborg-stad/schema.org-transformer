@@ -15,6 +15,6 @@ class MapXCreatedBy extends AbstractTixDataMapper
 
     public function map(Event $event, array $data): Event
     {
-        return $event->setProperty('x-created-by', 'tix-transform');
+        return $event->setProperty('x-created-by', 'municipio://schema.org-transformer/tix');
     }
 }

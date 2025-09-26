@@ -16,6 +16,6 @@ class MapMapXCreatedBy extends AbstractWPLegacyEventMapper
 
     public function map(Event $event, array $data): Event
     {
-        return $event->setProperty('x-created-by', 'wp-legacy-transform');
+        return $event->setProperty('x-created-by', 'municipio://schema.org-transformer/wp-legacy');
     }
 }
