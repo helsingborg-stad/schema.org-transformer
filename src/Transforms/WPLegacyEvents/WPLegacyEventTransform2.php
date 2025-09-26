@@ -20,6 +20,7 @@ use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapImage;
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapEventSchedule;
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapEventStatus;
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapKeywords;
+use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapMapXCreatedBy;
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapOffers;
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapPhysicalAccessibilityFeatures;
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapTypicalAgeRange;
@@ -51,7 +52,8 @@ class WPLegacyEventTransform2 extends TransformBase implements AbstractDataTrans
             new MapKeywords(),
             new MapPhysicalAccessibilityFeatures(),
             new MapTypicalAgeRange(),
-            new MapUrl()
+            new MapUrl(),
+            new MapMapXCreatedBy()
         ];
 
         $result = array_map(function ($item) use ($mappers) {

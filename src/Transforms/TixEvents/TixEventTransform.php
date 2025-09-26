@@ -22,6 +22,7 @@ use SchemaTransformer\Transforms\TixEvents\Mappers\MapOrganizer;
 use SchemaTransformer\Transforms\TixEvents\Mappers\MapEventStatus;
 use SchemaTransformer\Transforms\TixEvents\Mappers\MapKeywords;
 use SchemaTransformer\Transforms\TixEvents\Mappers\MapPhysicalAccessibilityFeatures;
+use SchemaTransformer\Transforms\TixEvents\Mappers\MapXCreatedBy;
 
 class TixEventTransform extends TransformBase implements AbstractDataTransform
 {
@@ -47,7 +48,8 @@ class TixEventTransform extends TransformBase implements AbstractDataTransform
             new MapOffers(false), // Do not include products in offers
             new MapEventStatus(),
             new MapKeywords(),
-            new MapPhysicalAccessibilityFeatures()
+            new MapPhysicalAccessibilityFeatures(),
+            new MapXCreatedBy()
 
         ];
         $result = array_map(function ($item) use ($mappers) {

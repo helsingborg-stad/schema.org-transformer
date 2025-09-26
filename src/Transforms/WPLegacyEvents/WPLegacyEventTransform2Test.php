@@ -41,7 +41,8 @@ final class WPLegacyEventTransform2Test extends TestCase
             ->keywords([])
             ->physicalAccessibilityFeatures([])
             ->typicalAgeRange(null)
-            ->url(null);
+            ->url(null)
+            ->setProperty('x-created-by', 'wp-legacy-transform');
 
         $actualEvent = (new WPLegacyEventTransform2('L'))->transform(
             [$source]
