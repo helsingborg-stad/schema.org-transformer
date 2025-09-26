@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms;
 
 use Municipio\Schema\Contracts\ProgressStatusContract;
+use Municipio\Schema\ImageObject;
 use Municipio\Schema\ProgressStatus;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
@@ -29,10 +30,15 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
             default         => $progressStatus->name('Status ej angiven')->number(0),
         };
     }
-    public function transformImage(string $data): string
+    public function transformImage(string $data): ?ImageObject
     {
-        return str_ireplace(".webp", ".jpg", $data);
+        if (empty($data)) {
+            return null;
+        }
+
+        return Schema::imageObject()->url(str_ireplace(".webp", ".jpg", $data));
     }
+
     public function sanitizeString(string $data): string
     {
         return str_ireplace(["%0A", "%25", "%09"], ["<br/>", "%", "\t"], $data);
@@ -156,7 +162,7 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
         foreach ($lookup as $row) {
             $project = Schema::project()->name($row["Initiativ_Namn"] ?? "");
             $project->description($this->getDescriptionValueFromRow($row));
-            $project->image($this->transformImage($row["Initiativ_Lanktillbild"] ?? ""));
+            $project->image($this->transformImage($row["Initiativ_Lanktillbild"]));
             $project->foundingDate($row["Initiativ_Startdatum"] ?? "");
             $project->setProperty('@id', $this->formatId($row['Initiativ_InterntID'] ?? ""));
 

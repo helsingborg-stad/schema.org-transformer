@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms;
 
+use Municipio\Schema\Schema;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SchemaTransformer\Transforms\StratsysTransform;
@@ -113,10 +114,10 @@ final class StratsysTransformTest extends TestCase
 
     public function testTransformImageUrl(): void
     {
-        $this->assertEquals("", $this->model->transformImage(""));
-        $this->assertEquals("test.jpg", $this->model->transformImage("test.jpg"));
-        $this->assertEquals("test.jpg", $this->model->transformImage("test.webp"));
-        $this->assertEquals("test.jpg", $this->model->transformImage("test.WEBP"));
+        $this->assertEquals(null, $this->model->transformImage(""));
+        $this->assertEquals(Schema::imageObject()->url("test.jpg"), $this->model->transformImage("test.jpg"));
+        $this->assertEquals(Schema::imageObject()->url("test.jpg"), $this->model->transformImage("test.webp"));
+        $this->assertEquals(Schema::imageObject()->url("test.jpg"), $this->model->transformImage("test.WEBP"));
     }
     public function testSanitizeString(): void
     {
