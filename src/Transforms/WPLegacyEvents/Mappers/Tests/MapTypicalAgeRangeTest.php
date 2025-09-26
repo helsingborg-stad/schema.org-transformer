@@ -39,7 +39,7 @@ final class MapTypicalAgeRangeTest extends TestCase
             Schema::event()->typicalAgeRange('10+')
         );
     }
-     #[TestDox('event::typicalAgeRange is mapped from age_group_from')]
+     #[TestDox('event::typicalAgeRange is mapped from age_group_to')]
     public function testTo()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(

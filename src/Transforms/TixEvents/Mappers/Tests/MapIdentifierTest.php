@@ -14,7 +14,7 @@ use SchemaTransformer\Transforms\TixEvents\TixEventTransform;
 #[CoversClass(MapIdentifier::class)]
 final class MapIdentifierTest extends TestCase
 {
-    #[TestDox('description is set from source->SubTitle')]
+    #[TestDox('description is set from source->EventGroupId with prefix')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(

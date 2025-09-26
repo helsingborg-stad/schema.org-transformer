@@ -14,7 +14,7 @@ use SchemaTransformer\Transforms\TixEvents\TixEventTransform;
 #[CoversClass(MapEventSchedule::class)]
 final class MapEventScheduleTest extends TestCase
 {
-    #[TestDox('description is set from source->SubTitle')]
+    #[TestDox('description is set from source->Dates where EventId and DefaultEventGroupId matches')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
