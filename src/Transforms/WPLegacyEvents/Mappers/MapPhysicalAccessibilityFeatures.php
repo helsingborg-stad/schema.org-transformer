@@ -22,8 +22,10 @@ class MapPhysicalAccessibilityFeatures extends AbstractWPLegacyEventMapper
     public function map(Event $event, array $data): Event
     {
         return $event->physicalAccessibilityFeatures(
-            array_map(fn($term) => $this->termMap[$term] ?? $term, $data['accessibility'] ?? []),
-            $data['accessibility'] ?? null
+            array_map(
+                fn($term) => $this->termMap[$term] ?? $term,
+                $data['accessibility'] ?? []
+            )
         );
     }
 }

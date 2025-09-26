@@ -14,17 +14,12 @@ class MapEndDate extends AbstractTixDataMapper
     }
     public function map(Event $event, array $data): Event
     {
-        return $event
-                ->endDate(
-                    max(
-                        array_filter(
-                            array_map(
-                                fn ($d) => $d['EndDate'] ?? null,
-                                [...$this->getValidDatesFromSource($data), null]
-                            ),
-                            fn ($endDate) => !is_null($endDate)
-                        )
-                    ) ?? null
-                );
+        $endDates = array_filter(array_map(
+            fn ($d) => $d['EndDate'] ?? null,
+            $this->getValidDatesFromSource($data)
+        ));
+        return empty($endDates) ? $event : $event->endDate(
+            max($endDates)
+        );
     }
 }

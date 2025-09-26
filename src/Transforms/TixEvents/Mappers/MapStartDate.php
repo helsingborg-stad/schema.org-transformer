@@ -15,10 +15,10 @@ class MapStartDate extends AbstractTixDataMapper
 
     public function map(Event $event, array $data): Event
     {
-        $startDates = array_map(
+        $startDates = array_filter(array_map(
             fn ($d) => $d['StartDate'] ?? null,
             $this->getValidDatesFromSource($data)
-        );
+        ));
         return empty($startDates) ? $event : $event->startDate(
             min($startDates)
         );
