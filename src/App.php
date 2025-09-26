@@ -193,6 +193,12 @@ class App
                     $cmd->output
                 );
                 break;
+            case 'tix_events':
+                $result = $services->getTixService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
             default:
                 printf('Missing transform for (%s)\n', $cmd->transform);
                 break;

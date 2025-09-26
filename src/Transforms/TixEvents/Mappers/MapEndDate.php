@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace SchemaTransformer\Transforms\TixEvents\Mappers;
+
+use Municipio\Schema\Event;
+
+class MapEndDate extends AbstractTixDataMapper
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    public function map(Event $event, array $data): Event
+    {
+        $endDates = array_filter(array_map(
+            fn ($d) => $d['EndDate'] ?? null,
+            $this->getValidDatesFromSource($data)
+        ));
+        return empty($endDates) ? $event : $event->endDate(
+            max($endDates)
+        );
+    }
+}

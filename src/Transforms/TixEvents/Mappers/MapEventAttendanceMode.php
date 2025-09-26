@@ -1,0 +1,22 @@
+<?php
+
+declare(strict_types=1);
+
+namespace SchemaTransformer\Transforms\TixEvents\Mappers;
+
+use Municipio\Schema\Schema;
+use Municipio\Schema\Event;
+
+class MapEventAttendanceMode extends AbstractTixDataMapper
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function map(Event $event, array $data): Event
+    {
+        return $event
+            ->eventAttendanceMode(Schema::eventAttendanceModeEnumeration()::OfflineEventAttendanceMode);
+    }
+}
