@@ -21,12 +21,14 @@ use SchemaTransformer\Transforms\School\ElementarySchoolTransform;
 use SchemaTransformer\Transforms\School\PreSchoolTransform;
 use SchemaTransformer\Transforms\TixEvents\TixEventTransform;
 use SchemaTransformer\Transforms\WPLegacyEvents\WPLegacyEventTransform2;
+use SchemaTransformer\Transforms\WPHeadLessEvents\WPHeadlessEventTransform;
 
 class RuntimeServices
 {
     private AbstractService $jobPostingService;
     private AbstractService $stratsysService;
     private AbstractService $wpLegacyEventService;
+    private AbstractService $wpEventService;
     private AbstractService $wpReleaseEventService;
     private AbstractService $wpExhibitionEventService;
     private AbstractService $elementarySchoolService;
@@ -93,6 +95,7 @@ class RuntimeServices
             $converter
         );
         */
+        $this->wpEventService           = new Service($reader, $writer, new WPHeadlessEventTransform($idprefix), $converter);
         $this->wpReleaseEventService    = new Service(
             $reader,
             $writer,
@@ -139,6 +142,10 @@ class RuntimeServices
     public function getWPLegacyEventService(): AbstractService
     {
         return $this->wpLegacyEventService;
+    }
+    public function getWPEventService(): AbstractService
+    {
+        return $this->wpEventService;
     }
     public function getWPReleaseEventService(): AbstractService
     {
