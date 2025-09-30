@@ -34,7 +34,7 @@ final class MapImageTest extends TestCase
         );
     }
 
-    #[TestDox('event::startDate is not set if no maping from source can be done')]
+    #[TestDox('event::image([]) if no maping from source can be done')]
     public function testNoImages()
     {
         (new TestHelper())
