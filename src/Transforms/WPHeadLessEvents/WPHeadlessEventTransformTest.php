@@ -39,7 +39,7 @@ final class WPHeadlessEventTransformTest extends TestCase
             ->offers([])
             ->eventStatus(Schema::eventStatusType()::EventScheduled)
             ->keywords([])
-            // ->physicalAccessibilityFeatures([])
+            ->physicalAccessibilityFeatures([])
             // ->typicalAgeRange(null)
             // ->url(null)
             ->setProperty('x-created-by', 'municipio://schema.org-transformer/wp-headless');
