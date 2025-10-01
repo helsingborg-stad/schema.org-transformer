@@ -35,7 +35,7 @@ final class MapIsAccessibleForFreeTest extends TestCase
             '{
                 "id": 123,
                 "acf": {
-                    "priceList": []
+                    "pricesList": []
                 }
             }',
             Schema::event()->isAccessibleForFree(true)
@@ -50,7 +50,7 @@ final class MapIsAccessibleForFreeTest extends TestCase
             '{
                 "id": 123,
                 "acf": {
-                    "priceList": [{
+                    "pricesList": [{
                         "price": 100
                     },{
                         "price": 0
@@ -71,7 +71,7 @@ final class MapIsAccessibleForFreeTest extends TestCase
             '{
                 "id": 123,
                 "acf": {
-                    "priceList": [{
+                    "pricesList": [{
                         "price": 100
                     }, {
                         "price": 200

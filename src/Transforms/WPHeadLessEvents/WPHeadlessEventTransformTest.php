@@ -36,7 +36,7 @@ final class WPHeadlessEventTransformTest extends TestCase
             ->location([])
             ->image([])
             ->eventSchedule([])
-            // ->offers([])
+            ->offers([])
             // ->eventStatus(Schema::eventStatusType()::EventScheduled)
             // ->keywords([])
             // ->physicalAccessibilityFeatures([])

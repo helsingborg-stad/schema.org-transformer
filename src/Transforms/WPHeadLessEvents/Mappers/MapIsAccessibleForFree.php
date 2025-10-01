@@ -19,7 +19,7 @@ class MapIsAccessibleForFree extends AbstractWPHeadlessEventMapper
         $prices = array_filter(
             array_map(
                 fn ($price) => $price['price'] ?? null,
-                $data['acf']['priceList'] ?? []
+                $data['acf']['pricesList'] ?? []
             ),
             fn ($price) => is_numeric($price)
         );
