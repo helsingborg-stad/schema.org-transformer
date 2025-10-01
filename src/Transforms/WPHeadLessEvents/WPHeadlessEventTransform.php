@@ -20,6 +20,7 @@ use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapImage;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapEventSchedule;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapOffers;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapEventStatus;
+use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapKeywords;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapMapXCreatedBy;
 
 class WPHeadlessEventTransform extends TransformBase implements AbstractDataTransform
@@ -45,7 +46,7 @@ class WPHeadlessEventTransform extends TransformBase implements AbstractDataTran
             new MapEventSchedule(),
             new MapOffers(),
             new MapEventStatus(),
-            // new MapKeywords(),
+            new MapKeywords(),
             // new MapPhysicalAccessibilityFeatures(),
             // new MapTypicalAgeRange(),
             // new MapUrl(),
