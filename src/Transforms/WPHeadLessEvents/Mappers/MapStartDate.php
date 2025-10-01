@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms\WPHeadLessEvents\Mappers;
 
 use Municipio\Schema\Event;
-use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\AbstractDateMapper;
 
-class MapStartDate extends AbstractDateMapper
+class MapStartDate extends AbstractWPHeadlessEventMapper
 {
     public function __construct()
     {
@@ -16,7 +15,7 @@ class MapStartDate extends AbstractDateMapper
 
     public function map(Event $event, array $data): Event
     {
-        $startDates = $this->tryMapDates(
+        $startDates = OccasionHelper::tryMapDatesAndTimes(
             $data['acf']['occasions'] ?? [],
             'date',
             'startTime'

@@ -5,32 +5,47 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms\WPHeadLessEvents\Mappers;
 
 use DateTime;
-use Municipio\Schema\Event;
-use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\AbstractWPHeadlessEventMapper;
 
-abstract class AbstractDateMapper extends AbstractWPHeadlessEventMapper
+class OccasionHelper
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    protected function tryMapDates(array $collection, string $dateKey, string $timeKey): array
+    public static function tryMapDatesAndTimes(array $collection, string $dateKey, string $timeKey): array
     {
         return array_filter(
             array_map(
                 fn ($d) =>
-                    $this->tryParseDate($d[$dateKey] ?? '', $d[$timeKey] ?? '00:00:00'),
+                    $d[$dateKey] ?? null
+                    ? self::tryMapDateTime($d[$dateKey] ?? '', $d[$timeKey] ?? '00:00:00')
+                    : null,
                 $collection
             )
         );
         return $dates;
     }
 
-    abstract public function map(Event $event, array $data): Event;
-
-    private function tryParseDate(string $date, string $time): ?string
+    public static function tryMapDate(string $date): ?string
     {
+        try {
+            return (new DateTime($date))->format('Y-m-d');
+        } catch (\Exception) {
+            return null;
+        }
+    }
+
+    public static function tryMapDateTime(string $date, string $time): ?string
+    {
+        try {
+            $d = new DateTime($date);
+            $t = DateTime::createFromFormat('H:i:s', $time);
+            if ($d && $t) {
+                return (new DateTime())
+                    ->setDate((int)$d->format('Y'), (int)$d->format('m'), (int)$d->format('d'))
+                    ->setTime((int)$t->format('H'), (int)$t->format('i'), (int)$t->format('s'))
+                    ->format('c');
+            }
+        } catch (\Exception) {
+            return null;
+        }
+
         if (!preg_match('/^\d{8}$/', $date)) {
             return null;
         }
