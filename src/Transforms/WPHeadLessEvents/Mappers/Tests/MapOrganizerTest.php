@@ -46,7 +46,6 @@ final class MapOrganizerTest extends TestCase
             '{
                 "id": 123,
                 "organizerUrl": "never considered"
-
             }',
             Schema::event()->organizer([])
         );

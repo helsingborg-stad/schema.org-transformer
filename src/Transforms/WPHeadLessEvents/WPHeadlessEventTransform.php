@@ -15,6 +15,8 @@ use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapEventAttendanceMode
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapStartDate;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapEndDate;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapOrganizer;
+use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapLocation;
+use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapImage;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapMapXCreatedBy;
 
 class WPHeadlessEventTransform extends TransformBase implements AbstractDataTransform
@@ -35,8 +37,8 @@ class WPHeadlessEventTransform extends TransformBase implements AbstractDataTran
             new MapStartDate(),
             new MapEndDate(),
             new MapOrganizer(),
-            // new MapLocation(),
-            // new MapImage(),
+            new MapLocation(),
+            new MapImage(),
             // new MapEventSchedule(),
             // new MapOffers(),
             // new MapEventStatus(),
