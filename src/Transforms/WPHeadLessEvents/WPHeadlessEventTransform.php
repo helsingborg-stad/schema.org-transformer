@@ -25,6 +25,7 @@ use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapPhysicalAccessibili
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapTypicalAgeRange;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapUrl;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapMapXCreatedBy;
+use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapPotentialAction;
 
 class WPHeadlessEventTransform extends TransformBase implements AbstractDataTransform
 {
@@ -53,6 +54,7 @@ class WPHeadlessEventTransform extends TransformBase implements AbstractDataTran
             new MapPhysicalAccessibilityFeatures(),
             new MapTypicalAgeRange(),
             new MapUrl(),
+            new MapPotentialAction(),
             new MapMapXCreatedBy()
         ];
 

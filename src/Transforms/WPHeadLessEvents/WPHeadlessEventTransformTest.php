@@ -41,7 +41,8 @@ final class WPHeadlessEventTransformTest extends TestCase
             ->keywords([])
             ->physicalAccessibilityFeatures([])
             ->typicalAgeRange(null)
-            // ->url(null)
+            ->url(null)
+            ->potentialAction([])
             ->setProperty('x-created-by', 'municipio://schema.org-transformer/wp-headless');
 
         $actualEvent = (new WPHeadlessEventTransform('HL'))->transform(
