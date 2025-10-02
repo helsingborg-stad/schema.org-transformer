@@ -59,7 +59,7 @@ final class MapEventAttendanceModeTest extends TestCase
         );
     }
 
-    #[TestDox('event::eventAttendanceMode(OfflineEventAttendanceMode) when acf . attendancemode is missing')]
+    #[TestDox('event::eventAttendanceMode(OfflineEventAttendanceMode) when acf.attendancemode is missing')]
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
