@@ -19,7 +19,6 @@ class OccasionHelper
                 $collection
             )
         );
-        return $dates;
     }
 
     public static function tryMapDate(string $date): ?string
