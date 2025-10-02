@@ -8,8 +8,6 @@ use Municipio\Schema\Schema;
 use Municipio\Schema\Event;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\AbstractWPHeadlessEventMapper;
 
-use function PHPUnit\Framework\isNumeric;
-
 class MapOffers extends AbstractWPHeadlessEventMapper
 {
     public function __construct()
@@ -23,7 +21,7 @@ class MapOffers extends AbstractWPHeadlessEventMapper
             array_values(
                 array_filter(
                     array_map(
-                        fn ($pl) => isNumeric($pl['price'] ?? null)
+                        fn ($pl) => is_numeric($pl['price'] ?? null)
                             ? Schema::offer()
                                 ->name($pl['priceLabel'] ?? null)
                                 ->price((int)$pl['price'] ?? null)
