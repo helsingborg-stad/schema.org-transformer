@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms\WPHeadLessEvents\Mappers;
 
 use Municipio\Schema\Event;
+use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\Occasion;
 
 class MapStartDate extends AbstractWPHeadlessEventMapper
 {
@@ -15,13 +16,15 @@ class MapStartDate extends AbstractWPHeadlessEventMapper
 
     public function map(Event $event, array $data): Event
     {
-        $startDates = OccasionHelper::tryMapDatesAndTimes(
+        $startDates = Occasion::tryMapRecords(
             $data['acf']['occasions'] ?? [],
             'date',
             'startTime'
         );
+
+
         return $event->startDate(
-            empty($startDates) ? null : min($startDates)
+            empty($startDates) ? null : min($startDates)->format('c')
         );
     }
 }

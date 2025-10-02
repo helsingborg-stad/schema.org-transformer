@@ -2,44 +2,46 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Transforms\WPHeadLessEvents\Mappers;
+namespace SchemaTransformer\Transforms\WPHeadLessEvents\Occasions;
 
 use DateTime;
+use DateMalformedStringException;
+use Exception;
+use TypeError;
 
-class OccasionHelper
+class Occasion
 {
-    public static function tryMapDatesAndTimes(array $collection, string $dateKey, string $timeKey): array
+    public static function tryParseDate($date): ?DateTime
+    {
+        try {
+            return new DateTime($date);
+        } catch (DateMalformedStringException | Exception | TypeError $e) {
+            return null;
+        }
+    }
+
+    public static function tryMapRecords(array $collection, string $dateKey, string $timeKey): array /* of DateTime */
     {
         return array_filter(
             array_map(
                 fn ($d) =>
                     $d[$dateKey] ?? null
-                    ? self::tryMapDateTime($d[$dateKey] ?? '', $d[$timeKey] ?? '00:00:00')
+                    ? self::tryMapRecord($d[$dateKey] ?? '', $d[$timeKey] ?? '00:00:00')
                     : null,
                 $collection
             )
         );
     }
 
-    public static function tryMapDate(string $date): ?string
-    {
-        try {
-            return (new DateTime($date))->format('Y-m-d');
-        } catch (\Exception) {
-            return null;
-        }
-    }
-
-    public static function tryMapDateTime(string $date, string $time): ?string
+    public static function tryMapRecord(string $date, string $time): ?DateTime
     {
         try {
             $d = new DateTime($date);
-            $t = DateTime::createFromFormat('H:i:s', $time);
+            $t = DateTime::createFromFormat('H:i:s', $time) ?? DateTime::createFromFormat('H:i', $time);
             if ($d && $t) {
                 return (new DateTime())
                     ->setDate((int)$d->format('Y'), (int)$d->format('m'), (int)$d->format('d'))
-                    ->setTime((int)$t->format('H'), (int)$t->format('i'), (int)$t->format('s'))
-                    ->format('c');
+                    ->setTime((int)$t->format('H'), (int)$t->format('i'), (int)$t->format('s'));
             }
         } catch (\Exception) {
             return null;
@@ -67,7 +69,6 @@ class OccasionHelper
         }
         return (new DateTime())
             ->setDate($year, $month, $day)
-            ->setTime($hour, $minute, $second)
-            ->format('c');
+            ->setTime($hour, $minute, $second);
     }
 }

@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms\WPHeadLessEvents\Mappers;
 
-use DateTime;
 use Municipio\Schema\Event;
 use Municipio\Schema\Schema;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\AbstractWPHeadlessEventMapper;
-use DateInterval;
-use DateMalformedStringException;
-use DatePeriod;
-use Exception;
-use TypeError;
+use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\Occasion;
+use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\WeeklyOccasion;
 
 class MapEventSchedule extends AbstractWPHeadlessEventMapper
 {
@@ -26,16 +22,6 @@ class MapEventSchedule extends AbstractWPHeadlessEventMapper
         'https://schema.org/Sunday'    => 7,
     ];
 
-    private array $weekdayNames = [
-                1 => 'monday',
-                2 => 'tuesday',
-                3 => 'wednesday',
-                4 => 'thursday',
-                5 => 'friday',
-                6 => 'saturday',
-                7 => 'sunday',
-
-    ];
     public function __construct()
     {
         parent::__construct();
@@ -64,8 +50,8 @@ class MapEventSchedule extends AbstractWPHeadlessEventMapper
     {
         return [
             Schema::schedule()
-                ->startDate($this->tryParseDate($occasion['date'])?->format('Y-m-d'))
-                ->endDate($this->tryParseDate($occasion['untilDate'])?->format('Y-m-d'))
+                ->startDate(Occasion::tryParseDate($occasion['date'])?->format('Y-m-d'))
+                ->endDate(Occasion::tryParseDate($occasion['untilDate'])?->format('Y-m-d'))
                 ->startTime($occasion['startTime'] ?? null)
                 ->endTime($occasion['endTime'] ?? null)
                 ->description($occasion['description'] ?? null)
@@ -89,9 +75,9 @@ class MapEventSchedule extends AbstractWPHeadlessEventMapper
                         ->startTime($occasion['startTime'] ?? null)
                         ->endTime($occasion['endTime'] ?? null)
                         ->description($occasion['description'] ?? null),
-                    $this->expandWeeklyDates(
-                        $this->tryParseDate($occasion['date'] ?? ''),
-                        $this->tryParseDate($occasion['untilDate'] ?? ''),
+                    WeeklyOccasion::getDatesInPeriod(
+                        Occasion::tryParseDate($occasion['date'] ?? ''),
+                        Occasion::tryParseDate($occasion['untilDate'] ?? ''),
                         $this->weekDayMap[$weekDay] ?? null,
                         (int)($occasion['weeksInterval'] ?? 1)
                     )
@@ -105,33 +91,5 @@ class MapEventSchedule extends AbstractWPHeadlessEventMapper
     {
         // TODO: understand and implement monthly recurrence
         return null;
-    }
-
-    public function expandWeeklyDates(
-        DateTime $start, // assumed date only
-        DateTime $end, // assumed date only
-        int $dayOfWeek,
-        int $weekInterval = 1
-    ): array {
-        // adjust start to next occurence of weekday
-        while ((int)$start->format('N') !== $dayOfWeek) {
-            $start->modify('next ' . $this->weekdayNames[$dayOfWeek]);
-        }
-        $data     = [];
-        $interval = new DateInterval('P' . $weekInterval . 'W');
-        $period   = new DatePeriod($start, $interval, $end, DatePeriod::INCLUDE_END_DATE);
-        foreach ($period as $date) {
-            $data[] = (clone $date);
-        }
-        return $data;
-    }
-
-    private function tryParseDate($date): ?DateTime
-    {
-        try {
-            return new DateTime($date);
-        } catch (DateMalformedStringException | Exception | TypeError $e) {
-            return null;
-        }
     }
 }
