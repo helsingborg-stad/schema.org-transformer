@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms\WPHeadLessEvents;
 
-use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\Occasion;
 use DateTime;
+use stdClass;
 
 #[CoversClass(Occasion::class)]
 final class OccasionTest extends TestCase
@@ -34,7 +34,7 @@ final class OccasionTest extends TestCase
     {
         $this->assertEquals(
             $expected,
-            Occasion::tryMapRecord($record['d'], $record['t'])
+            Occasion::tryMapRecord($record, 'd', 't')
         );
     }
 
@@ -60,7 +60,9 @@ final class OccasionTest extends TestCase
     {
         return[
             [null],
-            ['invalid-date']
+            ['invalid-date'],
+            [['an' => 'object']],
+            [new stdClass()]
         ];
     }
 }
