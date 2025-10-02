@@ -15,8 +15,37 @@ use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\Tests\TestHelper;
 #[CoversClass(MapEventSchedule::class)]
 final class MapEventScheduleTest extends TestCase
 {
-    #[TestDox('event::schedule is constructed from acf.occasions')]
-    public function testItWorks()
+    #[TestDox('event::schedule is mapped from weekly acf.occasions for single occasions')]
+    public function testSingleScheduleMapping()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapEventSchedule(new WPHeadlessEventTransform('hl')),
+            '{
+                "acf": {
+                    "occasions": [
+                        {
+                            "repeat": "no",
+                            "date": "20251001",
+                            "untilDate": "20251001",
+                            "startTime": "12:00:00",
+                            "endTime": "15:00:00",
+                            "url": ""
+                        }
+                    ]
+                }
+            }',
+            Schema::event()->eventSchedule([
+                Schema::schedule()
+                    ->startDate('2025-10-01')
+                    ->endDate('2025-10-01')
+                    ->startTime('12:00:00')
+                    ->endTime('15:00:00'),
+            ])
+        );
+    }
+
+    #[TestDox('event::schedule is expanded from weekly acf.occasions')]
+    public function testWeeklyScheduleMapping()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEventSchedule(new WPHeadlessEventTransform('hl')),

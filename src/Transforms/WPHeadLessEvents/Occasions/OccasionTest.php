@@ -60,6 +60,11 @@ final class OccasionTest extends TestCase
     {
         return[
             [null],
+            ['2025'],
+            ['2025-10'],
+            ['202510'],
+            ['2025-1002'],
+            ['202510-02'],
             ['invalid-date'],
             [['an' => 'object']],
             [new stdClass()]
