@@ -9,6 +9,7 @@ use Municipio\Schema\Schema;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\AbstractWPHeadlessEventMapper;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\Occasion;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\WeeklyOccasion;
+use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\MonthlyOccasion;
 
 class MapEventSchedule extends AbstractWPHeadlessEventMapper
 {
@@ -89,7 +90,26 @@ class MapEventSchedule extends AbstractWPHeadlessEventMapper
 
     public function tryMapMonthlyOccasionToSchedules($occasion): ?array /* of Schema::schedule() */
     {
-        // TODO: understand and implement monthly recurrence
-        return null;
+        if ($occasion['repeat'] !== 'byMonth') {
+            return null;
+        }
+        if (empty($occasion['date']) || empty($occasion['untilDate']) || !is_numeric($occasion['monthDayNumber'])) {
+            return null;
+        }
+
+        return array_map(
+            fn ($date) => Schema::schedule()
+                ->startDate($date->format('Y-m-d'))
+                ->endDate($date->format('Y-m-d'))
+                ->startTime($occasion['startTime'] ?? null)
+                ->endTime($occasion['endTime'] ?? null)
+                ->description($occasion['description'] ?? null),
+            MonthlyOccasion::getDatesInPeriod(
+                Occasion::tryParseDate($occasion['date'] ?? ''),
+                Occasion::tryParseDate($occasion['untilDate'] ?? ''),
+                (int)($occasion['monthDayNumber'] ?? 1),
+                (int)($occasion['monthsInterval'] ?? 1)
+            )
+        );
     }
 }
