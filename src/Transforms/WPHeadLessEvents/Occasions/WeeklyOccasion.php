@@ -26,6 +26,9 @@ class WeeklyOccasion extends Occasion
         int $dayOfWeek,
         int $weekInterval = 1
     ): array {
+        if ($dayOfWeek < 1 || $dayOfWeek > 7) {
+            return [];
+        }
         // adjust start to next occurence of weekday
         while ((int)$start->format('N') !== $dayOfWeek) {
             $start->modify('next ' . self::$weekdayNames[$dayOfWeek]);

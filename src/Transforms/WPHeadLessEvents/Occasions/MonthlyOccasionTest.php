@@ -7,15 +7,14 @@ namespace SchemaTransformer\Transforms\WPHeadLessEvents;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\WeeklyOccasion;
-use DateTime;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\MonthlyOccasion;
+use DateTime;
 
-#[CoversClass(WeeklyOccasion::class)]
+#[CoversClass(MonthlyOccasion::class)]
 final class MonthlyOccasionTest extends TestCase
 {
     #[TestDox('getDatesInPeriod generates correct dates for monthly events')]
-    public function testExpandWeeklyDates()
+    public function testGetDatesInPeriod()
     {
         $events = MonthlyOccasion::getDatesInPeriod(
             new DateTime('2025-10-01'),
@@ -37,42 +36,22 @@ final class MonthlyOccasionTest extends TestCase
         );
     }
 
-    #[TestDox('getDatesInPeriod generates correct dates for weekly events over new years eve')]
-    public function testExpandWeeklyDatesOverNewYear()
+    #[TestDox('getDatesInPeriod tolerates dayOfMonth > 30 (broken test)')]
+    public function testGetDatesInPeriodWithDayOfMonthGreaterThan30()
     {
-        $events = WeeklyOccasion::getDatesInPeriod(
-            new DateTime('2025-12-27'),
-            new DateTime('2026-02-07'),
-            6, // saturdays
-            2  // every 2:nd week
+        $events = MonthlyOccasion::getDatesInPeriod(
+            new DateTime('2025-01-01'),
+            new DateTime('2025-06-01'),
+            31,
+            1
         );
         $this->assertEquals(
             [
-            new DateTime('2025-12-27'),
-            new DateTime('2026-01-10'),
-            new DateTime('2026-01-24'),
-            new DateTime('2026-02-07')
-            ],
-            $events
-        );
-    }
-
-    #[TestDox('getDatesInPeriod tolerates start and end dates that are not on the correct weekday')]
-    public function testExpandWeeklyDatesStartAndEndAreWrongWeekdays()
-    {
-        $events = WeeklyOccasion::getDatesInPeriod(
-            new DateTime('2025-10-01'),
-            new DateTime('2025-10-31'),
-            4, // thursdays
-            1  // every week
-        );
-        $this->assertEquals(
-            [
-                new DateTime('2025-10-02'),
-                new DateTime('2025-10-09'),
-                new DateTime('2025-10-16'),
-                new DateTime('2025-10-23'),
-                new DateTime('2025-10-30')
+                new DateTime('2025-01-31'),
+                new DateTime('2025-02-28'),
+                new DateTime('2025-03-31'),
+                new DateTime('2025-04-30'),
+                new DateTime('2025-05-31')
             ],
             $events
         );

@@ -7,7 +7,6 @@ namespace SchemaTransformer\Transforms\WPHeadLessEvents;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Occasions\WeeklyOccasion;
 use DateTime;
 
@@ -15,7 +14,7 @@ use DateTime;
 final class WeeklyOccasionTest extends TestCase
 {
     #[TestDox('getDatesInPeriod generates correct dates for weekly events')]
-    public function testExpandWeeklyDates()
+    public function testGetDatesInPeriod()
     {
         $events = WeeklyOccasion::getDatesInPeriod(
             new DateTime('2025-10-01'),
@@ -35,7 +34,7 @@ final class WeeklyOccasionTest extends TestCase
     }
 
     #[TestDox('getDatesInPeriod generates correct dates for weekly events over new years eve')]
-    public function testExpandWeeklyDatesOverNewYear()
+    public function testGetDatesInPeriodOverNewYear()
     {
         $events = WeeklyOccasion::getDatesInPeriod(
             new DateTime('2025-12-27'),
@@ -55,7 +54,7 @@ final class WeeklyOccasionTest extends TestCase
     }
 
     #[TestDox('getDatesInPeriod tolerates start and end dates that are not on the correct weekday')]
-    public function testExpandWeeklyDatesStartAndEndAreWrongWeekdays()
+    public function testGetDatesInPeriodStartAndEndAreWrongWeekdays()
     {
         $events = WeeklyOccasion::getDatesInPeriod(
             new DateTime('2025-10-01'),

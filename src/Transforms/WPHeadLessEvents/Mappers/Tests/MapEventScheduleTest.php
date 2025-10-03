@@ -143,7 +143,6 @@ final class MapEventScheduleTest extends TestCase
                     ->endDate('2025-10-02')
                     ->startTime('12:00:00')
                     ->endTime('15:00:00'),
-
                 Schema::schedule()
                     ->startDate('2025-10-15')
                     ->endDate('2025-10-15')
