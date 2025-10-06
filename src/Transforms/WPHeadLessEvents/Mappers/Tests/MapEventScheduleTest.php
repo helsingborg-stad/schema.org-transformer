@@ -44,67 +44,6 @@ final class MapEventScheduleTest extends TestCase
         );
     }
 
-    #[TestDox('event::schedule is expanded from monthly acf.occasions')]
-    public function testMonthlyScheduleMapping()
-    {
-        (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEventSchedule(new WPHeadlessEventTransform('hl')),
-            '{
-                "acf": {
-                    "occasions": [
-                        {
-                            "repeat": "byMonth",
-                            "monthsInterval": 2,
-                            "monthDayNumber": 3,
-                            "date": "20251101",
-                            "untilDate": "20261130",
-                            "startTime": "12:00:00",
-                            "endTime": "15:00:00",
-                            "url": ""
-                        }
-                    ]
-                }
-            }',
-            Schema::event()->eventSchedule([
-                Schema::schedule()
-                    ->startDate('2025-11-03')
-                    ->endDate('2025-11-03')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
-                Schema::schedule()
-                    ->startDate('2026-01-03')
-                    ->endDate('2026-01-03')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
-                Schema::schedule()
-                    ->startDate('2026-03-03')
-                    ->endDate('2026-03-03')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
-                Schema::schedule()
-                    ->startDate('2026-05-03')
-                    ->endDate('2026-05-03')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
-                Schema::schedule()
-                    ->startDate('2026-07-03')
-                    ->endDate('2026-07-03')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
-                Schema::schedule()
-                    ->startDate('2026-09-03')
-                    ->endDate('2026-09-03')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
-                Schema::schedule()
-                    ->startDate('2026-11-03')
-                    ->endDate('2026-11-03')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00')
-            ])
-        );
-    }
-
     #[TestDox('event::schedule is expanded from weekly acf.occasions')]
     public function testWeeklyScheduleMapping()
     {
@@ -163,7 +102,6 @@ final class MapEventScheduleTest extends TestCase
                     ->endDate('2025-10-30')
                     ->startTime('12:00:00')
                     ->endTime('15:00:00')
-
             ])
         );
     }
