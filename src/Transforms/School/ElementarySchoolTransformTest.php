@@ -28,6 +28,7 @@ final class ElementarySchoolTransformTest extends TestCase
         ->identifier("123")
         ->description([])
         ->keywords([])
+        ->location([])
         ->event([])
         ->potentialAction([])
         ->areaServed([])
@@ -155,17 +156,13 @@ final class ElementarySchoolTransformTest extends TestCase
             }
         ');
         $expectedSchool = Schema::elementarySchool()
-        ->location(
+        ->location([
             Schema::place()
                 ->name("Testskolan")
                 ->address("Testskolan, Skolgatan 1")
                 ->latitude(1.234)
                 ->longitude(5.678)
-        )
-        // Place properties
-        ->address("Testskolan, Skolgatan 1")
-        ->latitude(1.234)
-        ->longitude(5.678);
+        ]);
 
         $actualSchool = (new ElementarySchoolTransform())->transformPlace(
             Schema::elementarySchool(),

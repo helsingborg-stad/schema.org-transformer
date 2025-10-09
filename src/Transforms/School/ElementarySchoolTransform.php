@@ -130,19 +130,22 @@ class ElementarySchoolTransform implements AbstractDataTransform
 
     public function transformPlace($school, $data): ElementarySchool
     {
-        foreach (($data['acf']['visiting_address'] ?? []) as $address) {
-            $a = $address['address'];
-            return $school
-                ->address($a['address'] ?? null)
-                ->latitude($a['lat'] ?? null)
-                ->longitude($a['lng'] ?? null)
-                ->location(Schema::place()
-                    ->name($a['name'] ?? null)
-                    ->address($a['address'] ?? null)
-                    ->latitude($a['lat'] ?? null)
-                    ->longitude($a['lng'] ?? null));
-        }
-        return $school;
+        return $school->location(array_filter(
+            array_values(
+                array_map(
+                    fn ($address) =>
+                        $address['address'] ?? null
+                        ? Schema::place()
+                            ->name($address['address']['name'] ?? null)
+                            ->address($address['address']['address'] ?? null)
+                            ->latitude($address['address']['lat'] ?? null)
+                            ->longitude($address['address']['lng'] ?? null)
+                            ->description($address['address']['description'] ?? null)
+                        : null,
+                    ($data['acf']['visiting_address'] ?? [])
+                )
+            )
+        ));
     }
 
     public function transformEvents(ElementarySchool $school, $data): ElementarySchool
