@@ -64,7 +64,17 @@ final class PreSchoolTransformTest extends TestCase
                             "content": "extra innehåll"
                         }]
                     }
-                }
+                },
+                "pages_embedded": [
+                    {
+                        "post_title": "Sida 1",
+                        "post_content": "Innehåll för sida 1"
+                    },
+                    {
+                        "post_title": "Sida 2",
+                        "post_content": "Innehåll för sida 2"
+                    }
+                ]
             }
         ');
         $expectedSchool = Schema::preschool()
@@ -73,7 +83,9 @@ final class PreSchoolTransformTest extends TestCase
         Schema::textObject()->name("visit_us")->text("Välkommen på besök")->headline('Besök oss'),
         Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
         Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
-        Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik')
+        Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik'),
+        Schema::textObject()->name("Sida 1")->text("Innehåll för sida 1")->headline('Sida 1'),
+        Schema::textObject()->name("Sida 2")->text("Innehåll för sida 2")->headline('Sida 2')
         ]);
 
         $actualSchool = (new PreSchoolTransform())->transformDescription(

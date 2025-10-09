@@ -139,6 +139,10 @@ class PreSchoolTransform implements AbstractDataTransform
                 $this->tryCreateTextObject($text[0]['heading'], $text[0]['content']) : null
                 );
         }
+        foreach ($data['pages_embedded'] ?? [] as $page) {
+            array_push($descriptions, $this->tryCreateTextObject($page['post_title'] ?? null, $page['post_content'] ?? null));
+        }
+
         return $school
             ->description(array_values(array_filter($descriptions)));
     }
