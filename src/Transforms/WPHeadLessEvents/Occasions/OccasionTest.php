@@ -58,7 +58,7 @@ final class OccasionTest extends TestCase
 
     public static function sampleInvalidDates(): iterable
     {
-        return[
+        return [
             [null],
             ['2025'],
             ['2025-10'],
