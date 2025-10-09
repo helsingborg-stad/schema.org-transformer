@@ -262,7 +262,11 @@ class ElementarySchoolTransform implements AbstractDataTransform
                 array_push($descriptions, $to);
             }
         }
-        return array_filter($descriptions);
+
+        foreach ($dataItem['pages_embedded'] ?? [] as $page) {
+            array_push($descriptions, $this->tryCreateTextObject($page['post_title'] ?? null, $page['post_content'] ?? null));
+        }
+        return array_filter(array_values($descriptions));
     }
 
     public function transformHasOfferCatalog($school, $data): ElementarySchool
