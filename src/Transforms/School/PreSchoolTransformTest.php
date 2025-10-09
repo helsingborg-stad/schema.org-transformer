@@ -28,6 +28,7 @@ final class PreSchoolTransformTest extends TestCase
         ->identifier("123")
         ->description([])
         ->keywords([])
+        ->location([])
         ->event([])
         ->potentialAction([])
         ->areaServed([])
@@ -152,19 +153,13 @@ final class PreSchoolTransformTest extends TestCase
             }
         ');
         $expectedSchool = Schema::preschool()
-        ->location(
+        ->location([
             Schema::place()
             ->name("Testskolan")
             ->address("Testskolan, Skolgatan 1")
             ->latitude(1.234)
-            ->longitude(5.678)
-        )
-        // Place properties
-        ->address("Testskolan, Skolgatan 1")
-        ->latitude(1.234)
-        ->longitude(5.678);
-
-        $actualSchool = (new PreSchoolTransform())->transformPlace(
+            ->longitude(5.678)]);
+        $actualSchool   = (new PreSchoolTransform())->transformPlace(
             Schema::preschool(),
             $source
         );
