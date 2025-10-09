@@ -19,7 +19,7 @@ cd ${SCRIPT_DIR}
 TMPFILE=$(mktemp)
 TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/events-dev/documents
 
-# Retreive and transform wordpress events to temp file
+# Retrieve and transform wordpress events to temp file
 php -d memory_limit=1024M ../../router.php \
     --source ${WP_EVENTS_API_URL} \
     --paginator wordpress \
