@@ -52,19 +52,26 @@ class MapOffers extends AbstractWPLegacyEventMapper
     private function tryMakeOffer(string $label, $price, $bookingLink)
     {
         return empty($price) ? null : Schema::offer()
-            ->price($price)
-            ->priceCurrency('SEK')
             ->name($label)
-            ->url($bookingLink);
+            ->url($bookingLink)
+            ->priceSpecification([
+                Schema::priceSpecification()
+                    ->name($label)
+                    ->price($price)
+                    ->minPrice($price)
+                    ->maxPrice($price)
+                    ->priceCurrency('SEK')
+            ]);
     }
     private function tryMakeOfferWithPriceRange(string $label, $minPrice, $maxPrice, $bookingLink)
     {
         return (empty($minPrice) || empty($maxPrice)) ? null : Schema::offer()
-            ->priceCurrency('SEK')
             ->name($label)
             ->url($bookingLink)
-            ->priceSpecification(Schema::priceSpecification()
+            ->priceSpecification([Schema::priceSpecification()
+                ->name($label)
                 ->minPrice($minPrice)
-                ->maxPrice($maxPrice));
+                ->maxPrice($maxPrice)])
+                ->priceCurrency('SEK');
     }
 }

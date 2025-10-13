@@ -34,39 +34,57 @@ final class MapOffersTest extends TestCase
             }',
             Schema::event()->offers([
                 Schema::offer()
-                    ->price('250')
-                    ->priceCurrency('SEK')
                     ->name('Standard/Vuxen')
-                    ->url('https://booking-link.org'),
+                    ->url('https://booking-link.org')
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Standard/Vuxen')
+                        ->price('250')
+                        ->minPrice('250')
+                        ->maxPrice('250')
+                        ->priceCurrency('SEK')]),
                 Schema::offer()
-                    ->price('125')
-                    ->priceCurrency('SEK')
                     ->name('Barn')
-                    ->url('https://booking-link.org'),
+                    ->url('https://booking-link.org')
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Barn')
+                        ->price('125')
+                        ->minPrice('125')
+                        ->maxPrice('125')
+                        ->priceCurrency('SEK')]),
                 Schema::offer()
-                    ->price('175')
-                    ->priceCurrency('SEK')
                     ->name('Student')
-                    ->url('https://booking-link.org'),
+                    ->url('https://booking-link.org')
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Student')
+                        ->price('175')
+                        ->minPrice('175')
+                        ->maxPrice('175')
+                        ->priceCurrency('SEK')]),
                 Schema::offer()
-                    ->price('200')
-                    ->priceCurrency('SEK')
                     ->name('Pensionär')
-                    ->url('https://booking-link.org'),
+                    ->url('https://booking-link.org')
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Pensionär')
+                        ->price('200')
+                        ->minPrice('200')
+                        ->maxPrice('200')
+                        ->priceCurrency('SEK')]),
                 Schema::offer()
-                    ->priceCurrency('SEK')
                     ->name('Sittplats')
                     ->url('https://booking-link.org')
-                    ->priceSpecification(Schema::priceSpecification()
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Sittplats')
                         ->minPrice('20')
-                        ->maxPrice('40')),
+                        ->maxPrice('40')])
+                        ->priceCurrency('SEK'),
                 Schema::offer()
-                    ->priceCurrency('SEK')
                     ->name('Ståplats')
                     ->url('https://booking-link.org')
-                    ->priceSpecification(Schema::priceSpecification()
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Ståplats')
                         ->minPrice('30')
-                        ->maxPrice('60')),
+                        ->maxPrice('60')])
+                        ->priceCurrency('SEK'),
             ])
         );
     }
@@ -84,11 +102,12 @@ final class MapOffersTest extends TestCase
             }',
             Schema::event()->offers([
                 Schema::offer()
-                    ->priceCurrency('SEK')
                     ->name('Sittplats')
-                    ->priceSpecification(Schema::priceSpecification()
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Sittplats')
                         ->minPrice('20')
-                        ->maxPrice('40')),
+                        ->maxPrice('40')])
+                        ->priceCurrency('SEK'),
             ])
         );
     }
@@ -103,9 +122,15 @@ final class MapOffersTest extends TestCase
             }',
             Schema::event()->offers([
                 Schema::offer()
-                    ->price('200')
-                    ->priceCurrency('SEK')
-                    ->name('Pensionär'),
+                    ->name('Pensionär')
+                    ->priceSpecification([
+                        Schema::priceSpecification()
+                            ->name('Pensionär')
+                            ->price('200')
+                            ->minPrice('200')
+                            ->maxPrice('200')
+                            ->priceCurrency('SEK')
+                    ]),
             ])
         );
     }
