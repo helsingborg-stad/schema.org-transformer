@@ -77,7 +77,7 @@ class MapOffers extends AbstractTixDataMapper
                                                 )
                                             ),
                                             fn ($val) => is_numeric($val)
-                                        )
+                                        )[0] ?? null
                                     ),
                             $prices
                         )

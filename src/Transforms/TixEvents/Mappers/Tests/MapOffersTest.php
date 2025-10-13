@@ -76,12 +76,12 @@ final class MapOffersTest extends TestCase
                                 ->name('Ordinarie')
                                 ->description('Ordinarie')
                                 ->priceCurrency('SEK')
-                                ->price([195]),
+                                ->price(195),
                             Schema::priceSpecification()
                                 ->name('Sofierokortet 2025')
                                 ->description('Sofierokortet 2025')
                                 ->priceCurrency('SEK')
-                                ->price([145])
+                                ->price(145)
                         ])
                 ])
         );
@@ -144,12 +144,12 @@ final class MapOffersTest extends TestCase
                             Schema::priceSpecification()
                                 ->name('Ordinarie')
                                 ->description('Ordinarie')
-                                ->price([195])
+                                ->price(195)
                                 ->priceCurrency('SEK'),
                             Schema::priceSpecification()
                                 ->name('Kulturkort')
                                 ->description('Kulturkort')
-                                ->price([145])
+                                ->price(145)
                                 ->priceCurrency('SEK')
                         ])
                 ])
@@ -306,7 +306,7 @@ final class MapOffersTest extends TestCase
                                 "TicketType": "Sofierokortet 2025",
                                 "Prices": [
                                     {
-                                        "Price": 145
+                                        "Price": 0
                                     }
                                 ]
                             }
@@ -351,12 +351,12 @@ final class MapOffersTest extends TestCase
                             Schema::priceSpecification()
                                 ->name('Ordinarie')
                                 ->description('Ordinarie')
-                                ->price([195])
+                                ->price(195)
                                 ->priceCurrency('SEK'),
                             Schema::priceSpecification()
                                 ->name('Sofierokortet 2025')
                                 ->description('Sofierokortet 2025')
-                                ->price([145])
+                                ->price(0)
                                 ->priceCurrency('SEK')
                         ]),
                     Schema::offer()
