@@ -21,7 +21,7 @@ class PreSchoolTransform implements AbstractDataTransform
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Hur vi arbetar',
         'our_leisure_center' => 'Vår fritidsverksamhet',
-        'orientation'        => 'Inskolning',
+        'orientation'        => 'Introduktion',
     ];
 
     private array $taxonomiesExcludedFromKeywords = [
