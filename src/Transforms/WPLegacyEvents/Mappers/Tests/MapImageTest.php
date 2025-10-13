@@ -49,10 +49,41 @@ final class MapImageTest extends TestCase
     #[TestDox('event::image(null) when featured_media is missing')]
     public function testHandlesMissingContent()
     {
-        (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapImage(),
-            '{"id": 123}',
-            Schema::event()->image([])
-        );
+        (new TestHelper())
+            ->expectMapperToConvertSourceTo(
+                new MapImage(),
+                '{"id": 123}',
+                Schema::event()->image([]),
+                "No image should be set if no featured media exists"
+            )
+            ->expectMapperToConvertSourceTo(
+                new MapImage(),
+                '{
+                    "_embedded": {
+                        "wp:featuredmedia": [
+                            {
+                                "source_url": null,
+                                "alt_text": "An example image"
+                            }
+                        ]
+                    }
+                }',
+                Schema::event()->image([]),
+                "No image should be set if no featured media url exists"
+            )
+            ->expectMapperToConvertSourceTo(
+                new MapImage(),
+                '{
+                    "_embedded": {
+                        "wp:featuredmedia": [
+                            {
+                                "alt_text": "An example image"
+                            }
+                        ]
+                    }
+                }',
+                Schema::event()->image([]),
+                "No image should be set if no featured media exists"
+            );
     }
 }

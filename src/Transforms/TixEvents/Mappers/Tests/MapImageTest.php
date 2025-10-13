@@ -62,7 +62,7 @@ final class MapImageTest extends TestCase
                 '{
                     "EventGroupId": 123,
                     "SubTitle": "Event title that goes into images",
-                    "HasFeaturedImage": false
+                    "HasFeaturedImage": true
                 }',
                 Schema::event()->image([]),
                 'No image should be set if no FeaturedImagePath exists'

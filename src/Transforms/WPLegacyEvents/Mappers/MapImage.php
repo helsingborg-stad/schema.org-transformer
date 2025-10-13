@@ -18,13 +18,17 @@ class MapImage extends AbstractWPLegacyEventMapper
     public function map(Event $event, array $data): Event
     {
         return $event->image(
-            array_values(
-                array_map(
-                    fn($item) => Schema::imageObject()
-                        ->url($item['source_url'] ?? null)
-                        ->description($item['alt_text'] ?? null)
-                        ->caption($item['alt_text'] ?? null),
-                    $data['_embedded']['wp:featuredmedia'] ?? []
+            array_filter(
+                array_values(
+                    array_map(
+                        fn($item) => $item['source_url'] ?? null
+                        ? Schema::imageObject()
+                            ->url($item['source_url'] ?? null)
+                            ->description($item['alt_text'] ?? null)
+                            ->caption($item['alt_text'] ?? null)
+                        : null,
+                        $data['_embedded']['wp:featuredmedia'] ?? []
+                    )
                 )
             )
         );
