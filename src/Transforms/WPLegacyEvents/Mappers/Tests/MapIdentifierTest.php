@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Municipio\Schema\Schema;
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\Tests\TestHelper;
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapIdentifier;
-use SchemaTransformer\Transforms\WPLegacyEvents\WPLegacyEventTransform2;
+use SchemaTransformer\Transforms\WPLegacyEvents\WPLegacyEventTransform;
 
 #[CoversClass(MapIdentifier::class)]
 final class MapIdentifierTest extends TestCase
@@ -19,7 +19,7 @@ final class MapIdentifierTest extends TestCase
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapIdentifier(new WPLegacyEventTransform2('TheBestAndBiggestPrefix')),
+            new MapIdentifier(new WPLegacyEventTransform('TheBestAndBiggestPrefix')),
             '{
                 "id": 123
             }',

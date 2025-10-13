@@ -17,7 +17,7 @@ fi
 cd ${SCRIPT_DIR}
 
 TMPFILE=$(mktemp)
-TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/events-dev/documents
+TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/events/documents
 
 # Retrieve and transform wordpress events to temp file
 php -d memory_limit=1024M ../../router.php \
@@ -36,7 +36,7 @@ else
     curl -X DELETE \
         -H "x-typesense-api-key: ${TYPESENSE_APIKEY}" \
         -H "Content-Type: application/json" \
-        "${TYPESENSE_BASE_PATH}/collections/events-dev/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-headless"
+        "${TYPESENSE_BASE_PATH}/collections/events/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-headless"
 
     if [ $? -ne 0 ]; then
         echo "FAILED to delete documents"

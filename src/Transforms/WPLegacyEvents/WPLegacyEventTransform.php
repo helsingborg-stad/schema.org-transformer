@@ -26,7 +26,7 @@ use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapPhysicalAccessibility
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapTypicalAgeRange;
 use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapUrl;
 
-class WPLegacyEventTransform2 extends TransformBase implements AbstractDataTransform
+class WPLegacyEventTransform extends TransformBase implements AbstractDataTransform
 {
     public function __construct(string $idprefix)
     {

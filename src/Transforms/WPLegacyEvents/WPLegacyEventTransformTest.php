@@ -8,10 +8,10 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Municipio\Schema\Schema;
-use SchemaTransformer\Transforms\WPLegacyEvents\WPLegacyEventTransform2;
+use SchemaTransformer\Transforms\WPLegacyEvents\WPLegacyEventTransform;
 
-#[CoversClass(WPLegacyEventTransform2::class)]
-final class WPLegacyEventTransform2Test extends TestCase
+#[CoversClass(WPLegacyEventTransform::class)]
+final class WPLegacyEventTransformTest extends TestCase
 {
     private function prepareJsonForTransform($json)
     {
@@ -44,7 +44,7 @@ final class WPLegacyEventTransform2Test extends TestCase
             ->url(null)
             ->setProperty('x-created-by', 'municipio://schema.org-transformer/wp-legacy');
 
-        $actualEvent = (new WPLegacyEventTransform2('L'))->transform(
+        $actualEvent = (new WPLegacyEventTransform('L'))->transform(
             [$source]
         )[0];
 

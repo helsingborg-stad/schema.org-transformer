@@ -11,16 +11,13 @@ use SchemaTransformer\Interfaces\AbstractDataWriter;
 use SchemaTransformer\Services\Service;
 use SchemaTransformer\Interfaces\AbstractService;
 use SchemaTransformer\Transforms\DataSanitizers\SanitizeReachmeeJobPostingLink;
-use SchemaTransformer\Transforms\IdFormatter\FormatIdWithPrefix;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 use SchemaTransformer\Transforms\StratsysTransform;
 use SchemaTransformer\Transforms\WPExhibitionEventTransform;
-use SchemaTransformer\Transforms\WPLegacyEventTransform;
-use SchemaTransformer\Transforms\WPReleaseEventTransform;
 use SchemaTransformer\Transforms\School\ElementarySchoolTransform;
 use SchemaTransformer\Transforms\School\PreSchoolTransform;
 use SchemaTransformer\Transforms\TixEvents\TixEventTransform;
-use SchemaTransformer\Transforms\WPLegacyEvents\WPLegacyEventTransform2;
+use SchemaTransformer\Transforms\WPLegacyEvents\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\WPHeadLessEvents\WPHeadlessEventTransform;
 
 class RuntimeServices
@@ -29,7 +26,6 @@ class RuntimeServices
     private AbstractService $stratsysService;
     private AbstractService $wpLegacyEventService;
     private AbstractService $wpEventService;
-    private AbstractService $wpReleaseEventService;
     private AbstractService $wpExhibitionEventService;
     private AbstractService $elementarySchoolService;
     private AbstractService $preSchoolService;
@@ -42,89 +38,29 @@ class RuntimeServices
         string $idprefix,
         private ?TypesenseClient $typesenseClient = null
     ) {
-        $pathValueAccessor            = new \SchemaTransformer\Util\ArrayPathResolver();
         $reachmeeJobPostingSanitizers = [
         new SanitizeReachmeeJobPostingLink()
         ];
 
-        $this->jobPostingService    = new Service(
+        $this->jobPostingService        = new Service(
             $reader,
             $writer,
             new ReachmeeJobPostingTransform($reachmeeJobPostingSanitizers, $idprefix),
             $converter
         );
-        $this->stratsysService      = new Service(
+        $this->stratsysService          = new Service(
             $reader,
             $writer,
             new StratsysTransform($idprefix),
             $converter
         );
-        $this->wpLegacyEventService = new Service(
-            $reader,
-            $writer,
-            new WPLegacyEventTransform2($idprefix),
-            $converter
-        );
-        /*
         $this->wpLegacyEventService     = new Service(
             $reader,
             $writer,
-            new WPLegacyEventTransform(
-                new FormatIdWithPrefix($idprefix),
-                new \SchemaTransformer\Transforms\SplitRowsByOccasion('occasions', new FormatIdWithPrefix($idprefix)),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\EventFactory(),
-                [
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyDescription('content.rendered', $pathValueAccessor),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationPlace('location.title', 'location.formatted_address', 'location.latitude', 'location.longitude', $pathValueAccessor),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyStartDate(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEndDate(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventStatus(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventSeries(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyKeywords(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOrganizer(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyPhysicalAccessibilityFeatures(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyOffers(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyUrl(),
-                ],
-                new \SchemaTransformer\Transforms\Validators\EventValidator()
-            ),
+            new WPLegacyEventTransform($idprefix),
             $converter
         );
-        */
         $this->wpEventService           = new Service($reader, $writer, new WPHeadlessEventTransform($idprefix), $converter);
-        $this->wpReleaseEventService    = new Service(
-            $reader,
-            $writer,
-            new WPReleaseEventTransform(
-                new FormatIdWithPrefix($idprefix),
-                new \SchemaTransformer\Transforms\SplitRowsByOccasion('acf.occasions', new FormatIdWithPrefix($idprefix)),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\EventFactory(),
-                [
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyName('title.rendered', $pathValueAccessor),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyDescription('acf.description', $pathValueAccessor),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyStartDate(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEndDate(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventStatus(),
-                new \SchemaTransformer\Transforms\WPLegacyEventTransform\SchemaDecorators\ApplyEventSeries(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyImage(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyKeywords(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationPlace('acf.location_name', 'acf.location.address', 'acf.location.lat', 'acf.location.lng', $pathValueAccessor),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyLocationVirtualLocation('acf.meeting_link', 'acf.connect', $pathValueAccessor),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyEventAttendanceMode(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOrganizer(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyTypicalAgeRange(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyOffers(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyAudience(),
-                new \SchemaTransformer\Transforms\WPReleaseEventTransform\SchemaDecorators\ApplyIsAccessibleForFree()
-                ],
-                new \SchemaTransformer\Transforms\Validators\EventValidator()
-            ),
-            $converter
-        );
         $this->wpExhibitionEventService = new Service($reader, $writer, new WPExhibitionEventTransform(), $converter);
         $this->elementarySchoolService  = new Service($reader, $writer, new ElementarySchoolTransform($this->typesenseClient), $converter);
         $this->preSchoolService         = new Service($reader, $writer, new PreSchoolTransform($this->typesenseClient), $converter);
@@ -146,10 +82,6 @@ class RuntimeServices
     public function getWPEventService(): AbstractService
     {
         return $this->wpEventService;
-    }
-    public function getWPReleaseEventService(): AbstractService
-    {
-        return $this->wpReleaseEventService;
     }
     public function getWPExhibitionEventService(): AbstractService
     {

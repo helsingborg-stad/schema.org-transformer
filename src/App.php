@@ -175,12 +175,6 @@ class App
                     $cmd->output
                 );
                 break;
-            case 'wp_release_event':
-                $result = $services->getWPReleaseEventService()->execute(
-                    $cmd->source,
-                    $cmd->output
-                );
-                break;
             case 'wp_exhibition_event':
                 $result = $services->getWPExhibitionEventService()->execute(
                     $cmd->source,

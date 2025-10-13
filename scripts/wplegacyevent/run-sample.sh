@@ -17,7 +17,7 @@ fi
 cd ${SCRIPT_DIR}
 
 TMPFILE=$(mktemp)
-TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/events-dev/documents
+TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/events/documents
 
 # TODO: change day to month for less frequent updates
 
@@ -49,7 +49,7 @@ else
     curl -X DELETE \
         -H "x-typesense-api-key: ${TYPESENSE_APIKEY}" \
         -H "Content-Type: application/json" \
-        "${TYPESENSE_BASE_PATH}/collections/events-dev/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-legacy"
+        "${TYPESENSE_BASE_PATH}/collections/events/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-legacy"
 
     if [ $? -ne 0 ]; then
         echo "FAILED to delete documents"
