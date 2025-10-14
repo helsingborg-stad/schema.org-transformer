@@ -13,13 +13,13 @@ use SchemaTransformer\Transforms\TixEvents\Mappers\MapDescription;
 #[CoversClass(MapDescription::class)]
 final class MapDescriptionTest extends TestCase
 {
-    #[TestDox('event::description is set from source->SubTitle')]
+    #[TestDox('event::description is set from source->Description')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapDescription(),
             '{
-                "SubTitle": "Event description from source"
+                "Description": "Event description from source"
             }',
             Schema::event()
                 ->description(["Event description from source"])

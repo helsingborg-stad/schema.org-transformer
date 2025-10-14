@@ -19,7 +19,7 @@ class MapDescription extends AbstractTixDataMapper
                 ->description(
                     array_values(
                         array_filter(
-                            [$data['SubTitle'] ?? null]
+                            [$data['Description'] ?? null]
                         )
                     )
                 );
