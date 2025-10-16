@@ -23,11 +23,11 @@ class EventsSearchClientOnTypesense implements EventsSearchClient
         ]);
 
         // $result['hits'][index]['document'] contains a wellformed event object (albeit not a constructed Schema::event)
-        return array_map(
+        return array_values(array_filter(array_map(
             function ($hit) {
                 return $hit['document'];
             },
             $result['hits'] ?? []
-        );
+        )));
     }
 }
