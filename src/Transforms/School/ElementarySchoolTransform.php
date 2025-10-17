@@ -18,8 +18,8 @@ class ElementarySchoolTransform implements AbstractDataTransform
     private array $wellknownTextObjectHeadlinesByKey = [
         'custom_excerpt'     => '',
         'about_us'           => 'Om oss',
-        'how_we_work'        => 'Hur vi arbetar',
-        'our_leisure_center' => 'Vår fritidsverksamhet'
+        'how_we_work'        => 'Så arbetar vi',
+        'our_leisure_center' => 'Vårt fritidshem'
     ];
 
     private array $taxonomiesExcludedFromKeywords = [
