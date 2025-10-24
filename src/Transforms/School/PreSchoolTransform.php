@@ -16,12 +16,11 @@ use Municipio\Schema\TextObject;
 class PreSchoolTransform implements AbstractDataTransform
 {
     private array $wellknownTextObjectHeadlinesByKey = [
-        'custom_excerpt'     => '',
-        'visit_us'           => 'Besök oss',
-        'about_us'           => 'Om oss',
-        'how_we_work'        => 'Hur vi arbetar',
-        'our_leisure_center' => 'Vår fritidsverksamhet',
-        'orientation'        => 'Introduktion',
+        'custom_excerpt' => '',
+        'visit_us'       => 'Besök oss',
+        'about_us'       => 'Om oss',
+        'how_we_work'    => 'Så arbetar vi',
+        'orientation'    => 'Introduktion',
     ];
 
     private array $taxonomiesExcludedFromKeywords = [

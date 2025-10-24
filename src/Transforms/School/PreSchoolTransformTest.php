@@ -82,7 +82,7 @@ final class PreSchoolTransformTest extends TestCase
         Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
         Schema::textObject()->name("visit_us")->text("Välkommen på besök")->headline('Besök oss'),
         Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
-        Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Hur vi arbetar'),
+        Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Så arbetar vi'),
         Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik'),
         Schema::textObject()->name("Sida 1")->text("Innehåll för sida 1")->headline('Sida 1'),
         Schema::textObject()->name("Sida 2")->text("Innehåll för sida 2")->headline('Sida 2')
