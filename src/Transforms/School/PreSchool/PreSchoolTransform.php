@@ -26,6 +26,7 @@ use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapNumberOfGroups;
 use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapOpeningHoursSpecification;
 use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapPotentialAction;
 use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapVideo;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapXCreatedBy;
 
 class PreSchoolTransform extends TransformBase implements AbstractDataTransform
 {
@@ -65,7 +66,8 @@ class PreSchoolTransform extends TransformBase implements AbstractDataTransform
             new MapNumberOfGroups(),
             new MapOpeningHoursSpecification(),
             new MapPotentialAction(),
-            new MapVideo()
+            new MapVideo(),
+            new MapXCreatedBy()
         ];
 
         $result = array_map(function ($item) use ($mappers) {

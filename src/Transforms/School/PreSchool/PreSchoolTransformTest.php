@@ -35,7 +35,8 @@ final class PreSchoolTransformTest extends TestCase
         ->image([])
         ->employee([])
         ->contactPoint([])
-        ->video([]);
+        ->video([])
+        ->setProperty('x-created-by', 'municipio://schema.org-transformer/pre-school');
 
         $actualSchool = (new PreSchoolTransform())->transform(
             [$source]
@@ -172,7 +173,8 @@ final class PreSchoolTransformTest extends TestCase
         ->video([
                 Schema::videoObject()
                     ->url('https://youtu.be/dQw4w9WgXcQ')
-            ]);
+            ])
+        ->setProperty('x-created-by', 'municipio://schema.org-transformer/pre-school');
 
         $actualSchool = (new PreSchoolTransform())->transform(
             [$source]
