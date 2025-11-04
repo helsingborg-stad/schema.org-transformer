@@ -34,7 +34,8 @@ final class PreSchoolTransformTest extends TestCase
         ->areaServed([])
         ->image([])
         ->employee([])
-        ->contactPoint([]);
+        ->contactPoint([])
+        ->video([]);
 
         $actualSchool = (new PreSchoolTransform())->transform(
             [$source]
@@ -166,11 +167,11 @@ final class PreSchoolTransformTest extends TestCase
         ');
         $expectedSchool = Schema::preschool()
         ->location([
-            Schema::place()
-            ->name("Testskolan")
-            ->address("Testskolan, Skolgatan 1")
-            ->latitude(1.234)
-            ->longitude(5.678)]);
+        Schema::place()
+        ->name("Testskolan")
+        ->address("Testskolan, Skolgatan 1")
+        ->latitude(1.234)
+        ->longitude(5.678)]);
         $actualSchool   = (new PreSchoolTransform())->transformPlace(
             Schema::preschool(),
             $source
@@ -186,16 +187,16 @@ final class PreSchoolTransformTest extends TestCase
     public function testTransformPlaceDoesNotOverrideName()
     {
         $source = [
-            'acf' => [
-                'visiting_address' => [[
-                    'address' => [
-                        'name'    => 'Testskolan',
-                        'address' => 'Testskolan, Skolgatan 1',
-                        'lat'     => 1.234,
-                        'lng'     => 5.678
-                    ]
-                ]]
-            ]
+        'acf' => [
+            'visiting_address' => [[
+                'address' => [
+                    'name'    => 'Testskolan',
+                    'address' => 'Testskolan, Skolgatan 1',
+                    'lat'     => 1.234,
+                    'lng'     => 5.678
+                ]
+            ]]
+        ]
         ];
 
         $actualSchool = (new PreSchoolTransform())->transformPlace(Schema::preschool()->name("Förskolan"), $source);
@@ -405,15 +406,15 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
         ->employee([
         Schema::person()
-            ->name('Test person')
-            ->jobTitle('Administrativ samordnare')
-            ->email('test.person@example.com')
-            ->telephone('123-456789')
-            ->image(Schema::imageObject()
-                ->name('testperson.jpg')
-                ->caption('Porträtt av Test Person')
-                ->description('alternativ text')
-                ->url('https://skolan.se/testperson.jpg'))
+        ->name('Test person')
+        ->jobTitle('Administrativ samordnare')
+        ->email('test.person@example.com')
+        ->telephone('123-456789')
+        ->image(Schema::imageObject()
+            ->name('testperson.jpg')
+            ->caption('Porträtt av Test Person')
+            ->description('alternativ text')
+            ->url('https://skolan.se/testperson.jpg'))
         ]);
         $actualSchool   = (new PreSchoolTransform())->transformEmployees(
             Schema::preschool(),
@@ -442,13 +443,13 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
         ->contactPoint([
         Schema::contactPoint()
-            ->name('facebook')
-            ->contactType('socialmedia')
-            ->url('https://facebook.com/skolan'),
+        ->name('facebook')
+        ->contactType('socialmedia')
+        ->url('https://facebook.com/skolan'),
         Schema::contactPoint()
-            ->name('instagram')
-            ->contactType('socialmedia')
-            ->url('https://instagram.com/skolan')
+        ->name('instagram')
+        ->contactType('socialmedia')
+        ->url('https://instagram.com/skolan')
         ]);
 
         $actualSchool = (new PreSchoolTransform())->transformContactPoint(
@@ -504,11 +505,11 @@ final class PreSchoolTransformTest extends TestCase
         ');
 
         $expectedSchool = Schema::preschool()
-            ->openingHoursSpecification(
-                Schema::openingHoursSpecification()
-                ->opens('08:00')
-                ->closes('16:00')
-            );
+        ->openingHoursSpecification(
+            Schema::openingHoursSpecification()
+            ->opens('08:00')
+            ->closes('16:00')
+        );
 
         $actualSchool = (new PreSchoolTransform())->transformOpeningHours(
             Schema::preschool(),
@@ -534,7 +535,7 @@ final class PreSchoolTransformTest extends TestCase
         ');
 
         $expectedSchool = Schema::preschool()
-            ->numberOfGroups(5);
+        ->numberOfGroups(5);
 
         $actualSchool = (new PreSchoolTransform())->transformNumberOfGroups(
             Schema::preschool(),
@@ -565,5 +566,30 @@ final class PreSchoolTransformTest extends TestCase
         );
 
         $this->assertArrayNotHasKey('numberOfGroups', $actualSchool->toArray());
+    }
+
+    #[TestDox('applies acf.video as video')]
+    public function testTransformVideo()
+    {
+        $source         = $this->prepareJsonForTransform('
+            {
+                "acf":
+                    {
+                        "video": "https://skolan.se/video.mp4"
+                    }
+            }');
+        $expectedSchool = Schema::preschool()
+        ->video([
+            Schema::videoObject()
+            ->url('https://skolan.se/video.mp4')
+        ]);
+        $actualSchool   = (new PreSchoolTransform())->transformVideo(
+            Schema::preschool(),
+            $source
+        );
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
     }
 }

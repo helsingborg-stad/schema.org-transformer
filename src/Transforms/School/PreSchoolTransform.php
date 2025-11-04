@@ -60,7 +60,8 @@ class PreSchoolTransform implements AbstractDataTransform
             'transformContactPoint',
             'transformNumberOfChildren',
             'transformOpeningHours',
-            'transformNumberOfGroups'
+            'transformNumberOfGroups',
+            'transformVideo',
         ];
 
         $result = array_map(function ($item) use ($transformations) {
@@ -80,6 +81,17 @@ class PreSchoolTransform implements AbstractDataTransform
         return $school
             ->identifier($data['id'] ?? null ? (string)$data['id'] : null)
             ->name($data['title']['rendered'] ?? null);
+    }
+
+    public function transformVideo($school, $data): PreSchool
+    {
+        return $school->video(
+            array_values(array_map(
+                fn($url) => Schema::videoObject()
+                    ->url($url),
+                array_filter([$data['acf']['video'] ?? null])
+            ))
+        );
     }
 
     public function transformActions($school, $data): PreSchool

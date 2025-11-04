@@ -35,7 +35,8 @@ final class ElementarySchoolTransformTest extends TestCase
         ->image([])
         ->employee([])
         ->contactPoint([])
-        ->hasOfferCatalog([]);
+        ->hasOfferCatalog([])
+        ->video([]);
 
         $actualSchool = (new ElementarySchoolTransform())->transform(
             [$source]
@@ -574,6 +575,31 @@ final class ElementarySchoolTransformTest extends TestCase
             $source
         );
 
+        $this->assertEquals(
+            $expectedSchool->toArray(),
+            $actualSchool->toArray()
+        );
+    }
+
+    #[TestDox('applies acf.video as video')]
+    public function testTransformVideo()
+    {
+        $source         = $this->prepareJsonForTransform('
+            {
+                "acf":
+                    {
+                        "video": "https://skolan.se/video.mp4"
+                    }
+            }');
+        $expectedSchool = Schema::elementarySchool()
+        ->video([
+        Schema::videoObject()
+        ->url('https://skolan.se/video.mp4')
+        ]);
+        $actualSchool   = (new ElementarySchoolTransform())->transformVideo(
+            Schema::elementarySchool(),
+            $source
+        );
         $this->assertEquals(
             $expectedSchool->toArray(),
             $actualSchool->toArray()
