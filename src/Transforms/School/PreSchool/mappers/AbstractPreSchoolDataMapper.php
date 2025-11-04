@@ -41,4 +41,9 @@ abstract class AbstractPreSchoolDataMapper implements PreSchoolDataMapperInterfa
         }
         return null;
     }
+
+    protected function tryMapPositiveInt($value): ?int
+    {
+        return is_numeric($value) && (int)($value) > 0 ? (int)($value) : null;
+    }
 }

@@ -16,7 +16,7 @@ class MapNumberOfChildren extends AbstractPreSchoolDataMapper
     public function map(Preschool $school, array $data): Preschool
     {
         return $school->numberOfChildren(
-            is_numeric($data['acf']['number_of_children'] ?? null) ? (int)$data['acf']['number_of_children'] : null
+            $this->tryMapPositiveInt($data['acf']['number_of_children'] ?? null)
         );
     }
 }

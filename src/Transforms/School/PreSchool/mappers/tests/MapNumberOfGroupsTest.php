@@ -27,7 +27,7 @@ final class MapNumberOfGroupsTest extends TestCase
         );
     }
 
-    #[TestDox('preschool::numberOfGroups is taken from acf.number_of_units only when numeric')]
+    #[TestDox('preschool::numberOfGroups is taken from acf.number_of_units only when positive numeric')]
     public function testNumeric(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -36,6 +36,31 @@ final class MapNumberOfGroupsTest extends TestCase
                 "acf": {
                     "number_of_units": "fortytwo"
                 }
+            }',
+            Schema::preschool()->numberOfGroups(null)
+        );
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapNumberOfGroups(),
+            '{
+                "acf": {
+                    "number_of_units": 0
+                }
+            }',
+            Schema::preschool()->numberOfGroups(null)
+        );
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapNumberOfGroups(),
+            '{
+                "acf": {
+                    "number_of_units": -42
+                }
+            }',
+            Schema::preschool()->numberOfGroups(null)
+        );
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapNumberOfGroups(),
+            '{
+                "id": 123
             }',
             Schema::preschool()->numberOfGroups(null)
         );

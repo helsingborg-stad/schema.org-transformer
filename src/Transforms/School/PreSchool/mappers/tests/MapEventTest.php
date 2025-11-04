@@ -13,7 +13,7 @@ use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapEvent;
 #[CoversClass(MapEvent::class)]
 final class MapEventTest extends TestCase
 {
-    #[TestDox('preschool::event is taken from event')]
+    #[TestDox('preschool::event is fetched from event search client by school name')]
     public function testItWorks()
     {
         $mockEventSearchClient = new class implements \SchemaTransformer\Transforms\School\Events\EventsSearchClient {

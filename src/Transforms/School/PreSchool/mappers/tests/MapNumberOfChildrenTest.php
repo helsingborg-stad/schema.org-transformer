@@ -27,7 +27,7 @@ final class MapNumberOfChildrenTest extends TestCase
         );
     }
 
-    #[TestDox('preschool::numberOfChildren is taken from acf.number_of_children only when numeric')]
+    #[TestDox('preschool::numberOfChildren is taken from acf.number_of_children only when positive numeric')]
     public function testNumeric(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -36,6 +36,31 @@ final class MapNumberOfChildrenTest extends TestCase
                 "acf": {
                     "number_of_children": "fortytwo"
                 }
+            }',
+            Schema::preschool()->numberOfChildren(null)
+        );
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapNumberOfChildren(),
+            '{
+                "acf": {
+                    "number_of_children": 0
+                }
+            }',
+            Schema::preschool()->numberOfChildren(null)
+        );
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapNumberOfChildren(),
+            '{
+                "acf": {
+                    "number_of_children": -42
+                }
+            }',
+            Schema::preschool()->numberOfChildren(null)
+        );
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapNumberOfChildren(),
+            '{
+                "id": 123
             }',
             Schema::preschool()->numberOfChildren(null)
         );
