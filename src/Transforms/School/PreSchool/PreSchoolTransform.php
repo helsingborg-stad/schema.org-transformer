@@ -2,18 +2,34 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Transforms\School;
+namespace SchemaTransformer\Transforms\School\PreSchool;
 
 use Typesense\Client as TypesenseClient;
 use SchemaTransformer\Transforms\School\Events\EventsSearchClient;
 use SchemaTransformer\Transforms\School\Events\EventsSearchClientOnTypesense;
 use SchemaTransformer\Transforms\School\Events\NullEventsSearchClient;
 use Municipio\Schema\PreSchool;
+use SchemaTransformer\Transforms\TransformBase;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
 use Municipio\Schema\TextObject;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapAreaServed;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapContactPoint;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapDescription;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapEmployee;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapEvent;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapIdentifier;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapImage;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapKeywords;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapLocation;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapName;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapNumberOfChildren;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapNumberOfGroups;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapOpeningHoursSpecification;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapPotentialAction;
+use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapVideo;
 
-class PreSchoolTransform implements AbstractDataTransform
+class PreSchoolTransform extends TransformBase implements AbstractDataTransform
 {
     private array $wellknownTextObjectHeadlinesByKey = [
         'custom_excerpt' => '',
@@ -32,8 +48,9 @@ class PreSchoolTransform implements AbstractDataTransform
     /**
      * PreSchoolTransform constructor.
      */
-    public function __construct(private ?TypesenseClient $typesenseClient = null)
+    public function __construct(string $idprefix = '', private ?TypesenseClient $typesenseClient = null)
     {
+        parent::__construct($idprefix);
         $this->eventsSearchClient = $typesenseClient
             ? new EventsSearchClientOnTypesense($typesenseClient)
             : new NullEventsSearchClient();
@@ -47,32 +64,61 @@ class PreSchoolTransform implements AbstractDataTransform
 
     public function transform(array $data): array
     {
-        $transformations = [
-            'transformBase',
-            'transformDescription',
-            'transformKeywords',
-            'transformPlace',
-            'transformEvents',
-            'transformActions',
-            'transformAreaServed',
-            'transformImages',
-            'transformEmployees',
-            'transformContactPoint',
-            'transformNumberOfChildren',
-            'transformOpeningHours',
-            'transformNumberOfGroups',
-            'transformVideo',
+        $mappers = [
+            new MapAreaServed(),
+            new MapContactPoint(),
+            new MapDescription(),
+            new MapEmployee(),
+            new MapEvent($this->eventsSearchClient),
+            new MapIdentifier($this),
+            new MapImage(),
+            new MapKeywords(),
+            new MapLocation(),
+            new MapName(),
+            new MapNumberOfChildren(),
+            new MapNumberOfGroups(),
+            new MapOpeningHoursSpecification(),
+            new MapPotentialAction(),
+            new MapVideo()
         ];
 
-        $result = array_map(function ($item) use ($transformations) {
+        $result = array_map(function ($item) use ($mappers) {
             return array_reduce(
-                $transformations,
-                function ($school, $method) use ($item) {
-                    return $this->$method($school, $item);
+                $mappers,
+                function ($school, $mapper) use ($item) {
+                    return $mapper->map($school, $item);
                 },
-                Schema::preSchool()
+                Schema::preschool()
             )->toArray();
         }, $data);
+        return $result;
+
+        $transformations = [
+                'transformBase',
+                'transformDescription',
+                'transformKeywords',
+                'transformPlace',
+                'transformEvents',
+                'transformActions',
+                'transformAreaServed',
+                'transformImages',
+                'transformEmployees',
+                'transformContactPoint',
+                'transformNumberOfChildren',
+                'transformOpeningHours',
+                'transformNumberOfGroups',
+                'transformVideo',
+                ];
+
+                $result = array_map(function ($item) use ($transformations) {
+                    return array_reduce(
+                        $transformations,
+                        function ($school, $method) use ($item) {
+                            return $this->$method($school, $item);
+                        },
+                        Schema::preSchool()
+                    )->toArray();
+                }, $data);
         return $result;
     }
 

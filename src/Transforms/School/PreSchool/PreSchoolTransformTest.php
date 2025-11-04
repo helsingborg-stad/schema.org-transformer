@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Transforms\School;
+namespace SchemaTransformer\Transforms\School\PreSchool;
 
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use SchemaTransformer\Transforms\School\PreSchoolTransform;
+use SchemaTransformer\Transforms\School\PreSchool\PreSchoolTransform;
 use Municipio\Schema\Schema;
 
 #[CoversClass(PreSchoolTransform::class)]
