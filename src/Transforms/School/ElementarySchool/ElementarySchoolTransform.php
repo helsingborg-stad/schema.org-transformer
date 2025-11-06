@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Transforms\School;
+namespace SchemaTransformer\Transforms\School\ElementarySchool;
 
 use Typesense\Client as TypesenseClient;
 use SchemaTransformer\Transforms\School\Events\EventsSearchClient;
 use SchemaTransformer\Transforms\School\Events\EventsSearchClientOnTypesense;
 use SchemaTransformer\Transforms\School\Events\NullEventsSearchClient;
 use Municipio\Schema\ElementarySchool;
+use SchemaTransformer\Transforms\TransformBase;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
 use Municipio\Schema\TextObject;
 
-class ElementarySchoolTransform implements AbstractDataTransform
+class ElementarySchoolTransform extends TransformBase implements AbstractDataTransform
 {
     private array $wellknownTextObjectHeadlinesByKey = [
         'custom_excerpt'     => '',
@@ -32,8 +33,9 @@ class ElementarySchoolTransform implements AbstractDataTransform
     /**
      * ElementarySchoolTransform constructor.
      */
-    public function __construct(private ?TypesenseClient $typesenseClient = null)
+    public function __construct(string $idprefix = '', private ?TypesenseClient $typesenseClient = null)
     {
+        parent::__construct($idprefix);
         $this->eventsSearchClient = $typesenseClient
             ? new EventsSearchClientOnTypesense($typesenseClient)
             : new NullEventsSearchClient();
