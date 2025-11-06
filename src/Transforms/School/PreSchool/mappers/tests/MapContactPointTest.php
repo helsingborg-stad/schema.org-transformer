@@ -13,7 +13,7 @@ use SchemaTransformer\Transforms\School\PreSchool\Mappers\MapContactPoint;
 #[CoversClass(MapContactPoint::class)]
 final class MapContactPointTest extends TestCase
 {
-    #[TestDox('preschool::contactPoint is taken from acf.link_facebook and acf.link_instagrap')]
+    #[TestDox('preschool::contactPoint is taken from acf.link_facebook and acf.link_instagram')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
