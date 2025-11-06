@@ -36,7 +36,8 @@ final class ElementarySchoolTransformTest extends TestCase
         ->employee([])
         ->contactPoint([])
         ->hasOfferCatalog([])
-        ->video([]);
+        ->video([])
+        ->setProperty('x-created-by', 'municipio://schema.org-transformer/elementary-school');
 
         $actualSchool = (new ElementarySchoolTransform())->transform(
             [$source]
@@ -266,7 +267,8 @@ final class ElementarySchoolTransformTest extends TestCase
         ->video([
             Schema::videoObject()
                 ->url('https://skolan.se/video.mp4')
-            ]);
+            ])
+        ->setProperty('x-created-by', 'municipio://schema.org-transformer/elementary-school');
 
         $actualSchool = (new ElementarySchoolTransform())->transform(
             [$source]
