@@ -29,44 +29,49 @@ if [[ ${WP_LEGACY_EVENTS_API_URL} == http* ]]; then
     fi
 fi
 
-# Retreive and transform wordpress events to temp file
-php -d memory_limit=1024M ../../router.php \
-    --source ${WP_LEGACY_EVENTS_API_URL} \
-    --paginator wordpress \
-    --transform wp_legacy_event \
-    --outputformat jsonl \
-    --output ${TMPFILE} \
-    --idprefix L
+(
+    flock -n 9 || exit 1
+    echo "FETCHING WP LEGACY EVENTS..."
 
-if [ $? -ne 0 ]; then
-    echo "FAILED to transform request to file ${TMPFILE}"
-else
-    # Clear collection
-    echo "Deleting documents"
-    curl -X DELETE \
-        -H "x-typesense-api-key: ${TYPESENSE_APIKEY}" \
-        -H "Content-Type: application/json" \
-        "${TYPESENSE_BASE_PATH}/collections/events/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-legacy"
+    # Retreive and transform wordpress events to temp file
+    php -d memory_limit=1024M ../../router.php \
+        --source ${WP_LEGACY_EVENTS_API_URL} \
+        --paginator wordpress \
+        --transform wp_legacy_event \
+        --outputformat jsonl \
+        --output ${TMPFILE} \
+        --idprefix L
 
     if [ $? -ne 0 ]; then
-        echo "FAILED to delete documents"
+        echo "FAILED to transform request to file ${TMPFILE}"
+    else
+        # Clear collection
+        echo "Deleting documents"
+        curl -X DELETE \
+            -H "x-typesense-api-key: ${TYPESENSE_APIKEY}" \
+            -H "Content-Type: application/json" \
+            "${TYPESENSE_BASE_PATH}/collections/events/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-legacy"
+
+        if [ $? -ne 0 ]; then
+            echo "FAILED to delete documents"
+        fi
+
+        # POST result to typesense
+        echo "Creating documents"
+        curl ${TYPESENSE_PATH}/import?action=create -X POST --data-binary @${TMPFILE} -H "Content-Type: text/plain" -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
+
+        if [ $? -ne 0 ]; then
+            echo "FAILED to upload document"
+        fi
+
+        # Clear typesense cache
+        echo "Clearing Typesense cache"
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_APIKEY}" -X POST ${TYPESENSE_BASE_PATH}/operations/cache/clear
+
+        if [ $? -ne 0 ]; then
+            echo "FAILED to clear Typesense cache"
+        fi
     fi
-
-    # POST result to typesense
-    echo "Creating documents"
-    curl ${TYPESENSE_PATH}/import?action=create -X POST --data-binary @${TMPFILE} -H "Content-Type: text/plain" -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
-
-    if [ $? -ne 0 ]; then
-        echo "FAILED to upload document"
-    fi
-
-    # Clear typesense cache
-    echo "Clearing Typesense cache"
-    curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_APIKEY}" -X POST ${TYPESENSE_BASE_PATH}/operations/cache/clear
-
-    if [ $? -ne 0 ]; then
-        echo "FAILED to clear Typesense cache"
-    fi
-fi
-# Remove temp file
-rm -f ${TMPFILE}
+    # Remove temp file
+    rm -f ${TMPFILE}
+) 9>/tmp/wp-legacy-events.lock
