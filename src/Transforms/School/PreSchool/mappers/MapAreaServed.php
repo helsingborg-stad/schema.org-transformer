@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms\School\PreSchool\Mappers;
 
 use Municipio\Schema\Preschool;
-use SchemaTransformer\Transforms\School\PreSchool\Mappers\PreSchoolDataMapperInterface;
 
 class MapAreaServed extends AbstractPreSchoolDataMapper
 {

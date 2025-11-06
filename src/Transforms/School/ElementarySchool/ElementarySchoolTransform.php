@@ -8,11 +8,9 @@ use Typesense\Client as TypesenseClient;
 use SchemaTransformer\Transforms\School\Events\EventsSearchClient;
 use SchemaTransformer\Transforms\School\Events\EventsSearchClientOnTypesense;
 use SchemaTransformer\Transforms\School\Events\NullEventsSearchClient;
-use Municipio\Schema\ElementarySchool;
 use SchemaTransformer\Transforms\TransformBase;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
-use Municipio\Schema\TextObject;
 use SchemaTransformer\Transforms\School\ElementarySchool\Mappers\MapAfterSchoolCare;
 use SchemaTransformer\Transforms\School\ElementarySchool\Mappers\MapAreaServed;
 use SchemaTransformer\Transforms\School\ElementarySchool\Mappers\MapContactPoint;
@@ -32,18 +30,6 @@ use SchemaTransformer\Transforms\School\ElementarySchool\Mappers\MapXCreatedBy;
 
 class ElementarySchoolTransform extends TransformBase implements AbstractDataTransform
 {
-    private array $wellknownTextObjectHeadlinesByKey = [
-        'custom_excerpt'     => '',
-        'about_us'           => 'Om oss',
-        'how_we_work'        => 'Så arbetar vi',
-        'our_leisure_center' => 'Vårt fritidshem'
-    ];
-
-    private array $taxonomiesExcludedFromKeywords = [
-        'area'  => true,
-        'grade' => true,
-    ];
-
     private EventsSearchClient $eventsSearchClient;
 
     /**
@@ -67,7 +53,8 @@ class ElementarySchoolTransform extends TransformBase implements AbstractDataTra
     {
         $mappers = [
             new MapAfterSchoolCare(),
-            new MapAreaServed(),new MapContactPoint(),
+            new MapAreaServed(),
+            new MapContactPoint(),
             new MapDescription(),
             new MapEmployee(),
             new MapEvent($this->eventsSearchClient),

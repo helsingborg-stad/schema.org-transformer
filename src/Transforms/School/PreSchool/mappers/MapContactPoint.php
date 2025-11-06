@@ -6,7 +6,6 @@ namespace SchemaTransformer\Transforms\School\PreSchool\Mappers;
 
 use Municipio\Schema\Schema;
 use Municipio\Schema\Preschool;
-use SchemaTransformer\Transforms\School\PreSchool\Mappers\PreSchoolDataMapperInterface;
 
 class MapContactPoint extends AbstractPreSchoolDataMapper
 {

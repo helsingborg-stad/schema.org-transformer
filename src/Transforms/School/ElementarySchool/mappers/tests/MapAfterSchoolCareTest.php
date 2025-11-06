@@ -14,7 +14,7 @@ use SchemaTransformer\Transforms\School\ElementarySchool\Mappers\MapAreaServed;
 #[CoversClass(MapAfterSchoolCare::class)]
 final class MapAfterSchoolCareTest extends TestCase
 {
-    #[TestDox('elementarySchool::afterSchoolCare is taken from _embedded->acf:term with taxonomy area')]
+    #[TestDox('elementarySchool::afterSchoolCare is taken from open_hours_leisure_center')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
