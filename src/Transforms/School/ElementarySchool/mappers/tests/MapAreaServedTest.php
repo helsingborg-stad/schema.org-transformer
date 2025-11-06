@@ -11,7 +11,7 @@ use Municipio\Schema\Schema;
 use SchemaTransformer\Transforms\School\ElementarySchool\Mappers\MapAfterSchoolCare;
 use SchemaTransformer\Transforms\School\ElementarySchool\Mappers\MapAreaServed;
 
-#[CoversClass(MapAfterSchoolCare::class)]
+#[CoversClass(MapAreaServed::class)]
 final class MapAreaServedTest extends TestCase
 {
     #[TestDox('elementarySchool::areaServed is taken from _embedded->acf:term with taxonomy area')]
