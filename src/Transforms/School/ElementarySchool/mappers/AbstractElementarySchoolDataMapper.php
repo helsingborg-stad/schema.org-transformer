@@ -16,7 +16,8 @@ abstract class AbstractElementarySchoolDataMapper implements ElementarySchoolDat
         'custom_excerpt'     => '',
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Så arbetar vi',
-        'our_leisure_center' => 'Vårt fritidshem'
+        'our_leisure_center' => 'Vårt fritidshem',
+        'visit_us'           => 'Besök oss',    // this key might not be used but added for consistency
     ];
 
     public function __construct(private ?TransformBase $transform = null)
