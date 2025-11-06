@@ -21,13 +21,13 @@ class MapDescription extends AbstractPreSchoolDataMapper
         ];
 
         foreach ($data['acf']['information'] ?? [] as $key => $text) {
-            $descriptions[] =
-            (
-                is_string($text) ? $this->tryCreateTextObject($key, $text) : null
-                ) ?? (
-                is_array($text) && is_array($text[0]) ?
-                $this->tryCreateTextObject($text[0]['heading'], $text[0]['content']) : null
-                );
+            if (is_string($text)) {
+                $descriptions[] = $this->tryCreateTextObject($key, $text);
+            } elseif (is_array($text)) {
+                foreach ($text as $item) {
+                    $descriptions[] = $this->tryCreateTextObject($item['heading'], $item['content']);
+                }
+            }
         }
         foreach ($data['pages_embedded'] ?? [] as $page) {
             array_push($descriptions, $this->tryCreateTextObject($page['post_title'] ?? null, $page['post_content'] ?? null));

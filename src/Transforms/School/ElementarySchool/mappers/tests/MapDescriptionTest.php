@@ -28,8 +28,11 @@ final class MapDescriptionTest extends TestCase
                         "how_we_work": "redaktionell hur vi arbetar",
                         "optional": [
                         {
-                            "heading": "extra rubrik",
-                            "content": "extra innehåll"
+                            "heading": "extra rubrik 1",
+                            "content": "extra innehåll 1"
+                        },{
+                            "heading": "extra rubrik 2",
+                            "content": "extra innehåll 2"
                         }]
                     }
                 },
@@ -51,7 +54,8 @@ final class MapDescriptionTest extends TestCase
                 Schema::textObject()->name("visit_us")->text("Välkommen på besök")->headline('Besök oss'),
                 Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
                 Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Så arbetar vi'),
-                Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik'),
+                Schema::textObject()->name("extra rubrik 1")->text("extra innehåll 1")->headline('extra rubrik 1'),
+                Schema::textObject()->name("extra rubrik 2")->text("extra innehåll 2")->headline('extra rubrik 2'),
                 Schema::textObject()->name("Sida 1")->text("Innehåll för sida 1")->headline('Sida 1'),
                 Schema::textObject()->name("Sida 2")->text("Innehåll för sida 2")->headline('Sida 2')
             ])
