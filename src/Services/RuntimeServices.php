@@ -14,8 +14,8 @@ use SchemaTransformer\Transforms\DataSanitizers\SanitizeReachmeeJobPostingLink;
 use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
 use SchemaTransformer\Transforms\StratsysTransform;
 use SchemaTransformer\Transforms\WPExhibitionEventTransform;
-use SchemaTransformer\Transforms\School\ElementarySchoolTransform;
-use SchemaTransformer\Transforms\School\PreSchoolTransform;
+use SchemaTransformer\Transforms\School\ElementarySchool\ElementarySchoolTransform;
+use SchemaTransformer\Transforms\School\PreSchool\PreSchoolTransform;
 use SchemaTransformer\Transforms\TixEvents\TixEventTransform;
 use SchemaTransformer\Transforms\WPLegacyEvents\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\WPHeadLessEvents\WPHeadlessEventTransform;
@@ -62,8 +62,8 @@ class RuntimeServices
         );
         $this->wpEventService           = new Service($reader, $writer, new WPHeadlessEventTransform($idprefix), $converter);
         $this->wpExhibitionEventService = new Service($reader, $writer, new WPExhibitionEventTransform(), $converter);
-        $this->elementarySchoolService  = new Service($reader, $writer, new ElementarySchoolTransform($this->typesenseClient), $converter);
-        $this->preSchoolService         = new Service($reader, $writer, new PreSchoolTransform($this->typesenseClient), $converter);
+        $this->elementarySchoolService  = new Service($reader, $writer, new ElementarySchoolTransform($idprefix, $this->typesenseClient), $converter);
+        $this->preSchoolService         = new Service($reader, $writer, new PreSchoolTransform($idprefix, $this->typesenseClient), $converter);
         $this->tixEventService          = new Service($reader, $writer, new TixEventTransform($idprefix), $converter);
     }
 
