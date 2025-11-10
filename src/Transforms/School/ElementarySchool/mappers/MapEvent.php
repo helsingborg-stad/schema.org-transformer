@@ -18,8 +18,9 @@ class MapEvent extends AbstractElementarySchoolDataMapper
 
     public function map(ElementarySchool $school, array $data): ElementarySchool
     {
+        $schoolName = $data['title']['rendered'] ?? '';
         return $school->event(
-            $this->eventsSearchClient->searchEventsBySchoolName($school->getProperty('name') ?? '')
+            $this->eventsSearchClient->searchEventsBySchoolName($schoolName)
         );
     }
 }
