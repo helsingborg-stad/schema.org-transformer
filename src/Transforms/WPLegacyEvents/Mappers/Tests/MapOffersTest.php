@@ -157,4 +157,46 @@ final class MapOffersTest extends TestCase
             ])
         );
     }
+
+    #[TestDox('event::offers normalizes prices')]
+    public function testNormalizesPrices()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapOffers(),
+            '{
+                "price_adult": " 250  ",
+                "price_senior": "\t200\n",
+                "price_range": {
+                    "seated_minimum_price": "\n20",
+                    "seated_maximum_price": "   45 . 50 ",
+                    "standing_minimum_price": null
+                }
+            }',
+            Schema::event()->offers([
+                Schema::offer()
+                    ->name('Standard/Vuxen')
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Standard/Vuxen')
+                        ->price('250')
+                        ->minPrice('250')
+                        ->maxPrice('250')
+                        ->priceCurrency('SEK')]),
+                Schema::offer()
+                    ->name('Pensionär')
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Pensionär')
+                        ->price('200')
+                        ->minPrice('200')
+                        ->maxPrice('200')
+                        ->priceCurrency('SEK')]),
+                Schema::offer()
+                    ->name('Sittplats')
+                    ->priceSpecification([Schema::priceSpecification()
+                        ->name('Sittplats')
+                        ->minPrice('20')
+                        ->maxPrice('45.50')])
+                        ->priceCurrency('SEK')
+            ])
+        );
+    }
 }
