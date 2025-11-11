@@ -24,7 +24,7 @@ class MapEventSchedule extends AbstractWPLegacyEventMapper
                         ->startDate($d['start_date'] ?? null)
                         ->endDate($d['end_date'] ?? null)
                         ->url($d['booking_link'] ?? null),
-                    $data['occasions'] ?? [ ]
+                    $data['all_occasions'] ?? [ ]
                 )
             )
         );

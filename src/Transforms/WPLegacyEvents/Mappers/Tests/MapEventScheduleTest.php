@@ -20,7 +20,7 @@ final class MapEventScheduleTest extends TestCase
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEventSchedule(),
             '{
-                "occasions": []
+                "all_occasions": []
             }',
             Schema::event()
             ->eventSchedule([])
@@ -35,13 +35,13 @@ final class MapEventScheduleTest extends TestCase
         );
     }
 
-    #[TestDox('event::eventSchedule is taken from source->occasions')]
+    #[TestDox('event::eventSchedule is taken from source-all_occasions')]
     public function testMapEventSchedule()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEventSchedule(),
             '{
-                "occasions": [
+                "all_occasions": [
                 {
                     "start_date": "2030-02-11 15:15",
                     "end_date": "2030-02-11 16:30",
