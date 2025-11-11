@@ -14,13 +14,13 @@ use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapEventStatus;
 #[CoversClass(MapEventStatus::class)]
 final class MapEventStatusTest extends TestCase
 {
-    #[TestDox('event::eventStatus is taken from first occasion status, scheduled')]
+    #[TestDox('event::eventStatus is taken from first all_occasion status, scheduled')]
     public function testEventStatusScheduled()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEventStatus(),
             '{
-                "occasions": [
+                "all_occasions": [
                 {
                     "status": "scheduled"
                 },
@@ -33,13 +33,13 @@ final class MapEventStatusTest extends TestCase
         );
     }
 
-    #[TestDox('event::eventStatus is taken from first occasion status, rescheduled')]
+    #[TestDox('event::eventStatus is taken from first all_occasion status, rescheduled')]
     public function testEventStatusRescheduled()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEventStatus(),
             '{
-                "occasions": [
+                "all_occasions": [
                 {
                     "status": "rescheduled"
                 },
@@ -52,13 +52,13 @@ final class MapEventStatusTest extends TestCase
         );
     }
 
-    #[TestDox('event::eventStatus is taken from first occasion status, cancelled')]
+    #[TestDox('event::eventStatus is taken from first all_occasion status, cancelled')]
     public function testEventStatusCancelled()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEventStatus(),
             '{
-                "occasions": [
+                "all_occasions": [
                 {
                     "status": "cancelled"
                 },

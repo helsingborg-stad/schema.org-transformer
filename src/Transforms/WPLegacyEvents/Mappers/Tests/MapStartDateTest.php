@@ -14,13 +14,13 @@ use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapStartDate;
 #[CoversClass(MapStartDate::class)]
 final class MapStartDateTest extends TestCase
 {
-    #[TestDox('event::startDate is take from occasions.start_date if available')]
+    #[TestDox('event::startDate is take from all_occasions.start_date if available')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapStartDate(),
             '{
-                "occasions": [
+                "all_occasions": [
                 {
                     "start_date": "2030-02-11 15:15"
                 },
@@ -39,7 +39,7 @@ final class MapStartDateTest extends TestCase
         );
     }
 
-    #[TestDox('event::startDate(null) when occasions is empty or missing')]
+    #[TestDox('event::startDate(null) when all_occasions is empty or missing')]
     public function testMissingOccasions()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(

@@ -18,7 +18,7 @@ class MapEventStatus extends AbstractWPLegacyEventMapper
     public function map(Event $event, array $data): Event
     {
         return $event->eventStatus(
-            match (strtolower($data['occasions'][0]['status'] ?? '')) {
+            match (strtolower($data['all_occasions'][0]['status'] ?? '')) {
                 'rescheduled' => Schema::eventStatusType()::EventRescheduled,
                 'cancelled' => Schema::eventStatusType()::EventCancelled,
                 default => Schema::eventStatusType()::EventScheduled,

@@ -14,13 +14,13 @@ use SchemaTransformer\Transforms\WPLegacyEvents\Mappers\MapEndDate;
 #[CoversClass(MapEndDate::class)]
 final class MapEndDateTest extends TestCase
 {
-    #[TestDox('event::endDate is taken from source.occasions.end_date if available')]
+    #[TestDox('event::endDate is taken from source.all_occasions.end_date if available')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEndDate(),
             '{
-                "occasions": [
+                "all_occasions": [
                     {
                         "end_date": "2030-02-11 16:30"
                     },
@@ -36,7 +36,7 @@ final class MapEndDateTest extends TestCase
         );
     }
 
-    #[TestDox('event::endDate(null) when occasions is empty or missing')]
+    #[TestDox('event::endDate(null) when all_occasions is empty or missing')]
     public function testMissingOccasions()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
