@@ -14,6 +14,8 @@ cd ${SCRIPT_DIR}
 (
     flock -n 9 || exit 1
 
+    logger -t elementary-school "FETCHING FROM API..."
+
     # Retrieve and transform elementary school data
     php ../../router.php \
         --source ${ELEMENTARY_SCHOOL_API_URL} \

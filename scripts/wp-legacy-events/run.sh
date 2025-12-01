@@ -31,7 +31,8 @@ fi
 
 (
     flock -n 9 || exit 1
-    echo "FETCHING WP LEGACY EVENTS..."
+
+    logger -t wp-legacy-events "FETCHING FROM API..."
 
     # Retreive and transform wordpress events to temp file
     php -d memory_limit=1024M ../../router.php \

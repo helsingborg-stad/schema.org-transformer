@@ -13,6 +13,9 @@ cd ${SCRIPT_DIR}
 
 (
     flock -n 9 || exit 1
+
+    logger -t pre-school "FETCHING FROM API..."
+
     # Retrieve and transform pre-school data
     php ../../router.php \
         --source ${PRE_SCHOOL_API_URL} \
