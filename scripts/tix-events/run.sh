@@ -48,11 +48,6 @@ else
 
     if [ $? -ne 0 ]; then
         echo "FAILED to clear Typesense cache"
-    fi
-
-    # Call monitoring url if set
-    if [ ! -z ${TIX_EVENTS_MONITOR_URL} ]; then
-        curl -s ${TIX_EVENTS_MONITOR_URL} >/dev/null
     else
         # Call monitoring url if set
         if [ ! -z ${TIX_EVENTS_MONITOR_URL} ]; then curl -s ${TIX_EVENTS_MONITOR_URL} >/dev/null; fi
