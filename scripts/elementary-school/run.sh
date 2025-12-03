@@ -53,6 +53,9 @@ cd ${SCRIPT_DIR}
 
         if [ $? -ne 0 ]; then
             echo "FAILED to clear Typesense cache"
+        else
+            # Call monitoring url if set
+            if [ ! -z ${ELEMENTARY_SCHOOL_MONITOR_URL} ]; then curl -s ${ELEMENTARY_SCHOOL_MONITOR_URL} >/dev/null; fi
         fi
     fi
     # Remove temp file
