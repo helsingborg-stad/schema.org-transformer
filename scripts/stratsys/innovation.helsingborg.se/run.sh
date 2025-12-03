@@ -65,6 +65,9 @@ else
 
     if [ $? -ne 0 ]; then
         echo "FAILED to clear Typesense cache"
+    else
+        # Call monitoring url if set
+        if [ -n "$STRATSYS_INNOVATION_MONITOR_URL" ]; then curl -s "$STRATSYS_INNOVATION_MONITOR_URL" >/dev/null; fi
     fi
 
 fi

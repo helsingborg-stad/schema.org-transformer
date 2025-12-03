@@ -71,6 +71,9 @@ fi
 
         if [ $? -ne 0 ]; then
             echo "FAILED to clear Typesense cache"
+        else
+            # Call monitoring url if set
+            if [ -n "$WP_LEGACY_EVENTS_MONITOR_URL" ]; then curl -s "$WP_LEGACY_EVENTS_MONITOR_URL" >/dev/null; fi
         fi
     fi
     # Remove temp file
