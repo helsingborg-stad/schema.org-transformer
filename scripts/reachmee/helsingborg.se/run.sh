@@ -53,7 +53,7 @@ else
         echo "FAILED to clear Typesense cache"
     else
         # Call monitoring url if set
-        if [ ! -z ${REACHMEE_HELSINGBORG_MONITOR_URL} ]; then curl -s ${REACHMEE_HELSINGBORG_MONITOR_URL} >/dev/null; fi
+        if [ -n "$REACHMEE_HELSINGBORG_MONITOR_URL" ]; then curl -s "$REACHMEE_HELSINGBORG_MONITOR_URL" >/dev/null; fi
     fi
 fi
 # Remove temp file

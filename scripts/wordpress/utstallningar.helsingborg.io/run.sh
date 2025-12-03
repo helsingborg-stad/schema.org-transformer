@@ -56,7 +56,7 @@ else
         echo "FAILED to clear Typesense cache"
     else
         # Call monitoring url if set
-        if [ ! -z ${WORDPRESS_EXHIBITION_EVENTS_MONITOR_URL} ]; then curl -s ${WORDPRESS_EXHIBITION_EVENTS_MONITOR_URL} >/dev/null; fi
+        if [ -n "$WORDPRESS_EXHIBITION_EVENTS_MONITOR_URL" ]; then curl -s "$WORDPRESS_EXHIBITION_EVENTS_MONITOR_URL" >/dev/null; fi
     fi
 fi
 # Remove temp file
