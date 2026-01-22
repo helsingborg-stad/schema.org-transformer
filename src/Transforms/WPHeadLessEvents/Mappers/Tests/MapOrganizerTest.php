@@ -15,37 +15,68 @@ use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\Tests\TestHelper;
 #[CoversClass(MapOrganizer::class)]
 final class MapOrganizerTest extends TestCase
 {
-    #[TestDox('event::organizer is constructed from acf.organizerName, acf.organizerPhone, acf.organizerEmail, acf.organizerAddress, acf.organizerUrl')]
+    #[TestDox('event::organizer is constructed from taxonomies in _embedded.acf:term')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapOrganizer(new WPHeadlessEventTransform('hl')),
             '{
-                "acf": {
-                    "organizerName": "Test Organizer",
-                    "organizerPhone": "123-456-7890",
-                    "organizerEmail": "organizer@example.com",
-                    "organizerAddress": "123 Organizer St, Organizer City, OR 12345",
-                    "organizerUrl": "https://organizer.example.com"
+                "_embedded": {
+                    "acf:term": [
+                        {
+                            "name": "Not an Organizer",
+                            "taxonomy": "category",
+                            "acf": {}
+                        },
+                        {
+                            "name": "Test Organizer",
+                            "taxonomy": "organization",
+                            "acf": {
+                                "address": "123 Organizer St, Organizer City, OR 12345",
+                                "url": "https://organizer.example.com",
+                                "email": "organizer@example.com",
+                                "telephone": "123-456-7890",
+                                "contact": "test contact"
+                            }
+                        },
+                        {
+                            "name": "Another Organizer",
+                            "taxonomy": "organization",
+                            "acf": {
+                                "address": null,
+                                "url": null,
+                                "email": "another@example.com",
+                                "telephone": null
+                            }
+                        }   
+                    ]
                 }
             }',
-            Schema::event()->organizer([Schema::organization()
-                ->name('Test Organizer')
-                ->telephone('123-456-7890')
-                ->email('organizer@example.com')
-                ->address('123 Organizer St, Organizer City, OR 12345')
-            ->url('https://organizer.example.com')])
+            Schema::event()->organizer([
+                Schema::organization()
+                    ->name('Test Organizer')
+                    ->url('https://organizer.example.com')
+                    ->telephone('123-456-7890')
+                    ->email('organizer@example.com')
+                    ->address('123 Organizer St, Organizer City, OR 12345')
+                    ->contactPoint([Schema::contactPoint()
+                        ->name('test contact')
+                    ]),
+                Schema::organization()
+                    ->name('Another Organizer')
+                    ->email('another@example.com')
+                    ->contactPoint([]),
+            ])
         );
     }
 
-    #[TestDox('event::organizer[] when missing acf.organizerName')]
+    #[TestDox('event::organizer([]) when missing _embedded.acf:term')]
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapOrganizer(new WPHeadlessEventTransform('hl')),
             '{
-                "id": 123,
-                "organizerUrl": "never considered"
+                "id": 123
             }',
             Schema::event()->organizer([])
         );

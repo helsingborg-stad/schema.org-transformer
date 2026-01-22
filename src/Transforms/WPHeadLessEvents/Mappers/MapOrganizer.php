@@ -17,20 +17,29 @@ class MapOrganizer extends AbstractWPHeadlessEventMapper
 
     public function map(Event $event, array $data): Event
     {
-        // _embedded->acf:term
-            // taxonomy=organization
-            // hantera mutipla
         return $event->organizer(
-            array_filter([
-                $data['acf']['organizerName'] ?? null
-                ? Schema::organization()
-                    ->name($data['acf']['organizerName'] ?? null)
-                    ->telephone($data['acf']['organizerPhone'] ?? null)
-                    ->email($data['acf']['organizerEmail'] ?? null)
-                    ->address($data['acf']['organizerAddress'] ?? null)
-                    ->url($data['acf']['organizerUrl'] ?? null)
-                : null
-            ])
+            array_values(
+                array_filter(
+                    array_map(
+                        fn ($term) =>
+                            $term['taxonomy'] === 'organization'
+                                ? Schema::organization()
+                                    ->name($term['name'] ?? null)
+                                    ->address($term['acf']['address'] ?? null)
+                                    ->url($term['acf']['url'] ?? null)
+                                    ->email($term['acf']['email'] ?? null)
+                                    ->telephone($term['acf']['telephone'] ?? null)
+                                    ->contactPoint(
+                                        isset($term['acf']['contact'])
+                                            ? [Schema::contactPoint()
+                                                ->name($term['acf']['contact'] ?? null)]
+                                        : []
+                                    )
+                                    : null,
+                        ($data['_embedded']['acf:term'] ?? []),
+                    )
+                )
+            )
         );
     }
 }
