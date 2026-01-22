@@ -17,6 +17,9 @@ class MapOrganizer extends AbstractWPHeadlessEventMapper
 
     public function map(Event $event, array $data): Event
     {
+        // _embedded->acf:term
+            // taxonomy=organization
+            // hantera mutipla
         return $event->organizer(
             array_filter([
                 $data['acf']['organizerName'] ?? null

@@ -22,7 +22,7 @@ final class MapImageTest extends TestCase
             new MapImage(new WPHeadlessEventTransform('hl')),
             '{
                 "_embedded": {
-                    "wp:featuredmedia": [
+                    "acf:attachment": [
                         {
                             "media_type": "image",
                             "media_details": {
@@ -57,7 +57,7 @@ final class MapImageTest extends TestCase
             new MapImage(new WPHeadlessEventTransform('hl')),
             '{
                 "_embedded": {
-                    "wp:featuredmedia": [
+                    "acf:attachment": [
                         {
                             "media_type": "image",
                             "media_details": {

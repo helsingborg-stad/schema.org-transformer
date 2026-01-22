@@ -21,14 +21,14 @@ class MapImage extends AbstractWPHeadlessEventMapper
             array_values(
                 array_filter(
                     array_map(
-                        fn ($fm) => $fm['media_type'] === 'image' && !empty($fm['media_details']['sizes']['full'])
+                        fn ($fm) => ($fm['media_type'] ?? null) === 'image' && !empty($fm['media_details']['sizes']['full'])
                             ? Schema::imageObject()
                                 ->url($fm['media_details']['sizes']['full']['source_url'])
                                 ->name($fm['title']['rendered'] ?? null)
                                 ->description($fm['alt_text'] ?? null)
                                 ->caption($fm['title']['rendered'] ?? null)
                             : null,
-                        $data['_embedded']['wp:featuredmedia'] ?? [],
+                        $data['_embedded']['acf:attachment'] ?? [],
                     )
                 )
             )
