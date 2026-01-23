@@ -9,7 +9,6 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Municipio\Schema\Schema;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapImage;
-use SchemaTransformer\Transforms\WPHeadLessEvents\WPHeadlessEventTransform;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\Tests\TestHelper;
 
 #[CoversClass(MapImage::class)]
@@ -19,7 +18,7 @@ final class MapImageTest extends TestCase
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapImage(new WPHeadlessEventTransform('hl')),
+            new MapImage(),
             '{
                 "_embedded": {
                     "acf:attachment": [
@@ -54,7 +53,7 @@ final class MapImageTest extends TestCase
     public function testNoFullImages()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapImage(new WPHeadlessEventTransform('hl')),
+            new MapImage(),
             '{
                 "_embedded": {
                     "acf:attachment": [
@@ -83,7 +82,7 @@ final class MapImageTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapImage(new WPHeadlessEventTransform('hl')),
+            new MapImage(),
             '{
                 "id": 123
             }',
