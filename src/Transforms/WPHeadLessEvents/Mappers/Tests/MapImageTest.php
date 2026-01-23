@@ -15,7 +15,7 @@ use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\Tests\TestHelper;
 #[CoversClass(MapImage::class)]
 final class MapImageTest extends TestCase
 {
-    #[TestDox('event::image is constructed from _embedded.wp:featuredmedia.*.full')]
+    #[TestDox('event::image is constructed from _embedded.acf:attachment.*.full')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -50,7 +50,7 @@ final class MapImageTest extends TestCase
         );
     }
 
-    #[TestDox('event::image([]) when missing _embedded.wp:featuredmedia.*.full')]
+    #[TestDox('event::image([]) when missing _embedded.acf:attachment.*.full')]
     public function testNoFullImages()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -79,6 +79,7 @@ final class MapImageTest extends TestCase
         );
     }
 
+    #[TestDox('event::image([]) when missing _embedded')]
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
