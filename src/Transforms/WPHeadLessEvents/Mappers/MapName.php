@@ -17,6 +17,6 @@ class MapName extends AbstractWPHeadlessEventMapper
     public function map(Event $event, array $data): Event
     {
         return $event
-                ->name($data['acf']['name'] ?? null);
+                ->name($data['title']['rendered'] ?? null);
     }
 }
