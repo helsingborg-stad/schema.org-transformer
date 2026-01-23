@@ -22,7 +22,7 @@ class MapOrganizer extends AbstractWPHeadlessEventMapper
                 array_filter(
                     array_map(
                         fn ($term) =>
-                            $term['taxonomy'] === 'organization'
+                            ($term['taxonomy'] ?? null) === 'organization'
                                 ? Schema::organization()
                                     ->name($term['name'] ?? null)
                                     ->address($term['acf']['address'] ?? null)
