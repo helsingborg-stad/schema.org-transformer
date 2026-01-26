@@ -18,7 +18,7 @@ class MapDescription extends AbstractWPHeadlessEventMapper
     {
         return $event->description(
             array_values(
-                array_filter([$data['acf']['description'] ?? null])
+                array_filter([$data['content']['rendered'] ?? null])
             )
         );
     }
