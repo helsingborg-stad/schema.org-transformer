@@ -47,12 +47,13 @@ class MapEventSchedule extends AbstractWPHeadlessEventMapper
 
     public function mapOccassionToSchedules($occasion): ?array /* of Schema::schedule() */
     {
+        $startDateTime = (!empty($occasion['date']) && !empty($occasion['startTime'])) ? date('Y-m-d H:i:s', strtotime($occasion['date'] . ' ' . $occasion['startTime'])) : null;
+        $endDateTime   = (!empty($occasion['untilDate']) && !empty($occasion['endTime'])) ? date('Y-m-d H:i:s', strtotime($occasion['untilDate'] . ' ' . $occasion['endTime'])) : null;
+
         return [
             Schema::schedule()
-                ->startDate(Occasion::tryParseDate($occasion['date'])?->format('Y-m-d'))
-                ->endDate(Occasion::tryParseDate($occasion['untilDate'])?->format('Y-m-d'))
-                ->startTime($occasion['startTime'] ?? null)
-                ->endTime($occasion['endTime'] ?? null)
+                ->startDate($startDateTime)
+                ->endDate($endDateTime)
                 ->description($occasion['description'] ?? null)
         ];
     }
@@ -68,12 +69,14 @@ class MapEventSchedule extends AbstractWPHeadlessEventMapper
         return array_merge(
             ...array_map(
                 fn ($weekDay) => array_map(
-                    fn ($date) => Schema::schedule()
-                        ->startDate($date->format('Y-m-d'))
-                        ->endDate($date->format('Y-m-d'))
-                        ->startTime($occasion['startTime'] ?? null)
-                        ->endTime($occasion['endTime'] ?? null)
-                        ->description($occasion['description'] ?? null),
+                    function ($date) use ($occasion) {
+                        $startDateTime = (!empty($occasion['startTime'])) ? date('Y-m-d H:i:s', strtotime($date->format('Y-m-d') . ' ' . $occasion['startTime'])) : null;
+                        $endDateTime   = (!empty($occasion['endTime'])) ? date('Y-m-d H:i:s', strtotime($date->format('Y-m-d') . ' ' . $occasion['endTime'])) : null;
+                        return Schema::schedule()
+                            ->startDate($startDateTime)
+                            ->endDate($endDateTime)
+                            ->description($occasion['description'] ?? null);
+                    },
                     WeeklyOccasion::getDatesInPeriod(
                         Occasion::tryParseDate($occasion['date'] ?? ''),
                         Occasion::tryParseDate($occasion['untilDate'] ?? ''),

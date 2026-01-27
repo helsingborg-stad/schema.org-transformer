@@ -36,10 +36,8 @@ final class MapEventScheduleTest extends TestCase
             }',
             Schema::event()->eventSchedule([
                 Schema::schedule()
-                    ->startDate('2025-10-01')
-                    ->endDate('2025-10-01')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
+                    ->startDate('2025-10-01 12:00:00')
+                    ->endDate('2025-10-01 15:00:00')
             ])
         );
     }
@@ -73,35 +71,73 @@ final class MapEventScheduleTest extends TestCase
             }',
             Schema::event()->eventSchedule([
                 Schema::schedule()
-                    ->startDate('2025-10-01')
-                    ->endDate('2025-10-01')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
+                    ->startDate('2025-10-01 12:00:00')
+                    ->endDate('2025-10-01 15:00:00'),
                 Schema::schedule()
-                    ->startDate('2025-10-02')
-                    ->endDate('2025-10-02')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
+                    ->startDate('2025-10-02 12:00:00')
+                    ->endDate('2025-10-02 15:00:00'),
                 Schema::schedule()
-                    ->startDate('2025-10-15')
-                    ->endDate('2025-10-15')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
+                    ->startDate('2025-10-15 12:00:00')
+                    ->endDate('2025-10-15 15:00:00'),
                 Schema::schedule()
-                    ->startDate('2025-10-16')
-                    ->endDate('2025-10-16')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
+                    ->startDate('2025-10-16 12:00:00')
+                    ->endDate('2025-10-16 15:00:00'),
                 Schema::schedule()
-                    ->startDate('2025-10-29')
-                    ->endDate('2025-10-29')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00'),
+                    ->startDate('2025-10-29 12:00:00')
+                    ->endDate('2025-10-29 15:00:00'),
                 Schema::schedule()
-                    ->startDate('2025-10-30')
-                    ->endDate('2025-10-30')
-                    ->startTime('12:00:00')
-                    ->endTime('15:00:00')
+                    ->startDate('2025-10-30 12:00:00')
+                    ->endDate('2025-10-30 15:00:00')
+            ])
+        );
+    }
+
+    #[TestDox('does not fail when startTime or endTime is missing')]
+    public function testMissingTimeHandling()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapEventSchedule(new WPHeadlessEventTransform('hl')),
+            '{
+                "acf": {
+                    "occasions": [
+                        {
+                            "repeat": "no",
+                            "date": "20251001",
+                            "untilDate": "20251001",
+                            "url": ""
+                        }
+                    ]
+                }
+            }',
+            Schema::event()->eventSchedule([
+                Schema::schedule()
+                    ->startDate(null)
+                    ->endDate(null)
+            ])
+        );
+    }
+
+    #[TestDox('does not fail when startDate or endDate is missing')]
+    public function testMissingDateHandling()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapEventSchedule(new WPHeadlessEventTransform('hl')),
+            '{
+                "acf": {
+                    "occasions": [
+                        {
+                            "repeat": "no",
+                            "startTime": "12:00:00",
+                            "endTime": "15:00:00",
+                            "url": ""
+                        }
+                    ]
+                }
+            }',
+            Schema::event()->eventSchedule([
+                Schema::schedule()
+                    ->startDate(null)
+                    ->endDate(null)
             ])
         );
     }
