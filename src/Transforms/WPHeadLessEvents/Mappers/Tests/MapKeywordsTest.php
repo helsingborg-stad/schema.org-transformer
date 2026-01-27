@@ -9,7 +9,6 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Municipio\Schema\Schema;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\MapKeywords;
-use SchemaTransformer\Transforms\WPHeadLessEvents\WPHeadlessEventTransform;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\Tests\TestHelper;
 
 #[CoversClass(MapKeywords::class)]
@@ -19,7 +18,7 @@ final class MapKeywordsTest extends TestCase
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapKeywords(new WPHeadlessEventTransform('hl')),
+            new MapKeywords(),
             '{
                 "_embedded": {
                     "acf:term": [
@@ -49,7 +48,7 @@ final class MapKeywordsTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapKeywords(new WPHeadlessEventTransform('hl')),
+            new MapKeywords(),
             '{
                 "id": 123
             }',

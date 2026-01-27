@@ -26,13 +26,24 @@ class MapKeywords extends AbstractWPHeadlessEventMapper
                     array_map(
                         fn ($term) => $this->ignoredTaxonomies[$term['taxonomy'] ?? ''] ?? false
                             ? null
-                            : Schema::definedTerm()
-                                ->name($term['name'])
-                                ->inDefinedTermSet(Schema::definedTermSet()->name($term['taxonomy'])),
+                            : $this->tryMapDefinedTerm($term['name'] ?? null, $term['taxonomy'] ?? null),
                         $data['_embedded']['acf:term'] ?? []
                     )
                 )
             )
         );
+    }
+
+    private function tryMapDefinedTerm(?string $name, ?string $taxonomy): ?\Municipio\Schema\DefinedTerm
+    {
+        if (empty($name)) {
+            return null;
+        }
+        if (empty($taxonomy)) {
+            return null;
+        }
+        return Schema::definedTerm()
+            ->name($name)
+            ->inDefinedTermSet(Schema::definedTermSet()->name($taxonomy));
     }
 }

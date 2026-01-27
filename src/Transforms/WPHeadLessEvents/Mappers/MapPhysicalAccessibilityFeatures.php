@@ -28,7 +28,7 @@ class MapPhysicalAccessibilityFeatures extends AbstractWPHeadlessEventMapper
                     array_map(
                         fn ($term) =>
                             ($term['taxonomy'] ?? null) === 'accessibility'
-                            ? $term['name']
+                            ? $term['name'] ?? null
                             : null,
                         ($data['_embedded']['acf:term'] ?? []),
                     )
