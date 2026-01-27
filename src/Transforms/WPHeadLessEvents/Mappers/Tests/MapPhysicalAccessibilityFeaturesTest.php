@@ -19,12 +19,24 @@ final class MapPhysicalAccessibilityFeaturesTest extends TestCase
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapPhysicalAccessibilityFeatures(new WPHeadlessEventTransform('hl')),
+            new MapPhysicalAccessibilityFeatures(),
             '{
-                "accessibility": [
-                    "Toalett",
-                    "Kiosk"
-                ]
+                "_embedded": {
+                    "acf:term": [
+                        {
+                            "taxonomy": "accessibility",
+                            "name": "Toalett"
+                        },
+                        {
+                            "taxonomy": "accessibility",
+                            "name": "Kiosk"
+                        },
+                        {
+                            "taxonomy": "other",
+                            "name": "Should be ignored"
+                        }
+                    ]
+                }
             }',
             Schema::event()->physicalAccessibilityFeatures(['Toalett', 'Kiosk'])
         );
@@ -34,7 +46,7 @@ final class MapPhysicalAccessibilityFeaturesTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapPhysicalAccessibilityFeatures(new WPHeadlessEventTransform('hl')),
+            new MapPhysicalAccessibilityFeatures(),
             '{
                 "id": 123
             }',

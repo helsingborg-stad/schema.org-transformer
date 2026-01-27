@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms\WPHeadLessEvents\Mappers;
 
+use Municipio\Schema\Schema;
 use Municipio\Schema\Event;
 use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\AbstractWPHeadlessEventMapper;
 
@@ -25,8 +26,11 @@ class MapPhysicalAccessibilityFeatures extends AbstractWPHeadlessEventMapper
             array_values(
                 array_filter(
                     array_map(
-                        fn ($feature) => $this->featureMap[$feature] ?? $feature,
-                        $data['accessibility'] ?? []
+                        fn ($term) =>
+                            ($term['taxonomy'] ?? null) === 'accessibility'
+                            ? $term['name']
+                            : null,
+                        ($data['_embedded']['acf:term'] ?? []),
                     )
                 )
             )
