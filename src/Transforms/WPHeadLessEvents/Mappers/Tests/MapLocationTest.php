@@ -22,14 +22,13 @@ final class MapLocationTest extends TestCase
             new MapLocation(new WPHeadlessEventTransform('hl')),
             '{
                 "acf": {
-                    "locationName": "https://helsingborg.se/",
+                    "locationName": "Dunkers kulturhus",
                     "locationAddress": {
                         "address": "Dunkers kulturhus, Kungsgatan, Helsingborg, Sverige",
                         "lat": 56.0478422,
                         "lng": 12.6890694,
                         "zoom": 14,
                         "place_id": "ChIJhX209zMyUkYR23v1_qmcpyc",
-                        "name": "Dunkers kulturhus",
                         "street_number": 11,
                         "street_name": "Kungsgatan",
                         "city": "Helsingborg",
@@ -45,7 +44,6 @@ final class MapLocationTest extends TestCase
                 ->address('Dunkers kulturhus, Kungsgatan, Helsingborg, Sverige')
                 ->latitude(56.0478422)
                 ->longitude(12.6890694)
-                ->url('https://helsingborg.se/')
             ])
         );
     }
@@ -64,7 +62,6 @@ final class MapLocationTest extends TestCase
                         "lng": 12.6890694,
                         "zoom": 14,
                         "place_id": "ChIJhX209zMyUkYR23v1_qmcpyc",
-                        "name": null,
                         "street_number": 11,
                         "street_name": "Kungsgatan",
                         "city": "Helsingborg",
