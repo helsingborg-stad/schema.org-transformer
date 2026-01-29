@@ -14,26 +14,37 @@ use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\Tests\TestHelper;
 #[CoversClass(MapKeywords::class)]
 final class MapKeywordsTest extends TestCase
 {
-    #[TestDox('event::keywords is constructed from _embedded.acf:term')]
+    #[TestDox('event::keywords is constructed from _embedded.wp:term')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapKeywords(),
             '{
                 "_embedded": {
-                    "acf:term": [
-                        {
-                            "name": "Test term",
-                            "taxonomy": "term_keyword"
-                        },
-                        {
-                            "name": "event with blacklisted taxonomy",
-                            "taxonomy": "organization"
-                        },
-                        {
-                            "name": "Another term",
-                            "taxonomy": "another_term_keyword"
-                        }
+                    "wp:term": [
+                        [
+                            {},
+                            {
+                                "name": "Test term",
+                                "taxonomy": "term_keyword"
+                            }
+                        ],
+                        [
+                            {
+                                "name": "event with blacklisted taxonomy",
+                                "name": "some organization",
+                                "taxonomy": "organization"
+                            },
+                            {
+                                "name": "another event with blacklisted taxonomy",
+                                "name": "ramp",
+                                "taxonomy": "accessibility"
+                            },
+                            {
+                                "name": "Another term",
+                                "taxonomy": "another_term_keyword"
+                            }
+                        ]
                     ]
                 }
             }',
@@ -44,7 +55,7 @@ final class MapKeywordsTest extends TestCase
         );
     }
 
-    #[TestDox('event::keywords([]) when _embedded.acf:term is missing')]
+    #[TestDox('event::keywords([]) when _embedded.wp:term is missing')]
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(

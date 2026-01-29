@@ -11,7 +11,8 @@ use SchemaTransformer\Transforms\WPHeadLessEvents\Mappers\AbstractWPHeadlessEven
 class MapKeywords extends AbstractWPHeadlessEventMapper
 {
     private array $ignoredTaxonomies = [
-        'organization' => true
+        'organization'  => true,
+        'accessibility' => true
     ];
     public function __construct()
     {
@@ -20,6 +21,7 @@ class MapKeywords extends AbstractWPHeadlessEventMapper
 
     public function map(Event $event, array $data): Event
     {
+
         return $event->keywords(
             array_values(
                 array_filter(
@@ -27,7 +29,7 @@ class MapKeywords extends AbstractWPHeadlessEventMapper
                         fn ($term) => $this->ignoredTaxonomies[$term['taxonomy'] ?? ''] ?? false
                             ? null
                             : $this->tryMapDefinedTerm($term['name'] ?? null, $term['taxonomy'] ?? null),
-                        $data['_embedded']['acf:term'] ?? []
+                        array_merge(...($data['_embedded']['wp:term'] ?? []))
                     )
                 )
             )
