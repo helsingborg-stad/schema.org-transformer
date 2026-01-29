@@ -26,7 +26,6 @@ final class MapEventScheduleTest extends TestCase
                         {
                             "repeat": "no",
                             "date": "20251001",
-                            "untilDate": "20251001",
                             "startTime": "12:00:00",
                             "endTime": "15:00:00",
                             "url": ""

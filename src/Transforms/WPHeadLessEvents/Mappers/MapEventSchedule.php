@@ -48,7 +48,7 @@ class MapEventSchedule extends AbstractWPHeadlessEventMapper
     public function mapOccassionToSchedules($occasion): ?array /* of Schema::schedule() */
     {
         $startDateTime = (!empty($occasion['date']) && !empty($occasion['startTime'])) ? date('Y-m-d H:i:s', strtotime($occasion['date'] . ' ' . $occasion['startTime'])) : null;
-        $endDateTime   = (!empty($occasion['untilDate']) && !empty($occasion['endTime'])) ? date('Y-m-d H:i:s', strtotime($occasion['untilDate'] . ' ' . $occasion['endTime'])) : null;
+        $endDateTime   = (!empty($occasion['date']) && !empty($occasion['endTime'])) ? date('Y-m-d H:i:s', strtotime($occasion['date'] . ' ' . $occasion['endTime'])) : null;
 
         return [
             Schema::schedule()
