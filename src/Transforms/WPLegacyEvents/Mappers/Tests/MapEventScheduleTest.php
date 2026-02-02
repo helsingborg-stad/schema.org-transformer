@@ -48,8 +48,8 @@ final class MapEventScheduleTest extends TestCase
                     "door_time": null,
                     "status": "scheduled",
                     "occ_exeption_information": null,
-                    "content_mode": null,
-                    "content": null,
+                    "content_mode": "master",
+                    "content": "Ignored descriptions since content is not custom",
                     "location_mode": null,
                     "location": null
                 },
@@ -59,8 +59,8 @@ final class MapEventScheduleTest extends TestCase
                     "door_time": null,
                     "status": "rescheduled",
                     "occ_exeption_information": null,
-                    "content_mode": null,
-                    "content": null,
+                    "content_mode": "custom",
+                    "content": "A custom description",
                     "location_mode": null,
                     "location": null
                 },
@@ -86,6 +86,7 @@ final class MapEventScheduleTest extends TestCase
                     Schema::schedule()
                         ->startDate('2040-02-18 15:15')
                         ->endDate('2040-02-18 16:30')
+                        ->description('A custom description')
                         ->url(null),
                     Schema::schedule()
                         ->startDate('2030-03-04 15:15')

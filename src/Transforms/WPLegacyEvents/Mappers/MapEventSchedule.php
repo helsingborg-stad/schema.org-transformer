@@ -23,6 +23,9 @@ class MapEventSchedule extends AbstractWPLegacyEventMapper
                     fn($d) => Schema::schedule()
                         ->startDate($d['start_date'] ?? null)
                         ->endDate($d['end_date'] ?? null)
+                        ->description(
+                            $d['content_mode'] === 'custom' ? ($d['content'] ?? null) : null
+                        )
                         ->url($d['booking_link'] ?? null),
                     $data['all_occasions'] ?? [ ]
                 )
