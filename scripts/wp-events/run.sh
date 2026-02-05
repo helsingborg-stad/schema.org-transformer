@@ -19,47 +19,51 @@ cd ${SCRIPT_DIR}
 TMPFILE=$(mktemp)
 TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/events/documents
 
-# Retrieve and transform wordpress events to temp file
-php -d memory_limit=1024M ../../router.php \
-    --source ${WP_EVENTS_API_URL} \
-    --paginator wordpress \
-    --transform wp_event \
-    --outputformat jsonl \
-    --output ${TMPFILE} \
-    --idprefix WPH-
+(
+    flock -n 9 || exit 1
 
-if [ $? -ne 0 ]; then
-    echo "FAILED to transform request to file ${TMPFILE}"
-else
-    # Clear collection
-    echo "Deleting documents"
-    curl -X DELETE \
-        -H "x-typesense-api-key: ${TYPESENSE_APIKEY}" \
-        -H "Content-Type: application/json" \
-        "${TYPESENSE_BASE_PATH}/collections/events/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-headless"
+    # Retrieve and transform wordpress events to temp file
+    php -d memory_limit=1024M ../../router.php \
+        --source ${WP_EVENTS_API_URL} \
+        --paginator wordpress \
+        --transform wp_event \
+        --outputformat jsonl \
+        --output ${TMPFILE} \
+        --idprefix WPH-
 
     if [ $? -ne 0 ]; then
-        echo "FAILED to delete documents"
-    fi
-
-    # POST result to typesense
-    echo "Creating documents"
-    curl ${TYPESENSE_PATH}/import?action=create -X POST --data-binary @${TMPFILE} -H "Content-Type: text/plain" -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
-
-    if [ $? -ne 0 ]; then
-        echo "FAILED to upload document"
-    fi
-
-    # Clear typesense cache
-    echo "Clearing Typesense cache"
-    curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_APIKEY}" -X POST ${TYPESENSE_BASE_PATH}/operations/cache/clear
-
-    if [ $? -ne 0 ]; then
-        echo "FAILED to clear Typesense cache"
+        echo "FAILED to transform request to file ${TMPFILE}"
     else
-        # Call monitoring url if set
-        if [ -n "$WP_EVENTS_MONITOR_URL" ]; then curl -s "$WP_EVENTS_MONITOR_URL" >/dev/null; fi
+        # Clear collection
+        echo "Deleting documents"
+        curl -X DELETE \
+            -H "x-typesense-api-key: ${TYPESENSE_APIKEY}" \
+            -H "Content-Type: application/json" \
+            "${TYPESENSE_BASE_PATH}/collections/events/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-headless"
+
+        if [ $? -ne 0 ]; then
+            echo "FAILED to delete documents"
+        fi
+
+        # POST result to typesense
+        echo "Creating documents"
+        curl ${TYPESENSE_PATH}/import?action=create -X POST --data-binary @${TMPFILE} -H "Content-Type: text/plain" -H "x-typesense-api-key: ${TYPESENSE_APIKEY}"
+
+        if [ $? -ne 0 ]; then
+            echo "FAILED to upload document"
+        fi
+
+        # Clear typesense cache
+        echo "Clearing Typesense cache"
+        curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_APIKEY}" -X POST ${TYPESENSE_BASE_PATH}/operations/cache/clear
+
+        if [ $? -ne 0 ]; then
+            echo "FAILED to clear Typesense cache"
+        else
+            # Call monitoring url if set
+            if [ -n "$WP_EVENTS_MONITOR_URL" ]; then curl -s "$WP_EVENTS_MONITOR_URL" >/dev/null; fi
+        fi
     fi
-fi
-# Remove temp file
-rm -f ${TMPFILE}
+    # Remove temp file
+    rm -f ${TMPFILE}
+) 9>/tmp/wp-events.lock
