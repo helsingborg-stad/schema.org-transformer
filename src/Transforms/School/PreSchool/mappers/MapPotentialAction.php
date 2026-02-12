@@ -16,6 +16,11 @@ class MapPotentialAction extends AbstractPreSchoolDataMapper
 
     public function map(Preschool $school, array $data): Preschool
     {
+        $displayOnWebsite = $data['acf']['cta_application']['display_on_website'] ?? true;
+        if (!$displayOnWebsite) {
+            return $school->potentialAction([]);
+        }
+
         $description = $data['acf']['cta_application']['description'] ?? null;
 
         return $school->potentialAction(
