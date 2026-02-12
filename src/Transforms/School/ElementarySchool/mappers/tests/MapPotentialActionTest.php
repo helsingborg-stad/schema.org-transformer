@@ -48,4 +48,29 @@ final class MapPotentialActionTest extends TestCase
                     ])
         );
     }
+
+    #[TestDox('elementarySchool::potentialAction is [] when acf.cta_application.display_on_website is false')]
+    public function testHideActions(): void
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapPotentialAction(),
+            '{
+                "acf": {
+                    "cta_application": {
+                        "display_on_website": false,
+                        "description": "Ansök till skolan via någon av nedan länkar",
+                        "cta_apply_here": {
+                            "title": "Välj skola här",
+                            "url": "https://skolan.se"
+                        },
+                        "cta_how_to_apply": {
+                            "title": "Så här söker du",
+                            "url": "https://skolan.se/sa-har-soker-du"
+                        }
+                    }
+                }
+            }',
+            Schema::elementarySchool()->potentialAction([])
+        );
+    }
 }
