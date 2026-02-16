@@ -21,6 +21,7 @@ final class MapPotentialActionTest extends TestCase
             '{
                 "acf": {
                     "cta_application": {
+                        "title": "Ansök",
                         "description": "Ansök till skolan via någon av nedan länkar",
                         "cta_apply_here": {
                             "title": "Välj skola här",
@@ -37,12 +38,14 @@ final class MapPotentialActionTest extends TestCase
                 ->potentialAction([
                     Schema::action()
                         ->name('cta_apply_here')
-                        ->description('Ansök till skolan via någon av nedan länkar')
+                        ->description('Ansök')
+                        ->disambiguatingDescription('Ansök till skolan via någon av nedan länkar')
                         ->title('Välj skola här')
                         ->url('https://skolan.se'),
                     Schema::action()
                         ->name('cta_how_to_apply')
-                        ->description('Ansök till skolan via någon av nedan länkar')
+                        ->description('Ansök')
+                        ->disambiguatingDescription('Ansök till skolan via någon av nedan länkar')
                         ->title('Så här söker du')
                         ->url('https://skolan.se/sa-har-soker-du')
                     ])
@@ -58,6 +61,7 @@ final class MapPotentialActionTest extends TestCase
                 "acf": {
                     "cta_application": {
                         "display_on_website": false,
+                        "title": "Ansök",
                         "description": "Ansök till skolan via någon av nedan länkar",
                         "cta_apply_here": {
                             "title": "Välj skola här",

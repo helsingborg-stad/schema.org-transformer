@@ -21,7 +21,8 @@ class MapPotentialAction extends AbstractElementarySchoolDataMapper
             return $school->potentialAction([]);
         }
 
-        $description = $data['acf']['cta_application']['description'] ?? null;
+        $description               = $data['acf']['cta_application']['title'] ?? null;
+        $disambiguatingDescription = $data['acf']['cta_application']['description'] ?? null;
 
         return $school->potentialAction(
             array_values(
@@ -29,7 +30,7 @@ class MapPotentialAction extends AbstractElementarySchoolDataMapper
                     array_map(
                         fn ($t, $k) =>
                                 is_array($t) && is_string($t['title'] ?? null) && !empty($t['title'] ?? null)
-                                ? Schema::action()->name($k)->title($t['title'])->description($description)->url($t['url'] ?? null)
+                                ? Schema::action()->name($k)->title($t['title'])->url($t['url'] ?? null)->description($description)->disambiguatingDescription($disambiguatingDescription)
                                 : null,
                         ($data['acf']['cta_application'] ?? []),
                         array_keys($data['acf']['cta_application'] ?? [])

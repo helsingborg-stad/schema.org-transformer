@@ -90,6 +90,7 @@ final class PreSchoolTransformTest extends TestCase
                     }
                 }],
                 "cta_application": {
+                    "title": "Ansök",
                     "description": "Ansök till skolan via någon av nedan länkar",
                     "cta_apply_here": {
                         "title": "Välj skola här",
@@ -132,14 +133,16 @@ final class PreSchoolTransformTest extends TestCase
         ->potentialAction([
             Schema::action()
                 ->name('cta_apply_here')
-                ->description('Ansök till skolan via någon av nedan länkar')
                 ->title('Välj skola här')
-                ->url('https://skolan.se'),
+                ->url('https://skolan.se')
+                ->description("Ansök")
+                ->disambiguatingDescription('Ansök till skolan via någon av nedan länkar'),
             Schema::action()
                 ->name('cta_how_to_apply')
-                ->description('Ansök till skolan via någon av nedan länkar')
                 ->title('Så här söker du')
                 ->url('https://skolan.se/sa-har-soker-du')
+                ->description("Ansök")
+                ->disambiguatingDescription('Ansök till skolan via någon av nedan länkar'),
                     ])
         ->areaServed(['Område A'])
         ->image([
