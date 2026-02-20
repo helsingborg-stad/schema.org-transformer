@@ -30,6 +30,7 @@ class MapPotentialAction extends AbstractElementarySchoolDataMapper
                     array_map(
                         fn ($t, $k) =>
                                 is_array($t) && is_string($t['title'] ?? null) && !empty($t['title'] ?? null)
+                                && is_string($t['url'] ?? null) && !empty($t['url'] ?? null)
                                 ? Schema::action()->name($k)->title($t['title'])->url($t['url'] ?? null)->description($description)->disambiguatingDescription($disambiguatingDescription)
                                 : null,
                         ($data['acf']['cta_application'] ?? []),
