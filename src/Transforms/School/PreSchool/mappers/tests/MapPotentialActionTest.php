@@ -52,6 +52,40 @@ final class MapPotentialActionTest extends TestCase
         );
     }
 
+    #[TestDox('preSchool::potentialAction is acf.cta_application.* when url and title are both set')]
+    public function testUrlAndTitlrMustBeSet(): void
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapPotentialAction(),
+            '{
+                "acf": {
+                    "cta_application": {
+                        "title": "Ansök",
+                        "description": "Ansök till skolan via någon av nedan länkar",
+                        "cta_missing_title": {
+                            "url": "https://has-no-title.se"
+                        },
+                        "cta_missing_url": {
+                            "title": "missing url"
+                        },
+                        "cta_good": {
+                            "title": "Good one",
+                            "url": "https://skolan.se"
+                        }
+                    }
+                }
+            }',
+            Schema::preSchool()
+                ->potentialAction([
+                    Schema::action()
+                        ->name('cta_good')
+                        ->title('Good one')
+                        ->url('https://skolan.se')
+                        ->description('Ansök')
+            ->disambiguatingDescription('Ansök till skolan via någon av nedan länkar')])
+        );
+    }
+
     #[TestDox('preschool::potentialAction([]) when display_on_website = false')]
     public function testHideActions(): void
     {
