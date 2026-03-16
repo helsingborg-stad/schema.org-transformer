@@ -39,11 +39,54 @@ final class MapOffersTest extends TestCase
                     ->name('Standard')
                     ->price(100)
                     ->priceCurrency('SEK')
+                    ->url(null)
                     ->businessFunction('http://purl.org/goodrelations/v1#Sell'),
                 Schema::offer()
                     ->name('Ungdom')
                     ->price(50)
                     ->priceCurrency('SEK')
+                    ->url(null)
+                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+            ])
+        );
+    }
+
+    #[TestDox('event::offers is constructed from acf.pricesList and booking link is taken from occasions')]
+    public function testItWorksWithBookingLink()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapOffers(new WPHeadlessEventTransform('hl')),
+            '{
+                "acf": {
+                    "occasions": [
+                        {
+                            "url": "https://example.com/tickets"
+                        }
+                    ],
+                    "pricesList": [
+                        {
+                            "priceLabel": "Standard",
+                            "price": "100"
+                        },
+                        {
+                            "priceLabel": "Ungdom",
+                            "price": "50"
+                        }
+                    ]
+                }
+            }',
+            Schema::event()->offers([
+                Schema::offer()
+                    ->name('Standard')
+                    ->price(100)
+                    ->priceCurrency('SEK')
+                    ->url('https://example.com/tickets')
+                    ->businessFunction('http://purl.org/goodrelations/v1#Sell'),
+                Schema::offer()
+                    ->name('Ungdom')
+                    ->price(50)
+                    ->priceCurrency('SEK')
+                    ->url('https://example.com/tickets')
                     ->businessFunction('http://purl.org/goodrelations/v1#Sell')
             ])
         );
@@ -58,6 +101,35 @@ final class MapOffersTest extends TestCase
                 "id": 123
             }',
             Schema::event()->offers([])
+        );
+    }
+
+    #[TestDox('event::offers with url from occasions but no prices')]
+    public function testOffersWithUrlFromOccasions()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapOffers(new WPHeadlessEventTransform('hl')),
+            '{
+                "acf": {
+                    "occasions": [
+                        {
+                            "url": ""
+                        },
+                        {
+                             "no_url": "...so this should be ignored"
+                        },
+                        {
+                            "url": "https://example.com/tickets"
+                        },
+                        {
+                            "url": "this one came second and missed its chance"
+                        }
+                    ]
+                }
+            }',
+            Schema::event()->offers([
+                Schema::offer()->url('https://example.com/tickets')
+            ])
         );
     }
 }
