@@ -16,6 +16,6 @@ class MapUrl extends AbstractWPHeadlessEventMapper
 
     public function map(Event $event, array $data): Event
     {
-        return $event->url(null);
+        return $event->url($data['acf']['url'] ?? null);
     }
 }
