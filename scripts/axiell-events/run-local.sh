@@ -10,14 +10,12 @@ if [ $? -ne 0 ]; then
 fi
 cd ${SCRIPT_DIR}
 
-# --source_json_path "$.hits[*].event" \
-
 # Retrieve and transform Axiell events data
 php ../../router.php \
     --source ${AXIELL_EVENTS_URL} \
     --transform axiell_events \
     --outputformat json \
-    --idprefix AXIELL \
+    --idprefix ax- \
 
 if [ $? -ne 0 ]; then
     echo "FAILED to transform request"
