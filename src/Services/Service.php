@@ -31,7 +31,7 @@ class Service implements AbstractService
     }
     public function execute(string $source, string $destination): bool
     {
-        $data = $this->reader->read($source);
+        $data = $this->reader->read($source, $this->transform);
         if (false === $data) {
             return false;
         }

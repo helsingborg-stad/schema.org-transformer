@@ -31,7 +31,7 @@ class App
             "output"           => "",
             "outputheaders"    => "Content-Type: application/json",
             "outputformat"     => "json",
-            "transform"        => "jobposting",
+            "transform"        => "",
             "idprefix"         => "",
             "authpath"         => "",
             "authclientid"     => "",
@@ -195,6 +195,12 @@ class App
                 break;
             case 'tix_events':
                 $result = $services->getTixService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
+            case 'axiell_events':
+                $result = $services->getAxiellEventsService()->execute(
                     $cmd->source,
                     $cmd->output
                 );
