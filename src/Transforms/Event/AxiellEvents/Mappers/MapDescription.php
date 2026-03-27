@@ -11,6 +11,12 @@ class MapDescription extends AbstractAxiellEventsDataMapper
     public function map(Event $event, array $data): Event
     {
         return $event
-            ->description($data['description'] ?? null);
+            ->description(
+                array_values(
+                    array_filter(
+                        [$data['description'] ?? null]
+                    )
+                )
+            );
     }
 }

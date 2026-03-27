@@ -12,10 +12,11 @@ class MapOrganizer extends AbstractAxiellEventsDataMapper
     public function map(Event $event, array $data): Event
     {
         $location = $data['location']['value'] ?? null;
-        return empty($location) ? $event : $event
-            ->organizer([
-                Schema::organization()
-                    ->name($location)
-            ]);
+        return $event->organizer(
+            array_values(
+                array_filter([
+                    empty($location) ? null : Schema::organization()->name($location)],)
+            )
+        );
     }
 }

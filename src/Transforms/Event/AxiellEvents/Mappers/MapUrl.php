@@ -20,7 +20,7 @@ class MapUrl extends AbstractAxiellEventsDataMapper
     {
         return empty($this->externalBaseUrl)
             ? $event
-            : $event->url($this->externalBaseUrl . '/evenemang#/events/' . ($data['id'] ?? ''))
+            : $event->url($this->externalBaseUrl . ($data['id'] ?? ''))
         ;
     }
 }

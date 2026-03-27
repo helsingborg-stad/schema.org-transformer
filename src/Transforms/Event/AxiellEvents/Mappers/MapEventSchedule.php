@@ -11,12 +11,18 @@ class MapEventSchedule extends AbstractAxiellEventsDataMapper
 {
     public function map(Event $event, array $data): Event
     {
-        return $event->eventSchedule([
-            Schema::schedule()
-                ->startDate($data['startDate'] ?? null)
-                ->endDate($data['endDate'] ?? null)
-                ->description(null)
-                ->url(null)
-        ]);
+        return $event->eventSchedule(
+            array_values(
+                array_filter([
+                    empty($data['startDate'])
+                        ? null
+                        : Schema::schedule()
+                            ->startDate($data['startDate'] ?? null)
+                            ->endDate($data['endDate'] ?? null)
+                            ->description(null)
+                            ->url(null)
+                ])
+            )
+        );
     }
 }

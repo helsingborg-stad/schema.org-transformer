@@ -21,7 +21,7 @@ cd ${SCRIPT_DIR}
         --outputformat jsonl \
         --output ${TMPFILE} \
         --idprefix ax- \
-        --externalbaseurl https://bibliotekfh.se \
+        --externalbaseurl https://bibliotekfh.se/evenemang#/events/ \
 
     if [ $? -ne 0 ]; then
         echo "FAILED to transform request"

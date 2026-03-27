@@ -22,6 +22,7 @@ use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapOffers;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapOrganizer;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapEventStatus;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapKeywords;
+use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapPotentialAction;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapPhysicalAccessibilityFeatures;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapUrl;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapXCreatedBy;
@@ -75,6 +76,7 @@ class AxiellEventTransform extends TransformBase implements AbstractDataTransfor
             new MapEventStatus(),
             new MapKeywords(),
             new MapPhysicalAccessibilityFeatures(),
+            new MapPotentialAction(),
             new MapUrl($this->externalBaseUrl),
             new MapXCreatedBy()
         ];

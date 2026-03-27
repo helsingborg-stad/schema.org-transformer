@@ -12,10 +12,12 @@ class MapLocation extends AbstractAxiellEventsDataMapper
     public function map(Event $event, array $data): Event
     {
         $location = $data['location']['value'] ?? null;
-        return empty($location) ? $event : $event->location([
-                Schema::place()
-                    ->name($location)
-                    ->description($data['room']['value'] ?? null)
-            ]);
+        return $event->location(
+            array_values(
+                array_filter(
+                    [empty($location) ? null : Schema::place()->name($location)->description($data['room']['value'] ?? null)]
+                )
+            )
+        );
     }
 }
