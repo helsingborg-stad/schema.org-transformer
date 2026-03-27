@@ -34,6 +34,7 @@ class RuntimeServices
     private AbstractService $axiellEventsService;
 
     public function __construct(
+        object $commandlineOptions,
         AbstractDataReader $reader,
         AbstractDataWriter $writer,
         AbstractDataConverter $converter,
@@ -67,7 +68,7 @@ class RuntimeServices
         $this->elementarySchoolService  = new Service($reader, $writer, new ElementarySchoolTransform($idprefix, $this->typesenseClient), $converter);
         $this->preSchoolService         = new Service($reader, $writer, new PreSchoolTransform($idprefix, $this->typesenseClient), $converter);
         $this->tixEventService          = new Service($reader, $writer, new TixEventTransform($idprefix), $converter);
-        $this->axiellEventsService      = new Service($reader, $writer, new AxiellEventTransform($idprefix), $converter);
+        $this->axiellEventsService      = new Service($reader, $writer, new AxiellEventTransform($idprefix, $commandlineOptions->externalbaseurl ?? ''), $converter);
     }
 
     public function getJobPostingService(): AbstractService

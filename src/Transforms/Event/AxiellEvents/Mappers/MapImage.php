@@ -9,11 +9,6 @@ use Municipio\Schema\Event;
 
 class MapImage extends AbstractAxiellEventsDataMapper
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function map(Event $event, array $data): Event
     {
         return $event

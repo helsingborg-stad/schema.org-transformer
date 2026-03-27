@@ -10,34 +10,35 @@ use SchemaTransformer\Interfaces\AbstractDataTransform;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapDescription;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapEndDate;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapEventAttendanceMode;
-// use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapEventSchedule;
+use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapEventSchedule;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapIsAccessibleForFree;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapName;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapStartDate;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapIdentifier;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapImage;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapLocation;
-// use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapOffers;
+use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapOffers;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapOrganizer;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapEventStatus;
-// use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapKeywords;
-// use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapPhysicalAccessibilityFeatures;
+use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapKeywords;
+use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapPhysicalAccessibilityFeatures;
+use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapUrl;
 use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\MapXCreatedBy;
 
 class AxiellEventTransform extends TransformBase implements AbstractDataTransform
 {
     private array $excludeTags = ['rådgivning'];
+    private string $externalBaseUrl;
 
-    public function __construct(string $idprefix)
+    public function __construct(string $idprefix, string $externalBaseUrl)
     {
         parent::__construct($idprefix);
+        $this->externalBaseUrl = $externalBaseUrl;
     }
 
     public function preprocessData(array $data): array
     {
         // Implement any necessary preprocessing steps here
-
-
         return array_filter(
             // project $.hits[*].event
             array_map(fn($item) => $item['event'] ?? [], $data['hits'] ?? []),
@@ -64,11 +65,12 @@ class AxiellEventTransform extends TransformBase implements AbstractDataTransfor
             new MapOrganizer(),
             new MapLocation(),
             new MapImage(),
-            // new MapEventSchedule($this),
-            // new MapOffers(false), // Do not include products in offers
+            new MapEventSchedule(),
+            new MapOffers(), // Do not include products in offers
             new MapEventStatus(),
-            // new MapKeywords(),
-            // new MapPhysicalAccessibilityFeatures(),
+            new MapKeywords(),
+            new MapPhysicalAccessibilityFeatures(),
+            new MapUrl($this->externalBaseUrl),
             new MapXCreatedBy()
         ];
         $result  = array_map(function ($item) use ($mappers) {

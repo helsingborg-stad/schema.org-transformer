@@ -41,6 +41,7 @@ class App
             "typesense_apikey" => "",
             "typesense_host"   => "",
             "typesense_port"   => "",
+            "externalbaseurl"  => "",
         ], $options);
 
         if (empty($cmd->source)) {
@@ -146,7 +147,7 @@ class App
             new JSONConverter();
 
             // Wire services
-        $services = new RuntimeServices($reader, $writer, $converter, $cmd->idprefix, $typesenseClient);
+        $services = new RuntimeServices($cmd, $reader, $writer, $converter, $cmd->idprefix, $typesenseClient);
 
         // Execute
         $result = false;

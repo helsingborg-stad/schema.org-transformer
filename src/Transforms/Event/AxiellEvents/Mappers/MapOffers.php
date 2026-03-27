@@ -6,11 +6,10 @@ namespace SchemaTransformer\Transforms\Event\AxiellEvents\Mappers;
 
 use Municipio\Schema\Event;
 
-class MapName extends AbstractAxiellEventsDataMapper
+class MapOffers extends AbstractAxiellEventsDataMapper
 {
     public function map(Event $event, array $data): Event
     {
-        return $event
-            ->name($data['title'] ?? null);
+        return $event->offers([]);
     }
 }

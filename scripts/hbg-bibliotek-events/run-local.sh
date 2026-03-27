@@ -16,6 +16,7 @@ php ../../router.php \
     --transform axiell_events \
     --outputformat json \
     --idprefix ax- \
+    --externalbaseurl https://bibliotekfh.se \
 
 if [ $? -ne 0 ]; then
     echo "FAILED to transform request"

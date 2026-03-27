@@ -21,5 +21,6 @@ require_once 'vendor/autoload.php';
     "authscope:",
     "typesense_apikey:",
     "typesense_host:",
-    "typesense_port:"
+    "typesense_port:",
+    "externalbaseurl:",
 ]));
