@@ -71,7 +71,9 @@ class RuntimeServices
         $this->axiellEventsService      = new Service($reader, $writer, new AxiellEventTransform(
             $idprefix,
             $commandlineOptions->externalbaseurl ?? '',
-            explode(',', $commandlineOptions->excludetags ?? '')
+            array_values(array_filter(
+                preg_split("/\s*,\s*/", $commandlineOptions->excludetags ?? '')
+            ))
         ), $converter);
     }
 
