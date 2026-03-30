@@ -32,10 +32,11 @@ class AxiellEventTransform extends TransformBase implements AbstractDataTransfor
     private array $excludeTags = ['rådgivning'];
     private string $externalBaseUrl;
 
-    public function __construct(string $idprefix, string $externalBaseUrl)
+    public function __construct(string $idprefix, string $externalBaseUrl, array $excludeTags = [])
     {
         parent::__construct($idprefix);
         $this->externalBaseUrl = $externalBaseUrl;
+        $this->excludeTags     = $excludeTags;
     }
 
     public function preprocessData(array $data): array
@@ -52,7 +53,7 @@ class AxiellEventTransform extends TransformBase implements AbstractDataTransfor
             (count(
                 array_intersect(
                     array_map('strtolower', $item['tags'] ?? []),
-                    $this->excludeTags
+                    array_map('strtolower', $this->excludeTags)
                 )
             ) === 0) && ($item['endDate'] ?? '') >= $retentionDate
         );

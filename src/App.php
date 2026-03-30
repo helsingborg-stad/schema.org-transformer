@@ -42,6 +42,7 @@ class App
             "typesense_host"   => "",
             "typesense_port"   => "",
             "externalbaseurl"  => "",
+            "excludetags"      => "",
         ], $options);
 
         if (empty($cmd->source)) {
@@ -68,7 +69,8 @@ class App
                                                 - wp_exhibition_event
                                                 - elementary_school
                 --idprefix                      prefix to avoid collision between items from multiple sources
-                 
+                --externalbaseurl               Base URL to use for generating external URLs (applicable for some transforms, e.g. events)
+                --excludetags                   Comma separated list of tags to exclude (applicable for some transforms, e.g. events)
                 OAuth authentication parameters (Applicable for source only)
                  --authpath <url>               URL of token service
                  --authclientid <string>        Client id 
