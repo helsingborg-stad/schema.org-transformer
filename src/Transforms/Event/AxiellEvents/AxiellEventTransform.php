@@ -73,7 +73,7 @@ class AxiellEventTransform extends TransformBase implements AbstractDataTransfor
             new MapLocation(),
             new MapImage(),
             new MapEventSchedule(),
-            new MapOffers(), // Do not include products in offers
+            new MapOffers(),
             new MapEventStatus(),
             new MapKeywords(),
             new MapPhysicalAccessibilityFeatures(),
@@ -81,15 +81,14 @@ class AxiellEventTransform extends TransformBase implements AbstractDataTransfor
             new MapUrl($this->externalBaseUrl),
             new MapXCreatedBy()
         ];
-        $result  = array_map(function ($item) use ($mappers) {
-            return array_reduce(
+        $result  = array_map(
+            fn ($item) => array_reduce(
                 $mappers,
-                function ($event, $mapper) use ($item) {
-                    return $mapper->map($event, $item);
-                },
+                fn ($event, $mapper) => $mapper->map($event, $item),
                 Schema::event()
-            )->toArray();
-        }, $data);
+            )->toArray(),
+            $data
+        );
         return $result;
     }
 }
