@@ -73,6 +73,9 @@ class RuntimeServices
             $commandlineOptions->externalbaseurl ?? '',
             array_values(array_filter(
                 preg_split("/\s*,\s*/", $commandlineOptions->excludetags ?? '')
+            )),
+            array_values(array_filter(
+                preg_split("/\s*,\s*/", $commandlineOptions->includetags ?? '')
             ))
         ), $converter);
     }

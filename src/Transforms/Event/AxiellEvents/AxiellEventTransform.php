@@ -31,12 +31,14 @@ class AxiellEventTransform extends TransformBase implements AbstractDataTransfor
 {
     private array $excludeTags = ['rådgivning'];
     private string $externalBaseUrl;
+    private array $includeTags = [];
 
-    public function __construct(string $idprefix, string $externalBaseUrl, array $excludeTags = [])
+    public function __construct(string $idprefix, string $externalBaseUrl, array $excludeTags = [], array $includeTags = [])
     {
         parent::__construct($idprefix);
         $this->externalBaseUrl = $externalBaseUrl;
-        $this->excludeTags     = $excludeTags;
+        $this->excludeTags     = array_map('strtolower', $excludeTags);
+        $this->includeTags     = array_map('strtolower', $includeTags);
     }
 
     public function preprocessData(array $data): array
@@ -44,18 +46,33 @@ class AxiellEventTransform extends TransformBase implements AbstractDataTransfor
         // NOTE: HARDCODED RETENTION DATE FOR EVENTS, SHOULD BE REPLACED WITH A CONFIGURABLE OPTION
         $retentionDate = (new DateTime())->sub(new \DateInterval('P1M'))->format('Y-m-d'); // Subtract 1 month from the current date
 
-        // Implement any necessary preprocessing steps here
-        return array_filter(
-            // project $.hits[*].event
-            array_map(fn($item) => $item['event'] ?? [], $data['hits'] ?? []),
-            // filter out events that have any of the exclude tags or have an end date before the retention date
-            fn($item) =>
-            (count(
+        $filters = [
+            // filter out events that have an end date before the retention date
+            fn($item) => ($item['endDate'] ?? '') >= $retentionDate,
+            // filter out events that have any of the exclude tags
+            fn($item) => count(
                 array_intersect(
                     array_map('strtolower', $item['tags'] ?? []),
-                    array_map('strtolower', $this->excludeTags)
+                    $this->excludeTags
                 )
-            ) === 0) && ($item['endDate'] ?? '') >= $retentionDate
+            ) === 0,
+            // if includeTags is not empty, filter in only events that have at least one of the include tags
+            fn($item) =>
+                empty($this->includeTags)
+                || count(
+                    array_intersect(
+                        array_map('strtolower', $item['tags'] ?? []),
+                        $this->includeTags
+                    )
+                ) > 0
+        ];
+
+        return array_reduce(
+            $filters,
+            // apply filter to events
+            fn($data, $filter) => array_filter($data, $filter),
+            // project $.hits[*].event
+            array_map(fn($item) => $item['event'] ?? [], $data['hits'] ?? [])
         );
     }
 

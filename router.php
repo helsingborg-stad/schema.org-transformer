@@ -24,4 +24,5 @@ require_once 'vendor/autoload.php';
     "typesense_port:",
     "externalbaseurl:",
     "excludetags:",
+    "includetags:",
 ]));

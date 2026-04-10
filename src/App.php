@@ -43,6 +43,7 @@ class App
             "typesense_port"   => "",
             "externalbaseurl"  => "",
             "excludetags"      => "",
+            "includetags"      => "",
         ], $options);
 
         if (empty($cmd->source)) {
@@ -71,6 +72,7 @@ class App
                 --idprefix                      prefix to avoid collision between items from multiple sources
                 --externalbaseurl               Base URL to use for generating external URLs (applicable for some transforms, e.g. events)
                 --excludetags                   Comma separated list of tags to exclude (applicable for some transforms, e.g. events)
+                --includetags                   Comma separated list of tags to include (applicable for some transforms, e.g. events)
                 OAuth authentication parameters (Applicable for source only)
                  --authpath <url>               URL of token service
                  --authclientid <string>        Client id 
