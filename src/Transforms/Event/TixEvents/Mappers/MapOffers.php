@@ -124,8 +124,13 @@ class MapOffers extends AbstractTixDataMapper
                     ->mainEntityOfPage($link)
                     ->name($product['Name'] ?? null)
                     ->description($product['Description'] ?? null)
-                    ->price($product['Price'] ?? null)
-                    ->priceCurrency('SEK')
+                    ->priceSpecification(
+                        Schema::priceSpecification()
+                            ->name($product['Name'] ?? null)
+                            ->description($product['Description'] ?? null)
+                            ->price($product['Price'] ?? null)
+                            ->priceCurrency('SEK')
+                    )
                     ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->image(
                         ($product['ProductImagePath'] ?? null) ?

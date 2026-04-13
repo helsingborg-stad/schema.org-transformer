@@ -37,16 +37,24 @@ final class MapOffersTest extends TestCase
             Schema::event()->offers([
                 Schema::offer()
                     ->name('Standard')
-                    ->price(100)
-                    ->priceCurrency('SEK')
-                    ->url(null)
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell'),
-                Schema::offer()
-                    ->name('Ungdom')
-                    ->price(50)
-                    ->priceCurrency('SEK')
                     ->url(null)
                     ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+                    ->priceSpecification(
+                        Schema::priceSpecification()
+                            ->name('Standard')
+                            ->price(100)
+                            ->priceCurrency('SEK')
+                    ),
+                Schema::offer()
+                    ->name('Ungdom')
+                    ->url(null)
+                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+                    ->priceSpecification(
+                        Schema::priceSpecification()
+                            ->name('Ungdom')
+                            ->price(50)
+                            ->priceCurrency('SEK')
+                    )
             ])
         );
     }
@@ -78,16 +86,24 @@ final class MapOffersTest extends TestCase
             Schema::event()->offers([
                 Schema::offer()
                     ->name('Standard')
-                    ->price(100)
-                    ->priceCurrency('SEK')
-                    ->url('https://example.com/tickets')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell'),
-                Schema::offer()
-                    ->name('Ungdom')
-                    ->price(50)
-                    ->priceCurrency('SEK')
                     ->url('https://example.com/tickets')
                     ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+                    ->priceSpecification(
+                        Schema::priceSpecification()
+                            ->name('Standard')
+                            ->price(100)
+                            ->priceCurrency('SEK')
+                    ),
+                Schema::offer()
+                    ->name('Ungdom')
+                    ->url('https://example.com/tickets')
+                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+                    ->priceSpecification(
+                        Schema::priceSpecification()
+                            ->name('Ungdom')
+                            ->price(50)
+                            ->priceCurrency('SEK')
+                    )
             ])
         );
     }
