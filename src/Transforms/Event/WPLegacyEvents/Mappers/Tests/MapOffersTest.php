@@ -162,7 +162,6 @@ final class MapOffersTest extends TestCase
             Schema::event()->offers([
                 Schema::offer()
                     ->url('https://booking-link.org')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
             ])
         );
     }
