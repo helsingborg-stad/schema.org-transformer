@@ -36,7 +36,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Standard/Vuxen')
                     ->url('https://booking-link.org')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Standard/Vuxen')
                         ->price('250')
@@ -46,7 +45,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Barn')
                     ->url('https://booking-link.org')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Barn')
                         ->price('125')
@@ -56,7 +54,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Student')
                     ->url('https://booking-link.org')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Student')
                         ->price('175')
@@ -66,7 +63,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Pensionär')
                     ->url('https://booking-link.org')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Pensionär')
                         ->price('200')
@@ -76,7 +72,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Sittplats')
                     ->url('https://booking-link.org')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Sittplats')
                         ->minPrice('20')
@@ -85,7 +80,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Ståplats')
                     ->url('https://booking-link.org')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Ståplats')
                         ->minPrice('30')
@@ -109,7 +103,6 @@ final class MapOffersTest extends TestCase
             Schema::event()->offers([
                 Schema::offer()
                     ->name('Sittplats')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Sittplats')
                         ->minPrice('20')
@@ -130,7 +123,6 @@ final class MapOffersTest extends TestCase
             Schema::event()->offers([
                 Schema::offer()
                     ->name('Pensionär')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([
                         Schema::priceSpecification()
                             ->name('Pensionär')
@@ -183,7 +175,6 @@ final class MapOffersTest extends TestCase
             Schema::event()->offers([
                 Schema::offer()
                     ->name('Standard/Vuxen')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Standard/Vuxen')
                         ->price('250')
@@ -192,7 +183,6 @@ final class MapOffersTest extends TestCase
                         ->priceCurrency('SEK')]),
                 Schema::offer()
                     ->name('Pensionär')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Pensionär')
                         ->price('200')
@@ -201,7 +191,6 @@ final class MapOffersTest extends TestCase
                         ->priceCurrency('SEK')]),
                 Schema::offer()
                     ->name('Sittplats')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification([Schema::priceSpecification()
                         ->name('Sittplats')
                         ->minPrice('20')

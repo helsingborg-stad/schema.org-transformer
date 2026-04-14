@@ -55,7 +55,6 @@ class MapOffers extends AbstractWPLegacyEventMapper
         return empty($p) ? null : Schema::offer()
             ->name($label)
             ->url($bookingLink)
-            ->businessFunction('http://purl.org/goodrelations/v1#Sell')
             ->priceSpecification([
                 Schema::priceSpecification()
                     ->name($label)
@@ -73,7 +72,6 @@ class MapOffers extends AbstractWPLegacyEventMapper
         return (empty($minp) || empty($maxp)) ? null : Schema::offer()
             ->name($label)
             ->url($bookingLink)
-            ->businessFunction('http://purl.org/goodrelations/v1#Sell')
             ->priceSpecification([Schema::priceSpecification()
                 ->name($label)
                 ->minPrice($minp)

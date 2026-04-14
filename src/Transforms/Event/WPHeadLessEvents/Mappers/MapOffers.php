@@ -33,7 +33,6 @@ class MapOffers extends AbstractWPHeadlessEventMapper
                             ? Schema::offer()
                                 ->name($pl['priceLabel'] ?? null)
                                 ->url($candidateUrl)
-                                ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                                 ->priceSpecification(
                                     Schema::priceSpecification()
                                         ->name($pl['priceLabel'] ?? null)

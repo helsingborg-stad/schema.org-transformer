@@ -38,7 +38,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Standard')
                     ->url(null)
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification(
                         Schema::priceSpecification()
                             ->name('Standard')
@@ -48,7 +47,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Ungdom')
                     ->url(null)
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification(
                         Schema::priceSpecification()
                             ->name('Ungdom')
@@ -87,7 +85,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Standard')
                     ->url('https://example.com/tickets')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification(
                         Schema::priceSpecification()
                             ->name('Standard')
@@ -97,7 +94,6 @@ final class MapOffersTest extends TestCase
                 Schema::offer()
                     ->name('Ungdom')
                     ->url('https://example.com/tickets')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                     ->priceSpecification(
                         Schema::priceSpecification()
                             ->name('Ungdom')
