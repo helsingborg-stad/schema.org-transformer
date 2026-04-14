@@ -20,7 +20,7 @@ class TestHelper extends Assert
         PreSchoolDataMapperInterface $mapper,
         string $sourceJson,
         Preschool $expectedSchool,
-        string $message = null
+        ?string $message = null
     ): TestHelper {
         $source = $this->prepareJsonForTransform($sourceJson);
         $this->assertNotEmpty($source, 'Source data is empty or invalid JSON');
