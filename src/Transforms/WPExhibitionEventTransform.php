@@ -18,6 +18,11 @@ class WPExhibitionEventTransform implements AbstractDataTransform
     {
     }
 
+    public function preprocessData(array $data): array
+    {
+        return $data;
+    }
+
     public function transform(array $data): array
     {
         return array_map(function ($item) {

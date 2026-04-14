@@ -6,6 +6,7 @@ namespace SchemaTransformer\Paginators;
 
 use SchemaTransformer\Interfaces\AbstractDataReader;
 use SchemaTransformer\Interfaces\AbstractPaginator;
+use SchemaTransformer\Transforms\NullDataPreprocessor;
 
 final class GetParamPaginator implements AbstractPaginator
 {
@@ -19,7 +20,7 @@ final class GetParamPaginator implements AbstractPaginator
 
         $nextUrl = $this->applyPageParameter($previous, $nextPageNumber);
 
-        if ($this->reader->read($nextUrl) !== false) {
+        if ($this->reader->read($nextUrl, new NullDataPreprocessor()) !== false) {
             return $nextUrl;
         }
 

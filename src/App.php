@@ -31,7 +31,7 @@ class App
             "output"           => "",
             "outputheaders"    => "Content-Type: application/json",
             "outputformat"     => "json",
-            "transform"        => "jobposting",
+            "transform"        => "",
             "idprefix"         => "",
             "authpath"         => "",
             "authclientid"     => "",
@@ -41,6 +41,9 @@ class App
             "typesense_apikey" => "",
             "typesense_host"   => "",
             "typesense_port"   => "",
+            "externalbaseurl"  => "",
+            "excludetags"      => "",
+            "includetags"      => "",
         ], $options);
 
         if (empty($cmd->source)) {
@@ -67,7 +70,9 @@ class App
                                                 - wp_exhibition_event
                                                 - elementary_school
                 --idprefix                      prefix to avoid collision between items from multiple sources
-                 
+                --externalbaseurl               Base URL to use for generating external URLs (applicable for some transforms, e.g. events)
+                --excludetags                   Comma separated list of tags to exclude (applicable for some transforms, e.g. events)
+                --includetags                   Comma separated list of tags to include (applicable for some transforms, e.g. events)
                 OAuth authentication parameters (Applicable for source only)
                  --authpath <url>               URL of token service
                  --authclientid <string>        Client id 
@@ -146,7 +151,7 @@ class App
             new JSONConverter();
 
             // Wire services
-        $services = new RuntimeServices($reader, $writer, $converter, $cmd->idprefix, $typesenseClient);
+        $services = new RuntimeServices($cmd, $reader, $writer, $converter, $cmd->idprefix, $typesenseClient);
 
         // Execute
         $result = false;
@@ -195,6 +200,12 @@ class App
                 break;
             case 'tix_events':
                 $result = $services->getTixService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
+            case 'axiell_events':
+                $result = $services->getAxiellEventsService()->execute(
                     $cmd->source,
                     $cmd->output
                 );

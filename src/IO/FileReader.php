@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\IO;
 
+use SchemaTransformer\Interfaces\AbstractDataPreprocessor;
 use SchemaTransformer\Interfaces\AbstractDataReader;
 
 class FileReader implements AbstractDataReader
 {
-    public function read(string $path): array|false
+    public function read(string $path, AbstractDataPreprocessor $preprocessor): array|false
     {
         $file = file_get_contents($path);
 
         if (false === $file) {
             return false;
         }
-        return json_decode($file, true);
+        return $preprocessor->preprocessData(json_decode($file, true));
     }
 }

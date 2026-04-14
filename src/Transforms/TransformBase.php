@@ -12,6 +12,12 @@ abstract class TransformBase
     {
         $this->idprefix = $idprefix;
     }
+
+    public function preprocessData(array $data): array
+    {
+        return $data;
+    }
+
     public function formatId(string | int $value): string
     {
         return trim($this->idprefix . $value);

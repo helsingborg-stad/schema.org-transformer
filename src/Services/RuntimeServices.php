@@ -19,6 +19,7 @@ use SchemaTransformer\Transforms\School\PreSchool\PreSchoolTransform;
 use SchemaTransformer\Transforms\Event\TixEvents\TixEventTransform;
 use SchemaTransformer\Transforms\Event\WPLegacyEvents\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\Event\WPHeadLessEvents\WPHeadlessEventTransform;
+use SchemaTransformer\Transforms\Event\AxiellEvents\AxiellEventTransform;
 
 class RuntimeServices
 {
@@ -30,8 +31,10 @@ class RuntimeServices
     private AbstractService $elementarySchoolService;
     private AbstractService $preSchoolService;
     private AbstractService $tixEventService;
+    private AbstractService $axiellEventsService;
 
     public function __construct(
+        object $commandlineOptions,
         AbstractDataReader $reader,
         AbstractDataWriter $writer,
         AbstractDataConverter $converter,
@@ -65,6 +68,16 @@ class RuntimeServices
         $this->elementarySchoolService  = new Service($reader, $writer, new ElementarySchoolTransform($idprefix, $this->typesenseClient), $converter);
         $this->preSchoolService         = new Service($reader, $writer, new PreSchoolTransform($idprefix, $this->typesenseClient), $converter);
         $this->tixEventService          = new Service($reader, $writer, new TixEventTransform($idprefix), $converter);
+        $this->axiellEventsService      = new Service($reader, $writer, new AxiellEventTransform(
+            $idprefix,
+            $commandlineOptions->externalbaseurl ?? '',
+            array_values(array_filter(
+                preg_split("/\s*,\s*/", $commandlineOptions->excludetags ?? '')
+            )),
+            array_values(array_filter(
+                preg_split("/\s*,\s*/", $commandlineOptions->includetags ?? '')
+            ))
+        ), $converter);
     }
 
     public function getJobPostingService(): AbstractService
@@ -99,5 +112,10 @@ class RuntimeServices
     public function getTixService(): AbstractService
     {
         return $this->tixEventService;
+    }
+
+    public function getAxiellEventsService(): AbstractService
+    {
+        return $this->axiellEventsService;
     }
 }
