@@ -70,7 +70,6 @@ final class MapOffersTest extends TestCase
                         ->mainEntityOfPage('https://example.com/se/tickets/1234')
                         ->availabilityStarts('2025-09-03T12:00:00+02:00')
                         ->availabilityEnds('2025-09-27T22:00:00+02:00')
-                        ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                         ->priceSpecification([
                             Schema::priceSpecification()
                                 ->name('Ordinarie')
@@ -139,7 +138,6 @@ final class MapOffersTest extends TestCase
                         ->mainEntityOfPage('https://example.com/se/tickets/12345')
                         ->availabilityStarts('2025-09-03T12:00:00+02:00')
                         ->availabilityEnds('2025-09-27T23:00:00+02:00')
-                        ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                         ->priceSpecification([
                             Schema::priceSpecification()
                                 ->name('Ordinarie')
@@ -204,9 +202,13 @@ final class MapOffersTest extends TestCase
                         ->name('Stora fina boken')
                         ->description('<p>Med inspiration från galaxen</p>')
                         ->mainEntityOfPage('https://example.com/se/products/1234')
-                        ->businessFunction('http://purl.org/goodrelations/v1#Sell')
-                        ->price(265)
-                        ->priceCurrency('SEK')
+                        ->priceSpecification(
+                            Schema::priceSpecification()
+                                ->name('Stora fina boken')
+                                ->description('<p>Med inspiration från galaxen</p>')
+                                ->price(265)
+                                ->priceCurrency('SEK')
+                        )
                         ->image(
                             Schema::imageObject()
                                 ->name('Stora fina boken')
@@ -346,7 +348,6 @@ final class MapOffersTest extends TestCase
                         ->mainEntityOfPage('https://example.com/se/tickets/1234')
                         ->availabilityStarts('2025-09-03T12:00:00+02:00')
                         ->availabilityEnds('2025-09-27T22:00:00+02:00')
-                        ->businessFunction('http://purl.org/goodrelations/v1#Sell')
                         ->priceSpecification([
                             Schema::priceSpecification()
                                 ->name('Ordinarie')
@@ -364,9 +365,13 @@ final class MapOffersTest extends TestCase
                         ->name('Stora fina boken')
                         ->description('<p>Med inspiration från galaxen</p>')
                         ->mainEntityOfPage('https://example.com/se/products/1234')
-                        ->businessFunction('http://purl.org/goodrelations/v1#Sell')
-                        ->price(265)
-                        ->priceCurrency('SEK')
+                        ->priceSpecification(
+                            Schema::priceSpecification()
+                                ->name('Stora fina boken')
+                                ->description('<p>Med inspiration från galaxen</p>')
+                                ->price(265)
+                                ->priceCurrency('SEK')
+                        )
                         ->image(
                             Schema::imageObject()
                                 ->name('Stora fina boken')

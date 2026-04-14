@@ -32,10 +32,13 @@ class MapOffers extends AbstractWPHeadlessEventMapper
                         fn ($pl) => is_numeric($pl['price'] ?? null)
                             ? Schema::offer()
                                 ->name($pl['priceLabel'] ?? null)
-                                ->price((int)$pl['price'] ?? null)
-                                ->priceCurrency('SEK')
                                 ->url($candidateUrl)
-                                ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+                                ->priceSpecification(
+                                    Schema::priceSpecification()
+                                        ->name($pl['priceLabel'] ?? null)
+                                        ->price((int)$pl['price'] ?? null)
+                                        ->priceCurrency('SEK')
+                                )
                             : null,
                         $data['acf']['pricesList'] ?? []
                     )

@@ -59,7 +59,6 @@ class MapOffers extends AbstractTixDataMapper
                     ->availabilityEnds($dateLike['OnlineSaleEnd'] ?? null)
                     ->url($purchaseUrl['Link'] ?? null)
                     ->mainEntityOfPage($purchaseUrl['Link'] ?? null)
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
 
                 ->priceSpecification(
                     array_values(
@@ -124,9 +123,13 @@ class MapOffers extends AbstractTixDataMapper
                     ->mainEntityOfPage($link)
                     ->name($product['Name'] ?? null)
                     ->description($product['Description'] ?? null)
-                    ->price($product['Price'] ?? null)
-                    ->priceCurrency('SEK')
-                    ->businessFunction('http://purl.org/goodrelations/v1#Sell')
+                    ->priceSpecification(
+                        Schema::priceSpecification()
+                            ->name($product['Name'] ?? null)
+                            ->description($product['Description'] ?? null)
+                            ->price($product['Price'] ?? null)
+                            ->priceCurrency('SEK')
+                    )
                     ->image(
                         ($product['ProductImagePath'] ?? null) ?
                             Schema::imageObject()

@@ -3,14 +3,14 @@
 {
 	"name": "PHP",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/php:1-8.3-bullseye",
+	"image": "mcr.microsoft.com/devcontainers/php:1-8.4-bullseye",
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
 			"settings": {
-				"intelephense.environment.phpVersion": "8.3",
+				"intelephense.environment.phpVersion": "8.4",
 				"phpsab.fixerEnable": true,
 				"phpsab.snifferShowSources": true,
 				"phpsab.executablePathCS": "./vendor/bin/phpcs",
