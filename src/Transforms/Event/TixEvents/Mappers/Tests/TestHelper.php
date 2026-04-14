@@ -20,7 +20,7 @@ class TestHelper extends Assert
         TixDataMapperInterface $mapper,
         string $sourceJson,
         Event $expectedEvent,
-        string $message = null
+        ?string $message = null
     ): TestHelper {
         $source = $this->prepareJsonForTransform($sourceJson);
         $this->assertNotEmpty($source, 'Source data is empty or invalid JSON');
