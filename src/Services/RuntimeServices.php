@@ -20,6 +20,7 @@ use SchemaTransformer\Transforms\Event\TixEvents\TixEventTransform;
 use SchemaTransformer\Transforms\Event\WPLegacyEvents\WPLegacyEventTransform;
 use SchemaTransformer\Transforms\Event\WPHeadLessEvents\WPHeadlessEventTransform;
 use SchemaTransformer\Transforms\Event\AxiellEvents\AxiellEventTransform;
+use SchemaTransformer\Transforms\PiosProject\PiosProjectTransform;
 
 class RuntimeServices
 {
@@ -32,6 +33,7 @@ class RuntimeServices
     private AbstractService $preSchoolService;
     private AbstractService $tixEventService;
     private AbstractService $axiellEventsService;
+    private AbstractService $piosProjectService;
 
     public function __construct(
         object $commandlineOptions,
@@ -78,6 +80,7 @@ class RuntimeServices
                 preg_split("/\s*,\s*/", $commandlineOptions->includetags ?? '')
             ))
         ), $converter);
+        $this->piosProjectService       = new Service($reader, $writer, new PiosProjectTransform($idprefix), $converter);
     }
 
     public function getJobPostingService(): AbstractService
@@ -117,5 +120,10 @@ class RuntimeServices
     public function getAxiellEventsService(): AbstractService
     {
         return $this->axiellEventsService;
+    }
+
+    public function getPiosProjectService(): AbstractService
+    {
+        return $this->piosProjectService;
     }
 }

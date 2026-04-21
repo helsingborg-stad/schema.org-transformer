@@ -210,6 +210,12 @@ class App
                     $cmd->output
                 );
                 break;
+            case 'pios_project':
+                $result = $services->getPiosProjectService()->execute(
+                    $cmd->source,
+                    $cmd->output
+                );
+                break;
             default:
                 printf('Missing transform for (%s)\n', $cmd->transform);
                 break;
