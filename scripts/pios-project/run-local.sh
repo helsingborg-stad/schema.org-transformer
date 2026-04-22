@@ -48,7 +48,7 @@ php ../../router.php \
     --source "$tmp" \
     --transform pios_project \
     --outputformat json \
-    --idprefix ax-
+    --idprefix pios-
 
 if [ $? -ne 0 ]; then
     echo "FAILED to transform request"
