@@ -12,6 +12,7 @@ use SchemaTransformer\Transforms\PiosProject\Mappers\MapDescription;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapEmployee;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapFunding;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapIdentifier;
+use SchemaTransformer\Transforms\PiosProject\Mappers\MapKeywords;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapName;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapStatus;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapXCreatedBy;
@@ -38,7 +39,7 @@ class PiosProjectTransform extends TransformBase implements AbstractDataTransfor
             new MapDepartment(),
             new MapEmployee(),
             new MapStatus(),
-
+            new MapKeywords(),
             new MapXCreatedBy()
         ];
 

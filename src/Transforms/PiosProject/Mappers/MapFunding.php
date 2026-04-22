@@ -16,8 +16,8 @@ class MapFunding extends AbstractPiosProjectMapper
             array_values(
                 array_filter(
                     array_map(
-                        fn($period) => $period['amount'] ?? null
-                        ? Schema::monetaryGrant()->name($period['year'] ?? '')->amount($period['amount'] ?? 0)
+                        fn($period) => $period['totalBudget'] ?? null
+                        ? Schema::monetaryGrant()->name($period['year'] ?? '')->amount($period['totalBudget'] ?? 0)
                         : null,
                         $data['periods'] ?? []
                     )

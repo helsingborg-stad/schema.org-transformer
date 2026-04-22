@@ -11,16 +11,16 @@ class MapStatus extends AbstractPiosProjectMapper
 {
     private array $phases = [
         'NotSet'                             => 'Ingen status',
-        'Draft'                              => 'Utkast',
-        'Ready'                              => 'Redo',
+        'Draft'                              => 'Projektidé, utkast',
+        'Ready'                              => 'Projektidé, färdigt utkast',
         'ReadyForReview'                     => 'Redo för granskning',
-        'Published'                          => 'Publicerad',
-        'NotStartedDecided'                  => 'Ej startad',
-        'Started'                            => 'Startad',
-        'Finished'                           => 'Avslutad',
+        'Published'                          => 'Projektidé, publicerad',
+        'NotStartedDecided'                  => 'Ej påbörjad, beslutad',
+        'Started'                            => 'Pågående',
+        'Finished'                           => 'Slutförd, effekthemtagning avslutad',
         'Paused'                             => 'Pausad',
-        'FinishedEffectRealizationStarted'   => 'Inväntar effekthemtagning',
-        'FinishedEffectRealizationConcluded' => 'Effekthemtagning avslutad'
+        'FinishedEffectRealizationStarted'   => 'Slutförd, effekthemtagning pågår',
+        'FinishedEffectRealizationConcluded' => 'Slutförd, effekthemtagning avslutad'
     ];
 
     private array $statuses = [
