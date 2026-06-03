@@ -1,6 +1,6 @@
 #!/bin/bash
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/test-events/documents
+TYPESENSE_PATH=${TYPESENSE_BASE_PATH}/collections/events/documents
 TMPFILE=$(mktemp)
 if [ -z ${AXIELL_EVENTS_URL} ]; then
     echo "Missing env variable AXIELL_EVENTS_URL"; exit 1
@@ -33,7 +33,7 @@ cd ${SCRIPT_DIR}
         curl -X DELETE \
             -H "x-typesense-api-key: ${TYPESENSE_APIKEY}" \
             -H "Content-Type: application/json" \
-            "${TYPESENSE_BASE_PATH}/collections/test-events/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Faxiell-events"
+            "${TYPESENSE_BASE_PATH}/collections/events/documents?filter_by=x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Faxiell-events"
 
         if [ $? -ne 0 ]; then
             echo "FAILED to delete documents"
