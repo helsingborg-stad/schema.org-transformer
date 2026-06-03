@@ -17,8 +17,8 @@ php ../../router.php \
     --outputformat json \
     --idprefix ax- \
     --externalbaseurl https://bibliotekfh.se/evenemang#/events/ \
-    --excludetags "rådgivning,inställt" \
-    --includetags ""
+    --includetags "" \
+    --excludetags "Digital vägledning,Läxhjälp,Rådgivning,Teknik"
 
 if [ $? -ne 0 ]; then
     echo "FAILED to transform request"

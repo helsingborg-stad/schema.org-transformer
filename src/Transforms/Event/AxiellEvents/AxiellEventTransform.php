@@ -56,6 +56,8 @@ class AxiellEventTransform extends TransformBase implements AbstractDataTransfor
                     $this->excludeTags
                 )
             ) === 0,
+            // if tags is empty, exclude
+            fn($item) => !empty($item['tags'] ?? []),
             // if includeTags is not empty, filter in only events that have at least one of the include tags
             fn($item) =>
                 empty($this->includeTags)
