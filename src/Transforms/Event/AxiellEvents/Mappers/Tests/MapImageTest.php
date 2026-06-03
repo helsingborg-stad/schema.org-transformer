@@ -21,11 +21,11 @@ final class MapImageTest extends TestCase
             new MapImage(),
             '{
                 "images": [{
-                    "imageUrl": "https://example.com/image.jpg",
+                    "imageUrl": "https://example.com/image",
                     "imageCaption": "Example image caption"
                 },
                 {
-                    "imageUrl": "https://example.com/image2.jpg"
+                    "imageUrl": "https://example.com/image2"
                 },
                 {
                     "imageCaption": "no url so skip this"
@@ -33,11 +33,11 @@ final class MapImageTest extends TestCase
             }',
             Schema::event()->image([
                 Schema::imageObject()
-                    ->url('https://example.com/image.jpg')
+                    ->url('https://example.com/image#.jpg')
                     ->description('Example image caption')
                     ->caption('Example image caption'),
                 Schema::imageObject()
-                    ->url('https://example.com/image2.jpg')
+                    ->url('https://example.com/image2#.jpg')
                     ->description(null)
                     ->caption(null)
             ])

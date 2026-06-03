@@ -19,7 +19,7 @@ class MapImage extends AbstractAxiellEventsDataMapper
                             fn($img) => empty($img['imageUrl'])
                                 ? null
                                 : Schema::imageObject()
-                                    ->url($img['imageUrl'] ?? null)
+                                    ->url(($img['imageUrl'] ?? '') . '#.jpg') // hack to fool importers that extension is jpg
                                     ->caption($img['imageCaption'] ?? null)
                                     ->description($img['imageCaption'] ?? null),
                             $data['images'] ?? []
