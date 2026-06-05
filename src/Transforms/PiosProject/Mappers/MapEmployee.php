@@ -16,8 +16,8 @@ class MapEmployee extends AbstractPiosProjectMapper
             array_values(
                 array_filter(
                     array_map(
-                        fn($member) => Schema::person()->description($member['role'] ?? '')->email($member['email'] ?? ''),
-                        $data['teamMembers'] ?? []
+                        fn($member) => $member ?? null ? Schema::person()->email($member ?? '') : null,
+                        $data['projectManagers'] ?? []
                     ),
                     fn($person) => !empty($person->getProperty('email'))
                 )

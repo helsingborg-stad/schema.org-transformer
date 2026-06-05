@@ -13,38 +13,34 @@ use SchemaTransformer\Transforms\PiosProject\Mappers\MapEmployee;
 #[CoversClass(MapEmployee::class)]
 final class MapEmployeeTest extends TestCase
 {
-    #[TestDox('project::name is take from teamMembers')]
+    #[TestDox('project::employee is taken from projectManagers')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEmployee(),
             '{
-                "teamMembers": [
-                    {
-                        "email": "p@example.com",
-                        "role": "Project manager"
-                    }
-                ]
+                "projectManagers": ["p@example.com"]
+
             }',
             Schema::project()->employee([
-                Schema::person()->email('p@example.com')->description('Project manager')
+                Schema::person()->email('p@example.com')
             ])
         );
     }
 
-    #[TestDox('project::employee is empty when teamMembers is empty')]
+    #[TestDox('project::employee is empty when projectManagers is empty')]
     public function testEmpty()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEmployee(),
             '{
-                "teamMembers": []
+                "projectManagers": []
             }',
             Schema::project()->employee([])
         );
     }
 
-    #[TestDox('project::employee is empty when teamMembers is missing')]
+    #[TestDox('project::employee is empty when projectManagers is missing')]
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(

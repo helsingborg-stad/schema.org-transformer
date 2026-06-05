@@ -25,7 +25,7 @@ function fetch_paginated() {
                --header "Accept: text/plain" \
                --header "ApiKey: ${PIOS_API_KEY}" \
                --request GET \
-               "https://pios.dimatech.se/api/pios/public/projects?filter.readyForExportOnly=false&pageNumber=${pageNumber}&pageSize=${pageSize}")
+               "https://pios.dimatech.se/api/pios/public/projects/extended?filter.readyForExportOnly=false&pageNumber=${pageNumber}&pageSize=${pageSize}")
 
           # stop when no records are returned
           if jq -e '.records | length == 0' >/dev/null <<<"$response"; then
