@@ -14,7 +14,7 @@ use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\Tests\TestHelper;
 #[CoversClass(MapStartDate::class)]
 final class MapStartDateTest extends TestCase
 {
-    #[TestDox('event::startDate is taken from $.startDate')]
+    #[TestDox('event::startDate is taken from $.startDate and adjusted to local time')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -22,7 +22,7 @@ final class MapStartDateTest extends TestCase
             '{
                 "startDate": "2024-06-01T12:00:00Z"
             }',
-            Schema::event()->startDate('2024-06-01T12:00:00Z')
+            Schema::event()->startDate('2024-06-01T14:00:00')
         );
     }
 

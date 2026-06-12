@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms\Event\AxiellEvents\Mappers;
 
 use Municipio\Schema\Event;
+use SchemaTransformer\Util\DateUtils;
 
 class MapStartDate extends AbstractAxiellEventsDataMapper
 {
@@ -16,6 +17,6 @@ class MapStartDate extends AbstractAxiellEventsDataMapper
     public function map(Event $event, array $data): Event
     {
         return $event
-            ->startDate($data['startDate'] ?? null);
+            ->startDate(DateUtils::toLocalDate($data['startDate'] ?? null));
     }
 }

@@ -14,7 +14,7 @@ use SchemaTransformer\Transforms\Event\AxiellEvents\Mappers\Tests\TestHelper;
 #[CoversClass(MapEventSchedule::class)]
 final class MapEventScheduleTest extends TestCase
 {
-    #[TestDox('event::eventSchedule is constructed from $.startDate and $.endDate')]
+    #[TestDox('event::eventSchedule is constructed from $.startDate and $.endDate and adjusted to local time')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -25,8 +25,8 @@ final class MapEventScheduleTest extends TestCase
             }',
             Schema::event()->eventSchedule([
                 Schema::schedule()
-                    ->startDate('2024-09-01T19:00:00')
-                    ->endDate('2024-09-01T21:00:00')
+                    ->startDate('2024-09-01T21:00:00')
+                    ->endDate('2024-09-01T23:00:00')
             ])
         );
     }
