@@ -1,56 +1,55 @@
-name: Build and Push Docker Image
+name: Build And Push Docker Image
+
 on:
-  workflow_dispatch:
   push:
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
-      - 'test-*'
+      - '*'
 
 permissions:
   contents: read
   packages: write
 
 jobs:
-  verify-tag-source:
-    if: ${{ github.ref_type == 'tag' }}
+  build-and-push:
     runs-on: ubuntu-latest
-    outputs:
-      should_build: ${{ steps.verify.outputs.should_build }}
+
     steps:
-      - name: Checkout tagged commit
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Verify tag points to main
-        id: verify
-        shell: bash
-        run: |
-          git fetch origin main --depth=1
-          tag_commit="$(git rev-list -n 1 "$GITHUB_REF")"
-
-          if git merge-base --is-ancestor "$tag_commit" origin/main; then
-            echo "should_build=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "should_build=false" >> "$GITHUB_OUTPUT"
-            echo "Tag does not point to a commit on main. Skipping image build."
-          fi
-
-  build:
-    needs: verify-tag-source
-    if: ${{ needs.verify-tag-source.outputs.should_build == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout (GitHub)
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build and run dev container task
-        uses: devcontainers/ci@v0.3
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
         with:
-          # Change this to be your CI task/script
-          runCmd: |
-            composer i --no-dev
-            .docker/build.sh ${{ github.ref_name }}
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            docker push ghcr.io/${{ github.repository_owner }}/schema.org-transformer:${{ github.ref_name }}
+          php-version: '8.4'
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=tag
+            type=raw,value=latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: .docker/Dockerfile
+          push: true
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
