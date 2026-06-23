@@ -1,11 +1,8 @@
 name: Release
 
 on:
-  workflow_run:
+  push:
     branches: [main]
-    workflows: [Test, Lint]
-    types:
-      - completed
 
 permissions:
   contents: write
