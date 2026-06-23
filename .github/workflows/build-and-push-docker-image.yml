@@ -1,16 +1,41 @@
-name: 'build' 
-on: # run when a new tag is created/pushed
-  push:
-    tags:
-      - '*'
+name: Build and Push Docker Image
+on:
+  create:
 
 jobs:
+  verify-tag-source:
+    if: ${{ github.ref_type == 'tag' }}
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.verify.outputs.should_build }}
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify tag points to main
+        id: verify
+        shell: bash
+        run: |
+          git fetch origin main --depth=1
+          tag_commit="$(git rev-list -n 1 "$GITHUB_REF")"
+
+          if git merge-base --is-ancestor "$tag_commit" origin/main; then
+            echo "should_build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_build=false" >> "$GITHUB_OUTPUT"
+            echo "Tag does not point to a commit on main. Skipping image build."
+          fi
+
   build:
+    needs: verify-tag-source
+    if: ${{ needs.verify-tag-source.outputs.should_build == 'true' }}
     runs-on: ubuntu-latest
     steps:
 
       - name: Checkout (GitHub)
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build and run dev container task
         uses: devcontainers/ci@v0.3
