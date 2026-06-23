@@ -16,3 +16,5 @@ LICENSE
 phpcs.xml
 phpunit.xml
 README.MD
+
+!.docker/cronjobs

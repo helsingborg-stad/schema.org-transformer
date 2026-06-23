@@ -33,7 +33,7 @@ RUN apt-get autoremove -y \
 COPY . /opt/schema-transformer
 
 # Set up cron jobs
-COPY ./cronjobs /etc/cron.d/schema-cron
+COPY ./.docker/cronjobs /etc/cron.d/schema-cron
 RUN chmod 0644 /etc/cron.d/schema-cron
 
 CMD ["cron", "-f"]

@@ -1,0 +1,23 @@
+name: 'build' 
+on: # run when a new tag is created/pushed
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout (GitHub)
+        uses: actions/checkout@v3
+
+      - name: Build and run dev container task
+        uses: devcontainers/ci@v0.3
+        with:
+          # Change this to be your CI task/script
+          runCmd: |
+            composer i --no-dev
+            .docker/build.sh ${{ github.ref_name }}
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            docker push ghcr.io/${{ github.repository_owner }}/schema.org-transformer:${{ github.ref_name }}
