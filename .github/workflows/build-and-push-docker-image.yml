@@ -1,6 +1,14 @@
 name: Build and Push Docker Image
 on:
-  create:
+  workflow_dispatch:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - 'test-*'
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   verify-tag-source:
