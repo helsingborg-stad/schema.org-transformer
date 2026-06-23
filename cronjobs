@@ -1,0 +1,31 @@
+SCRIPTS_HOME=/opt/schema-transformer/scripts
+
+# Schema Transformer: Helsingborg Reachmee: At every 2nd minute from 1 through 59.
+1-59/2 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/reachmee/helsingborg.se/run.sh" > /dev/null 2>&1
+
+# Schema Transformer: Helsingborg Innovation Stratsys: Every 5 minutes
+*/5 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/stratsys/innovation.helsingborg.se/run.sh" > /dev/null 2>&1
+
+# Schema Transformer: Helsingborg Intranat Reachmee: At every 2nd minute from 1 through 59.
+1-59/2 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/reachmee/intranat.helsingborg.se/run.sh" > /dev/null 2>&1
+
+# Schema Transformer: Exhibitions: Every 10 minutes
+*/10 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/wordpress/utstallningar.helsingborg.io/run.sh" > /dev/null 2>&1
+
+# Schema Transformer: Pre School At every 11th minute from 3 through 59
+3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/pre-school/run.sh" > /dev/null 2>&1
+
+# Schema Transformer: Elementary School At every 11th minute from 3 through 59
+3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/elementary-school/run.sh" > /dev/null 2>&1
+
+# Schema Transformer: Legacy Events: At every 11th minute from 3 through 59
+3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/wp-legacy-events/run.sh" > /dev/null 2>&1
+
+# Schema Transformer: Headless Events: At every 11th minute from 3 through 59
+3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/wp-events/run.sh" > /dev/null 2>&1
+
+# Schema Transformer: TIX Events: At every 11th minute from 3 through 59
+# 3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/tix-events/run.sh" > /dev/null 2>&1
+
+# Schema Transformer: HBG Bibiotek Events: At every 11th minute from 3 through 59
+# 3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/hbg-bibliotek-events/run.sh" > /dev/null 2>&1

@@ -26,7 +26,8 @@
         "test": "phpunit --no-coverage --testdox",
         "test-coverage": "XDEBUG_MODE=coverage phpunit --coverage-html coverage",
         "lint": "phpcs",
-        "lint-fix": "phpbf"
+        "lint-fix": "phpbf",
+        "docker:build": "docker build -f .docker/Dockerfile . -t schema-transformer:latest"
     },
     "config": {
         "allow-plugins": {

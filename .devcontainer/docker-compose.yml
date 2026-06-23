@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: schema-transformer
+  typesense:
+    image: typesense/typesense:0.24.0
+    container_name: typesense
+    restart: on-failure
+    ports:
+      - "8108:8108"
+    command: '--data-dir /data --api-key=xyz --enable-cors'
