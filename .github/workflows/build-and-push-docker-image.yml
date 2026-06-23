@@ -1,12 +1,13 @@
 name: Build and push docker image to github registry.
 
 on:
-  workflow_dispatch:
-  release:
-    types: [ published ]
+  workflow_run:
+    workflows: [Release]
+    types:
+      - completed
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
