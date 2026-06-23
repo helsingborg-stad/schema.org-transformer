@@ -35,5 +35,5 @@
             "php-http/discovery": true
         }
     },
-    "version": "1.9.20"
+    "version": "1.9.21"
 }
