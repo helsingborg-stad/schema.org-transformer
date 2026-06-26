@@ -5,20 +5,47 @@ on:
     workflows: [Release]
     types:
       - completed
-  push:
-    tags:
-      - 'v*'
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref }}
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Resolve latest release tag
+        id: release-tag
+        shell: bash
+        run: |
+          git fetch --force --tags origin
+          latestTag="$(git tag --sort=-v:refname | head -n 1)"
+
+          if [[ -z "$latestTag" ]]; then
+            echo "No Git tags found after release workflow completed." >&2
+            exit 1
+          fi
+
+          normalizedTag="${latestTag#v}"
+
+          if [[ ! "$normalizedTag" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "Latest release tag '$latestTag' is not a supported semver value." >&2
+            exit 1
+          fi
+
+          major="${BASH_REMATCH[1]}"
+          minor="${BASH_REMATCH[2]}"
+          patch="${BASH_REMATCH[3]}"
+
+          {
+            echo "tag=$latestTag"
+            echo "version=$major.$minor.$patch"
+            echo "majorMinor=$major.$minor"
+            echo "major=$major"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Build from source
         uses: shivammathur/setup-php@v2
@@ -53,11 +80,10 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
             type=schedule
             type=ref,event=branch
-            type=ref,event=tag
             type=ref,event=pr
-            type=semver,pattern=v{{version}}
-            type=semver,pattern=v{{major}}.{{minor}}
-            type=semver,pattern=v{{major}}
+            type=raw,value=${{ steps.release-tag.outputs.version }}
+            type=raw,value=${{ steps.release-tag.outputs.majorMinor }}
+            type=raw,value=${{ steps.release-tag.outputs.major }}
             type=sha
             type=sha,format=long
 
