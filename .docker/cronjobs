@@ -1,31 +1,33 @@
 SCRIPTS_HOME=/opt/schema-transformer/scripts
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Schema Transformer: Helsingborg Reachmee: At every 2nd minute from 1 through 59.
-1-59/2 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/reachmee/helsingborg.se/run.sh" > /dev/null 2>&1
+1-59/2 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh reachmee-helsingborg-se $SCRIPTS_HOME/reachmee/helsingborg.se/run.sh
 
 # Schema Transformer: Helsingborg Innovation Stratsys: Every 5 minutes
-*/5 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/stratsys/innovation.helsingborg.se/run.sh" > /dev/null 2>&1
+*/5 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh stratsys-innovation $SCRIPTS_HOME/stratsys/innovation.helsingborg.se/run.sh
 
 # Schema Transformer: Helsingborg Intranat Reachmee: At every 2nd minute from 1 through 59.
-1-59/2 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/reachmee/intranat.helsingborg.se/run.sh" > /dev/null 2>&1
+1-59/2 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh reachmee-intranat $SCRIPTS_HOME/reachmee/intranat.helsingborg.se/run.sh
 
 # Schema Transformer: Exhibitions: Every 10 minutes
-*/10 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/wordpress/utstallningar.helsingborg.io/run.sh" > /dev/null 2>&1
+*/10 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh wordpress-utstallningar $SCRIPTS_HOME/wordpress/utstallningar.helsingborg.io/run.sh
 
 # Schema Transformer: Pre School At every 11th minute from 3 through 59
-3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/pre-school/run.sh" > /dev/null 2>&1
+3-59/11 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh pre-school $SCRIPTS_HOME/pre-school/run.sh
 
 # Schema Transformer: Elementary School At every 11th minute from 3 through 59
-3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/elementary-school/run.sh" > /dev/null 2>&1
+3-59/11 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh elementary-school $SCRIPTS_HOME/elementary-school/run.sh
 
 # Schema Transformer: Legacy Events: At every 11th minute from 3 through 59
-3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/wp-legacy-events/run.sh" > /dev/null 2>&1
+3-59/11 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh wp-legacy-events $SCRIPTS_HOME/wp-legacy-events/run.sh
 
 # Schema Transformer: Headless Events: At every 11th minute from 3 through 59
-3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/wp-events/run.sh" > /dev/null 2>&1
+3-59/11 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh wp-events $SCRIPTS_HOME/wp-events/run.sh
 
 # Schema Transformer: TIX Events: At every 11th minute from 3 through 59
-# 3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/tix-events/run.sh" > /dev/null 2>&1
+# 3-59/11 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh tix-events $SCRIPTS_HOME/tix-events/run.sh
 
 # Schema Transformer: HBG Bibiotek Events: At every 11th minute from 3 through 59
-# 3-59/11 * * * * /bin/bash -c "source /etc/profile && /bin/bash $SCRIPTS_HOME/hbg-bibliotek-events/run.sh" > /dev/null 2>&1
+# 3-59/11 * * * * root /bin/bash /opt/schema-transformer/.docker/run-cron-job.sh hbg-bibliotek-events $SCRIPTS_HOME/hbg-bibliotek-events/run.sh
