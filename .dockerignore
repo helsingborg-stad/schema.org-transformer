@@ -1,5 +1,6 @@
 .git
 .docker
+!.docker/
 .dockerignore
 .env.example
 .github
@@ -18,3 +19,4 @@ phpunit.xml
 README.MD
 
 !.docker/cronjobs
+!.docker/run-cron-job.sh
