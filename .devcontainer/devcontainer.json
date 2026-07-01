@@ -2,10 +2,9 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/php
 {
 	"name": "PHP",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"context": "."
-	},
+	"dockerComposeFile": "docker-compose.yml",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"service": "app",
 	"customizations": {
 		"vscode": {
 			"settings": {
@@ -23,7 +22,8 @@
 			},
 			"extensions": [
 				"ritwickdey.liveserver",
-				"valeryanm.vscode-phpsab"
+				"valeryanm.vscode-phpsab",
+				"bmewburn.vscode-intelephense-client"
 			]
 		}
 	},

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms\School\Events;
 
+use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
 use Typesense\Client as TypesenseClient;
 
 class EventsSearchClientOnTypesense implements EventsSearchClient
@@ -17,7 +18,7 @@ class EventsSearchClientOnTypesense implements EventsSearchClient
             return [];
         }
 
-        $result = $this->typesenseClient->collections['events']->documents->search([
+        $result = $this->typesenseClient->collections[TypesenseCollection::Event->value]->documents->search([
             'q'        => '"' . $schoolName . '"',
             'query_by' => 'keywords.name',
         ]);

@@ -2,43 +2,42 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\IO;
+namespace SchemaTransformer\IO\V2;
 
-use SchemaTransformer\Interfaces\AbstractDataPreprocessor;
-use SchemaTransformer\Interfaces\AbstractDataReader;
-use SchemaTransformer\Interfaces\AbstractLogger;
+use Psr\Log\LoggerInterface;
+use SchemaTransformer\Interfaces\AbstractDataTransform;
 use SchemaTransformer\Interfaces\AbstractPaginator;
+use SchemaTransformer\IO\V2\ReaderInterface;
+use SchemaTransformer\Loggers\NullLogger;
+use SchemaTransformer\Paginators\NullPaginator;
 use SchemaTransformer\Util\HttpUtils;
 
-class HttpReader implements AbstractDataReader
+class HttpReader implements ReaderInterface
 {
-    private array $headers;
-    private AbstractPaginator $paginator;
-
     public function __construct(
-        AbstractPaginator $paginator,
-        private AbstractLogger $logger,
-        array $headers = [],
+        private string $path,
+        private AbstractDataTransform $transformer,
+        private array $headers = [],
+        private AbstractPaginator $paginator = new NullPaginator(),
+        private LoggerInterface $logger = new NullLogger(),
     ) {
-        $this->headers   = $headers;
-        $this->paginator = $paginator;
     }
-    public function read(string $path, AbstractDataPreprocessor $preprocessor): array|false
+
+    public function read(): array
     {
         $result = [];
+        $next   = $this->path;
+        $this->logger->info("Reading data from HTTP source");
 
-        $next = $path;
         while ($next !== false) {
-            $this->logger->log("👀 Reading from source: " . $next);
-
             list($response, $headers) = $this->curl($next);
-            // Extend list
-            $result = [...$result, ...$preprocessor->preprocessData($response)];
-            $next   = $this->paginator->getNext($next, $headers);
+            $transformed              = $this->transformer->transform($this->transformer->preprocessData($response));
+            $result                   = [...$result, ...$transformed];
+            $next                     = $this->paginator->getNext($next, $headers);
         };
 
-        $this->logger->log("✅ Read " . count($result) . " items from source");
-
+        $this->logger->info("Finished reading data from HTTP source");
+        $this->logger->info("Total records read: " . count($result));
         return $result;
     }
     protected function curl(string $path): array|false

@@ -12,7 +12,7 @@ class ReachmeeJobPostingTransform extends TransformBase implements AbstractDataT
     /**
      * @param \SchemaTransformer\Interfaces\SanitizerInterface[] $sanitizers
      */
-    public function __construct(private array $sanitizers, string $idprefix)
+    public function __construct(private array $sanitizers = [], string $idprefix = '')
     {
         parent::__construct($idprefix);
     }

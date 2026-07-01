@@ -1,0 +1,25 @@
+#!/usr/bin/php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use SchemaTransformer\IO\V2\HttpReader;
+use SchemaTransformer\Loggers\TerminalLogger;
+use SchemaTransformer\Paginators\WordpressPaginator;
+use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
+use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorage;
+use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorageConfig;
+use SchemaTransformer\Transforms\Event\WPLegacyEvents\WPLegacyEventTransform;
+
+$id = 'Event.legacy';
+$httpReaderPath = getenv('WP_LEGACY_EVENTS_API_URL')  . '&start_date=' . date('Y-m-d', strtotime('-1 month'));
+$typesenseCollection = TypesenseCollection::Event;
+$typesenseCollectionClearFilter = [ 'filter_by' => 'x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-legacy', ];
+$transformer = new WPLegacyEventTransform('L');
+$logger = new TerminalLogger($id);
+
+$typesenseClient = new \Typesense\Client([ 'nodes' => [ [ 'host' => getenv('TYPESENSE_HOST'), 'port' => (int)getenv('TYPESENSE_PORT'), 'protocol' => getenv('TYPESENSE_PROTOCOL'), ], ], 'api_key' => getenv('TYPESENSE_API_KEY'), ]);
+$storageConfig = new TypesenseStorageConfig( $typesenseClient, $typesenseCollection, $typesenseCollectionClearFilter );
+$reader = new HttpReader( $httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger );
+$storage = new TypesenseStorage($storageConfig, $logger);
+$storage->store($reader->read());

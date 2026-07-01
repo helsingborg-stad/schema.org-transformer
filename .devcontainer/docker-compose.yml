@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+  typesense:
+    image: typesense/typesense:30.2
+    command: '--data-dir /data --api-key=xyz --enable-cors'
+    volumes:
+      - typesense-data:/data
+    ports:
+      - 8108:8108
+volumes:
+  typesense-data:

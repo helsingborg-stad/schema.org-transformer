@@ -22,8 +22,4 @@ abstract class TransformBase
     {
         return trim($this->idprefix . $value);
     }
-    protected function isValidArray(mixed $data, string $name): bool
-    {
-        return  !empty($data[$name]) && is_array($data[$name]);
-    }
 }
