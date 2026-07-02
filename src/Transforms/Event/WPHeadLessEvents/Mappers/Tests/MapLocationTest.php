@@ -19,7 +19,7 @@ final class MapLocationTest extends TestCase
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapLocation(new WPHeadlessEventTransform('hl')),
+            new MapLocation(),
             '{
                 "acf": {
                     "locationName": "Dunkers kulturhus",
@@ -52,7 +52,7 @@ final class MapLocationTest extends TestCase
     public function testMissingName()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapLocation(new WPHeadlessEventTransform('hl')),
+            new MapLocation(),
             '{
                 "acf": {
                     "locationName": null,
@@ -80,7 +80,7 @@ final class MapLocationTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapLocation(new WPHeadlessEventTransform('hl')),
+            new MapLocation(),
             '{
                 "id": 123
             }',

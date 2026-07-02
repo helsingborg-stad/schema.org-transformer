@@ -170,7 +170,7 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
             $project->funding($funding);
 
             $organization = Schema::organization()->name($this->transformOrganisation($row["Initiativ_Enhet"] ?? ""));
-            $project->department($organization ?? "");
+            $project->department($organization);
 
             $contact = Schema::person()
                 ->alternateName($row["Initiativ_Kontaktperson"] ?? "")

@@ -19,7 +19,7 @@ final class MapEventAttendanceModeTest extends TestCase
     public function testOnline()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEventAttendanceMode(new WPHeadlessEventTransform('hl')),
+            new MapEventAttendanceMode(),
             '{
                 "acf": {
                     "attendancemode": "online"
@@ -33,7 +33,7 @@ final class MapEventAttendanceModeTest extends TestCase
     public function testOffline()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEventAttendanceMode(new WPHeadlessEventTransform('hl')),
+            new MapEventAttendanceMode(),
             '{
                 "id": 123,
                 "acf": {
@@ -48,7 +48,7 @@ final class MapEventAttendanceModeTest extends TestCase
     public function testMixed()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEventAttendanceMode(new WPHeadlessEventTransform('hl')),
+            new MapEventAttendanceMode(),
             '{
                 "id": 123,
                 "acf": {
@@ -63,7 +63,7 @@ final class MapEventAttendanceModeTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEventAttendanceMode(new WPHeadlessEventTransform('hl')),
+            new MapEventAttendanceMode(),
             '{
                 "id": 123
             }',

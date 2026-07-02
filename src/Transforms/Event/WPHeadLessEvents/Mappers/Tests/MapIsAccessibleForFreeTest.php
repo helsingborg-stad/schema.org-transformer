@@ -19,7 +19,7 @@ final class MapIsAccessibleForFreeTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapIsAccessibleForFree(new WPHeadlessEventTransform('hl')),
+            new MapIsAccessibleForFree(),
             '{
                 "id": 123
             }',
@@ -31,7 +31,7 @@ final class MapIsAccessibleForFreeTest extends TestCase
     public function testEmpty()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapIsAccessibleForFree(new WPHeadlessEventTransform('hl')),
+            new MapIsAccessibleForFree(),
             '{
                 "id": 123,
                 "acf": {
@@ -46,7 +46,7 @@ final class MapIsAccessibleForFreeTest extends TestCase
     public function testZero()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapIsAccessibleForFree(new WPHeadlessEventTransform('hl')),
+            new MapIsAccessibleForFree(),
             '{
                 "id": 123,
                 "acf": {
@@ -67,7 +67,7 @@ final class MapIsAccessibleForFreeTest extends TestCase
     public function testHasCosts()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapIsAccessibleForFree(new WPHeadlessEventTransform('hl')),
+            new MapIsAccessibleForFree(),
             '{
                 "id": 123,
                 "acf": {

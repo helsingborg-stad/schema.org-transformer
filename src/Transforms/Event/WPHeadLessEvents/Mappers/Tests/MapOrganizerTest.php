@@ -19,7 +19,7 @@ final class MapOrganizerTest extends TestCase
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapOrganizer(new WPHeadlessEventTransform('hl')),
+            new MapOrganizer(),
             '{
                 "_embedded": {
                     "acf:term": [
@@ -74,7 +74,7 @@ final class MapOrganizerTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapOrganizer(new WPHeadlessEventTransform('hl')),
+            new MapOrganizer(),
             '{
                 "id": 123
             }',

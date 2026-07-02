@@ -6,11 +6,12 @@ namespace SchemaTransformer\Transforms;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
+use SchemaTransformer\Transforms\DataSanitizers\SanitizerInterface;
 
 class ReachmeeJobPostingTransform extends TransformBase implements AbstractDataTransform
 {
     /**
-     * @param \SchemaTransformer\Interfaces\SanitizerInterface[] $sanitizers
+     * @param SanitizerInterface[] $sanitizers
      */
     public function __construct(private array $sanitizers = [], string $idprefix = '')
     {

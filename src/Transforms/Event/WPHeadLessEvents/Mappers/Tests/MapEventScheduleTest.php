@@ -19,7 +19,7 @@ final class MapEventScheduleTest extends TestCase
     public function testSingleScheduleMapping()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEventSchedule(new WPHeadlessEventTransform('hl')),
+            new MapEventSchedule(),
             '{
                 "acf": {
                     "occasions": [
@@ -45,7 +45,7 @@ final class MapEventScheduleTest extends TestCase
     public function testWeeklyScheduleMapping()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEventSchedule(new WPHeadlessEventTransform('hl')),
+            new MapEventSchedule(),
             '{
                 "acf": {
                     "occasions": [
@@ -95,7 +95,7 @@ final class MapEventScheduleTest extends TestCase
     public function testMissingTimeHandling()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEventSchedule(new WPHeadlessEventTransform('hl')),
+            new MapEventSchedule(),
             '{
                 "acf": {
                     "occasions": [
@@ -120,7 +120,7 @@ final class MapEventScheduleTest extends TestCase
     public function testMissingDateHandling()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEventSchedule(new WPHeadlessEventTransform('hl')),
+            new MapEventSchedule(),
             '{
                 "acf": {
                     "occasions": [
