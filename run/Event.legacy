@@ -12,12 +12,17 @@ use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorageConfig;
 use SchemaTransformer\Transforms\Event\WPLegacyEvents\WPLegacyEventTransform;
 
 $id = 'Event.legacy';
+$logger = new TerminalLogger($id);
+$lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
+
+if(!$lockRunner->lock()) {
+    return;
+}
+
 $httpReaderPath = getenv('WP_LEGACY_EVENTS_API_URL')  . '&start_date=' . date('Y-m-d', strtotime('-1 month'));
 $typesenseCollection = TypesenseCollection::Event;
 $typesenseCollectionClearFilter = [ 'filter_by' => 'x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-legacy', ];
 $transformer = new WPLegacyEventTransform('L');
-$logger = new TerminalLogger($id);
-
 $typesenseClient = new \Typesense\Client([ 'nodes' => [ [ 'host' => getenv('TYPESENSE_HOST'), 'port' => (int)getenv('TYPESENSE_PORT'), 'protocol' => getenv('TYPESENSE_PROTOCOL'), ], ], 'api_key' => getenv('TYPESENSE_API_KEY'), ]);
 $storageConfig = new TypesenseStorageConfig( $typesenseClient, $typesenseCollection, $typesenseCollectionClearFilter );
 $reader = new HttpReader( $httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger );

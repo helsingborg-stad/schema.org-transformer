@@ -12,12 +12,17 @@ use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorageConfig;
 use SchemaTransformer\Transforms\Event\AxiellEvents\AxiellEventTransform;
 
 $id = 'Event.library';
+$logger = new TerminalLogger($id);
+$lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
+
+if(!$lockRunner->lock()) {
+    return;
+}
+
 $httpReaderPath = getenv('AXIELL_EVENTS_URL');
 $typesenseCollection = TypesenseCollection::Event;
 $typesenseCollectionClearFilter = [ 'filter_by' => 'x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Faxiell-events' ];
 $transformer = new AxiellEventTransform('ax-', 'https://bibliotekfh.se/evenemang#/events/', [], []);
-$logger = new TerminalLogger($id);
-
 $typesenseClient = new \Typesense\Client([ 'nodes' => [ [ 'host' => getenv('TYPESENSE_HOST'), 'port' => (int)getenv('TYPESENSE_PORT'), 'protocol' => getenv('TYPESENSE_PROTOCOL'), ], ], 'api_key' => getenv('TYPESENSE_API_KEY'), ]);
 $storageConfig = new TypesenseStorageConfig( $typesenseClient, $typesenseCollection, $typesenseCollectionClearFilter );
 $reader = new HttpReader( $httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new NullPaginator(), $logger );

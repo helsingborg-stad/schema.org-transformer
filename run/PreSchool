@@ -12,13 +12,18 @@ use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorageConfig;
 use SchemaTransformer\Transforms\School\PreSchool\PreSchoolTransform;
 
 $id = 'PreSchool';
+$logger = new TerminalLogger($id);
+$lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
+
+if(!$lockRunner->lock()) {
+    return;
+}
+
 $httpReaderPath = getenv('PRE_SCHOOL_API_URL');
 $typesenseCollection = TypesenseCollection::PreSchool;
 $typesenseCollectionClearFilter = [ 'filter_by' => 'x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-headless' ];
 $typesenseClient = new \Typesense\Client([ 'nodes' => [ [ 'host' => getenv('TYPESENSE_HOST'), 'port' => (int)getenv('TYPESENSE_PORT'), 'protocol' => getenv('TYPESENSE_PROTOCOL'), ], ], 'api_key' => getenv('TYPESENSE_API_KEY'), ]);
 $transformer = new PreSchoolTransform('R', $typesenseClient);
-
-$logger = new TerminalLogger($id);
 $storageConfig = new TypesenseStorageConfig( $typesenseClient, $typesenseCollection, $typesenseCollectionClearFilter );
 $reader = new HttpReader( $httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger );
 $storage = new TypesenseStorage($storageConfig, $logger);
