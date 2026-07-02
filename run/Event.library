@@ -10,6 +10,7 @@ use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorage;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorageConfig;
 use SchemaTransformer\Transforms\Event\AxiellEvents\AxiellEventTransform;
+use SchemaTransformer\Webhooks\Webhooks;
 
 $id = 'Event.library';
 $logger = new TerminalLogger($id);
@@ -21,10 +22,14 @@ if(!$lockRunner->lock()) {
 
 $httpReaderPath = getenv('AXIELL_EVENTS_URL');
 $typesenseCollection = TypesenseCollection::Event;
-$typesenseCollectionClearFilter = [ 'filter_by' => 'x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Faxiell-events' ];
+$typesenseCollectionClearFilter = [ 'filter_by' => 'x-created-by:=municipio://schema.org-transformer/axiell-events' ];
 $transformer = new AxiellEventTransform('ax-', 'https://bibliotekfh.se/evenemang#/events/', [], []);
 $typesenseClient = new \Typesense\Client([ 'nodes' => [ [ 'host' => getenv('TYPESENSE_HOST'), 'port' => (int)getenv('TYPESENSE_PORT'), 'protocol' => getenv('TYPESENSE_PROTOCOL'), ], ], 'api_key' => getenv('TYPESENSE_API_KEY'), ]);
 $storageConfig = new TypesenseStorageConfig( $typesenseClient, $typesenseCollection, $typesenseCollectionClearFilter );
 $reader = new HttpReader( $httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new NullPaginator(), $logger );
 $storage = new TypesenseStorage($storageConfig, $logger);
 $storage->store($reader->read());
+
+if( getenv('AXIELL_EVENTS_MONITOR_URL') ) {
+    (new Webhooks())->trigger(getenv('AXIELL_EVENTS_MONITOR_URL'));
+}

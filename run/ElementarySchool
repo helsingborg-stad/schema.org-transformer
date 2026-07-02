@@ -10,6 +10,7 @@ use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorage;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorageConfig;
 use SchemaTransformer\Transforms\School\ElementarySchool\ElementarySchoolTransform;
+use SchemaTransformer\Webhooks\Webhooks;
 
 $id = 'ElementarySchool';
 $logger = new TerminalLogger($id);
@@ -21,10 +22,14 @@ if(!$lockRunner->lock()) {
 
 $httpReaderPath = getenv('ELEMENTARY_SCHOOL_API_URL');
 $typesenseCollection = TypesenseCollection::ElementarySchool;
-$typesenseCollectionClearFilter = [ 'filter_by' => 'x-created-by:=municipio%3A%2F%2Fschema.org-transformer%2Fwp-headless' ];
+$typesenseCollectionClearFilter = [ 'filter_by' => '@type:=ElementarySchool' ];
 $typesenseClient = new \Typesense\Client([ 'nodes' => [ [ 'host' => getenv('TYPESENSE_HOST'), 'port' => (int)getenv('TYPESENSE_PORT'), 'protocol' => getenv('TYPESENSE_PROTOCOL'), ], ], 'api_key' => getenv('TYPESENSE_API_KEY'), ]);
 $transformer = new ElementarySchoolTransform('R', $typesenseClient);
 $storageConfig = new TypesenseStorageConfig( $typesenseClient, $typesenseCollection, $typesenseCollectionClearFilter );
 $reader = new HttpReader( $httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger );
 $storage = new TypesenseStorage($storageConfig, $logger);
 $storage->store($reader->read());
+
+if( getenv('ELEMENTARY_SCHOOL_MONITOR_URL') ) {
+    (new Webhooks())->trigger(getenv('ELEMENTARY_SCHOOL_MONITOR_URL'));
+}

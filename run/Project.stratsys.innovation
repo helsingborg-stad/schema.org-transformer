@@ -12,6 +12,7 @@ use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorage;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorageConfig;
 use SchemaTransformer\Transforms\StratsysTransform;
+use SchemaTransformer\Webhooks\Webhooks;
 
 $id = 'Project.stratsys.innovation';
 $logger = new TerminalLogger($id);
@@ -23,7 +24,7 @@ if(!$lockRunner->lock()) {
 
 $httpReaderPath = getenv('STRATSYS_INNOVATION_PATH');
 $typesenseCollection = TypesenseCollection::Project;
-$typesenseCollectionClearFilter = [ 'filter_by' => '@type:Project' ];
+$typesenseCollectionClearFilter = [ 'filter_by' => '@type:=Project' ];
 $transformer = new StratsysTransform('');
 $token = (new AuthService(new HttpWriter(["Content-Type: application/x-www-form-urlencoded"])))->getToken(getenv('STRATSYS_INNOVATION_AUTH'), getenv('STRATSYS_INNOVATION_CLIENTID'), getenv('STRATSYS_INNOVATION_CLIENTSECRET'), 'exportview.read');
 $typesenseClient = new \Typesense\Client([ 'nodes' => [ [ 'host' => getenv('TYPESENSE_HOST'), 'port' => (int)getenv('TYPESENSE_PORT'), 'protocol' => getenv('TYPESENSE_PROTOCOL'), ], ], 'api_key' => getenv('TYPESENSE_API_KEY'), ]);
@@ -31,3 +32,7 @@ $storageConfig = new TypesenseStorageConfig( $typesenseClient, $typesenseCollect
 $reader = new HttpReader( $httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', $token ], new WordpressPaginator(), $logger );
 $storage = new TypesenseStorage($storageConfig, $logger);
 $storage->store($reader->read());
+
+if( getenv('STRATSYS_INNOVATION_MONITOR_URL') ) {
+    (new Webhooks())->trigger(getenv('STRATSYS_INNOVATION_MONITOR_URL'));
+}
