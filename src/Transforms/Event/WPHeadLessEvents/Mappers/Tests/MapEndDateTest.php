@@ -19,7 +19,7 @@ final class MapEndDateTest extends TestCase
     public function testDateAndEndTime()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEndDate(new WPHeadlessEventTransform('hl')),
+            new MapEndDate(),
             '{
                 "acf": {
                     "occasions": [
@@ -51,7 +51,7 @@ final class MapEndDateTest extends TestCase
     public function testDatesOnly()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEndDate(new WPHeadlessEventTransform('hl')),
+            new MapEndDate(),
             '{
                 "acf": {
                     "occasions": [
@@ -79,7 +79,7 @@ final class MapEndDateTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapEndDate(new WPHeadlessEventTransform('hl')),
+            new MapEndDate(),
             '{
                 "id": 123
             }',

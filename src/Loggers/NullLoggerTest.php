@@ -18,7 +18,7 @@ class NullLoggerTest extends TestCase
     public function testDoesNotProduceAnyOutput()
     {
         $logger = new NullLogger();
-        $logger->log('This is a test message');
+        $logger->info('This is a test message');
         $this->expectOutputString('');
     }
 }

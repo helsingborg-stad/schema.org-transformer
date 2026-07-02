@@ -19,7 +19,7 @@ final class MapTypicalAgeRangeTest extends TestCase
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapTypicalAgeRange(new WPHeadlessEventTransform('hl')),
+            new MapTypicalAgeRange(),
             '{
                 "id": 123
             }',

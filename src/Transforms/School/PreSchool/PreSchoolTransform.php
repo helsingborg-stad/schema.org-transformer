@@ -35,7 +35,7 @@ class PreSchoolTransform extends TransformBase implements AbstractDataTransform
     /**
      * PreSchoolTransform constructor.
      */
-    public function __construct(string $idprefix = '', private ?TypesenseClient $typesenseClient = null)
+    public function __construct(string $idprefix = '', ?TypesenseClient $typesenseClient = null)
     {
         parent::__construct($idprefix);
         $this->eventsSearchClient = $typesenseClient

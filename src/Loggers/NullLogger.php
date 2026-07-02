@@ -2,11 +2,44 @@
 
 namespace SchemaTransformer\Loggers;
 
-use SchemaTransformer\Interfaces\AbstractLogger;
+use Psr\Log\LoggerInterface;
+use Stringable;
 
-class NullLogger implements AbstractLogger
+class NullLogger implements LoggerInterface
 {
-    public function log(string $message): void
+    public function emergency(string|Stringable $message, array $context = []): void
+    {
+    }
+
+    public function alert(string|Stringable $message, array $context = []): void
+    {
+    }
+
+    public function critical(string|Stringable $message, array $context = []): void
+    {
+    }
+
+    public function error(string|Stringable $message, array $context = []): void
+    {
+    }
+
+    public function warning(string|Stringable $message, array $context = []): void
+    {
+    }
+
+    public function notice(string|Stringable $message, array $context = []): void
+    {
+    }
+
+    public function info(string|Stringable $message, array $context = []): void
+    {
+    }
+
+    public function debug(string|Stringable $message, array $context = []): void
+    {
+    }
+
+    public function log($level, string|Stringable $message, array $context = []): void
     {
     }
 }

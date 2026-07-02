@@ -19,7 +19,7 @@ final class MapOffersTest extends TestCase
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapOffers(new WPHeadlessEventTransform('hl')),
+            new MapOffers(),
             '{
                 "acf": {
                     "pricesList": [
@@ -61,7 +61,7 @@ final class MapOffersTest extends TestCase
     public function testItWorksWithBookingLink()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapOffers(new WPHeadlessEventTransform('hl')),
+            new MapOffers(),
             '{
                 "acf": {
                     "occasions": [
@@ -108,7 +108,7 @@ final class MapOffersTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapOffers(new WPHeadlessEventTransform('hl')),
+            new MapOffers(),
             '{
                 "id": 123
             }',
@@ -120,7 +120,7 @@ final class MapOffersTest extends TestCase
     public function testOffersWithUrlFromOccasions()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapOffers(new WPHeadlessEventTransform('hl')),
+            new MapOffers(),
             '{
                 "acf": {
                     "occasions": [

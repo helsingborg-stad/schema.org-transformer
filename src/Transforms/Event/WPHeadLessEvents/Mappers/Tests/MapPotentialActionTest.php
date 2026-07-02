@@ -19,7 +19,7 @@ final class MapPotentialActionTest extends TestCase
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapPotentialAction(new WPHeadlessEventTransform('hl')),
+            new MapPotentialAction(),
             '{
                 "acf": {
                     "onlineAttendenceUrl": "https://example.com/online-event"
@@ -37,7 +37,7 @@ final class MapPotentialActionTest extends TestCase
     public function testMissing()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
-            new MapPotentialAction(new WPHeadlessEventTransform('hl')),
+            new MapPotentialAction(),
             '{
                 "id": 123
             }',
