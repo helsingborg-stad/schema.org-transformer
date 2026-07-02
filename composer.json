@@ -27,11 +27,11 @@
         "phpstan/extension-installer": "^1.4"
     },
     "scripts": {
-        "test": "phpunit --no-coverage --testdox",
+        "test": "phpunit --no-coverage",
         "test-coverage": "XDEBUG_MODE=coverage phpunit --coverage-html coverage",
         "lint": "phpcs",
         "lint-fix": "phpcbf",
-        "phpstan": "find src run -type f -exec vendor/bin/phpstan analyse --level 0 {} +",
+        "phpstan": "find src run -type f -exec vendor/bin/phpstan analyse --level 1 {} +",
         "docker:build": "docker build -f .docker/Dockerfile . -t schema-transformer:latest"
     },
     "config": {

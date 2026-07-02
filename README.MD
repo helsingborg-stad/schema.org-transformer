@@ -126,10 +126,6 @@ composer lint-fix
 composer phpstan
 ```
 
-## Legacy Router
-
-`router.php` still exists as a low-level entrypoint that accepts generic CLI options such as `--source`, `--output`, `--transform`, and Typesense/auth settings. In this branch, the maintained and deployment-ready execution path is the dedicated `run/*` scripts above.
-
 ## Extending The Project
 
 To add a new integration, the current codebase pattern is:

@@ -12,7 +12,9 @@
     failOnRisky="true" 
     colors="true" 
     failOnWarning="true" 
-    failOnDeprecation="true" 
+    failOnDeprecation="true"
+    testdox="true"
+    testdoxSummary="true" 
     failOnPhpunitDeprecation="true">
   <php>
     <ini name="error_reporting" value="-1"/>
