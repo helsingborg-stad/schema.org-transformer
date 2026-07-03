@@ -1,5 +1,9 @@
 # schema.org-transformer
 
+[![PHP 8.2 Tests](https://img.shields.io/github/actions/workflow/status/helsingborg-stad/schema.org-transformer/test-php-8.2.yml?branch=main&label=PHP%208.2)](https://github.com/helsingborg-stad/schema.org-transformer/actions/workflows/test-php-8.2.yml)
+[![PHP 8.3 Tests](https://img.shields.io/github/actions/workflow/status/helsingborg-stad/schema.org-transformer/test-php-8.3.yml?branch=main&label=PHP%208.3)](https://github.com/helsingborg-stad/schema.org-transformer/actions/workflows/test-php-8.3.yml)
+[![PHP 8.4 Tests](https://img.shields.io/github/actions/workflow/status/helsingborg-stad/schema.org-transformer/test-php-8.4.yml?branch=main&label=PHP%208.4)](https://github.com/helsingborg-stad/schema.org-transformer/actions/workflows/test-php-8.4.yml)
+
 Fetch and transform upstream JSON data into schema.org shaped documents, then persist the result to Typesense.
 
 The current branch is built around dedicated ingestion scripts in `run/`, not a single generic CLI transform switch. Each script wires a reader, paginator, transform, lock, logger, and Typesense target for one integration.

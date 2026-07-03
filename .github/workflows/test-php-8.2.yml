@@ -1,0 +1,13 @@
+name: Test PHP 8.2
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    with:
+      php-version: '8.2'

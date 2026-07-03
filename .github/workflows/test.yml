@@ -1,23 +1,19 @@
-name: Test
+name: Test Runner
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_call:
+    inputs:
+      php-version:
+        description: PHP version to test against.
+        required: true
+        type: string
 
 env:
   XDEBUG_MODE: off
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php-versions: ['8.2', '8.3', '8.4']
 
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +21,7 @@ jobs:
     - name: Setup PHP with composer v2
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: ${{ inputs.php-version }}
         tools: composer:v2
 
     - name: Get Composer Cache Directory
