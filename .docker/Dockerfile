@@ -35,8 +35,8 @@ COPY . /opt/schema-transformer
 # Set up cron jobs
 COPY ./.docker/run-cron-job.sh /opt/schema-transformer/.docker/run-cron-job.sh
 COPY ./.docker/cronjobs /etc/cron.d/schema-cron
-COPY ./.docker/healthcheck.sh /healthcheck.sh
+COPY ./.docker/healthcheck /opt/schema-transformer/healthcheck
 RUN chmod 0755 /opt/schema-transformer/.docker/run-cron-job.sh \
     && chmod 0644 /etc/cron.d/schema-cron
 
-CMD ["/bin/sh", "-c", "/healthcheck.sh && cron -f"]
+CMD ["php", "/opt/schema-transformer/healthcheck", "&&", "cron", "-f"]
