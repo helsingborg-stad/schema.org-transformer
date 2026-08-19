@@ -1,33 +1,34 @@
-SCRIPTS_HOME=/opt/schema-transformer/scripts
+SCRIPTS_HOME=/opt/schema-transformer/run
 SHELL=/bin/bash
+BASH_ENV=/etc/environment
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Schema Transformer: Helsingborg Reachmee: At every 2nd minute from 1 through 59.
-1-59/2 * * * * root php /opt/schema-transformer/run/JobPosting.public >> /proc/1/fd/1 2>> /proc/1/fd/2
+1-59/2 * * * * root php $SCRIPTS_HOME/JobPosting.public >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: Helsingborg Innovation Stratsys: Every 5 minutes
-*/5 * * * * root php /opt/schema-transformer/run/Project.stratsys.innovation >> /proc/1/fd/1 2>> /proc/1/fd/2
+*/5 * * * * root php $SCRIPTS_HOME/Project.stratsys.innovation >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: Helsingborg Intranat Reachmee: At every 2nd minute from 1 through 59.
-1-59/2 * * * * root php /opt/schema-transformer/run/JobPosting.private >> /proc/1/fd/1 2>> /proc/1/fd/2
+1-59/2 * * * * root php $SCRIPTS_HOME/JobPosting.private >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: Exhibitions: Every 10 minutes
-*/10 * * * * root php /opt/schema-transformer/run/ExhibitionEvent >> /proc/1/fd/1 2>> /proc/1/fd/2
+*/10 * * * * root php $SCRIPTS_HOME/ExhibitionEvent >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: Pre School At every 11th minute from 3 through 59
-3-59/11 * * * * root php /opt/schema-transformer/run/PreSchool >> /proc/1/fd/1 2>> /proc/1/fd/2
+3-59/11 * * * * root php $SCRIPTS_HOME/PreSchool >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: Elementary School At every 11th minute from 3 through 59
-3-59/11 * * * * root php /opt/schema-transformer/run/ElementarySchool >> /proc/1/fd/1 2>> /proc/1/fd/2
+3-59/11 * * * * root php $SCRIPTS_HOME/ElementarySchool >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: Legacy Events: At every 11th minute from 3 through 59
-3-59/11 * * * * root php /opt/schema-transformer/run/Event.legacy >> /proc/1/fd/1 2>> /proc/1/fd/2
+3-59/11 * * * * root php $SCRIPTS_HOME/Event.legacy >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: Headless Events: At every 11th minute from 3 through 59
-3-59/11 * * * * root php /opt/schema-transformer/run/Event >> /proc/1/fd/1 2>> /proc/1/fd/2
+3-59/11 * * * * root php $SCRIPTS_HOME/Event >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: TIX Events: At every 11th minute from 3 through 59
-# 3-59/11 * * * * root php /opt/schema-transformer/run/Event.tix >> /proc/1/fd/1 2>> /proc/1/fd/2
+# 3-59/11 * * * * root php $SCRIPTS_HOME/Event.tix >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: HBG Bibiotek Events: At every 11th minute from 3 through 59
-# 3-59/11 * * * * root php /opt/schema-transformer/run/Event.library >> /proc/1/fd/1 2>> /proc/1/fd/2
+# 3-59/11 * * * * root php $SCRIPTS_HOME/Event.library >> /proc/1/fd/1 2>> /proc/1/fd/2

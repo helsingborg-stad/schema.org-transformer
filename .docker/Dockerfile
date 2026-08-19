@@ -39,4 +39,4 @@ COPY ./.docker/healthcheck /opt/schema-transformer/healthcheck
 RUN chmod 0755 /opt/schema-transformer/.docker/run-cron-job.sh \
     && chmod 0644 /etc/cron.d/schema-cron
 
-CMD ["php", "/opt/schema-transformer/healthcheck", "&&", "cron", "-f"]
+CMD ["sh", "-lc", "printenv > /etc/environment && php /opt/schema-transformer/healthcheck && exec cron -f"]
