@@ -31,4 +31,4 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # 3-59/11 * * * * root php $SCRIPTS_HOME/Event.tix >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: HBG Bibiotek Events: At every 11th minute from 3 through 59
-# 3-59/11 * * * * root php $SCRIPTS_HOME/Event.library >> /proc/1/fd/1 2>> /proc/1/fd/2
+3-59/11 * * * * root php $SCRIPTS_HOME/Event.library >> /proc/1/fd/1 2>> /proc/1/fd/2
