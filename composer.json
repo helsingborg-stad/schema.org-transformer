@@ -12,10 +12,12 @@
     },
     "autoload": {
         "classmap": [
-            "src/"
+            "src/",
+            "run/Factories/"
         ],
-        "psr-12": {
-            "SchemaTransformer\\": "src/"
+        "psr-4": {
+            "SchemaTransformer\\": "src/",
+            "SchemaTransformer\\Run\\": "run/"
         }
     },
     "require-dev": {
