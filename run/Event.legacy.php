@@ -13,7 +13,7 @@ use SchemaTransformer\Webhooks\Webhooks;
 $id         = 'Event.legacy';
 $logger     = new TerminalLogger($id);
 $lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
-$cliOptions = new \SchemaTransformer\Run\Cli\Options($argv);
+$cliOptions = new \SchemaTransformer\Run\Cli\Options();
 
 if (!$lockRunner->lock()) {
     return;

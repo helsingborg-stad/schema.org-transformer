@@ -25,7 +25,7 @@ $transformer    = new WPExhibitionEventTransform();
 $reader         = new HttpReader($httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger);
 
 $storage = $options->getTarget() === \SchemaTransformer\Run\Cli\Target::Typesense
-    ? TypesenseStorageFactory::create(TypesenseCollection::ExhibitionEvent, [ 'filter_by' => '@type:ExhibitionEvent' ], $logger)
+    ? TypesenseStorageFactory::create(TypesenseCollection::ExhibitionEvent, [ 'filter_by' => '@type:=ExhibitionEvent' ], $logger)
     : new ConsoleStorage($logger);
 
 $storage->store($reader->read());

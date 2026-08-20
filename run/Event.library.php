@@ -8,8 +8,6 @@ use SchemaTransformer\Paginators\NullPaginator;
 use SchemaTransformer\Run\Factories\TypesenseStorageFactory;
 use SchemaTransformer\Storage\ConsoleStorage;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
-use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorage;
-use SchemaTransformer\Storage\TypesenseStorage\TypesenseStorageConfig;
 use SchemaTransformer\Transforms\Event\AxiellEvents\AxiellEventTransform;
 use SchemaTransformer\Webhooks\Webhooks;
 

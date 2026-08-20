@@ -2,7 +2,7 @@
 
 namespace SchemaTransformer\Run\Cli;
 
-class Options implements OptionsInterface
+class Options
 {
     public function getTarget(): Target
     {

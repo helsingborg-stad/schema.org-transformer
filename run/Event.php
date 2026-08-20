@@ -14,7 +14,7 @@ use SchemaTransformer\Webhooks\Webhooks;
 $id         = 'Event';
 $logger     = new TerminalLogger($id);
 $lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
-$options    = new \SchemaTransformer\Run\Cli\Options($argv);
+$options    = new \SchemaTransformer\Run\Cli\Options();
 
 if (!$lockRunner->lock()) {
     return;
@@ -25,7 +25,7 @@ $transformer    = new WPHeadlessEventTransform('WPH-');
 $reader         = new HttpReader($httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger);
 
 $storage = $options->getTarget() === \SchemaTransformer\Run\Cli\Target::Typesense
-    ? TypesenseStorageFactory::create(TypesenseCollection::Event, [ 'filter_by' => 'x-created-by:municipio://schema.org-transformer/wp-headless' ], $logger)
+    ? TypesenseStorageFactory::create(TypesenseCollection::Event, [ 'filter_by' => 'x-created-by:=municipio://schema.org-transformer/wp-headless' ], $logger)
     : new ConsoleStorage($logger);
 
 $storage->store($reader->read());
