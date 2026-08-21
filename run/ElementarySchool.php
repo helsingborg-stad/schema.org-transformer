@@ -16,9 +16,7 @@ $logger     = new TerminalLogger($id);
 $lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
 $options    = new \SchemaTransformer\Run\Cli\Options();
 
-if (!$lockRunner->lock()) {
-    return;
-}
+$lockRunner->lock();
 
 $httpReaderPath = getenv('ELEMENTARY_SCHOOL_API_URL');
 $transformer    = new ElementarySchoolTransform('R', TypesenseClientFactory::create());
@@ -34,6 +32,4 @@ $storage        = StorageFactory::create(
 
 $storage->store($reader->read());
 
-if (getenv('ELEMENTARY_SCHOOL_MONITOR_URL')) {
-    (new Webhooks())->trigger(getenv('ELEMENTARY_SCHOOL_MONITOR_URL'));
-}
+(new Webhooks(logger: $logger))->trigger(getenv('ELEMENTARY_SCHOOL_MONITOR_URL'));

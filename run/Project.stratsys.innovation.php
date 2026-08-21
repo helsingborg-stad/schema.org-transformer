@@ -17,9 +17,7 @@ $logger     = new TerminalLogger($id);
 $lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
 $options    = new \SchemaTransformer\Run\Cli\Options();
 
-if (!$lockRunner->lock()) {
-    return;
-}
+$lockRunner->lock();
 
 $httpReaderPath = getenv('STRATSYS_INNOVATION_PATH');
 $transformer    = new StratsysTransform('');
@@ -36,6 +34,4 @@ $storage        = StorageFactory::create(
 
 $storage->store($reader->read());
 
-if (getenv('STRATSYS_INNOVATION_MONITOR_URL')) {
-    (new Webhooks())->trigger(getenv('STRATSYS_INNOVATION_MONITOR_URL'));
-}
+(new Webhooks(logger: $logger))->trigger(getenv('STRATSYS_INNOVATION_MONITOR_URL'));

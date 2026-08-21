@@ -15,9 +15,7 @@ $logger     = new TerminalLogger($id);
 $lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
 $options    = new \SchemaTransformer\Run\Cli\Options();
 
-if (!$lockRunner->lock()) {
-    return;
-}
+$lockRunner->lock();
 
 $httpReaderPath = getenv('TIX_EVENTS_API_URL');
 $transformer    = new TixEventTransform('TIX');
@@ -33,6 +31,4 @@ $storage        = StorageFactory::create(
 
 $storage->store($reader->read());
 
-if (getenv('TIX_EVENTS_MONITOR_URL')) {
-    (new Webhooks())->trigger(getenv('TIX_EVENTS_MONITOR_URL'));
-}
+(new Webhooks(logger: $logger))->trigger(getenv('TIX_EVENTS_MONITOR_URL'));

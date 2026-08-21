@@ -16,9 +16,7 @@ $logger     = new TerminalLogger($id);
 $lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
 $options    = new \SchemaTransformer\Run\Cli\Options();
 
-if (!$lockRunner->lock()) {
-    return;
-}
+$lockRunner->lock();
 
 $httpReaderPath = getenv('PRE_SCHOOL_API_URL');
 $transformer    = new PreSchoolTransform('R', TypesenseClientFactory::create());
@@ -34,6 +32,4 @@ $storage        = StorageFactory::create(
 
 $storage->store($reader->read());
 
-if (getenv('PRE_SCHOOL_MONITOR_URL')) {
-    (new Webhooks())->trigger(getenv('PRE_SCHOOL_MONITOR_URL'));
-}
+(new Webhooks(logger: $logger))->trigger(getenv('PRE_SCHOOL_MONITOR_URL'));

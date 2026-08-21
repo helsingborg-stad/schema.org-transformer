@@ -15,9 +15,7 @@ $logger     = new TerminalLogger($id);
 $lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
 $options    = new \SchemaTransformer\Run\Cli\Options();
 
-if (!$lockRunner->lock()) {
-    return;
-}
+$lockRunner->lock();
 
 $httpReaderPath = getenv('WP_EVENTS_API_URL');
 $transformer    = new WPHeadlessEventTransform('WPH-');
@@ -33,6 +31,4 @@ $storage        = StorageFactory::create(
 
 $storage->store($reader->read());
 
-if (getenv('WP_EVENTS_MONITOR_URL')) {
-    (new Webhooks())->trigger(getenv('WP_EVENTS_MONITOR_URL'));
-}
+(new Webhooks(logger: $logger))->trigger(getenv('WP_EVENTS_MONITOR_URL'));

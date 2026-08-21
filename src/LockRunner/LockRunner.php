@@ -33,26 +33,23 @@ class LockRunner
      *
      * @return bool True if the lock was successfully acquired, false if the lock is already held by another process.
      *
-     * @throws LockRunnerException When the lock file cannot be opened or the lock is already held.
+     * @throws \RuntimeException If the lock is already acquired by this instance or if the lock file cannot be opened.
      */
-    public function lock(): bool
+    public function lock(): true
     {
         if ($this->lockHandle !== null) {
-            $this->logger->warning("Lock already acquired for " . $this->id);
-            return false;
+            throw new \RuntimeException("Lock already acquired for " . $this->id);
         }
 
         $lockFile = $this->getLockFilePath();
         $fp       = fopen($lockFile, 'c');
         if (!$fp) {
-            $this->logger->error("Unable to open lock file: $lockFile");
-            return false;
+            throw new \RuntimeException("Unable to open lock file: $lockFile");
         }
 
         if (!flock($fp, LOCK_EX | LOCK_NB)) {
             fclose($fp);
-            $this->logger->warning("Lock already acquired for " . $this->id);
-            return false;
+            throw new \RuntimeException("Lock already acquired for " . $this->id);
         }
 
         $this->lockHandle = $fp;
