@@ -5,8 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use SchemaTransformer\IO\V2\HttpReader;
 use SchemaTransformer\Loggers\TerminalLogger;
 use SchemaTransformer\Paginators\WordpressPaginator;
-use SchemaTransformer\Run\Factories\TypesenseStorageFactory;
-use SchemaTransformer\Storage\ConsoleStorage;
+use SchemaTransformer\Run\Factories\StorageFactory;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
 use SchemaTransformer\Transforms\WPExhibitionEventTransform;
 use SchemaTransformer\Webhooks\Webhooks;
@@ -23,10 +22,14 @@ if (!$lockRunner->lock()) {
 $httpReaderPath = getenv('WORDPRESS_EXHIBITION_EVENT_PATH');
 $transformer    = new WPExhibitionEventTransform();
 $reader         = new HttpReader($httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger);
-
-$storage = $options->getTarget() === \SchemaTransformer\Run\Cli\Target::Typesense
-    ? TypesenseStorageFactory::create(TypesenseCollection::ExhibitionEvent, [ 'filter_by' => '@type:=ExhibitionEvent' ], $logger)
-    : new ConsoleStorage($logger);
+$storage        = StorageFactory::create(
+    target: $options->getTarget(),
+    logger: $logger,
+    options: [
+        'collection'            => TypesenseCollection::ExhibitionEvent,
+        'collectionClearFilter' => ['filter_by' => '@type:=ExhibitionEvent'],
+    ],
+);
 
 $storage->store($reader->read());
 
