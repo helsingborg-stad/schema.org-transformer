@@ -22,6 +22,12 @@ class StorageFactoryTest extends TestCase
     #[TestDox('calling create with typesense target returns a TypesenseStorage instance')]
     public function testCreateWithTypesenseTargetReturnsTypesenseStorageInstance()
     {
+        // Set environment variables for Typesense configuration
+        putenv('TYPESENSE_HOST=localhost');
+        putenv('TYPESENSE_PORT=8108');
+        putenv('TYPESENSE_PROTOCOL=http');
+        putenv('TYPESENSE_API_KEY=xyz');
+
         $storage = StorageFactory::create(
             target: Target::Typesense,
             options: [
