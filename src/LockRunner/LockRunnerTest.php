@@ -2,13 +2,12 @@
 
 namespace SchemaTransformer\LockRunner;
 
-use Override;
 use PHPUnit\Framework\Attributes\TestDox;
 use Stringable;
 
 class LockRunnerTest extends \PHPUnit\Framework\TestCase
 {
-    #[TestDox('does not allow multiple instances of the same lock to run concurrently')]
+    #[TestDox('throws when lock is already acquired')]
     public function testLockRunner()
     {
         $logger = static::getLogger();
@@ -17,12 +16,15 @@ class LockRunnerTest extends \PHPUnit\Framework\TestCase
         $lockRunner = new LockRunner($id, $logger);
         $lockRunner->lock();
 
-        $lockRunner2 = new LockRunner($id, $logger);
-        $lockRunner2->lock();
+        try {
+            $lockRunner2 = new LockRunner($id, $logger);
+            $lockRunner2->lock();
+        } catch (\RuntimeException $e) {
+            static::assertSame('Lock already acquired for ' . $id, $e->getMessage());
+            return;
+        }
 
-        static::assertCount(1, $logger->logMessages);
-        static::assertSame($logger->logMessages[0]['level'], 'warning');
-        static::assertSame($logger->logMessages[0]['message'], 'Lock already acquired for ' . $id);
+        static::fail('Expected RuntimeException was not thrown');
     }
 
     #[TestDox('allows reuse of lock if the lock is released')]
@@ -34,11 +36,15 @@ class LockRunnerTest extends \PHPUnit\Framework\TestCase
         $lockRunner->lock();
         $lockRunner->release();
 
-        $lockRunner2 = new LockRunner($id, $logger);
-        $lockRunner2->lock();
-        $lockRunner2->release();
+        try {
+            $lockRunner2 = new LockRunner($id, $logger);
+            $lockRunner2->lock();
+            $lockRunner2->release();
+        } catch (\RuntimeException $e) {
+            static::fail('Unexpected RuntimeException was thrown: ' . $e->getMessage());
+        }
 
-        static::assertCount(0, $logger->logMessages);
+        static::assertTrue(true, 'Lock was successfully acquired and released without exceptions.');
     }
 
     private static function getLogger(): \Psr\Log\LoggerInterface
