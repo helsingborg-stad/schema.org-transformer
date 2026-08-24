@@ -11,4 +11,5 @@ enum TypesenseCollection: string
     case ElementarySchool  = 'ElementarySchool';
     case PreSchool         = 'PreSchool';
     case Project           = 'Project';
+    case ProjectPios       = 'Project.pios';
 }

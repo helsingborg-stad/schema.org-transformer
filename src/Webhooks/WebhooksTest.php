@@ -2,6 +2,7 @@
 
 namespace SchemaTransformer\Webhooks;
 
+use Override;
 use PHPUnit\Framework\Attributes\TestDox;
 use SchemaTransformer\Webhooks\Curl\CurlInterface;
 
@@ -15,6 +16,11 @@ class WebhooksTest extends \PHPUnit\Framework\TestCase
             {
                 $this->curledUrls[] = $url;
                 return $url;
+            }
+            #[Override]
+            public function setHeaders(array $headers): void
+            {
+                throw new \Exception('Not implemented');
             }
         };
     }

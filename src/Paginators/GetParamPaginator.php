@@ -10,8 +10,10 @@ use SchemaTransformer\Transforms\NullDataPreprocessor;
 
 final class GetParamPaginator implements AbstractPaginator
 {
-    public function __construct(private string $pageParameter, private AbstractDataReader $reader)
-    {
+    public function __construct(
+        private string $pageParameter,
+        private ?AbstractDataReader $reader = null,
+    ) {
     }
 
     public function getNext(string $previous, array $headers): string | false
@@ -20,7 +22,7 @@ final class GetParamPaginator implements AbstractPaginator
 
         $nextUrl = $this->applyPageParameter($previous, $nextPageNumber);
 
-        if ($this->reader->read($nextUrl, new NullDataPreprocessor()) !== false) {
+        if ($this->reader === null || $this->reader->read($nextUrl, new NullDataPreprocessor()) !== false) {
             return $nextUrl;
         }
 

@@ -31,9 +31,14 @@ class HttpReader implements ReaderInterface
 
         while ($next !== false) {
             list($response, $headers) = $this->curl($next);
-            $transformed              = $this->transformer->transform($this->transformer->preprocessData($response));
-            $result                   = [...$result, ...$transformed];
-            $next                     = $this->paginator->getNext($next, $headers);
+
+            if ($response === [] || $response === false || $response === null) {
+                break;
+            }
+
+            $transformed = $this->transformer->transform($this->transformer->preprocessData($response));
+            $result      = [...$result, ...$transformed];
+            $next        = $this->paginator->getNext($next, $headers);
         };
 
         $this->logger->info("Finished reading data from HTTP source");
@@ -44,12 +49,12 @@ class HttpReader implements ReaderInterface
     {
         $curl = curl_init($path);
 
-        $reqHeaders = array_merge([
-            "ACCEPT" => "Accept: application/json"
-        ], $this->headers);
+        $requestHeaders = $this->formatHeaders(array_merge([
+            'Accept' => 'application/json',
+        ], $this->headers));
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $reqHeaders);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $requestHeaders);
         curl_setopt($curl, CURLOPT_HEADER, 1);
 
         $response = curl_exec($curl);
@@ -71,5 +76,23 @@ class HttpReader implements ReaderInterface
 
         // Decode JSON response
         return [json_decode($body, true), $resHeaders];
+    }
+
+    /**
+     * Format named and preformatted headers for cURL.
+     *
+     * @param array<int|string, mixed> $headers Request headers.
+     *
+     * @return array<int, string> cURL header lines.
+     */
+    protected function formatHeaders(array $headers): array
+    {
+        $formattedHeaders = [];
+
+        foreach ($headers as $name => $value) {
+            $formattedHeaders[] = is_int($name) ? (string) $value : $name . ': ' . $value;
+        }
+
+        return $formattedHeaders;
     }
 }
