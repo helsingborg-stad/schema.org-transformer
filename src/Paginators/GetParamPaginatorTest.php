@@ -14,8 +14,18 @@ class GetParamPaginatorTest extends TestCase
     {
         $this->assertInstanceOf(
             \SchemaTransformer\Paginators\GetParamPaginator::class,
-            new \SchemaTransformer\Paginators\GetParamPaginator("page", $this->getAbstractDataReader())
+            new \SchemaTransformer\Paginators\GetParamPaginator("page")
         );
+    }
+
+    #[TestDox('getNext() returns the next page URL without probing it when no reader is provided')]
+    public function testGetNextReturnsNextPageUrlWithoutProbe(): void
+    {
+        $paginator = new \SchemaTransformer\Paginators\GetParamPaginator("page");
+
+        $nextUrl = $paginator->getNext("http://example.com?page=1", []);
+
+        $this->assertSame("http://example.com?page=2", $nextUrl);
     }
 
     #[TestDox('getNext() adds page parameter to the source if it is not present')]
