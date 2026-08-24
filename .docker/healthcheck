@@ -22,6 +22,8 @@ $variables = [
     "STRATSYS_INNOVATION_AUTH",
     "STRATSYS_INNOVATION_CLIENTID",
     "STRATSYS_INNOVATION_CLIENTSECRET",
+    "PIOS_API_URL",
+    "PIOS_API_KEY",
 ];
 
 # Check if each required environment variable is set
