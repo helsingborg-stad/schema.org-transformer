@@ -19,7 +19,7 @@ $lockRunner->lock();
 
 $httpReaderPath = getenv('PIOS_API_URL');
 $apiKey         = getenv('PIOS_API_KEY');
-$transformer    = new PiosProjectTransform('pios');
+$transformer    = new PiosProjectTransform('pios-');
 $reader         = new HttpReader($httpReaderPath, $transformer, [ 'Accept' => 'application/json', 'ApiKey' => $apiKey ], new GetParamPaginator('pageNumber'), $logger);
 $storage        = StorageFactory::create(
     target: $options->getTarget(),
