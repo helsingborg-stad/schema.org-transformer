@@ -17,9 +17,10 @@ $options    = new \SchemaTransformer\Run\Cli\Options();
 
 $lockRunner->lock();
 
-$httpReaderPath = getenv('PROJECT_PIOS_PATH');
+$httpReaderPath = getenv('PIOS_API_URL');
+$apiKey         = getenv('PIOS_API_KEY');
 $transformer    = new PiosProjectTransform('pios');
-$reader         = new HttpReader($httpReaderPath, $transformer, [ 'Accept' => 'text/plain', 'ApiKey' => getenv('PIOS_API_KEY') ], new GetParamPaginator('pageNumber'), $logger);
+$reader         = new HttpReader($httpReaderPath, $transformer, [ 'Accept' => 'application/json', 'ApiKey' => $apiKey ], new GetParamPaginator('pageNumber'), $logger);
 $storage        = StorageFactory::create(
     target: $options->getTarget(),
     logger: $logger,

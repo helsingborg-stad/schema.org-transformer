@@ -36,7 +36,13 @@ class HttpReader implements ReaderInterface
                 break;
             }
 
-            $transformed = $this->transformer->transform($this->transformer->preprocessData($response));
+            $preprocessedData = $this->transformer->preprocessData($response);
+
+            if ($preprocessedData === []) {
+                break;
+            }
+
+            $transformed = $this->transformer->transform($preprocessedData);
             $result      = [...$result, ...$transformed];
             $next        = $this->paginator->getNext($next, $headers);
         };

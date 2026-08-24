@@ -9,6 +9,9 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # Schema Transformer: Helsingborg Innovation Stratsys: Every 5 minutes
 */5 * * * * root php $SCRIPTS_HOME/Project.stratsys.innovation.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
 
+# Schema Transformer: Pios Projects: Every 5 minutes
+*/5 * * * * root php $SCRIPTS_HOME/Project.pios.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
+
 # Schema Transformer: Helsingborg Intranat Reachmee: At every 2nd minute from 1 through 59.
 1-59/2 * * * * root php $SCRIPTS_HOME/JobPosting.private.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
 

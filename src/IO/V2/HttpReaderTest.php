@@ -31,13 +31,12 @@ final class HttpReaderTest extends TestCase
         ], $headers);
     }
 
-    public function testReadStopsPaginationWhenAnEmptyPageIsReturned(): void
+    public function testReadStopsPaginationWhenPreprocessedPageIsEmpty(): void
     {
         $transformer = $this->createMock(AbstractDataTransform::class);
-        $transformer->expects($this->once())
+        $transformer->expects($this->exactly(2))
             ->method('preprocessData')
-            ->with([['id' => 1]])
-            ->willReturn([['id' => 1]]);
+            ->willReturnOnConsecutiveCalls([['id' => 1]], []);
         $transformer->expects($this->once())
             ->method('transform')
             ->with([['id' => 1]])
@@ -68,8 +67,8 @@ final class HttpReaderTest extends TestCase
             }
         };
         $reader->responses = [
-            [[['id' => 1]], []],
-            [[], []],
+            [['records' => [['id' => 1]]], []],
+            [['records' => [], 'pageNumber' => 2], []],
         ];
 
         $result = $reader->read();
