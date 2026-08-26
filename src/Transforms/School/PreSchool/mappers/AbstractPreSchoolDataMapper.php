@@ -13,11 +13,11 @@ use SchemaTransformer\Transforms\TransformBase;
 abstract class AbstractPreSchoolDataMapper implements PreSchoolDataMapperInterface
 {
     private array $wellknownTextObjectHeadlinesByKey = [
-        'custom_excerpt' => '',
-        'visit_us'       => 'Besök oss',
-        'about_us'       => 'Om oss',
-        'how_we_work'    => 'Så arbetar vi',
-        'orientation'    => 'Introduktion',
+        'role:preamble' => '',
+        'visit_us'      => 'Besök oss',
+        'about_us'      => 'Om oss',
+        'how_we_work'   => 'Så arbetar vi',
+        'orientation'   => 'Introduktion',
     ];
 
     public function __construct(private ?TransformBase $transform = null)

@@ -50,7 +50,7 @@ final class MapDescriptionTest extends TestCase
         ',
             Schema::elementarySchool()
             ->description([
-                Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
+                Schema::textObject()->name("role:preamble")->text("Detta är en beskrivning av skolan")->headline(''),
                 Schema::textObject()->name("visit_us")->text("Välkommen på besök")->headline('Besök oss'),
                 Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
                 Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Så arbetar vi'),

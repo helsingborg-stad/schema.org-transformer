@@ -16,7 +16,7 @@ class MapDescription extends AbstractElementarySchoolDataMapper
     public function map(ElementarySchool $school, array $data): ElementarySchool
     {
         $descriptions = [
-            $this->tryCreateTextObject('custom_excerpt', $data['acf']['custom_excerpt'] ?? null),
+            $this->tryCreateTextObject('role:preamble', $data['acf']['custom_excerpt'] ?? null),
             $this->tryCreateTextObject('visit_us', $data['acf']['visit_us'] ?? null),
         ];
 

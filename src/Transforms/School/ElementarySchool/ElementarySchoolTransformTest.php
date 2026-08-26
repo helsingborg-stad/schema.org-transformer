@@ -171,7 +171,7 @@ final class ElementarySchoolTransformTest extends TestCase
         $expectedSchool = Schema::elementarySchool()
         ->identifier("123")
         ->description([
-            Schema::textObject()->name("custom_excerpt")->text("Detta är en beskrivning av skolan"),
+            Schema::textObject()->name("role:preamble")->text("Detta är en beskrivning av skolan"),
             Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
             Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Så arbetar vi'),
             Schema::textObject()->name("extra rubrik")->text("extra innehåll")->headline('extra rubrik'),

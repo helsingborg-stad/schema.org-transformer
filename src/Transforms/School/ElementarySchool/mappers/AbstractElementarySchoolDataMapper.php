@@ -13,7 +13,7 @@ use SchemaTransformer\Transforms\TransformBase;
 abstract class AbstractElementarySchoolDataMapper implements ElementarySchoolDataMapperInterface
 {
     private array $wellknownTextObjectHeadlinesByKey = [
-        'custom_excerpt'     => '',
+        'role:preamble'      => '',
         'about_us'           => 'Om oss',
         'how_we_work'        => 'Så arbetar vi',
         'our_leisure_center' => 'Vårt fritidshem',

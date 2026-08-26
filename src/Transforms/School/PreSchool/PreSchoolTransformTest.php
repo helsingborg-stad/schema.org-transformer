@@ -116,7 +116,7 @@ final class PreSchoolTransformTest extends TestCase
         $expectedSchool = Schema::preschool()
             ->identifier("123")
             ->description([
-                    Schema::textObject()->name("custom_excerpt")->headline('')->text(
+                    Schema::textObject()->name("role:preamble")->headline('')->text(
                         "Detta är en beskrivning av skolan"
                     )])
         ->keywords([Schema::definedTerm()
