@@ -34,7 +34,9 @@ final class MapDescriptionTest extends TestCase
                             "heading": "extra rubrik 2",
                             "content": "extra innehåll 2"
                         }]
-                    }
+                    },
+                    "notice_heading": "Skolstart",
+                    "notice_content": "Skolan startar om 3 dagar"
                 },
                 "pages_embedded": [
                     {
@@ -51,6 +53,7 @@ final class MapDescriptionTest extends TestCase
             Schema::elementarySchool()
             ->description([
                 Schema::textObject()->name("role:preamble")->text("Detta är en beskrivning av skolan")->headline(''),
+                Schema::textObject()->name("role:alert")->text("Skolan startar om 3 dagar")->headline('Skolstart'),
                 Schema::textObject()->name("visit_us")->text("Välkommen på besök")->headline('Besök oss'),
                 Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
                 Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Så arbetar vi'),
@@ -58,6 +61,24 @@ final class MapDescriptionTest extends TestCase
                 Schema::textObject()->name("extra rubrik 2")->text("extra innehåll 2")->headline('extra rubrik 2'),
                 Schema::textObject()->name("Sida 1")->text("Innehåll för sida 1")->headline('Sida 1'),
                 Schema::textObject()->name("Sida 2")->text("Innehåll för sida 2")->headline('Sida 2')
+            ])
+        );
+    }
+
+    #[TestDox('elementarySchool::description[role:alert] is not created if notice_heading is empty')]
+    public function testRoleAlertNotCreatedIfNoticeHeadingIsEmpty(): void
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapDescription(),
+            '{
+                "acf": {
+                    "notice_heading": "",
+                    "notice_content": "Skolan startar om 3 dagar"
+                }
+            }
+        ',
+            Schema::elementarySchool()
+            ->description([
             ])
         );
     }
