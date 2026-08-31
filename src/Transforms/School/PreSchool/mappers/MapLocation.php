@@ -26,7 +26,7 @@ class MapLocation extends AbstractPreSchoolDataMapper
                             ->address($address['address']['address'] ?? null)
                             ->latitude($address['address']['lat'] ?? null)
                             ->longitude($address['address']['lng'] ?? null)
-                            ->description($address['address']['description'] ?? null)
+                            ->description($address['description'] ?? null)
                         : null,
                     ($data['acf']['visiting_address'] ?? [])
                 )
