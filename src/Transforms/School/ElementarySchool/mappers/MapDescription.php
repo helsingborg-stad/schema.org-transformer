@@ -17,6 +17,7 @@ class MapDescription extends AbstractElementarySchoolDataMapper
     {
         $descriptions = [
             $this->tryCreateTextObject('role:preamble', $data['acf']['custom_excerpt'] ?? null),
+            $this->tryCreateTextObjectWithHeadline('role:alert', $data['acf']['notice_content'] ?? null, $data['acf']['notice_heading'] ?? null),
             $this->tryCreateTextObject('visit_us', $data['acf']['visit_us'] ?? null),
         ];
 

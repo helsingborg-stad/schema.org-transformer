@@ -31,15 +31,19 @@ abstract class AbstractElementarySchoolDataMapper implements ElementarySchoolDat
         return $this->transform->formatId($value);
     }
 
-    protected function tryCreateTextObject($key, $text): ?TextObject
+    protected function tryCreateTextObject($key, $text, $headline = null): ?TextObject
     {
         if (is_string($key) && is_string($text) && !(empty($key) || empty($text))) {
             return Schema::textObject()
                 ->name($key)
-                ->headline($this->wellknownTextObjectHeadlinesByKey[$key] ?? $key)
+                ->headline($this->wellknownTextObjectHeadlinesByKey[$key] ?? $headline ?? $key)
                 ->text($text);
         }
         return null;
+    }
+    protected function tryCreateTextObjectWithHeadline($key, $text, $headline): ?TextObject
+    {
+        return is_string($headline) && !empty($headline) ? $this->tryCreateTextObject($key, $text, $headline) : null;
     }
 
     protected function tryMapPositiveInt($value): ?int

@@ -26,7 +26,8 @@ final class MapLocationTest extends TestCase
                             "address": "Testskolan, Skolgatan 1",
                             "lat": 1.234,
                             "lng": 5.678
-                        }
+                        },
+                        "description": "A test school"
                     }]
                 }
             }',
@@ -36,7 +37,9 @@ final class MapLocationTest extends TestCase
                         ->name("Testskolan")
                         ->address("Testskolan, Skolgatan 1")
                         ->latitude(1.234)
-                        ->longitude(5.678)])
+                        ->longitude(5.678)
+                        ->description("A test school")
+                ])
         );
     }
 }

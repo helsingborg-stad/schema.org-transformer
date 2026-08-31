@@ -34,7 +34,9 @@ final class MapDescriptionTest extends TestCase
                             "heading": "extra rubrik 2",
                             "content": "extra innehåll 2"
                         }]
-                    }
+                    },
+                    "notice_content": "redaktionell notis",
+                    "notice_heading": "Notis"
                 },
                 "pages_embedded": [
                     {
@@ -51,6 +53,7 @@ final class MapDescriptionTest extends TestCase
             Schema::preschool()
             ->description([
                 Schema::textObject()->name("role:preamble")->text("Detta är en beskrivning av skolan")->headline(null),
+                Schema::textObject()->name("role:alert")->text("redaktionell notis")->headline("Notis"),
                 Schema::textObject()->name("visit_us")->text("Välkommen på besök")->headline('Besök oss'),
                 Schema::textObject()->name("about_us")->text("redaktionell om oss")->headline('Om oss'),
                 Schema::textObject()->name("how_we_work")->text("redaktionell hur vi arbetar")->headline('Så arbetar vi'),
