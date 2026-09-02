@@ -9,6 +9,7 @@ use SchemaTransformer\Interfaces\AbstractDataTransform;
 use SchemaTransformer\Transforms\TransformBase;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapDepartment;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapDescription;
+use SchemaTransformer\Transforms\PiosProject\Mappers\MapImage;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapEmployee;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapFunding;
 use SchemaTransformer\Transforms\PiosProject\Mappers\MapIdentifier;
@@ -35,6 +36,7 @@ class PiosProjectTransform extends TransformBase implements AbstractDataTransfor
             new MapIdentifier($this),
             new MapName(),
             new MapDescription(),
+            new MapImage(),
             new MapFunding(),
             new MapDepartment(),
             new MapEmployee(),
