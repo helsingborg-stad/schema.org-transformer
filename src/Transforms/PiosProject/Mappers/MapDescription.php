@@ -27,10 +27,10 @@ class MapDescription extends AbstractPiosProjectMapper
             ...array_filter(
                 array_map(
                     fn($dim) => $this->makeBulletSection(
-                        $dim['values'] ?? [],
+                        $this->validateSectionTexts($dim['values'] ?? []),
                         null,
                         "<h2>{$dim['name']}</h2>",
-                        $dim['value'] ?? null
+                        $this->validateSectionText($dim['value'] ?? null)
                     ),
                     $data['customDimensions'] ?? []
                 )
@@ -48,6 +48,31 @@ class MapDescription extends AbstractPiosProjectMapper
         ];
 
         return $project->description(array_values(array_filter($sections)));
+    }
+
+    /**
+     * Validates the section text.
+     * Returns null if the text is empty or a URL
+     * @param string|null $text
+     * @return string|null
+     */
+    private function validateSectionText(?string $text): ?string
+    {
+        $t = trim($text ?? '');
+        if (empty($t)) {
+            return null;
+        }
+        if (parse_url($t, PHP_URL_SCHEME)) {
+            return null;
+        }
+        return $t;
+    }
+    private function validateSectionTexts(array $texts): ?array
+    {
+        return array_values(array_filter(array_map(
+            fn($text) => $this->validateSectionText($text),
+            $texts
+        )));
     }
 
     private function makeSection(?string $text, string $name, ?string $headline = null): TextObject|null
