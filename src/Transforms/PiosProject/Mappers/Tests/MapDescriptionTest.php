@@ -51,6 +51,23 @@ final class MapDescriptionTest extends TestCase
         );
     }
 
+    #[TestDox('project::description excludes customDimensions with names in the excluded list')]
+    public function testExcludesNamesInExcludedList()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapDescription(),
+            '{
+                "customDimensions": [
+                    {
+                        "name": "Drivs av",
+                        "value": "Some value"
+                    }
+                ]
+            }',
+            Schema::project()->description([])
+        );
+    }
+
     #[TestDox('project::description excludes customDimensions with value as a URL')]
     public function testExcludesUrls()
     {

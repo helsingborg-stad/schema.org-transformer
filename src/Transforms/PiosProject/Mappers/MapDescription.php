@@ -10,6 +10,8 @@ use Municipio\Schema\Schema;
 
 class MapDescription extends AbstractPiosProjectMapper
 {
+    private static $excludedCustomDumensionNames = ['Drivs av'];
+
     public function map(Project $project, array $data): Project
     {
         $sections = [
@@ -32,9 +34,14 @@ class MapDescription extends AbstractPiosProjectMapper
                         "<h2>{$dim['name']}</h2>",
                         $this->validateSectionText($dim['value'] ?? null)
                     ),
-                    $data['customDimensions'] ?? []
+                    array_values(
+                        array_filter(
+                            array_values($data['customDimensions'] ?? []),
+                            fn($dim) => !in_array($dim['name'] ?? '', self::$excludedCustomDumensionNames, true)
+                        )
+                    )
                 )
-            ),
+            )
 /*
             $this->makeBulletSection(
                 array_filter(array_values(array_map(
