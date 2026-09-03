@@ -57,13 +57,13 @@ final class HttpReaderTest extends TestCase
              *
              * @param string $path Requested path.
              *
-             * @return array{array, array}|false Queued response and headers.
+             * @return array{array, array} Queued response and headers.
              */
-            protected function curl(string $path): array|false
+            protected function curl(string $path): array
             {
                 $this->requestedPaths[] = $path;
 
-                return array_shift($this->responses) ?? false;
+                return array_shift($this->responses) ?? [];
             }
         };
         $reader->responses = [

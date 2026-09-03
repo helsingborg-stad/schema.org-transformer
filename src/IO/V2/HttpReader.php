@@ -51,7 +51,7 @@ class HttpReader implements ReaderInterface
         $this->logger->info("Total records read: " . count($result));
         return $result;
     }
-    protected function curl(string $path): array|false
+    protected function curl(string $path): array
     {
         $curl = curl_init($path);
 
@@ -66,7 +66,7 @@ class HttpReader implements ReaderInterface
         $response = curl_exec($curl);
 
         if (false === $response) {
-            return false;
+            throw new \Exception("Could not retreive source. A HTTP error occurred: " . curl_error($curl));
         }
 
         $size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
