@@ -84,7 +84,7 @@ final class StratsysTransformTest extends TestCase
                     "Effektmal_FargNamn",
                     "Effektmal_Malvarde",
                     "Effektmal_Utfall",
-                    "Initiativ_Synligaenheter",
+                    "&bull;a&bull;b",
                 ]
             ]
         ];
