@@ -32,6 +32,10 @@ final class MapDescriptionTest extends TestCase
                     {
                         "name": "Prioriterade områden VP",
                         "values": ["Område 1", "Område 2"]
+                    },
+                    {
+                        "name": "En bild som skall exkluderas eftersom value är en länk",
+                        "value": "https://example.com/test.jpg"
                     }
                 ]
             }',
@@ -43,6 +47,51 @@ final class MapDescriptionTest extends TestCase
                 Schema::textObject()->text("En statusbeskrivning av projektet.")->headline('<h2>Beskrivning av status</h2>')->name(null),
                 Schema::textObject()->text("<ul><li>Område 1</li><li>Område 2</li></ul>")->headline('<h2>Prioriterade områden VP</h2>')->name(null),
                 // Schema::textObject()->text("<ul><li>Risk 1</li><li>Risk 2</li></ul>")->headline('<h2>Risker</h2>')->name('risks')
+            ])
+        );
+    }
+
+    #[TestDox('project::description excludes customDimensions with names in the excluded list')]
+    public function testExcludesNamesInExcludedList()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapDescription(),
+            '{
+                "customDimensions": [
+                    {
+                        "name": "Drivs av",
+                        "value": "Some value"
+                    }
+                ]
+            }',
+            Schema::project()->description([])
+        );
+    }
+
+    #[TestDox('project::description excludes customDimensions with value as a URL')]
+    public function testExcludesUrls()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapDescription(),
+            '{
+                "customDimensions": [
+                    {
+                        "name": "exludera - värde är en url",
+                        "value": "https://example.com/test.jpg"
+                    },
+                    {
+                        "name": "Another custom dimension",
+                        "value": "Another",
+                        "values": ["Some value", "https://example.com/image.jpg", "Some other value"]
+                    },
+                    {
+                        "name": "excludera - alla värden är urlar",
+                        "values": ["https://example.com/image1.jpg", "https://example.com/image2.jpg"]
+                    }
+                ]
+            }',
+            Schema::project()->description([
+                Schema::textObject()->text("Another<ul><li>Some value</li><li>Some other value</li></ul>")->headline('<h2>Another custom dimension</h2>')->name(null)
             ])
         );
     }
