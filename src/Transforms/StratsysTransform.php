@@ -80,7 +80,7 @@ class StratsysTransform extends TransformBase implements AbstractDataTransform
         if (!empty($data)) {
             // Concatenate string
             $clean = trim(str_replace(["&nbsp;", "<br />"], "", $data), "\n\r\t\v\0•");
-            $clean= explode("&bull;", $clean);
+            $clean = explode("&bull;", $clean);
             return $this->arrayToList(array_slice($clean, 1));
         }
         return "";
