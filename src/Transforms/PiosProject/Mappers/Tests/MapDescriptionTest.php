@@ -51,6 +51,22 @@ final class MapDescriptionTest extends TestCase
         );
     }
 
+    #[TestDox('project::description - description+benefitsAndEffects are stripped of inline styling')]
+    public function testStripsInlineStyling()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapDescription(),
+            '{
+                "description": "<p attr=123><span style=\"background-color: oklch(1 0 0); color: oklch(0 0 0); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 16.875px;\">Test description</span></p>",
+                "benefitsAndEffects": "<p style=\"font-size:20px;\">Test benefits and effects: <a href=\"/\" style=\"color: red\">Link</a></p>"
+            }',
+            Schema::project()->description([
+                Schema::textObject()->text("<p attr=123><span>Test description</span></p>")->name('description'),
+                Schema::textObject()->text("<p>Test benefits and effects: <a href=\"/\">Link</a></p>")->headline('<h2>Nyttor och effekter</h2>')->name('benefitsAndEffects')
+            ])
+        );
+    }
+
     #[TestDox('project::description excludes customDimensions with names in the excluded list')]
     public function testExcludesNamesInExcludedList()
     {

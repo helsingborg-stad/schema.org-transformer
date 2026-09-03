@@ -15,8 +15,15 @@ class MapDescription extends AbstractPiosProjectMapper
     public function map(Project $project, array $data): Project
     {
         $sections = [
-            $this->makeSection($data['description'] ?? null, 'description'),
-            $this->makeSection($data['benefitsAndEffects'] ?? null, 'benefitsAndEffects', '<h2>Nyttor och effekter</h2>'),
+            $this->makeSection(
+                $this->cleanHtml($data['description'] ?? null),
+                'description'
+            ),
+            $this->makeSection(
+                $this->cleanHtml($data['benefitsAndEffects'] ?? null),
+                'benefitsAndEffects',
+                '<h2>Nyttor och effekter</h2>'
+            ),
             $this->makeBulletSection(
                 array_filter(array_values(array_map(
                     fn($goal) => $goal['name'] ?? null,
@@ -55,6 +62,14 @@ class MapDescription extends AbstractPiosProjectMapper
         ];
 
         return $project->description(array_values(array_filter($sections)));
+    }
+
+    private function cleanHtml(?string $html): ?string
+    {
+        if (empty($html)) {
+            return null;
+        }
+        return trim(preg_replace('/\s*style\s*=\s*(".*?"|\'.*?\')/i', '', $html));
     }
 
     /**
