@@ -6,7 +6,7 @@
         },
         "@type": "Project",
         "name": "Initiativ_Namn",
-        "description": "<h2>Vad?</h2><p>Initiativ_Vad</p><h2>Hur?</h2><p>Initiativ_Hur</p><h2>Varför?</h2><p>Initiativ_Varfor</p><h2>Lärdomar</h2><p>Initiativ_Lardomar</p><h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p><h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p><h2>Drivs av</h2><p><ul><li>Initiativ_Synligaenheter</li></ul></p>",
+        "description": "<h2>Vad?</h2><p>Initiativ_Vad</p><h2>Hur?</h2><p>Initiativ_Hur</p><h2>Varför?</h2><p>Initiativ_Varfor</p><h2>Lärdomar</h2><p>Initiativ_Lardomar</p><h2>Avgränsningar</h2><p>Initiativ_Avgransningar</p><h2>Utmaningar</h2><p><ul><li>Initiativ_Utmaningar</li></ul></p><h2>Drivs av</h2><p><ul><li>a</li><li>b</li></ul></p>",
         "image": {
             "@type": "ImageObject",
             "url": "Initiativ_Lanktillbild"
@@ -49,6 +49,6 @@
             "name": "Idé",
             "number": 25
         },
-        "@version": "54c51a234716fd5d3dae2ee75907b0bd"
+        "@version": "80a9e7f3ea3f4203bfb67292cdf0a385"
     }
 ]
