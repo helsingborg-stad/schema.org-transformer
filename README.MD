@@ -7,7 +7,7 @@ Fetch and transform upstream JSON data into schema.org shaped documents, then pe
 
 ## Requirements
 
-- PHP 8.2+
+- PHP 8.4+
 - Composer
 - cURL extension enabled for PHP
 - A reachable Typesense instance for the production-style `run/*` scripts
