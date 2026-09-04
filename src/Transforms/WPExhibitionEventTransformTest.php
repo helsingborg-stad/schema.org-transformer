@@ -202,9 +202,9 @@ class WPExhibitionEventTransformTest extends TestCase
     public static function eventStatusDataProvider(): array
     {
         return [
-            'ended event'      => ['19900101', '19900110', 'Avslutad'],
-            'upcoming event'   => ['99990101', '99990110', 'Kommande'],
-            'ongoing event'    => ['19900101', '99990101', 'Aktuell'],
+            'ended event'    => ['19900101', '19900110', 'Avslutad'],
+            'upcoming event' => ['99990101', '99990110', 'Kommande'],
+            'ongoing event'  => ['19900101', '99990101', 'Aktuell'],
         ];
     }
 
