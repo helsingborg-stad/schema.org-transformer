@@ -30,8 +30,9 @@ class WPExhibitionEventTransform implements AbstractDataTransform
             $organizer = Schema::organization()->name($item['acf']['organizer'] ?? null);
             $startDate = $item['acf']['startDate'] ?? null;
             $endDate   = $item['acf']['endDate'] ?? null;
+            $eventStatus = $this->getEventStatus($startDate, $endDate);
 
-            return
+            $event =
                 Schema::exhibitionEvent()
                     ->identifier((string)$item['id'])
                     ->name($item['title']['rendered'] ?? null)
@@ -41,13 +42,17 @@ class WPExhibitionEventTransform implements AbstractDataTransform
                     ->endDate($endDate ? \DateTime::createFromFormat('Ymd', $endDate)?->format('Y-m-d') : null)
                     ->location($this->getLocation($item))
                     ->offers($this->getOffers($item))
-                    ->image($this->getImages($item))
-                    ->keywords([
-                       Schema::definedTerm()
-                            ->name($this->getEventStatus($startDate, $endDate))
-                            ->inDefinedTermSet(Schema::definedTermSet()->name('event_status'))
-                        ])
-                    ->toArray();
+                    ->image($this->getImages($item));
+
+            if ($eventStatus !== '') {
+                $event->keywords([
+                    Schema::definedTerm()
+                        ->name($eventStatus)
+                        ->inDefinedTermSet(Schema::definedTermSet()->name('event_status'))
+                ]);
+            }
+
+            return $event->toArray();
         }, $data);
     }
 
