@@ -42,8 +42,31 @@ class WPExhibitionEventTransform implements AbstractDataTransform
                     ->location($this->getLocation($item))
                     ->offers($this->getOffers($item))
                     ->image($this->getImages($item))
+                    ->keywords([
+                       Schema::definedTerm()
+                            ->name($this->getEventStatus($startDate, $endDate))
+                            ->inDefinedTermSet(Schema::definedTermSet()->name('event_status'))
+                        ])
                     ->toArray();
         }, $data);
+    }
+
+    private function getEventStatus(mixed $startDate = null, mixed $endDate = null): string
+    {
+        $startTimestamp = is_null($startDate) ? null : strtotime($startDate);
+        $endTimestamp   = is_null($endDate) ? null : strtotime($endDate);
+
+        if (empty($startTimestamp)) {
+            return '';
+        }
+
+        if (!empty($endTimestamp) && $endTimestamp < time()) {
+            return "Avslutad";
+        } elseif ($startTimestamp > time()) {
+            return "Kommande";
+        } else {
+            return "Aktuell";
+        };
     }
 
     private function getImages(array $dataItem): array
