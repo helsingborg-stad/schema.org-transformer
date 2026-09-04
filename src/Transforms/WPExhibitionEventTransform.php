@@ -27,11 +27,12 @@ class WPExhibitionEventTransform implements AbstractDataTransform
     {
         return array_map(function ($item) {
 
-            $organizer = Schema::organization()->name($item['acf']['organizer'] ?? null);
-            $startDate = $item['acf']['startDate'] ?? null;
-            $endDate   = $item['acf']['endDate'] ?? null;
+            $organizer   = Schema::organization()->name($item['acf']['organizer'] ?? null);
+            $startDate   = $item['acf']['startDate'] ?? null;
+            $endDate     = $item['acf']['endDate'] ?? null;
+            $eventStatus = $this->getEventStatus($startDate, $endDate);
 
-            return
+            $event =
                 Schema::exhibitionEvent()
                     ->identifier((string)$item['id'])
                     ->name($item['title']['rendered'] ?? null)
@@ -41,9 +42,40 @@ class WPExhibitionEventTransform implements AbstractDataTransform
                     ->endDate($endDate ? \DateTime::createFromFormat('Ymd', $endDate)?->format('Y-m-d') : null)
                     ->location($this->getLocation($item))
                     ->offers($this->getOffers($item))
-                    ->image($this->getImages($item))
-                    ->toArray();
+                    ->image($this->getImages($item));
+
+            if ($eventStatus !== '') {
+                $event->keywords([
+                    Schema::definedTerm()
+                        ->name($eventStatus)
+                        ->inDefinedTermSet(Schema::definedTermSet()->name('event_status'))
+                ]);
+            }
+
+            return $event->toArray();
         }, $data);
+    }
+
+    private function getEventStatus(mixed $startDate = null, mixed $endDate = null): string
+    {
+        $startTimestamp = is_string($startDate) ? strtotime($startDate) : false;
+
+        if ($startTimestamp === false) {
+            return '';
+        }
+
+        $endTimestamp = is_string($endDate) ? strtotime($endDate) : false;
+        $now          = time();
+
+        if ($endTimestamp !== false && $endTimestamp < $now) {
+            return 'Avslutad';
+        }
+
+        if ($startTimestamp > $now) {
+            return 'Kommande';
+        }
+
+        return 'Aktuell';
     }
 
     private function getImages(array $dataItem): array
