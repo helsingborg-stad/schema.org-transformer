@@ -27,9 +27,9 @@ class WPExhibitionEventTransform implements AbstractDataTransform
     {
         return array_map(function ($item) {
 
-            $organizer = Schema::organization()->name($item['acf']['organizer'] ?? null);
-            $startDate = $item['acf']['startDate'] ?? null;
-            $endDate   = $item['acf']['endDate'] ?? null;
+            $organizer   = Schema::organization()->name($item['acf']['organizer'] ?? null);
+            $startDate   = $item['acf']['startDate'] ?? null;
+            $endDate     = $item['acf']['endDate'] ?? null;
             $eventStatus = $this->getEventStatus($startDate, $endDate);
 
             $event =
