@@ -66,7 +66,7 @@ class WPExhibitionEventTransform implements AbstractDataTransform
         }
 
         $endDateTime = $this->parseDateTime($endDate);
-        if ($endDateTime !== null && $endDateTime->setTime(23, 59, 59) < $now) {
+        if ($endDateTime !== null && $endDateTime->modify('+1 day') <= $now) {
             return 'Avslutad';
         }
 
