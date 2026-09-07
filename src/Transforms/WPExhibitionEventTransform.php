@@ -38,8 +38,8 @@ class WPExhibitionEventTransform implements AbstractDataTransform
                     ->name($item['title']['rendered'] ?? null)
                     ->description($item['acf']['description'] ?? null)
                     ->organizer($organizer)
-                    ->startDate($startDate ? \DateTime::createFromFormat('Ymd', $startDate)?->format('Y-m-d') : null)
-                    ->endDate($endDate ? \DateTime::createFromFormat('Ymd', $endDate)?->format('Y-m-d') : null)
+                    ->startDate($this->parseDateTime($startDate)?->format('Y-m-d'))
+                    ->endDate($this->parseDateTime($endDate)?->format('Y-m-d'))
                     ->location($this->getLocation($item))
                     ->offers($this->getOffers($item))
                     ->image($this->getImages($item));

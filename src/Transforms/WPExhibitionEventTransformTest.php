@@ -196,7 +196,7 @@ class WPExhibitionEventTransformTest extends TestCase
             ],
         ];
 
-        $result = $transform->transform([$item])[0];
+        $result  = $transform->transform([$item])[0];
         $keyword = $this->findDefinedTermKeyword($result['keywords'], 'event_status');
 
         $this->assertSame($expectedStatus, $keyword['name']);
@@ -205,11 +205,51 @@ class WPExhibitionEventTransformTest extends TestCase
     public static function eventStatusDataProvider(): array
     {
         return [
-            'ended event'                  => ['19900101', '19900110', 'Avslutad'],
-            'upcoming event'               => ['99990101', '99990110', 'Kommande'],
-            'ongoing event'                => ['19900101', '99990101', 'Aktuell'],
-            'event ending today remains current' => [date('Ymd'), date('Ymd'), 'Aktuell'],
+            'ended event'                               => ['19900101', '19900110', 'Avslutad'],
+            'upcoming event'                            => ['99990101', '99990110', 'Kommande'],
+            'ongoing event'                             => ['19900101', '99990101', 'Aktuell'],
+            'event ending today remains current'        => [date('Ymd'), date('Ymd'), 'Aktuell'],
+            'event that ended yesterday is finished'    => ['19900101', date('Ymd', strtotime('-1 day')), 'Avslutad'],
+            'open-ended past event is current'          => ['19900101', '', 'Aktuell'],
+            'open-ended future event is upcoming'       => ['99990101', '', 'Kommande'],
+            'invalid end date is treated as open-ended' => ['19900101', 'not-a-date', 'Aktuell'],
         ];
+    }
+
+    #[TestDox('missing start date omits event_status keyword')]
+    public function testMissingStartDateOmitsEventStatusKeyword(): void
+    {
+        $transform = new WPExhibitionEventTransform();
+        $item      = [
+            'id'    => 1,
+            'title' => ['rendered' => 'Test'],
+            'acf'   => [
+                'startDate' => null,
+                'endDate'   => null,
+            ],
+        ];
+
+        $result = $transform->transform([$item])[0];
+
+        $this->assertArrayNotHasKey('keywords', $result);
+    }
+
+    #[TestDox('invalid start date omits event_status keyword')]
+    public function testInvalidStartDateOmitsEventStatusKeyword(): void
+    {
+        $transform = new WPExhibitionEventTransform();
+        $item      = [
+            'id'    => 1,
+            'title' => ['rendered' => 'Test'],
+            'acf'   => [
+                'startDate' => 'not-a-date',
+                'endDate'   => '19900110',
+            ],
+        ];
+
+        $result = $transform->transform([$item])[0];
+
+        $this->assertArrayNotHasKey('keywords', $result);
     }
 
     private function findDefinedTermKeyword(array $keywords, string $definedTermSetName): array
