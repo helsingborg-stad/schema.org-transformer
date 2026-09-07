@@ -27,23 +27,64 @@ class WPExhibitionEventTransform implements AbstractDataTransform
     {
         return array_map(function ($item) {
 
-            $organizer = Schema::organization()->name($item['acf']['organizer'] ?? null);
-            $startDate = $item['acf']['startDate'] ?? null;
-            $endDate   = $item['acf']['endDate'] ?? null;
+            $organizer   = Schema::organization()->name($item['acf']['organizer'] ?? null);
+            $startDate   = $item['acf']['startDate'] ?? null;
+            $endDate     = $item['acf']['endDate'] ?? null;
+            $eventStatus = $this->getEventStatus($startDate, $endDate);
 
-            return
+            $event =
                 Schema::exhibitionEvent()
                     ->identifier((string)$item['id'])
                     ->name($item['title']['rendered'] ?? null)
                     ->description($item['acf']['description'] ?? null)
                     ->organizer($organizer)
-                    ->startDate($startDate ? \DateTime::createFromFormat('Ymd', $startDate)?->format('Y-m-d') : null)
-                    ->endDate($endDate ? \DateTime::createFromFormat('Ymd', $endDate)?->format('Y-m-d') : null)
+                    ->startDate($this->parseDateTime($startDate)?->format('Y-m-d'))
+                    ->endDate($this->parseDateTime($endDate)?->format('Y-m-d'))
                     ->location($this->getLocation($item))
                     ->offers($this->getOffers($item))
-                    ->image($this->getImages($item))
-                    ->toArray();
+                    ->image($this->getImages($item));
+
+            if ($eventStatus !== '') {
+                $event->keywords([
+                    Schema::definedTerm()
+                        ->name($eventStatus)
+                        ->inDefinedTermSet(Schema::definedTermSet()->name('event_status'))
+                ]);
+            }
+
+            return $event->toArray();
         }, $data);
+    }
+
+    private function getEventStatus(mixed $startDate = null, mixed $endDate = null): string
+    {
+        $now = new \DateTimeImmutable('now');
+
+        $startDateTime = $this->parseDateTime($startDate);
+        if ($startDateTime === null) {
+            return '';
+        }
+
+        $endDateTime = $this->parseDateTime($endDate);
+        if ($endDateTime !== null && $endDateTime->modify('+1 day') <= $now) {
+            return 'Avslutad';
+        }
+
+        if ($startDateTime > $now) {
+            return 'Kommande';
+        }
+
+        return 'Aktuell';
+    }
+
+    private function parseDateTime(mixed $date): ?\DateTimeImmutable
+    {
+        if (!is_string($date)) {
+            return null;
+        }
+
+        $parsedDate = \DateTimeImmutable::createFromFormat('!Ymd', $date);
+        return $parsedDate === false ? null : $parsedDate;
     }
 
     private function getImages(array $dataItem): array

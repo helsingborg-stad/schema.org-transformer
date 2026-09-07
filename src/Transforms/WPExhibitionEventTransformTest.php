@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms;
 
 use Municipio\Schema\DayOfWeek;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
@@ -166,6 +167,100 @@ class WPExhibitionEventTransformTest extends TestCase
         $this->assertEquals('https://source.api/wp-content/uploads/sites/6/2025/08/871-1920x1024-1.jpg', $result['image'][1]['url']);
         $this->assertEquals('Test alt', $result['image'][1]['description']);
         $this->assertEquals('Picsum ID: 871', $result['image'][1]['name']);
+    }
+
+    #[TestDox('keywords contains event_status defined term')]
+    public function testResultContainsEventStatusKeyword(): void
+    {
+        // Fixture dates (2025-08-01 - 2025-08-31) are in the past and will remain so.
+        $result = $this->getTransformedResult();
+
+        $this->assertArrayHasKey('keywords', $result);
+        $keyword = $this->findDefinedTermKeyword($result['keywords'], 'event_status');
+
+        $this->assertSame('Avslutad', $keyword['name']);
+        $this->assertSame('event_status', $keyword['inDefinedTermSet']['name']);
+    }
+
+    #[TestDox('event_status keyword reflects start and end date')]
+    #[DataProvider('eventStatusDataProvider')]
+    public function testEventStatusKeywordForDateRange(string $startDate, string $endDate, string $expectedStatus): void
+    {
+        $transform = new WPExhibitionEventTransform();
+        $item      = [
+            'id'    => 1,
+            'title' => ['rendered' => 'Test'],
+            'acf'   => [
+                'startDate' => $startDate,
+                'endDate'   => $endDate,
+            ],
+        ];
+
+        $result  = $transform->transform([$item])[0];
+        $keyword = $this->findDefinedTermKeyword($result['keywords'], 'event_status');
+
+        $this->assertSame($expectedStatus, $keyword['name']);
+    }
+
+    public static function eventStatusDataProvider(): array
+    {
+        return [
+            'ended event'                               => ['19900101', '19900110', 'Avslutad'],
+            'upcoming event'                            => ['99990101', '99990110', 'Kommande'],
+            'ongoing event'                             => ['19900101', '99990101', 'Aktuell'],
+            'event ending today remains current'        => [date('Ymd'), date('Ymd'), 'Aktuell'],
+            'event that ended yesterday is finished'    => ['19900101', date('Ymd', strtotime('-1 day')), 'Avslutad'],
+            'open-ended past event is current'          => ['19900101', '', 'Aktuell'],
+            'open-ended future event is upcoming'       => ['99990101', '', 'Kommande'],
+            'invalid end date is treated as open-ended' => ['19900101', 'not-a-date', 'Aktuell'],
+        ];
+    }
+
+    #[TestDox('missing start date omits event_status keyword')]
+    public function testMissingStartDateOmitsEventStatusKeyword(): void
+    {
+        $transform = new WPExhibitionEventTransform();
+        $item      = [
+            'id'    => 1,
+            'title' => ['rendered' => 'Test'],
+            'acf'   => [
+                'startDate' => null,
+                'endDate'   => null,
+            ],
+        ];
+
+        $result = $transform->transform([$item])[0];
+
+        $this->assertArrayNotHasKey('keywords', $result);
+    }
+
+    #[TestDox('invalid start date omits event_status keyword')]
+    public function testInvalidStartDateOmitsEventStatusKeyword(): void
+    {
+        $transform = new WPExhibitionEventTransform();
+        $item      = [
+            'id'    => 1,
+            'title' => ['rendered' => 'Test'],
+            'acf'   => [
+                'startDate' => 'not-a-date',
+                'endDate'   => '19900110',
+            ],
+        ];
+
+        $result = $transform->transform([$item])[0];
+
+        $this->assertArrayNotHasKey('keywords', $result);
+    }
+
+    private function findDefinedTermKeyword(array $keywords, string $definedTermSetName): array
+    {
+        foreach ($keywords as $keyword) {
+            if (($keyword['inDefinedTermSet']['name'] ?? null) === $definedTermSetName) {
+                return $keyword;
+            }
+        }
+
+        $this->fail(sprintf('Keyword with inDefinedTermSet.name "%s" was not found.', $definedTermSetName));
     }
 
     private function getTransformedResult(): array
