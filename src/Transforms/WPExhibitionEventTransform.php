@@ -58,24 +58,33 @@ class WPExhibitionEventTransform implements AbstractDataTransform
 
     private function getEventStatus(mixed $startDate = null, mixed $endDate = null): string
     {
-        $startTimestamp = is_string($startDate) ? strtotime($startDate) : false;
+        $now = new \DateTimeImmutable('now');
 
-        if ($startTimestamp === false) {
+        $startDateTime = $this->parseDateTime($startDate);
+        if ($startDateTime === null) {
             return '';
         }
 
-        $endTimestamp = is_string($endDate) ? strtotime($endDate) : false;
-        $now          = time();
-
-        if ($endTimestamp !== false && $endTimestamp < $now) {
+        $endDateTime = $this->parseDateTime($endDate);
+        if ($endDateTime !== null && $endDateTime->setTime(23, 59, 59) < $now) {
             return 'Avslutad';
         }
 
-        if ($startTimestamp > $now) {
+        if ($startDateTime > $now) {
             return 'Kommande';
         }
 
         return 'Aktuell';
+    }
+
+    private function parseDateTime(mixed $date): ?\DateTimeImmutable
+    {
+        if (!is_string($date)) {
+            return null;
+        }
+
+        $parsedDate = \DateTimeImmutable::createFromFormat('!Ymd', $date);
+        return $parsedDate === false ? null : $parsedDate;
     }
 
     private function getImages(array $dataItem): array

@@ -176,8 +176,10 @@ class WPExhibitionEventTransformTest extends TestCase
         $result = $this->getTransformedResult();
 
         $this->assertArrayHasKey('keywords', $result);
-        $this->assertEquals('Avslutad', $result['keywords'][0]['name']);
-        $this->assertEquals('event_status', $result['keywords'][0]['inDefinedTermSet']['name']);
+        $keyword = $this->findDefinedTermKeyword($result['keywords'], 'event_status');
+
+        $this->assertSame('Avslutad', $keyword['name']);
+        $this->assertSame('event_status', $keyword['inDefinedTermSet']['name']);
     }
 
     #[TestDox('event_status keyword reflects start and end date')]
@@ -195,17 +197,30 @@ class WPExhibitionEventTransformTest extends TestCase
         ];
 
         $result = $transform->transform([$item])[0];
+        $keyword = $this->findDefinedTermKeyword($result['keywords'], 'event_status');
 
-        $this->assertEquals($expectedStatus, $result['keywords'][0]['name']);
+        $this->assertSame($expectedStatus, $keyword['name']);
     }
 
     public static function eventStatusDataProvider(): array
     {
         return [
-            'ended event'    => ['19900101', '19900110', 'Avslutad'],
-            'upcoming event' => ['99990101', '99990110', 'Kommande'],
-            'ongoing event'  => ['19900101', '99990101', 'Aktuell'],
+            'ended event'                  => ['19900101', '19900110', 'Avslutad'],
+            'upcoming event'               => ['99990101', '99990110', 'Kommande'],
+            'ongoing event'                => ['19900101', '99990101', 'Aktuell'],
+            'event ending today remains current' => [date('Ymd'), date('Ymd'), 'Aktuell'],
         ];
+    }
+
+    private function findDefinedTermKeyword(array $keywords, string $definedTermSetName): array
+    {
+        foreach ($keywords as $keyword) {
+            if (($keyword['inDefinedTermSet']['name'] ?? null) === $definedTermSetName) {
+                return $keyword;
+            }
+        }
+
+        $this->fail(sprintf('Keyword with inDefinedTermSet.name "%s" was not found.', $definedTermSetName));
     }
 
     private function getTransformedResult(): array
