@@ -17,7 +17,7 @@ $options    = new \SchemaTransformer\Run\Cli\Options();
 
 $lockRunner->lock();
 
-$httpReaderPath = getenv('WP_SPONSOR_OFFER_PATH');
+$httpReaderPath = getenv('WP_SPONSOR_OFFER_PATH') . '?acf_format=standard';
 $transformer    = new SponsorOfferTransform('sponsor-offer-');
 $reader         = new HttpReader($httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger);
 $storage        = StorageFactory::create(

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms;
 
-use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
 
-class SponsorOfferTransform extends TransformBase implements AbstractDataTransform
+class SponsorOfferTransform extends SponsorBaseTransform
 {
     public function __construct(string $idprefix)
     {
@@ -15,6 +14,27 @@ class SponsorOfferTransform extends TransformBase implements AbstractDataTransfo
     }
     public function transform(array $data): array
     {
-        return $data;
+        $offers = [];
+        foreach ($data ?? [] as &$row) {
+            $acf = $row['acf'] ?? [];
+
+            $offer = $this->transformOffer($acf)
+                ->name($row['title']['rendered'] ?? '')
+                ->image($this->transformImage($acf))
+                ->location($this->transformLocation($acf))
+                ->keywords($this->transformActivities($acf))
+                ->offeredBy($this->transformOrganization($acf)
+                    ->contactPoint($this->transformContactPoint($acf))
+                ->demand($this->transformDemand($acf))
+                ->keywords([
+                    Schema::definedTerm()
+                        ->name($acf['proposal_for_counter_performance'])
+                        ->inDefinedTermSet(Schema::definedTermSet()->name('proposal_for_counter_performance'))
+                ]));
+
+            $offers[] = $offer->toArray();
+        }
+
+        return $offers;
     }
 }
