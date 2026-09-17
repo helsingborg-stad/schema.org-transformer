@@ -22,15 +22,15 @@ class SponsorOfferTransform extends SponsorBaseTransform
                 ->name($row['title']['rendered'] ?? '')
                 ->image($this->transformImage($acf))
                 ->location($this->transformLocation($acf))
-                ->keywords($this->transformActivities($acf))
+                ->keywords($this->transformKeywords('activities', $acf))
                 ->offeredBy($this->transformOrganization($acf)
                     ->contactPoint($this->transformContactPoint($acf))
-                ->demand($this->transformDemand($acf))
+                ->demand($this->transformDemand($acf)
                 ->keywords([
                     Schema::definedTerm()
                         ->name($acf['proposal_for_counter_performance'])
                         ->inDefinedTermSet(Schema::definedTermSet()->name('proposal_for_counter_performance'))
-                ]));
+                ])));
 
             $offers[] = $offer->toArray();
         }

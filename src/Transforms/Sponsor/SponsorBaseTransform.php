@@ -65,19 +65,19 @@ abstract class SponsorBaseTransform extends TransformBase implements AbstractDat
     }
     protected function transformCategories(?array $acf): array
     {
-        $categories = [];
+        $categories = $acf['resources'] ?? [];
         foreach ($acf as &$row) {
             $categories[] = $row['name'];
         }
         return $categories;
     }
-    protected function transformActivities(?array $acf): array
+    protected function transformKeywords(string $name, ?array $acf): array
     {
         $activities = [];
         foreach ($acf['activities'] ?? [] as &$row) {
             $activities[] = Schema::definedTerm()
                 ->name($row['name'] ?? '')
-                ->inDefinedTermSet(Schema::definedTermSet()->name('activities'));
+                ->inDefinedTermSet(Schema::definedTermSet()->name($name));
         }
         return $activities;
     }

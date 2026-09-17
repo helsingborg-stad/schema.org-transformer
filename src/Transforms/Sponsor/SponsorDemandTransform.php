@@ -24,10 +24,10 @@ class SponsorDemandTransform extends SponsorBaseTransform
                 ->image($this->transformImage($acf))
                 ->location($this->transformLocation($acf))
                 ->hasSponsorshipOffer($this->transformOffer($acf))
-                ->keywords($this->transformActivities($acf))
+                ->keywords($this->transformKeywords('activities', $acf))
                 ->organizer($this->transformOrganization($acf)
                     ->contactPoint($this->transformContactPoint($acf))
-                -> keywords([
+                    -> keywords([
                     Schema::definedTerm()
                         ->name($acf['organization_eligible_for_grants'])
                         ->inDefinedTermSet(Schema::definedTermSet()->name('organization_eligible_for_grants'))
