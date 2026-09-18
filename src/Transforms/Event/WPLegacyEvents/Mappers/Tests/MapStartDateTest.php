@@ -48,4 +48,18 @@ final class MapStartDateTest extends TestCase
             Schema::event()->startDate(null)
         );
     }
+
+    #[TestDox('event::startDate falls back to occasions.start_date when all_occasions is missing')]
+    public function testFallsBackToOccasions()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapStartDate(),
+            '{
+                "occasions": [
+                    { "start_date": "2026-10-17 10:55" }
+                ]
+            }',
+            Schema::event()->startDate('2026-10-17 10:55')
+        );
+    }
 }
