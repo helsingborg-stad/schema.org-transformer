@@ -21,11 +21,11 @@ abstract class SponsorBaseTransform extends TransformBase implements AbstractDat
             trim($date . ' ' . $time)
         ) ?? null;
     }
-    protected function transformEvent(?array $acf): \Municipio\Schema\Event
+    protected function transformEvent(?array $acf): SponsorDemand
     {
         $date = $this->transformDateTime($acf['date'], $acf['time']);
 
-        return Schema::Event()
+        return (new SponsorDemand())
             ->description($acf['description'] ?? null)
             ->startDate($date ? $date->format('Y-m-d\TH:i:s') : '');
     }
@@ -46,11 +46,11 @@ abstract class SponsorBaseTransform extends TransformBase implements AbstractDat
             ->email($acf['organization_email'] ?? null)
             ->telephone($acf['organization_phone'] ?? null);
     }
-    protected function transformOffer(?array $acf): \Municipio\Schema\Offer
+    protected function transformOffer(?array $acf): SponsorOffer
     {
         $date = $this->transformDateTime($acf['due_date'], $acf['due_time']);
 
-        return Schema::Offer()
+        return new SponsorOffer()
             ->availabilityEnds($date ? $date->format('Y-m-d\TH:i:s') : '')
             ->category($this->transformCategories($acf['resources'] ?? null));
     }

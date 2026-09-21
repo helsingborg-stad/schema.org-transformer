@@ -19,6 +19,7 @@ class SponsorOfferTransform extends SponsorBaseTransform
             $acf = $row['acf'] ?? [];
 
             $offer = $this->transformOffer($acf)
+                ->identifier($row['id'] ?? '')
                 ->name($row['title']['rendered'] ?? '')
                 ->image($this->transformImage($acf))
                 ->location($this->transformLocation($acf))

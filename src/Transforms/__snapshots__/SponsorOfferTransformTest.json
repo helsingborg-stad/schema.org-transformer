@@ -1,0 +1,63 @@
+    [{
+        "@context": {
+            "schema": "https://schema.org",
+            "municipio": "https://schema.municipio.tech/schema.jsonld"
+        },
+        "@type": [
+            "Offer",
+            "municipio:SponsorOffer"
+        ],
+        "availabilityEnds": "2026-09-27T16:46:49",
+        "category": [
+            "logistik"
+        ],
+        "name": "Test namn på sponsringserbjudandet",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://sponsor.helsingborg.io/wp-content/uploads/sites/7/2026/08/målgrupp2.png",
+            "name": "målgrupp2",
+            "description": "asdadada"
+        },
+        "location": {
+            "@type": "Place"
+        },
+        "keywords": [
+            {
+                "@type": "DefinedTerm",
+                "name": "cykling",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "activities"
+                }
+            }
+        ],
+        "offeredBy": {
+            "@type": "Organization",
+            "name": "Test företagets namn",
+            "description": "Test beskrivning företagets verksamhet",
+            "taxID": "5001011010",
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "name": "Test kontaktperson",
+                "role": "Test roll på kontaktperson",
+                "email": "epost@kontaktperson.se",
+                "telephone": "707070770"
+            },
+            "demand": {
+                "@type": "Demand",
+                "description": "Test krav",
+                "keywords": [
+                    {
+                        "@type": "DefinedTerm",
+                        "name": "Test Förslag på motprestation",
+                        "inDefinedTermSet": {
+                            "@type": "DefinedTermSet",
+                            "name": "proposal_for_counter_performance"
+                        }
+                    }
+                ]
+            }
+        },
+        "@id": 70
+    }
+]

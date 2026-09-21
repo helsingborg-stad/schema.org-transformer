@@ -20,14 +20,13 @@ class SponsorDemandTransform extends SponsorBaseTransform
             $acf = $row['acf'] ?? [];
 
             $event = $this->transformEvent($acf)
+                ->identifier($row['id'] ?? '')
                 ->name($row['title']['rendered'] ?? '')
                 ->image($this->transformImage($acf))
                 ->location($this->transformLocation($acf))
-                ->hasSponsorshipOffer($this->transformOffer($acf))
-                ->keywords($this->transformKeywords('activities', $acf))
-                ->organizer($this->transformOrganization($acf)
-                    ->contactPoint($this->transformContactPoint($acf))
-                    -> keywords([
+                ->hasSponsorshipOffer($this->transformOffer($acf)->demand($this->transformDemand($acf)))
+                ->organisation($this->transformOrganization($acf)->contactPoint($this->transformContactPoint($acf))
+                ->keywords([
                     Schema::definedTerm()
                         ->name($acf['organization_eligible_for_grants'])
                         ->inDefinedTermSet(Schema::definedTermSet()->name('organization_eligible_for_grants'))
