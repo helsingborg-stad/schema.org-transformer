@@ -1,4 +1,5 @@
-    [{
+[
+    {
         "@context": {
             "schema": "https://schema.org",
             "municipio": "https://schema.municipio.tech/schema.jsonld"
@@ -7,11 +8,15 @@
             "Offer",
             "municipio:SponsorOffer"
         ],
-        "availabilityEnds": "2026-09-27T16:46:49",
+        "availabilityEnds": "2027-02-05T19:04:00",
         "category": [
-            "logistik"
+            "stöd och hjälp",
+            "pengar",
+            "mat- och dryck",
+            "logistik",
+            "övrigt"
         ],
-        "name": "Test namn på sponsringserbjudandet",
+        "name": "Tamisium debeo calculus pecto accusator eveniet.",
         "image": {
             "@type": "ImageObject",
             "url": "https://sponsor.helsingborg.io/wp-content/uploads/sites/7/2026/08/målgrupp2.png",
@@ -19,7 +24,15 @@
             "description": "asdadada"
         },
         "location": {
-            "@type": "Place"
+            "@type": "Place",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Stockholms kommun",
+                "addressRegion": "Stockholms län",
+                "postalCode": "111 51",
+                "addressCountry": "Sverige"
+            },
+            "description": "3, Drottninggatan, Klara, Norrmalm, Norra innerstadens stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 111 51, Sverige"
         },
         "keywords": [
             {
@@ -29,27 +42,35 @@
                     "@type": "DefinedTermSet",
                     "name": "activities"
                 }
+            },
+            {
+                "@type": "DefinedTerm",
+                "name": "e-sport",
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "activities"
+                }
             }
         ],
         "offeredBy": {
             "@type": "Organization",
-            "name": "Test företagets namn",
-            "description": "Test beskrivning företagets verksamhet",
-            "taxID": "5001011010",
+            "name": "Auctor conqueror cenaculum tardus coepi ter balbus tepesco catena tubineus.",
+            "description": "Quod dignissimos utor vorago.",
+            "taxID": "Absens consuasor defluo vigilo admitto comptus.",
             "contactPoint": {
                 "@type": "ContactPoint",
-                "name": "Test kontaktperson",
-                "role": "Test roll på kontaktperson",
-                "email": "epost@kontaktperson.se",
-                "telephone": "707070770"
+                "name": "Utilis deripio libero conculco voro vae.",
+                "role": "Vere celo vel dolorum adsum vulticulus ambulo.",
+                "email": "your.email+fakedata27854@gmail.com",
+                "telephone": "290"
             },
             "demand": {
                 "@type": "Demand",
-                "description": "Test krav",
+                "description": "Deleo temptatio verus valetudo theatrum a aufero.",
                 "keywords": [
                     {
                         "@type": "DefinedTerm",
-                        "name": "Test Förslag på motprestation",
+                        "name": "Vapulus vulgo barba aer censura cui ipsa stabilis substantia fugiat.",
                         "inDefinedTermSet": {
                             "@type": "DefinedTermSet",
                             "name": "proposal_for_counter_performance"
@@ -58,6 +79,5 @@
                 ]
             }
         },
-        "@id": 70
-    }
-]
+        "@id": 104
+    }]

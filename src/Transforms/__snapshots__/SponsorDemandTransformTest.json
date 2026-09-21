@@ -18,7 +18,15 @@
             "description": "asdadada"
         },
         "location": {
-            "@type": "Place"
+            "@type": "Place",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Stockholms kommun",
+                "addressRegion": "Stockholms län",
+                "postalCode": "111 29",
+                "addressCountry": "Sverige"
+            },
+            "description": "9, Stortorget, Gamla stan, Södermalms stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 111 29, Sverige"
         },
         "hasSponsorshipOffer": {
             "@type": [

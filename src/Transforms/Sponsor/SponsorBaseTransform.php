@@ -83,9 +83,16 @@ abstract class SponsorBaseTransform extends TransformBase implements AbstractDat
     }
     protected function transformLocation(?array $acf): ?\Municipio\Schema\Place
     {
-        return Schema::Place()
-            ->name($acf['location_name'] ?? null)
-            ->address($acf['location_address'] ?? null);
+        $location = $acf['location'] ?? null;
+
+        return !is_null($location) ?
+            Schema::Place()
+            ->address(Schema::PostalAddress()
+            ->streetAddress($location['name'] ?? null)
+            ->addressLocality($location['city'] ?? null)
+            ->addressRegion($location['state'] ?? null)
+            ->postalCode($location['post_code'] ?? null)
+            ->addressCountry($location['country'] ?? null))->description($location['address'] ?? null) : null;
     }
 
     protected function transformDemand(?array $acf): ?\Municipio\Schema\Demand
