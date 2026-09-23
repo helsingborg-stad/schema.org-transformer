@@ -21,7 +21,7 @@ class TypesenseStorage implements StorageInterface
         $this->clearStorage();
 
         if (empty($data)) {
-            $this->logger->info("No data to store in Typesense collection: " . $this->config->getCollection()->value);
+            $this->logger->info("No data to store in Typesense collection: " . $this->config->getCollectionName());
             return;
         }
 
@@ -29,12 +29,12 @@ class TypesenseStorage implements StorageInterface
         $errors          = $this->getImportErrors($result);
         $successfulCount = count($data) - count($errors);
 
-        $this->logger->info("Stored " . $successfulCount . " records in Typesense collection: " . $this->config->getCollection()->value);
+        $this->logger->info("Stored " . $successfulCount . " records in Typesense collection: " . $this->config->getCollectionName());
     }
 
     private function getCollection(): Collection
     {
-        return $this->getClient()->collections[$this->config->getCollection()->value];
+        return $this->getClient()->collections[$this->config->getCollectionName()];
     }
 
     private function getImportErrors(array $result): array
@@ -56,7 +56,7 @@ class TypesenseStorage implements StorageInterface
     private function clearStorage(): void
     {
         if ($this->config->getClearStorageQueryParams() !== null && $this->collectionHasDocuments()) {
-            $this->logger->info("Clearing storage for collection: " . $this->config->getCollection()->value);
+            $this->logger->info("Clearing storage for collection: " . $this->config->getCollectionName());
             $this->getCollection()->documents->delete($this->config->getClearStorageQueryParams());
         }
     }
@@ -71,9 +71,9 @@ class TypesenseStorage implements StorageInterface
         try {
             $this->getCollection()->retrieve();
         } catch (\Typesense\Exceptions\ObjectNotFound $e) {
-            $this->logger->info("Creating Typesense collection: " . $this->config->getCollection()->value);
+            $this->logger->info("Creating Typesense collection: " . $this->config->getCollectionName());
             $this->getClient()->collections->create([
-                'name'                  => $this->config->getCollection()->value,
+                'name'                  => $this->config->getCollectionName(),
                 'fields'                => [
                     [
                         'name'            => '.*',

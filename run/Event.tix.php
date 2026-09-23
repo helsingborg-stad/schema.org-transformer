@@ -26,6 +26,7 @@ $storage        = StorageFactory::create(
     options: [
         'collection'            => TypesenseCollection::Event,
         'collectionClearFilter' => ['filter_by' => 'x-created-by:=municipio://schema.org-transformer/tix'],
+        'collectionName'        => getenv('EVENTS_TYPESENSE_COLLECTION') ?: null,
     ],
 );
 
