@@ -6,5 +6,6 @@ interface TypesenseStorageConfigInterface
 {
     public function getClient(): \Typesense\Client;
     public function getCollection(): TypesenseCollection;
+    public function getCollectionName(): string;
     public function getClearStorageQueryParams(): ?array;
 }
