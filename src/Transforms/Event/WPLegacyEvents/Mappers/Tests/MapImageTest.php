@@ -86,4 +86,32 @@ final class MapImageTest extends TestCase
                 "No image should be set if no featured media exists"
             );
     }
+
+    #[TestDox('event::image() is taken from featured_media object when not embedded')]
+    public function testMapsFeaturedMediaObject()
+    {
+        (new TestHelper())
+            ->expectMapperToConvertSourceTo(
+                new MapImage(),
+                '{
+                    "featured_media": {
+                        "id": 1,
+                        "alt_text": "An example image",
+                        "source_url": "https://example.com/image.jpg"
+                    }
+                }',
+                Schema::event()->image([
+                    Schema::imageObject()
+                        ->url('https://example.com/image.jpg')
+                        ->description('An example image')
+                        ->caption('An example image'),
+                ])
+            )
+            ->expectMapperToConvertSourceTo(
+                new MapImage(),
+                '{"featured_media": 0}',
+                Schema::event()->image([]),
+                "No image should be set when featured_media is not an object"
+            );
+    }
 }
