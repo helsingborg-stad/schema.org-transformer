@@ -7,6 +7,8 @@ namespace SchemaTransformer\Transforms;
 use DateTime;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
+use Municipio\Schema\SponsorDemandEvent;
+use Municipio\Schema\SponsorOffer;
 
 abstract class SponsorBaseTransform extends TransformBase implements AbstractDataTransform
 {
@@ -21,11 +23,11 @@ abstract class SponsorBaseTransform extends TransformBase implements AbstractDat
             trim($date . ' ' . $time)
         ) ?? null;
     }
-    protected function transformEvent(?array $acf): SponsorDemand
+    protected function transformEvent(?array $acf): SponsorDemandEvent
     {
         $date = $this->transformDateTime($acf['date'], $acf['time']);
 
-        return (new SponsorDemand())
+        return Schema::sponsorDemandEvent()
             ->description($acf['description'] ?? null)
             ->startDate($date ? $date->format('Y-m-d\TH:i:s') : '');
     }
@@ -50,7 +52,7 @@ abstract class SponsorBaseTransform extends TransformBase implements AbstractDat
     {
         $date = $this->transformDateTime($acf['due_date'], $acf['due_time']);
 
-        return new SponsorOffer()
+        return Schema::sponsorOffer()
             ->availabilityEnds($date ? $date->format('Y-m-d\TH:i:s') : '')
             ->category($this->transformCategories($acf['resources'] ?? null));
     }
