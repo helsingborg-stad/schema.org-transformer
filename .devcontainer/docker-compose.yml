@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+      - path: .env
+        required: false
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
