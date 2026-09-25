@@ -1,72 +1,65 @@
-[
-    {
-        "@context": {
-            "schema": "https://schema.org",
-            "municipio": "https://schema.municipio.tech/schema.jsonld"
+{
+    "@context": {
+        "schema": "https://schema.org",
+        "municipio": "https://schema.municipio.tech/schema.jsonld"
+    },
+    "@type": "municipio:SponsorDemandEvent",
+    "description": "<p>aaaa</p>\n",
+    "startDate": "2025-10-23T14:31:00",
+    "name": "Centum deludo censura voveo surgo urbanus debitis cohaero.",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://sponsor.helsingborg.io/wp-content/uploads/sites/7/2026/08/målgrupp2.png",
+        "name": "målgrupp2",
+        "description": "asdadada"
+    },
+    "location": {
+        "@type": "Place",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Stockholms kommun",
+            "addressRegion": "Stockholms län",
+            "postalCode": "111 29",
+            "addressCountry": "Sverige"
         },
-        "@type": [
-            "Event",
-            "municipio:SponsorDemandEvent"
+        "description": "9, Stortorget, Gamla stan, Södermalms stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 111 29, Sverige"
+    },
+    "hasSponsorshipOffer": {
+        "@type": "municipio:SponsorOffer",
+        "availabilityEnds": "2027-01-12T07:07:00",
+        "category": [
+            "material",
+            "stöd och hjälp",
+            "kompetens",
+            "mat- och dryck"
         ],
-        "description": "<p>aaaa</p>\n",
-        "startDate": "2025-10-23T14:31:00",
-        "name": "Centum deludo censura voveo surgo urbanus debitis cohaero.",
-        "image": {
-            "@type": "ImageObject",
-            "url": "https://sponsor.helsingborg.io/wp-content/uploads/sites/7/2026/08/målgrupp2.png",
-            "name": "målgrupp2",
-            "description": "asdadada"
+        "demand": {
+            "@type": "Demand",
+            "description": "Dolorum quidem adopto arcesso trepide aegrus auditor."
+        }
+    },
+    "organisation": {
+        "@type": "Organization",
+        "name": "Doyle - Goyette",
+        "description": "Summa sunt sortitus cursim studio cenaculum cariosus optio tot ocer.",
+        "taxID": "Aut defaeco peccatus utpote trans vesica aliquid curia termes.",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "name": "Concedo sponte aliqua saepe synagoga ultra cohibeo.",
+            "role": "Debitis argumentum vinum nemo dolore auctus bonus bene cumque.",
+            "email": "your.email+fakedata58256@gmail.com",
+            "telephone": "392"
         },
-        "location": {
-            "@type": "Place",
-            "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Stockholms kommun",
-                "addressRegion": "Stockholms län",
-                "postalCode": "111 29",
-                "addressCountry": "Sverige"
-            },
-            "description": "9, Stortorget, Gamla stan, Södermalms stadsdelsområde, Stockholm, Stockholms kommun, Stockholms län, 111 29, Sverige"
-        },
-        "hasSponsorshipOffer": {
-            "@type": [
-                "Offer",
-                "municipio:SponsorOffer"
-            ],
-            "availabilityEnds": "2027-01-12T07:07:00",
-            "category": [
-                "material",
-                "stöd och hjälp",
-                "kompetens",
-                "mat- och dryck"
-            ],
-            "demand": {
-                "@type": "Demand",
-                "description": "Dolorum quidem adopto arcesso trepide aegrus auditor."
-            }
-        },
-        "organisation": {
-            "@type": "Organization",
-            "name": "Doyle - Goyette",
-            "description": "Summa sunt sortitus cursim studio cenaculum cariosus optio tot ocer.",
-            "taxID": "Aut defaeco peccatus utpote trans vesica aliquid curia termes.",
-            "contactPoint": {
-                "@type": "ContactPoint",
-                "name": "Concedo sponte aliqua saepe synagoga ultra cohibeo.",
-                "role": "Debitis argumentum vinum nemo dolore auctus bonus bene cumque.",
-                "email": "your.email+fakedata58256@gmail.com",
-                "telephone": "392"
-            },
-            "keywords": [
-                {
-                    "@type": "DefinedTerm",
-                    "name": false,
-                    "inDefinedTermSet": {
-                        "@type": "DefinedTermSet",
-                        "name": "organization_eligible_for_grants"
-                    }
+        "keywords": [
+            {
+                "@type": "DefinedTerm",
+                "name": false,
+                "inDefinedTermSet": {
+                    "@type": "DefinedTermSet",
+                    "name": "organization_eligible_for_grants"
                 }
-            ]
-        },
-        "@id": 103
-    }]
+            }
+        ]
+    },
+    "@id": 103
+}

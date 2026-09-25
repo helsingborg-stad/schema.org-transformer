@@ -11,7 +11,7 @@ class SponsorOffer extends Offer
     public function toArray(): array
     {
         $data          = parent::toArray();
-        $data['@type'] = ['Offer', 'municipio:SponsorOffer'];
+        $data['@type'] = 'municipio:SponsorOffer';
 
         return $data;
     }

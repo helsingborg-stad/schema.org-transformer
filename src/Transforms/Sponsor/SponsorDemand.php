@@ -11,7 +11,7 @@ class SponsorDemand extends Event
     public function toArray(): array
     {
         $data          = parent::toArray();
-        $data['@type'] = ['Event', 'municipio:SponsorDemandEvent'];
+        $data['@type'] = 'municipio:SponsorDemandEvent';
 
         return $data;
     }
