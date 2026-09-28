@@ -62,6 +62,8 @@ The scripts accept `--target=console` and `--target=typesense`. The default is `
 | `run/ElementarySchool.php` | `ELEMENTARY_SCHOOL_API_URL` | `ElementarySchoolTransform` | `ElementarySchool` | `WordpressPaginator` |
 | `run/PreSchool.php` | `PRE_SCHOOL_API_URL` | `PreSchoolTransform` | `PreSchool` | `WordpressPaginator` |
 | `run/Project.stratsys.innovation.php` | `STRATSYS_INNOVATION_PATH` | `StratsysTransform` | `Project` | `WordpressPaginator` |
+| `run/Sponsor.demand.php` | `WP_SPONSOR_DEMAND_PATH` | `SponsorDemandTransform` | `SponsorDemandEvent` | `WordpressPaginator` |
+| `run/Sponsor.offer.php` | `WP_SPONSOR_OFFER_PATH` | `SponsorOfferTransform` | `SponsorOffer` | `WordpressPaginator` |
 
 ## Environment Variables
 
@@ -86,6 +88,8 @@ The `run/*` scripts expect these variables unless noted otherwise:
 - `ELEMENTARY_SCHOOL_API_URL`
 - `PRE_SCHOOL_API_URL`
 - `STRATSYS_INNOVATION_PATH`
+- `WP_SPONSOR_DEMAND_PATH`
+- `WP_SPONSOR_OFFER_PATH`
 
 ### Additional Stratsys OAuth configuration
 
