@@ -4,14 +4,14 @@ namespace SchemaTransformer\Storage\TypesenseStorage;
 
 enum TypesenseCollection: string
 {
-    case Event             = 'Event';
-    case ExhibitionEvent   = 'ExhibitionEvent';
-    case JobPostingPublic  = 'JobPosting.public';
-    case JobPostingPrivate = 'JobPosting.private';
-    case ElementarySchool  = 'ElementarySchool';
-    case PreSchool         = 'PreSchool';
-    case Project           = 'Project';
-    case ProjectPios       = 'Project.pios';
-    case SponsorDemand     = 'SponsorDemand';
-    case SponsorOffer      = 'SponsorOffer';
+    case Event              = 'Event';
+    case ExhibitionEvent    = 'ExhibitionEvent';
+    case JobPostingPublic   = 'JobPosting.public';
+    case JobPostingPrivate  = 'JobPosting.private';
+    case ElementarySchool   = 'ElementarySchool';
+    case PreSchool          = 'PreSchool';
+    case Project            = 'Project';
+    case ProjectPios        = 'Project.pios';
+    case SponsorDemandEvent = 'SponsorDemandEvent';
+    case SponsorOffer       = 'SponsorOffer';
 }

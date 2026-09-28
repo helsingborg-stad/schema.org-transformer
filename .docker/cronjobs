@@ -35,3 +35,9 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Schema Transformer: TIX Events: At every 11th minute from 3 through 59
 # 3-59/11 * * * * root php $SCRIPTS_HOME/Event.tix.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
+
+# Schema Transformer: SponsorDemandEvent: Every 5 minutes
+*/5 * * * * root php $SCRIPTS_HOME/Sponsor.demand.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
+
+# Schema Transformer: SponsorOffer: Every 5 minutes
+*/5 * * * * root php $SCRIPTS_HOME/Sponsor.offer.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
