@@ -20,6 +20,6 @@ class NullPaginatorTest extends TestCase
     public function testGetNextMethodReturnsFalse()
     {
         $nullPaginator = new NullPaginator();
-        $this->assertFalse($nullPaginator->getNext('previous', ['headers']));
+        $this->assertFalse($nullPaginator->getNext('previous', ['headers'], ['response']));
     }
 }
