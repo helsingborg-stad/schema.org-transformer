@@ -13,7 +13,7 @@ use SchemaTransformer\Transforms\JobPosting\Reachmee\Mappers\MapXCreatedBy;
 #[CoversClass(MapXCreatedBy::class)]
 final class MapXCreatedByTest extends TestCase
 {
-    #[TestDox('project::createdBy is hardcoded')]
+    #[TestDox('jobPosting::x-created-by is hardcoded')]
     public function testItWorks()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
