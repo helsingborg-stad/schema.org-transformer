@@ -22,27 +22,41 @@
             }
         ],
         "datePosted": "2024-04-01",
-        "description": "description",
-        "directApply": true,
-        "employerOverview": "prefix_text",
-        "employmentType": "occupation_degree",
-        "employmentUnit": {
-            "@type": "Organization",
-            "name": "nameorgunit_2",
-            "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "name_1",
-                "addressLocality": "name_2"
+        "description": [
+            {
+                "@type": "TextObject",
+                "text": "description"
             }
-        },
-        "hiringOrganization": {
-            "@type": "Organization",
-            "name": "nameorgunit_1"
-        },
-        "relevantOccupation": {
-            "@type": "Occupation",
-            "name": "occupation_area"
-        },
+        ],
+        "directApply": true,
+        "employerOverview": [
+            "prefix_text"
+        ],
+        "employmentType": "occupation_degree",
+        "employmentUnit": [
+            {
+                "@type": "Organization",
+                "name": "nameorgunit_2",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressRegion": "name_1",
+                    "addressLocality": "name_2"
+                }
+            }
+        ],
+        "hiringOrganization": [
+            {
+                "@type": "Organization",
+                "name": "nameorgunit_1"
+            }
+        ],
+        "image": [],
+        "relevantOccupation": [
+            {
+                "@type": "Occupation",
+                "name": "occupation_area"
+            }
+        ],
         "title": "title",
         "url": "https://",
         "validThrough": "2024-05-01",

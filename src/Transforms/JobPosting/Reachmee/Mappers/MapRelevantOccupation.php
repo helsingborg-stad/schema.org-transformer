@@ -16,9 +16,9 @@ class MapRelevantOccupation extends AbstractReachmeeJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
+        $occupationArea = $data['occupation_area'] ?? null;
         return $jobPosting->relevantOccupation(
-            Schema::occupation()
-                        ->name($data['occupation_area'] ?? null)
+            $occupationArea ? [Schema::occupation()->name($occupationArea)] : []
         );
     }
 }

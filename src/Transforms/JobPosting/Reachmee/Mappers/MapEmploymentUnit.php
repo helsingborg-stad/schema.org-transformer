@@ -19,15 +19,15 @@ class MapEmploymentUnit extends AbstractReachmeeJobPostingMapper
         $unit   = $data['organizations'][1]['nameorgunit'] ?? null;
         $county = $data['areas'][0]['name'] ?? null;
         $city   = $data['areas'][1]['name'] ?? null;
-        return $unit !== null ? $jobPosting->employmentUnit(
+        return $jobPosting->employmentUnit(
+            $unit !== null ? [
             Schema::organization()
                         ->name($unit)
                         ->address(
                             Schema::postalAddress()
                                 ->addressRegion($county)
                                 ->addressLocality($city)
-                        )
-        )
-                        : $jobPosting;
+                        )] : []
+        );
     }
 }

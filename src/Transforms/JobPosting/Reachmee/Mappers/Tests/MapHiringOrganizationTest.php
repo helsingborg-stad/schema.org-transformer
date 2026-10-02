@@ -25,23 +25,23 @@ final class MapHiringOrganizationTest extends TestCase
                     }
                 ]
             }',
-            Schema::jobPosting()->hiringOrganization(
+            Schema::jobPosting()->hiringOrganization([
                 Schema::organization()
                     ->name('Testförvaltning')
                     ->ethicsPolicy(null)
-            )
+            ])
         );
     }
 
-    #[TestDox('jobPosting is unchanged when the first organization is missing')]
-    public function testLeavesJobPostingUnchangedWhenOrganizationIsMissing(): void
+    #[TestDox('jobPosting:hiringOrganization is [] when the first organization is missing')]
+    public function testMapsMissingFirstOrganizationToEmptyArray(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapHiringOrganization(),
             '{
                 "organizations": []
             }',
-            Schema::jobPosting()
+            Schema::jobPosting()->hiringOrganization([])
         );
     }
 }

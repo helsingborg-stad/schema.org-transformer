@@ -17,11 +17,10 @@ class MapHiringOrganization extends AbstractReachmeeJobPostingMapper
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
         $name = $data['organizations'][0]['nameorgunit'] ?? null;
-        return $name !== null ? $jobPosting->hiringOrganization(
+        return $jobPosting->hiringOrganization($name !== null ? [
             Schema::organization()
                         ->name($name)
-                        ->ethicsPolicy($row['suffix_text'] ?? null)
-        )
-                        : $jobPosting;
+                        ->ethicsPolicy($data['organizations'][0]['suffix_text'] ?? null)
+        ] : []);
     }
 }

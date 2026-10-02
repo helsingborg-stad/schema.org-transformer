@@ -7,7 +7,7 @@ use SchemaTransformer\Loggers\TerminalLogger;
 use SchemaTransformer\Paginators\NullPaginator;
 use SchemaTransformer\Run\Factories\StorageFactory;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
-use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
+use SchemaTransformer\Transforms\JobPosting\Reachmee\ReachmeeJobPostingTransform;
 use SchemaTransformer\Webhooks\Webhooks;
 
 $id         = 'JobPosting.private';

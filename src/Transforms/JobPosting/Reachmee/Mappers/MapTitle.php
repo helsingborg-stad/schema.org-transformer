@@ -15,6 +15,6 @@ class MapTitle extends AbstractReachmeeJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
-        return $jobPosting->title($data['title'] ?? null);
+        return $jobPosting->title($data['title'] ?? '');
     }
 }

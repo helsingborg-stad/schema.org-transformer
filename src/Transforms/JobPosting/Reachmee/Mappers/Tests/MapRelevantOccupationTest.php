@@ -13,7 +13,7 @@ use SchemaTransformer\Transforms\JobPosting\Reachmee\Mappers\MapRelevantOccupati
 #[CoversClass(MapRelevantOccupation::class)]
 final class MapRelevantOccupationTest extends TestCase
 {
-    #[TestDox('jobPosting::relevantOccupation name is taken from occupation_area')]
+    #[TestDox('jobPosting::relevantOccupation is single element array occupation_area')]
     public function testMapsOccupationAreaToRelevantOccupationName(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -21,13 +21,13 @@ final class MapRelevantOccupationTest extends TestCase
             '{
                 "occupation_area": "Software development"
             }',
-            Schema::jobPosting()->relevantOccupation(
+            Schema::jobPosting()->relevantOccupation([
                 Schema::occupation()->name('Software development')
-            )
+            ])
         );
     }
 
-    #[TestDox('jobPosting::relevantOccupation name is null when occupation_area is missing')]
+    #[TestDox('jobPosting::relevantOccupation name is [] when occupation_area is missing')]
     public function testMapsMissingOccupationAreaToNullName(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -35,9 +35,7 @@ final class MapRelevantOccupationTest extends TestCase
             '{
                 "id": 123
             }',
-            Schema::jobPosting()->relevantOccupation(
-                Schema::occupation()->name(null)
-            )
+            Schema::jobPosting()->relevantOccupation([])
         );
     }
 }

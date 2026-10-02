@@ -13,7 +13,7 @@ use SchemaTransformer\Transforms\JobPosting\Reachmee\Mappers\MapEmploymentUnit;
 #[CoversClass(MapEmploymentUnit::class)]
 final class MapEmploymentUnitTest extends TestCase
 {
-    #[TestDox('jobPosting::employmentUnit is mapped from organization and area data')]
+    #[TestDox('jobPosting::employmentUnit is array mapped from organization and area data')]
     public function testMapsEmploymentUnitAndAddress(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -36,7 +36,7 @@ final class MapEmploymentUnitTest extends TestCase
                     }
                 ]
             }',
-            Schema::jobPosting()->employmentUnit(
+            Schema::jobPosting()->employmentUnit([
                 Schema::organization()
                     ->name('Stadsledningsförvaltningen')
                     ->address(
@@ -44,12 +44,12 @@ final class MapEmploymentUnitTest extends TestCase
                             ->addressRegion('Skane')
                             ->addressLocality('Helsingborg')
                     )
-            )
+            ])
         );
     }
 
-    #[TestDox('jobPosting is unchanged when employment unit is missing')]
-    public function testLeavesJobPostingUnchangedWhenEmploymentUnitIsMissing(): void
+    #[TestDox('jobPosting:employmentUnit is [] when employment unit is missing')]
+    public function testMapsMissingEmploymentUnitToEmptyArray(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEmploymentUnit(),
@@ -60,7 +60,7 @@ final class MapEmploymentUnitTest extends TestCase
                     }
                 ]
             }',
-            Schema::jobPosting()
+            Schema::jobPosting()->employmentUnit([])
         );
     }
 }

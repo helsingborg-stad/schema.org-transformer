@@ -15,6 +15,8 @@ class MapEmployerOverview extends AbstractReachmeeJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
-        return $jobPosting->employerOverview($data['prefix_text'] ?? null);
+        return $jobPosting->employerOverview(
+            array_values(array_filter([$data['prefix_text'] ?? null]))
+        );
     }
 }

@@ -25,7 +25,7 @@ final class MapTitleTest extends TestCase
         );
     }
 
-    #[TestDox('jobPosting::title is null when title is missing')]
+    #[TestDox('jobPosting::title is empty string when title is missing')]
     public function testMapsMissingTitleToNull(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -33,7 +33,7 @@ final class MapTitleTest extends TestCase
             '{
                 "id": 123
             }',
-            Schema::jobPosting()->title(null)
+            Schema::jobPosting()->title('')
         );
     }
 }

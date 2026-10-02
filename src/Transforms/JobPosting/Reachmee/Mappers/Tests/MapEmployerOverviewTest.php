@@ -13,7 +13,7 @@ use SchemaTransformer\Transforms\JobPosting\Reachmee\Mappers\MapEmployerOverview
 #[CoversClass(MapEmployerOverview::class)]
 final class MapEmployerOverviewTest extends TestCase
 {
-    #[TestDox('jobPosting::employerOverview is taken from prefix_text')]
+    #[TestDox('jobPosting::employerOverview is single string array taken from prefix_text')]
     public function testMapsPrefixTextToEmployerOverview(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
@@ -21,19 +21,19 @@ final class MapEmployerOverviewTest extends TestCase
             '{
                 "prefix_text": "About the employer"
             }',
-            Schema::jobPosting()->employerOverview('About the employer')
+            Schema::jobPosting()->employerOverview([ 'About the employer' ])
         );
     }
 
-    #[TestDox('jobPosting::employerOverview is null when prefix_text is missing')]
-    public function testMapsMissingPrefixTextToNull(): void
+    #[TestDox('jobPosting::employerOverview is [] when prefix_text is missing')]
+    public function testMapsMissingPrefixTextToEmptyArray(): void
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapEmployerOverview(),
             '{
                 "id": 123
             }',
-            Schema::jobPosting()->employerOverview(null)
+            Schema::jobPosting()->employerOverview([])
         );
     }
 }
