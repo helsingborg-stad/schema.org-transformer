@@ -29,23 +29,5 @@ class MapEmploymentUnit extends AbstractReachmeeJobPostingMapper
                         )
         )
                         : $jobPosting;
-
-
-        return $jobPosting->employmentUnit(
-            array_values(
-                array_filter(
-                    array_map(
-                        fn($unit) => Schema::organization()
-                        ->name($unit['nameorgunit'])
-                        ->address(
-                            Schema::postalAddress()
-                                ->addressRegion($county['name'])
-                                ->addressLocality($city['name'])
-                        ),
-                        $data['organizations'] ?? []
-                    )
-                )
-            )
-        );
     }
 }
