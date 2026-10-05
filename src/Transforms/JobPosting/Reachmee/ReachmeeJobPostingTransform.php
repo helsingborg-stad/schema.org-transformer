@@ -60,7 +60,7 @@ class ReachmeeJobPostingTransform extends TransformBase implements AbstractDataT
                 },
                 Schema::jobPosting()
             )->toArray();
-        }, array_values(array_filter($data, fn($item) => isset($item['project_id']))));
+        }, array_values(array_filter($data, fn ($item) => !empty($item['project_id']))));
         return $result;
     }
 }
