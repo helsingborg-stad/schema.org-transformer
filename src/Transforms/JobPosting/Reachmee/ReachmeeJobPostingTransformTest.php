@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Transforms;
+namespace SchemaTransformer\Transforms\JobPosting\Reachmee;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use SchemaTransformer\Transforms\ReachmeeJobPostingTransform;
+use SchemaTransformer\Transforms\JobPosting\Reachmee\ReachmeeJobPostingTransform;
 use Spatie\Snapshots\MatchesSnapshots;
 
 #[CoversClass(ReachmeeJobPostingTransform::class)]
@@ -89,14 +89,14 @@ final class ReachmeeJobPostingTransformTest extends TestCase
     }
     public function testJobPostingTransform(): void
     {
-        $model = new ReachmeeJobPostingTransform([], "");
+        $model = new ReachmeeJobPostingTransform();
         $this->assertMatchesJsonSnapshot(json_encode($model->transform($this->data), JSON_PRETTY_PRINT));
     }
 
     public function testRequiresAdId()
     {
         $data  = [[]];
-        $model = new ReachmeeJobPostingTransform([], "");
+        $model = new ReachmeeJobPostingTransform();
 
         $this->assertEmpty($model->transform($data));
     }
@@ -104,24 +104,8 @@ final class ReachmeeJobPostingTransformTest extends TestCase
     public function testEmptyDataReturnsEmptyArray()
     {
         $data  = [];
-        $model = new ReachmeeJobPostingTransform([], "");
+        $model = new ReachmeeJobPostingTransform();
 
         $this->assertEmpty($model->transform($data));
-    }
-
-    public function testSanitizertsAreApplied()
-    {
-        $data  = [['project_id' => 123, 'title' => 'original']];
-        $model = new ReachmeeJobPostingTransform([
-            new class {
-                public function sanitize(array $data): array
-                {
-                    $data['title'] = 'sanitized';
-                    return $data;
-                }
-            }
-        ], "");
-
-        $this->assertEquals('sanitized', $model->transform($data)[0]['title']);
     }
 }
