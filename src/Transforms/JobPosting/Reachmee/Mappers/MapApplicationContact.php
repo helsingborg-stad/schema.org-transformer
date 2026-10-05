@@ -24,7 +24,7 @@ class MapApplicationContact extends AbstractReachmeeJobPostingMapper
                         ->name($contact['first_name'] . ' ' . $contact['surname'])
                         ->email($contact['email'])
                         ->telephone($contact['phone']),
-                    $data['contact_persons'] ?? []
+                    is_array($data['contact_persons'] ?? null) ? $data['contact_persons'] : []
                 )
             )
         );
