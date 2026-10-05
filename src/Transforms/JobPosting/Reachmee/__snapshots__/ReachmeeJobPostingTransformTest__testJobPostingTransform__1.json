@@ -60,6 +60,7 @@
         "title": "title",
         "url": "https://",
         "validThrough": "2024-05-01",
-        "x-created-by": "municipio://schema.org-transformer/reachmee-jobposting"
+        "x-created-by": "municipio://schema.org-transformer/reachmee-jobposting",
+        "@id": "2"
     }
 ]

@@ -17,15 +17,12 @@ final class MapIdentifierTest extends TestCase
     #[TestDox('jobPosting::identifier is formatted from project_id')]
     public function testFormatsProjectIdAsIdentifier(): void
     {
-        $jobPosting = Schema::jobPosting()->setProperty('project_id', '12345');
-        $mapper     = new MapIdentifier(new ReachmeeJobPostingTransform('reachmee-'));
-
-        $actual = $mapper->map($jobPosting, ['project_id' => 'ignored']);
-
-        $expected = Schema::jobPosting()
-            ->setProperty('project_id', '12345')
-            ->identifier('reachmee-12345');
-
-        $this->assertEquals($expected->toArray(), $actual->toArray());
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapIdentifier(new ReachmeeJobPostingTransform('reachmee-')),
+            '{
+                "project_id": 123
+            }',
+            Schema::jobPosting()->identifier('reachmee-123')
+        );
     }
 }

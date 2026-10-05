@@ -16,6 +16,6 @@ class MapIdentifier extends AbstractReachmeeJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
-        return $jobPosting->identifier($this->formatId((string)$jobPosting['project_id'] ?? ""));
+        return $jobPosting->identifier($this->formatId((string)$data['project_id'] ?? ""));
     }
 }
