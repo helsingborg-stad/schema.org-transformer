@@ -15,6 +15,6 @@ class MapImage extends AbstractVarbiJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
-        return $jobPosting;
+        return $jobPosting->image([]);
     }
 }

@@ -6,6 +6,7 @@ use SchemaTransformer\Run\Factories\StorageFactory;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
 use SchemaTransformer\Loggers\TerminalLogger;
 use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Api\VarbiApi;
+use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\VarbiJobPostingTransform;
 
 $id         = 'JobPosting.varbi.public';
 $logger     = new TerminalLogger($id);
@@ -18,10 +19,9 @@ $lockRunner->lock();
  * We are joining multiple results from Varbi so we can aggregate them into a single dataset.
  * This allows us to work with a unified view of the data across different endpoints.
  */
-$varbiApi        = new VarbiApi(getenv('VARBI_JOB_POSTING_API_URL'), getenv('VARBI_JOB_POSTING_API_KEY'), $logger);
-$employmentTypes = $varbiApi->getEmploymentTypes();
-$jobPostings     = $varbiApi->getJobPostings();
-
+$varbiApi    = new VarbiApi(getenv('VARBI_JOB_POSTING_API_URL'), getenv('VARBI_JOB_POSTING_API_KEY'), $logger);
+$jobs        = $varbiApi->getAllJobsWithAds();
+$transformer = new VarbiJobPostingTransform('varbi-');
 
 $storage = StorageFactory::create(
     target: $options->getTarget(),
@@ -31,3 +31,5 @@ $storage = StorageFactory::create(
         'collectionClearFilter' => ['filter_by' => 'x-created-by:=municipio://schema.org-transformer/varbi-jobposting'],
     ],
 );
+
+$storage->store($transformer->transform($jobs));

@@ -6,6 +6,7 @@ namespace SchemaTransformer\Transforms\JobPosting\VarbiJobPosting;
 
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use Municipio\Schema\Schema;
+use SchemaTransformer\Transforms\TransformBase;
 use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Mappers\MapApplicationContact;
 use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Mappers\MapDatePosted;
 use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Mappers\MapDescription;
@@ -30,6 +31,11 @@ class VarbiJobPostingTransform extends TransformBase implements AbstractDataTran
         parent::__construct($idprefix);
     }
 
+    public function preprocessData(array $data): array
+    {
+        return $data;
+    }
+
     public function transform(array $data): array
     {
         $mappers = [
@@ -41,7 +47,7 @@ class VarbiJobPostingTransform extends TransformBase implements AbstractDataTran
             new MapEmploymentType(),
             new MapEmploymentUnit(),
             new MapHiringOrganization(),
-            new MapIdentifier(),
+            new MapIdentifier($this),
             new MapImage(),
             new MapRelevantOccupation(),
             new MapTitle(),

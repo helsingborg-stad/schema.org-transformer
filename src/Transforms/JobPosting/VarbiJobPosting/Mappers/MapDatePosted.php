@@ -15,6 +15,8 @@ class MapDatePosted extends AbstractVarbiJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
-        return $jobPosting;
+        return $jobPosting->datePosted(
+            $data['data']['attributes']['dates']['published'] ?? null
+        );
     }
 }

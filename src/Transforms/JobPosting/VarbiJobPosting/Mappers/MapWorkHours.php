@@ -15,6 +15,11 @@ class MapWorkHours extends AbstractVarbiJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
-        return $jobPosting;
+        return $jobPosting->workHours(
+            $this->getElementByType(
+                $this->getIncludedAd($data)['attributes']['texts']['details'] ?? [],
+                'working-hours'
+            )['text'] ?? null
+        );
     }
 }

@@ -15,6 +15,8 @@ class MapDirectApply extends AbstractVarbiJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
-        return $jobPosting;
+        return $jobPosting->directApply(
+            !empty($data['data']['links']['apply'] ?? null)
+        );
     }
 }

@@ -15,6 +15,8 @@ class MapValidThrough extends AbstractVarbiJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
-        return $jobPosting;
+        return $jobPosting->validThrough(
+            $data['data']['attributes']['dates']['deadline'] ?? null
+        );
     }
 }

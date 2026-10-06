@@ -26,13 +26,20 @@ class VarbiApi
         $this->apiKey = $apiKey;
         $this->logger = $logger;
     }
-    public function getJobPostings(): array
+
+    public function getAllJobsWithAds(): array
+    {
+        $jobPostings = $this->getJobPostings();
+
+        return array_values(array_filter(array_map(
+            fn($jobPosting) => $this->fetch('/' . $jobPosting['id'] . '?include=ad,taxonomy'),
+            $jobPostings['data'] ?? []
+        )));
+    }
+
+    protected function getJobPostings(): array
     {
         return $this->fetch('');
-    }
-    public function getEmploymentTypes(): array
-    {
-        return $this->fetch('/employment_types');
     }
 
     protected function fetch(string $endpoint): array
@@ -42,7 +49,8 @@ class VarbiApi
             new VarbiDataTransform(),
             [
             'X-Api-key'       => $this->apiKey,
-            'Accept-Language' => '*'
+            'Accept-Language' => '*',
+            'Accept'          => 'application/json'
             ],
             new VarbiPaginator(),
             $this->logger

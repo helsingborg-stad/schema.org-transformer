@@ -15,7 +15,7 @@ class VarbiDataTransform implements AbstractDataTransform
 {
     public function preprocessData(array $data): array
     {
-        return $data['data'];
+        return $data;
     }
 
     public function transform(array $data): array

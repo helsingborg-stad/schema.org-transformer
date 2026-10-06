@@ -15,6 +15,12 @@ class MapEmploymentType extends AbstractVarbiJobPostingMapper
 
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
-        return $jobPosting;
+        // TODO: Add emplyment-hours, working-hours?
+        return $jobPosting->employmentType(
+            $this->getElementByType(
+                $this->getIncludedAd($data)['attributes']['texts']['details'] ?? [],
+                'employment-type'
+            )['text'] ?? null
+        );
     }
 }

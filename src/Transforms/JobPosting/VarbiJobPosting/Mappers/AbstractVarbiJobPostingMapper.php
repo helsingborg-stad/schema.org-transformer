@@ -20,4 +20,22 @@ abstract class AbstractVarbiJobPostingMapper implements VarbiJobPostingMapperInt
     {
         return $this->transform->formatId($value);
     }
+
+    protected function getIncludedAd(array $data): ?array
+    {
+        return $this->getElementByType($data['included'] ?? [], 'job-ad');
+    }
+
+    protected function getElementsByType(array $data, string $type): ?array
+    {
+        return array_values(array_filter(
+            $data ?? [],
+            fn($item) => isset($item['type']) && $item['type'] === $type
+        )) ?? [];
+    }
+
+    protected function getElementByType(array $data, string $type): ?array
+    {
+        return $this->getElementsByType($data, $type)[0] ?? null;
+    }
 }
