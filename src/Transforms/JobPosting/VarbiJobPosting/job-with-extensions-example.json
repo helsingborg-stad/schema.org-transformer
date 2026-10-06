@@ -1,0 +1,194 @@
+{
+    "data": {
+        "type": "job",
+        "id": "12345",
+        "attributes": {
+            "reference": "2026/28",
+            "positions": 1,
+            "translations": {
+                "languages": {
+                    "included": "sv",
+                    "primary": "sv",
+                    "available": [
+                        "sv"
+                    ]
+                },
+                "texts": {
+                    "title": "HR-konsult",
+                    "profession": null,
+                    "organization": "Stadsledningsförvaltningen, HR-avdelningen",
+                    "placement": "Helsingborg"
+                }
+            },
+            "dates": {
+                "published": "2026-10-01T00:00:00+02:00",
+                "deadline": "2026-11-01T23:59:59+01:00",
+                "updated": "2026-10-02T08:24:20+02:00"
+            },
+            "location": [
+                {
+                    "country": "SE",
+                    "subdivision_1": "SE-12",
+                    "subdivision_2": "789",
+                    "unspecified": false
+                }
+            ],
+            "media": {
+                "logotype": "https://example.com/Graphics/Img/CompanyLogos/helsingborg_logo.png"
+            }
+        },
+        "links": {
+            "self": "https://example.com/v1/jobs/12345",
+            "ad_rendered": "https://example.com/se/what:job/jobID:12345/type:job/where:4/apply:1",
+            "apply": "https://example.com/se/what:login/jobID:12345/type:job/where:4/apply:1"
+        },
+        "relationships": {
+            "ad": {
+                "links": {
+                    "related": "https://example.com/v1/jobs/12345/ad"
+                },
+                "data": {
+                    "type": "job-ad",
+                    "id": "12345"
+                }
+            },
+            "employment_type": {
+                "data": {
+                    "type": "employment-type",
+                    "id": "1"
+                }
+            },
+            "categories": {
+                "data": []
+            },
+            "taxonomy": {
+                "data": {
+                    "type": "occupation-field",
+                    "id": "XXXX_yyy_Zzz"
+                }
+            },
+            "organization": {
+                "data": {
+                    "type": "organization",
+                    "id": "1365"
+                }
+            },
+            "salary_scales": {
+                "data": []
+            }
+        }
+    },
+    "included": [
+        {
+            "type": "occupation-field",
+            "id": "XXXX_yyy_Zzz",
+            "attributes": {
+                "name": "Administration, ekonomi, juridik"
+            }
+        },
+        {
+            "type": "job-ad",
+            "id": "12345",
+            "attributes": {
+                "language": "sv",
+                "texts": {
+                    "title": "HR-konsult",
+                    "descriptions": {
+                        "combined": "<p>Vi söker en engagerad, utvecklingsorienterad och erfaren HR-konsult som vill vara med på vår spännande utvecklingsresa på HR-enheten inom stadsledningsförvaltningen.</p><p>På stadsledningsförvaltningen arbetar vi på uppdrag av kommunstyrelsen med att leda, utveckla och samordna stadens gemensamma och strategiska frågor. Vi driver utveckling inom bland annat HR, kommunikation och styrning – alltid med målet att skapa nytta för hela Helsingborgs stad. Vår HR-enhet stöttar förutom stadsledningsförvaltningen även miljöförvaltningen och fastighetsförvaltningen.</p><p>På vår HR-enhet blir du en del av ett engagerat team som leds av stadsledningsförvaltningens HR-chef. Tillsammans arbetar vi för att ge kvalificerat och nära stöd till våra verksamheter och skapa en god och trivsam arbetsmiljö.</p><h2>Arbetsuppgifter</h2><p>Vi söker en engagerad, utvecklingsorienterad och erfaren HR-konsult som vill vara med och stötta våra chefer och våra verksamheter i deras utveckling. Vi är på en väldigt spännande utvecklingsresa där vi ska skapa bättre, tydligare och mer effektiva arbetssätt inom HR för de tre förvaltningar vi stöttar i HR-frågor. Du kommer att arbeta som verksamhetsnära HR-stöd till chefer men också med att utveckla processer, arbetssätt samt ta fram och hålla i utbildningar.</p><p>I denna roll ingår, förutom att vara ett HR-stöd till chefer på stadsledningsförvaltningen, även ett övergripande ansvar för Fastighetsförvaltningen där du ingår i förvaltningsdirektörens ledningsgrupp. Ditt uppdrag omfattar hela HR-området, bland annat rekrytering, arbetsmiljöarbete, arbetsrätt och samverkan, lön och löneöversyn samt förändringarbete och medarbetar och ledarutveckling. Hos oss får du en nyckelroll i att stärka och utveckla organisationens HR-processer genom att fördjupa dig inom ett eller flera HR-områden.</p><h2>Kvalifikationer</h2><p>Vi söker dig med högskoleutbildning inom personal- och arbetslivsfrågor och som har minst 7 års erfarenhet inom kvalificerat HR-arbete. För att lyckas i rollen bör du ha flerårig erfarenhet av att arbeta verksamhetsnära som HR-konsult samt ha erfarenhet av ledniningsgruppsarbete. Erfarenhet av HR-arbete inom kommunal verksamhet samt fördjupning inom kompetensutveckling, ledar- och medarbetarutveckling eller lönebildningsfrågor är meriterande.</p><p>Du är analytisk och strukturerad, söker djupare information och insikter, planerar, genomför och följer upp samt håller deadlines för ditt arbete och projekt du jobbar med. Du har god förmåga att samarbeta och skapa förtroendefulla relationer genom att du lyssnar och skapar dialog. Du förstår att det är viktigt att aktivt skapa lärande av framgångar och misslyckande och du arbetar med feedback för att skapa lärande. Du är kommunikativ, pedagogisk och uttrycker dig klart och koncist i dina möten och när du tex. håller utbildningar. </p><h2>Att jobba i Helsingborgs stad</h2><p>Vill du vara med och skapa en bättre stad tillsammans med helsingborgarna? Då ska du jobba i Helsingborgs stad. Här kan du använda din kreativitet och drivkraft till att göra livet lättare och tryggare för våra invånare, besökare och näringsliv. Tillsammans med nyfikna och hjälpsamma kollegor gör du skillnad i människors liv, både idag och i framtiden. Ett bra jobb idag, en bättre stad imorgon.</p><p>Här kan du läsa mer om hur det är att jobba i staden: <a href=\"https://example.com/arbete/sa-ar-det-att-jobba-i-staden/\">https://example.com/arbete/sa-ar-det-att-jobba-i-staden/</a></p><h2>Övrig information</h2><p>Vi kommer att ha löpande urval.</p><p>För att kvalitetssäkra rekryteringsprocessen i Helsingborgs stad använder vi rekryteringsverktyget Varbi. Därför ber vi dig att skicka in din ansökan via ReachMee genom att klicka på ansökningslänken i annonsen. I ansökan ska CV och övriga för tjänsten relevanta handlingar bifogas, exempelvis utbildningsbevis eller yrkeslegitimation. Du kommer även få besvara urvalsfrågor. Om du saknar svar från oss, kontrollera skräpposten då mejl ibland sorteras dit.</p>\n<p>Du som söker jobb och har skyddade personuppgifter ska kontakta rekryterande chef i annonsen som kommer guida dig vidare för en säker ansökningsprocess. Du ska inte ansöka digitalt via ansökningslänken.</p>\n<p>Fackliga företrädare https://example.com/hr/samverkan-och-delaktighet/fackliga-foretradare/</p>\n<p>Då vi inför denna rekrytering redan tagit ställning till de rekryteringskanaler vi önskar använda undanber vi oss vänligen men bestämt att bli kontaktade för ytterligare erbjudanden om kompetensförmedling, annonserings- och rekryteringshjälp.</p>"
+                    },
+                    "details": [
+                        {
+                            "type": "organization",
+                            "label": "Avdelning",
+                            "text": "Stadsledningsförvaltningen, HR-avdelningen"
+                        },
+                        {
+                            "type": "employment-type",
+                            "label": "Anställningsform",
+                            "text": "Tillsvidareanställning"
+                        },
+                        {
+                            "type": "employment-hours",
+                            "label": "Anställningens omfattning",
+                            "text": "Heltid"
+                        },
+                        {
+                            "type": "working-hours",
+                            "label": "Sysselsättningsgrad",
+                            "text": "100%"
+                        },
+                        {
+                            "type": "admission",
+                            "label": "Tillträde",
+                            "text": "2035-01-01"
+                        },
+                        {
+                            "type": "positions",
+                            "label": "Antal lediga befattningar",
+                            "text": "1"
+                        },
+                        {
+                            "type": "placement",
+                            "label": "Arbetsort",
+                            "text": "Helsingborg"
+                        },
+                        {
+                            "type": "subdivision_1",
+                            "label": "Län",
+                            "text": "Skåne län"
+                        },
+                        {
+                            "type": "country",
+                            "label": "Land",
+                            "text": "Sverige"
+                        },
+                        {
+                            "type": "reference",
+                            "label": "Referensnummer",
+                            "text": "2026/28"
+                        },
+                        {
+                            "type": "published",
+                            "label": "Publicerat",
+                            "text": "2026-10-01"
+                        },
+                        {
+                            "type": "deadline",
+                            "label": "Sista ansökningsdag",
+                            "text": "2026-11-01"
+                        }
+                    ]
+                },
+                "media": {
+                    "top_image": null,
+                    "top_image_alt_text": null,
+                    "youtube": null
+                },
+                "contacts": [
+                    {
+                        "name": "Test Persson",
+                        "phone": "098-7654321",
+                        "email": "",
+                        "title": null
+                    }
+                ],
+                "union_contacts": [
+                    {
+                        "name": "Pest Tersson",
+                        "phone": "012-3456789",
+                        "email": "",
+                        "title": null
+                    }
+                ],
+                "metadata": {
+                    "open_graph": {
+                        "image": "https://example.com/Graphics/Img/CompanyLogos/helsingborg_logo_ogimage.png"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://example.com/v1/jobs/12345/ad"
+            }
+        }
+    ]
+}
