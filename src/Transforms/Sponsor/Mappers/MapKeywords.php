@@ -8,6 +8,7 @@ use Municipio\Schema\Schema;
 
 class MapKeywords extends AbstractSponsorMapper
 {
+    private const ACTIVITIES_KEY = 'activities';
     public function createKeyword(array $data, string $name): ?\Municipio\Schema\DefinedTerm
     {
         return $this->withAcfFields($data, fn (array $acf) =>
@@ -26,7 +27,7 @@ class MapKeywords extends AbstractSponsorMapper
                     ->inDefinedTermSet(Schema::definedTermSet()->name($row['taxonomy'] ?? null)),
                     $acf
                 ),
-                'activities'
+                self::ACTIVITIES_KEY
             );
     }
 }

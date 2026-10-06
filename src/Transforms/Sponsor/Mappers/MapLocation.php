@@ -8,6 +8,7 @@ use Municipio\Schema\Schema;
 
 class MapLocation extends AbstractSponsorMapper
 {
+    private const LOCATION_KEY = 'location';
     public function map(array $data): ?\Municipio\Schema\Place
     {
         return $this->withAcfFields(
@@ -20,7 +21,7 @@ class MapLocation extends AbstractSponsorMapper
                     ->addressRegion($acf['state'] ?? null)
                     ->postalCode($acf['post_code'] ?? null)
                     ->addressCountry($acf['country'] ?? null))->description($acf['address'] ?? null),
-            'location'
+            self::LOCATION_KEY
         );
     }
 }

@@ -1,0 +1,300 @@
+[
+    {
+        "id": 1002,
+        "date": "2026-09-21T08:44:12",
+        "date_gmt": "2026-09-21T06:44:12",
+        "guid": {
+            "rendered": "https:\/\/example.invalid\/offering\/exempelerbjudande\/"
+        },
+        "modified": "2026-09-21T08:44:12",
+        "modified_gmt": "2026-09-21T06:44:12",
+        "slug": "exempelerbjudande",
+        "status": "publish",
+        "type": "offering",
+        "link": "https:\/\/example.invalid\/offering\/exempelerbjudande\/",
+        "title": {
+            "rendered": "Exempelerbjudande"
+        },
+        "parent": 0,
+        "template": "",
+        "activity": [
+            22,
+            26
+        ],
+        "resource": [
+            38,
+            36,
+            40,
+            34,
+            32
+        ],
+        "class_list": [
+            "post-1002",
+            "offering",
+            "type-offering",
+            "status-publish",
+            "hentry",
+            "activity-cykling",
+            "activity-e-sport",
+            "resource-logistik",
+            "resource-mat-och-dryck",
+            "resource-ovrigt",
+            "resource-pengar",
+            "resource-stod-och-hjalp"
+        ],
+        "acf": {
+            "organization_name": "Exempelf\u00f6reningen",
+            "organization_description": "Beskrivning av exempelf\u00f6reningen",
+            "organization_contact": "Exempel Kontakt",
+            "organization_contact_role": "Kontaktperson",
+            "organization_email": "kontakt@example.invalid",
+            "organization_phone": "0700000000",
+            "organization_website": "https:\/\/example.invalid",
+            "organization_number": "0000000000",
+            "image": {
+                "ID": 35,
+                "id": 35,
+                "title": "ma\u030algrupp2",
+                "filename": "ma\u030algrupp2.png",
+                "filesize": 146920,
+                "url": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2.png",
+                "link": "https:\/\/example.invalid\/assignment\/test-namn-pa-aktivitet-sponsringsuppdrag\/ma%cc%8algrupp2\/",
+                "alt": "asdadada",
+                "author": "0",
+                "description": "",
+                "caption": "",
+                "name": "ma%cc%8algrupp2",
+                "status": "inherit",
+                "uploaded_to": 103,
+                "date": "2026-08-20 12:55:10",
+                "modified": "2026-09-21 06:42:47",
+                "menu_order": 0,
+                "mime_type": "image\/png",
+                "type": "image",
+                "subtype": "png",
+                "icon": "https:\/\/example.invalid\/wp\/wp-includes\/images\/media\/default.png",
+                "width": 1024,
+                "height": 1024,
+                "sizes": {
+                    "thumbnail": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2-150x150.png",
+                    "thumbnail-width": 150,
+                    "thumbnail-height": 150,
+                    "medium": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2-300x300.png",
+                    "medium-width": 300,
+                    "medium-height": 300,
+                    "medium_large": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2-768x768.png",
+                    "medium_large-width": 768,
+                    "medium_large-height": 768,
+                    "large": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2.png",
+                    "large-width": 1024,
+                    "large-height": 1024,
+                    "1536x1536": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2.png",
+                    "1536x1536-width": 1024,
+                    "1536x1536-height": 1024,
+                    "2048x2048": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2.png",
+                    "2048x2048-width": 1024,
+                    "2048x2048-height": 1024
+                }
+            },
+            "date": "2027-09-03",
+            "time": "18:05:00",
+            "location": {
+                "address": "Exempelv\u00e4gen 1, 123 45 Exempelstad, Sverige",
+                "lat": "0.0",
+                "lng": "0.0",
+                "name": "",
+                "city": "Exempelstad",
+                "state": "Exempell\u00e4n",
+                "post_code": "123 45",
+                "country": "Sverige"
+            },
+            "resources": [
+                {
+                    "term_id": 32,
+                    "name": "st\u00f6d och hj\u00e4lp",
+                    "slug": "stod-och-hjalp",
+                    "term_group": 0,
+                    "term_taxonomy_id": 32,
+                    "taxonomy": "resource",
+                    "description": "",
+                    "parent": 0,
+                    "count": 3,
+                    "filter": "raw"
+                },
+                {
+                    "term_id": 34,
+                    "name": "pengar",
+                    "slug": "pengar",
+                    "term_group": 0,
+                    "term_taxonomy_id": 34,
+                    "taxonomy": "resource",
+                    "description": "",
+                    "parent": 0,
+                    "count": 2,
+                    "filter": "raw"
+                },
+                {
+                    "term_id": 36,
+                    "name": "mat- och dryck",
+                    "slug": "mat-och-dryck",
+                    "term_group": 0,
+                    "term_taxonomy_id": 36,
+                    "taxonomy": "resource",
+                    "description": "",
+                    "parent": 0,
+                    "count": 3,
+                    "filter": "raw"
+                },
+                {
+                    "term_id": 38,
+                    "name": "logistik",
+                    "slug": "logistik",
+                    "term_group": 0,
+                    "term_taxonomy_id": 38,
+                    "taxonomy": "resource",
+                    "description": "",
+                    "parent": 0,
+                    "count": 3,
+                    "filter": "raw"
+                },
+                {
+                    "term_id": 40,
+                    "name": "\u00f6vrigt",
+                    "slug": "ovrigt",
+                    "term_group": 0,
+                    "term_taxonomy_id": 40,
+                    "taxonomy": "resource",
+                    "description": "",
+                    "parent": 0,
+                    "count": 3,
+                    "filter": "raw"
+                }
+            ],
+            "description": "<p>aaa<\/p>\n",
+            "requirements": "Deleo temptatio verus valetudo theatrum a aufero.",
+            "proposal_for_counter_performance": "Vapulus vulgo barba aer censura cui ipsa stabilis substantia fugiat.",
+            "activities": [
+                {
+                    "term_id": 22,
+                    "name": "cykling",
+                    "slug": "cykling",
+                    "term_group": 0,
+                    "term_taxonomy_id": 22,
+                    "taxonomy": "activity",
+                    "description": "",
+                    "parent": 0,
+                    "count": 3,
+                    "filter": "raw"
+                },
+                {
+                    "term_id": 26,
+                    "name": "e-sport",
+                    "slug": "e-sport",
+                    "term_group": 0,
+                    "term_taxonomy_id": 26,
+                    "taxonomy": "activity",
+                    "description": "",
+                    "parent": 0,
+                    "count": 3,
+                    "filter": "raw"
+                }
+            ],
+            "tags": false,
+            "due_date": "2027-02-05",
+            "due_time": "19:04:00",
+            "contact_method": [
+                "mail"
+            ],
+            "exclude_from_google_translate": false
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/sponsor-offerings\/1002",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/sponsor-offerings"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/types\/offering"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/sponsor-offerings\/1002\/revisions"
+                }
+            ],
+            "acf:term": [
+                {
+                    "embeddable": true,
+                    "taxonomy": "activity",
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/activity\/26"
+                },
+                {
+                    "embeddable": true,
+                    "taxonomy": "activity",
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/activity\/22"
+                },
+                {
+                    "embeddable": true,
+                    "taxonomy": "resource",
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/resource\/40"
+                },
+                {
+                    "embeddable": true,
+                    "taxonomy": "resource",
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/resource\/38"
+                },
+                {
+                    "embeddable": true,
+                    "taxonomy": "resource",
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/resource\/36"
+                },
+                {
+                    "embeddable": true,
+                    "taxonomy": "resource",
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/resource\/34"
+                },
+                {
+                    "embeddable": true,
+                    "taxonomy": "resource",
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/resource\/32"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/media?parent=1002"
+                }
+            ],
+            "wp:term": [
+                {
+                    "taxonomy": "activity",
+                    "embeddable": true,
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/activity?post=1002"
+                },
+                {
+                    "taxonomy": "resource",
+                    "embeddable": true,
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/resource?post=1002"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    }
+]

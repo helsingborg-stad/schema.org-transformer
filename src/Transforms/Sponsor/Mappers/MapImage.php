@@ -8,6 +8,8 @@ use Municipio\Schema\Schema;
 
 class MapImage extends AbstractSponsorMapper
 {
+    private const IMAGE_KEY = 'image';
+
     public function map(array $data): ?\Municipio\Schema\ImageObject
     {
         return $this->withAcfFields(
@@ -17,7 +19,7 @@ class MapImage extends AbstractSponsorMapper
                 ->url($acf['url'] ?? null)
                 ->name($acf['title'] ?? null)
                 ->description($acf['alt'] ?? null),
-            'image'
+            self::IMAGE_KEY
         );
     }
 }

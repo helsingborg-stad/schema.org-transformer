@@ -22,13 +22,13 @@ class SponsorOfferTransform extends TransformBase implements AbstractDataTransfo
     public function transform(array $data): array
     {
         $mappers = [
-        new MapOffer(),
-        new MapImage(),
-        new MapLocation(),
-        new MapKeywords(),
-        new MapOrganization(),
-        new MapContactPoint(),
-        new MapDemand(),
+            new MapOffer(),
+            new MapImage(),
+            new MapLocation(),
+            new MapKeywords(),
+            new MapOrganization(),
+            new MapContactPoint(),
+            new MapDemand(),
         ];
         return array_map(function ($row) use ($mappers) {
             [$offer, $image, $location, $keywords, $organization, $contactPoint, $demand] = $mappers;
