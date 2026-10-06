@@ -4,9 +4,17 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms;
 
-use Municipio\Schema\Schema;
+use SchemaTransformer\Interfaces\AbstractDataTransform;
+use SchemaTransformer\Transforms\Sponsor\Mappers\MapContactPoint;
+use SchemaTransformer\Transforms\Sponsor\Mappers\MapDemand;
+use SchemaTransformer\Transforms\Sponsor\Mappers\MapDemandEvent;
+use SchemaTransformer\Transforms\Sponsor\Mappers\MapImage;
+use SchemaTransformer\Transforms\Sponsor\Mappers\MapKeywords;
+use SchemaTransformer\Transforms\Sponsor\Mappers\MapLocation;
+use SchemaTransformer\Transforms\Sponsor\Mappers\MapOffer;
+use SchemaTransformer\Transforms\Sponsor\Mappers\MapOrganization;
 
-class SponsorDemandTransform extends SponsorBaseTransform
+class SponsorDemandTransform extends TransformBase implements AbstractDataTransform
 {
     public function __construct(string $idprefix)
     {
@@ -15,26 +23,25 @@ class SponsorDemandTransform extends SponsorBaseTransform
 
     public function transform(array $data): array
     {
-        $demands = [];
-        foreach ($data ?? [] as &$row) {
-            $acf = $row['acf'] ?? [];
+        $mappers = [
+            new MapDemandEvent(),
+            new MapImage(),
+            new MapContactPoint(),
+            new MapDemand(),
+            new MapLocation(),
+            new MapOffer(),
+            new MapOrganization(),
+            new MapKeywords(),
+        ];
+        return array_map(function ($row) use ($mappers) {
+            [$event, $image, $contactPoint, $demand, $location, $offer, $organization, $keywords] = $mappers;
 
-            $event = $this->transformEvent($acf)
-                ->identifier($row['id'] ?? '')
-                ->name($row['title']['rendered'] ?? '')
-                ->image($this->transformImage($acf))
-                ->location($this->transformLocation($acf))
-                ->hasSponsorshipOffer($this->transformOffer($acf)->demand($this->transformDemand($acf)))
-                ->organisation($this->transformOrganization($acf)->contactPoint($this->transformContactPoint($acf))
-                ->keywords([
-                    Schema::definedTerm()
-                        ->name($acf['organization_eligible_for_grants'])
-                        ->inDefinedTermSet(Schema::definedTermSet()->name('organization_eligible_for_grants'))
-                ]));
-
-            $demands[] = $event->toArray();
-        }
-
-        return $demands;
+            return $event->map($row)
+                ->image($image->map($row))
+                ->location($location->map($row))
+                ->hasSponsorshipOffer($offer->map($row)->demand($demand->map($row)))
+                ->organisation($organization->map($row)->contactPoint($contactPoint->map($row)))
+                ->keywords([$keywords->createKeyword($row, 'organization_eligible_for_grants')]);
+        }, $data);
     }
 }
