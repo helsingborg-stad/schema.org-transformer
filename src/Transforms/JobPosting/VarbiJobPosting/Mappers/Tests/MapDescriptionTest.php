@@ -38,6 +38,42 @@ final class MapDescriptionTest extends TestCase
         );
     }
 
+    #[TestDox('jobPosting::description includes details table when present')]
+    public function testMapsDetailsTableToDescription(): void
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapDescription(),
+            '{
+                "included": [
+                    {
+                        "type": "job-ad",
+                        "attributes": {
+                            "texts": {
+                                "descriptions": {
+                                    "combined": "A detailed role description."
+                                },
+                                "details": [
+                                    {
+                                        "label": "Län",
+                                        "text": "Skåne <3"
+                                    },
+                                    {
+                                        "label": "Kommun",
+                                        "text": "Helsingborg"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }',
+            Schema::jobPosting()->description([
+                Schema::textObject()->text('A detailed role description.'),
+                Schema::textObject()->text('<p><strong>L&auml;n:</strong> Sk&aring;ne &lt;3</p><p><strong>Kommun:</strong> Helsingborg</p>')
+            ])
+        );
+    }
+
     #[TestDox('jobPosting::description is empty when the included job-ad is missing')]
     public function testMapsMissingIncludedJobAdToEmptyDescription(): void
     {

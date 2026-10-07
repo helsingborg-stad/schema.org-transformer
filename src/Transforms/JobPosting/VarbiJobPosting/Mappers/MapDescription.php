@@ -20,10 +20,27 @@ class MapDescription extends AbstractVarbiJobPostingMapper
         return $jobPosting->description(
             array_values(array_filter(
                 array_map(
-                    fn($text) => empty($text) ? null : Schema::textObject()->text($text),
-                    [$this->getIncludedAd($data)['attributes']['texts']['descriptions']['combined'] ?? null]
+                    fn($text) => $this->tryCreateTextObject($text),
+                    [
+                        $this->getIncludedAd($data)['attributes']['texts']['descriptions']['combined'] ?? null,
+                        $this->getDetailsTable($data)
+                    ]
                 )
             ))
         );
+    }
+
+    private function getDetailsTable(array $data): string
+    {
+        return array_reduce(
+            $this->getIncludedAd($data)['attributes']['texts']['details'] ?? [],
+            fn($carry, $rec) => $carry . (empty($rec['label'] ?? null) || empty($rec['text']) ? '' : '<p><strong>' . htmlentities($rec['label']) . ':</strong> ' . htmlentities($rec['text']) . '</p>'),
+            ''
+        );
+    }
+
+    private function tryCreateTextObject(?string $text)
+    {
+        return empty($text) ? null : Schema::textObject()->text($text);
     }
 }
