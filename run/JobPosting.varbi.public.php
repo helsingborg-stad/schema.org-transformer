@@ -7,6 +7,7 @@ use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
 use SchemaTransformer\Loggers\TerminalLogger;
 use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Api\VarbiApi;
 use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\VarbiJobPostingTransform;
+use SchemaTransformer\Webhooks\Webhooks;
 
 $id         = 'JobPosting.varbi.public';
 $logger     = new TerminalLogger($id);
@@ -33,6 +34,8 @@ $storage = StorageFactory::create(
 );
 
 $storage->store($transformer->transform($jobs));
+(new Webhooks(logger: $logger))->trigger(getenv('VARBI_HELSINGBORG_MONITOR_URL'));
+
 
 // show raw paginated job postings from the API
 // $storage->store($varbiApi->getJobPostings());
