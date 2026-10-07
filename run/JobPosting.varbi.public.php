@@ -33,3 +33,9 @@ $storage = StorageFactory::create(
 );
 
 $storage->store($transformer->transform($jobs));
+
+// show raw paginated job postings from the API
+// $storage->store($varbiApi->getJobPostings());
+
+// show aggregation of all job postings with ads
+// $storage->store($jobs);

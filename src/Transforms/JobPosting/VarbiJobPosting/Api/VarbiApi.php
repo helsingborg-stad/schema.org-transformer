@@ -7,7 +7,9 @@ namespace SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Api;
 use Psr\Log\LoggerInterface;
 use SchemaTransformer\IO\V2\HttpReader;
 use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Api\VarbiDataTransform;
+use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Api\VarbiPaginatedDataTransform;
 use SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Api\VarbiPaginator;
+use SchemaTransformer\Paginators\NullPaginator;
 
 /**
  * Class VarbiApi
@@ -33,20 +35,34 @@ class VarbiApi
 
         return array_values(array_filter(array_map(
             fn($jobPosting) => $this->fetch('/' . $jobPosting['id'] . '?include=ad,taxonomy'),
-            $jobPostings['data'] ?? []
+            $jobPostings ?? []
         )));
     }
 
-    protected function getJobPostings(): array
+    public function getJobPostings(): array
     {
-        return $this->fetch('');
+        return $this->fetchPaginated('');
     }
 
     protected function fetch(string $endpoint): array
     {
-        return new HttpReader(
+        return (new HttpReader(
             $this->apiUrl . $endpoint,
             new VarbiDataTransform(),
+            [
+                'X-Api-key'       => $this->apiKey,
+                'Accept-Language' => '*',
+                'Accept'          => 'application/json'
+            ],
+            new NullPaginator(),
+            $this->logger
+        ))->read();
+    }
+    protected function fetchPaginated(string $endpoint): array
+    {
+        return new HttpReader(
+            $this->apiUrl . $endpoint,
+            new VarbiPaginatedDataTransform(),
             [
             'X-Api-key'       => $this->apiKey,
             'Accept-Language' => '*',

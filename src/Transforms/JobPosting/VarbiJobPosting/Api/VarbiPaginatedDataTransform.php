@@ -7,16 +7,16 @@ namespace SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Api;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 
 /**
- * Class VarbiDataTransform
+ * Class VarbiPaginatedDataTransform
  * Data transformer that unpacks data from API responses
- * The purpose is to leave data unmodified from the API response.
+ * The purpose is to extract {data: [...] } from the API response.
  * @package SchemaTransformer\Transforms\JobPosting\VarbiJobPosting\Api
  */
-class VarbiDataTransform implements AbstractDataTransform
+class VarbiPaginatedDataTransform implements AbstractDataTransform
 {
     public function preprocessData(array $data): array
     {
-        return $data;
+        return $data['data'] ?? [];
     }
 
     public function transform(array $data): array
