@@ -64,9 +64,9 @@ class VarbiApi
             $this->apiUrl . $endpoint,
             new VarbiPaginatedDataTransform(),
             [
-            'X-Api-key'       => $this->apiKey,
-            'Accept-Language' => '*',
-            'Accept'          => 'application/json'
+                'X-Api-key'       => $this->apiKey,
+                'Accept-Language' => '*',
+                'Accept'          => 'application/json'
             ],
             new VarbiPaginator(),
             $this->logger
