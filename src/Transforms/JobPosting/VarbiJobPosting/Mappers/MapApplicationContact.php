@@ -9,8 +9,8 @@ use Municipio\Schema\Schema;
 
 class MapApplicationContact extends AbstractVarbiJobPostingMapper
 {
-    public const string DEFAULT_CONTACT_TYPE       = 'Kontakt';
-    public const string DEFAULT_UNION_CONTACT_TYPE = 'Facklig företrädare';
+    public const DEFAULT_CONTACT_TYPE       = 'Kontakt';
+    public const DEFAULT_UNION_CONTACT_TYPE = 'Facklig företrädare';
 
     public function __construct()
     {
