@@ -65,7 +65,7 @@ class VarbiJobPostingTransform extends TransformBase implements AbstractDataTran
                 },
                 Schema::jobPosting()
             )->toArray();
-        }, array_values($data));
+        }, array_values(array_filter($data, fn ($item) => !empty($item['data']['id']))));
         return $result;
     }
 }
