@@ -17,7 +17,7 @@ class MapEmploymentUnit extends AbstractVarbiJobPostingMapper
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
         return $jobPosting->employmentUnit(
-            array_filter(array_values(
+            array_values(array_filter(
                 array_map(
                     fn($item) => empty($item['text']) ? null : Schema::organization()->name($item['text']),
                     $this->getElementsByType(
