@@ -60,7 +60,7 @@ class VarbiApi
     }
     protected function fetchPaginated(string $endpoint): array
     {
-        return new HttpReader(
+        return (new HttpReader(
             $this->apiUrl . $endpoint,
             new VarbiPaginatedDataTransform(),
             [
@@ -70,6 +70,6 @@ class VarbiApi
             ],
             new VarbiPaginator(),
             $this->logger
-        )->read();
+        ))->read();
     }
 }
