@@ -17,11 +17,12 @@ class MapRelevantOccupation extends AbstractVarbiJobPostingMapper
     {
         $taxonomy = $data['data']['relationships']['taxonomy']['data'] ?? null;
         if ($taxonomy) {
-            $matchingTaxonomy =
+            $matchingTaxonomy = array_values(
                 array_filter(
                     $data['included'] ?? [],
                     fn($item) => $item['id'] === $taxonomy['id'] && $item['type'] === $taxonomy['type']
-                )[0] ?? null;
+                )
+            )[0] ?? null;
             return $jobPosting->mapRelevantOccupation($matchingTaxonomy['attributes']['name'] ?? null);
         }
         return $jobPosting;
