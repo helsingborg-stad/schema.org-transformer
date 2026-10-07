@@ -16,7 +16,7 @@ class MapTitle extends AbstractVarbiJobPostingMapper
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
         return $jobPosting->title(
-            $data['attributes']['texts']['title'] ?? null
+            $data['data']['attributes']['translations']['texts']['title'] ?? null
         );
     }
 }

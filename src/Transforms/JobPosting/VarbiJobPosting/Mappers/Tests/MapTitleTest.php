@@ -19,9 +19,13 @@ final class MapTitleTest extends TestCase
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapTitle(),
             '{
-                "attributes": {
-                    "texts": {
-                        "title": "Slagruteingenjör"
+                "data": {
+                    "attributes": {
+                        "translations": {
+                            "texts": {
+                                "title": "Slagruteingenjör"
+                            }
+                        }
                     }
                 }
             }',
@@ -35,8 +39,12 @@ final class MapTitleTest extends TestCase
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapTitle(),
             '{
-                "attributes": {
-                    "texts": {}
+                "data": {
+                    "attributes": {
+                        "translations": {
+                            "texts": {}
+                        }
+                    }
                 }
             }',
             Schema::jobPosting()->title(null)
