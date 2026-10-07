@@ -14,14 +14,15 @@ class MapImage extends AbstractMapper
 
     public function map(SponsorOffer $offer, array $data): SponsorOffer
     {
-        return $this->withAcfFields(
-            $data,
-            fn(array $acf) =>
-            $offer->image(Schema::imageObject()
+        return $offer->image(
+            $this->withAcfFields(
+                $data,
+                fn(array $acf) => Schema::imageObject()
                 ->url($acf['url'] ?? null)
                 ->name($acf['title'] ?? null)
-                ->description($acf['alt'] ?? null)),
-            self::IMAGE_KEY
-        ) ?? $offer;
+                ->description($acf['alt'] ?? null),
+                self::IMAGE_KEY
+            )
+        );
     }
 }

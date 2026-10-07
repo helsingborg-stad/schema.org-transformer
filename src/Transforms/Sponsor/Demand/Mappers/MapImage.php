@@ -24,6 +24,6 @@ class MapImage extends AbstractMapper
                     ->description($acf['alt'] ?? null),
                 self::IMAGE_KEY
             )
-        ) ?? $event;
+        );
     }
 }

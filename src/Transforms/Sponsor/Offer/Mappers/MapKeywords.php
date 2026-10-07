@@ -14,18 +14,18 @@ class MapKeywords extends AbstractMapper
 
     public function map(SponsorOffer $offer, array $data): SponsorOffer
     {
-        return
+        return $offer->keywords(
             $this->withAcfFields(
                 $data,
-                fn(array $acf) => $offer->keywords(
+                fn(array $acf) =>
                     array_map(
                         fn($row) => Schema::definedTerm()
                             ->name($row['name'] ?? null)
                             ->inDefinedTermSet(Schema::definedTermSet()->name($row['taxonomy'] ?? null)),
                         $acf
-                    )
-                ),
+                    ),
                 self::ACTIVITIES_KEY
-            ) ?? $offer;
+            )
+        );
     }
 }

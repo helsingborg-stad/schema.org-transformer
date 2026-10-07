@@ -28,6 +28,6 @@ class MapOrganization extends AbstractMapper
                         ->telephone($acf['organization_phone'] ?? null),),
                 null
             )
-        ) ?? $event;
+        );
     }
 }

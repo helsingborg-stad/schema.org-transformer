@@ -14,18 +14,21 @@ class MapLocation extends AbstractMapper
 
     public function map(SponsorOffer $offer, array $data): SponsorOffer
     {
-        return
+        return $offer->location(
             $this->withAcfFields(
                 $data,
-                fn(array $acf) =>
-                    $offer->location(Schema::Place()
-                        ->address(Schema::PostalAddress()
-                        ->streetAddress($acf['name'] ?? null)
-                        ->addressLocality($acf['city'] ?? null)
-                        ->addressRegion($acf['state'] ?? null)
-                        ->postalCode($acf['post_code'] ?? null)
-                        ->addressCountry($acf['country'] ?? null))->description($acf['address'] ?? null)),
+                fn(array $acf) => Schema::Place()
+                    ->address(
+                        Schema::PostalAddress()
+                            ->streetAddress($acf['name'] ?? null)
+                            ->addressLocality($acf['city'] ?? null)
+                            ->addressRegion($acf['state'] ?? null)
+                            ->postalCode($acf['post_code'] ?? null)
+                            ->addressCountry($acf['country'] ?? null)
+                    )
+                    ->description($acf['address'] ?? null),
                 self::LOCATION_KEY
-            ) ?? $offer;
+            )
+        );
     }
 }

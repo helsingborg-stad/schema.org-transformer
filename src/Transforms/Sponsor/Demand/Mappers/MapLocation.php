@@ -27,6 +27,6 @@ class MapLocation extends AbstractMapper
                         ->addressCountry($acf['country'] ?? null))->description($acf['address'] ?? null),
                 self::LOCATION_KEY
             )
-        ) ?? $event;
+        );
     }
 }

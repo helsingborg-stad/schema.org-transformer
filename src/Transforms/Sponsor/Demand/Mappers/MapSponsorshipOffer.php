@@ -36,6 +36,6 @@ class MapSponsorshipOffer extends AbstractMapper
                         ),
                 null
             )
-        ) ?? $event;
+        );
     }
 }
