@@ -29,6 +29,14 @@ final class MapApplicationContactTest extends TestCase
                                     "name": "Test Person",
                                     "email": "test.person@example.com",
                                     "phone": "+46 72 123 456"
+                                },
+                                {
+                                    "name": "default contact"
+                                }
+                            ],
+                            "union_contacts": [
+                                {
+                                    "name": "default union contact"
                                 }
                             ]
                         }
@@ -40,7 +48,13 @@ final class MapApplicationContactTest extends TestCase
                     ->contactType('Recruiter')
                     ->name('Test Person')
                     ->email('test.person@example.com')
-                    ->telephone('+46 72 123 456')
+                    ->telephone('+46 72 123 456'),
+                Schema::contactPoint()
+                    ->contactType('Kontakt')
+                    ->name('default contact'),
+                Schema::contactPoint()
+                    ->contactType('Facklig företrädare')
+                    ->name('default union contact'),
             ])
         );
     }

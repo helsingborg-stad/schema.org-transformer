@@ -9,6 +9,9 @@ use Municipio\Schema\Schema;
 
 class MapApplicationContact extends AbstractVarbiJobPostingMapper
 {
+    public const string DEFAULT_CONTACT_TYPE       = 'Kontakt';
+    public const string DEFAULT_UNION_CONTACT_TYPE = 'Facklig företrädare';
+
     public function __construct()
     {
         parent::__construct();
@@ -18,14 +21,24 @@ class MapApplicationContact extends AbstractVarbiJobPostingMapper
     {
         return $jobPosting->applicationContact(
             array_values(array_filter(
-                array_map(
-                    fn($contact) => Schema::contactPoint()
-                            ->contactType($contact['title'] ?? null)
-                            ->name($contact['name'] ?? null)
-                            ->email($contact['email'])
-                            ->telephone($contact['phone']),
-                    $this->getIncludedAd($data)['attributes']['contacts'] ?? []
-                )
+                [
+                    ...array_map(
+                        fn($contact) => Schema::contactPoint()
+                                ->contactType($contact['title'] ?? self::DEFAULT_CONTACT_TYPE)
+                                ->name($contact['name'] ?? null)
+                                ->email($contact['email'] ?? null)
+                                ->telephone($contact['phone'] ?? null),
+                        $this->getIncludedAd($data)['attributes']['contacts'] ?? []
+                    ),
+                    ...array_map(
+                        fn($contact) => Schema::contactPoint()
+                                ->contactType($contact['title'] ?? self::DEFAULT_UNION_CONTACT_TYPE)
+                                ->name($contact['name'] ?? null)
+                                ->email($contact['email'] ?? null)
+                                ->telephone($contact['phone'] ?? null),
+                        $this->getIncludedAd($data)['attributes']['union_contacts'] ?? []
+                    ),
+                ]
             ))
         );
     }
