@@ -19,14 +19,11 @@ final class MapUrlTest extends TestCase
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapUrl(),
             '{
-                "included": [
-                    {
-                        "type": "job-ad",
-                        "links": {
-                            "self": "https://example.com/jobs/123"
-                        }
+                "data": {
+                    "links": {
+                        "ad_rendered": "https://example.com/jobs/123"
                     }
-                ]
+                }
             }',
             Schema::jobPosting()->url('https://example.com/jobs/123')
         );
@@ -38,10 +35,9 @@ final class MapUrlTest extends TestCase
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapUrl(),
             '{
-                "included": [
+                "data": [
                     {
-                        "type": "job-ad",
-                        "links": []
+                        "links": {}
                     }
                 ]
             }',
@@ -55,7 +51,7 @@ final class MapUrlTest extends TestCase
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapUrl(),
             '{
-                "included": []
+                "data": {}
             }',
             Schema::jobPosting()->url(null)
         );

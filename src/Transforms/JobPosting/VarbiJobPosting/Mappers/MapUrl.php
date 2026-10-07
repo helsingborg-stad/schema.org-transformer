@@ -16,7 +16,7 @@ class MapUrl extends AbstractVarbiJobPostingMapper
     public function map(JobPosting $jobPosting, array $data): JobPosting
     {
         return $jobPosting->url(
-            $this->getIncludedAd($data)['links']['self'] ?? null
+            $data['data']['links']['ad_rendered'] ?? null
         );
     }
 }
