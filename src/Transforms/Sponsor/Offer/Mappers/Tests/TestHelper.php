@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SchemaTransformer\Transforms\Sponsor\Mappers\Tests;
+namespace SchemaTransformer\Transforms\Sponsor\Offer\Mappers\Tests;
 
 /** Load sponsor API responses used by mapper tests. */
 final class TestHelper
