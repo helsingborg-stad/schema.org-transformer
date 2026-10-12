@@ -7,7 +7,7 @@ use SchemaTransformer\Loggers\TerminalLogger;
 use SchemaTransformer\Paginators\WordpressPaginator;
 use SchemaTransformer\Run\Factories\StorageFactory;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
-use SchemaTransformer\Transforms\SponsorDemandTransform;
+use SchemaTransformer\Transforms\Sponsor\Demand\Transform;
 use SchemaTransformer\Webhooks\Webhooks;
 
 $id         = 'SponsorDemandEvent';
@@ -18,7 +18,7 @@ $options    = new \SchemaTransformer\Run\Cli\Options();
 $lockRunner->lock();
 
 $httpReaderPath = getenv('WP_SPONSOR_DEMAND_PATH') . '?acf_format=standard';
-$transformer    = new SponsorDemandTransform('sponsor-demand-');
+$transformer    = new Transform();
 $reader         = new HttpReader($httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger);
 $storage        = StorageFactory::create(
     target: $options->getTarget(),

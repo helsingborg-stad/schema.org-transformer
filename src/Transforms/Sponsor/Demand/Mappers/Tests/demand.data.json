@@ -1,0 +1,203 @@
+[
+    {
+        "id": 1001,
+        "date": "2026-09-11T09:46:51",
+        "date_gmt": "2026-09-11T07:46:51",
+        "guid": {
+            "rendered": "https:\/\/example.invalid\/?post_type=assignment&#038;p=1001"
+        },
+        "modified": "2026-09-11T16:46:28",
+        "modified_gmt": "2026-09-11T14:46:28",
+        "slug": "test-namn-pa-aktivitet-sponsringsuppdrag",
+        "status": "publish",
+        "type": "assignment",
+        "link": "https:\/\/example.invalid\/assignment\/test-namn-pa-aktivitet-sponsringsuppdrag\/",
+        "title": {
+            "rendered": "Test namn p\u00e5 aktivitet\/sponsringsuppdrag"
+        },
+        "parent": 0,
+        "template": "",
+        "activity": [
+            7
+        ],
+        "resource": [
+            35
+        ],
+        "class_list": [
+            "post-1001",
+            "assignment",
+            "type-assignment",
+            "status-publish",
+            "hentry",
+            "activity-bollsport",
+            "resource-ekonomi"
+        ],
+        "acf": {
+            "organization_name": "Exempelf\u00f6reningen",
+            "organization_description": "Beskrivning av exempelf\u00f6reningen",
+            "organization_contact": "Exempel Kontakt",
+            "organization_contact_role": "Kontaktperson",
+            "organization_email": "kontakt@example.invalid",
+            "organization_phone": "0700000000",
+            "organization_website": "https:\/\/example.invalid",
+            "organization_number": "0000000000",
+            "organization_eligible_for_grants": false,
+            "image": {
+                "ID": 35,
+                "id": 35,
+                "title": "ma\u030algrupp2",
+                "filename": "ma\u030algrupp2.png",
+                "filesize": 146920,
+                "url": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2.png",
+                "link": "https:\/\/example.invalid\/assignment\/test-namn-pa-aktivitet-sponsringsuppdrag\/ma%cc%8algrupp2\/",
+                "alt": "asdadada",
+                "author": "0",
+                "description": "",
+                "caption": "",
+                "name": "ma%cc%8algrupp2",
+                "status": "inherit",
+                "uploaded_to": 103,
+                "date": "2026-08-20 12:55:10",
+                "modified": "2026-09-21 06:42:47",
+                "menu_order": 0,
+                "mime_type": "image\/png",
+                "type": "image",
+                "subtype": "png",
+                "icon": "https:\/\/example.invalid\/wp\/wp-includes\/images\/media\/default.png",
+                "width": 1024,
+                "height": 1024,
+                "sizes": {
+                    "thumbnail": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2-150x150.png",
+                    "thumbnail-width": 150,
+                    "thumbnail-height": 150,
+                    "medium": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2-300x300.png",
+                    "medium-width": 300,
+                    "medium-height": 300,
+                    "medium_large": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2-768x768.png",
+                    "medium_large-width": 768,
+                    "medium_large-height": 768,
+                    "large": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2.png",
+                    "large-width": 1024,
+                    "large-height": 1024,
+                    "1536x1536": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2.png",
+                    "1536x1536-width": 1024,
+                    "1536x1536-height": 1024,
+                    "2048x2048": "https:\/\/example.invalid\/wp-content\/uploads\/sites\/7\/2026\/08\/ma\u030algrupp2.png",
+                    "2048x2048-width": 1024,
+                    "2048x2048-height": 1024
+                }
+            },
+            "date": "2026-09-15",
+            "time": "12:22:00",
+            "location": false,
+            "resources": [
+                {
+                    "term_id": 35,
+                    "name": "ekonomi",
+                    "slug": "ekonomi",
+                    "term_group": 0,
+                    "term_taxonomy_id": 35,
+                    "taxonomy": "resource",
+                    "description": "",
+                    "parent": 0,
+                    "count": 3,
+                    "filter": "raw"
+                }
+            ],
+            "description": "<p>Test beskrvining av aktiviteten\/sponsringsuppdraget<\/p>\n",
+            "activities": [
+                {
+                    "term_id": 7,
+                    "name": "bollsport",
+                    "slug": "bollsport",
+                    "term_group": 0,
+                    "term_taxonomy_id": 7,
+                    "taxonomy": "activity",
+                    "description": "",
+                    "parent": 0,
+                    "count": 1,
+                    "filter": "raw"
+                }
+            ],
+            "requirements": "Test krav",
+            "tags": false,
+            "due_date": "2026-11-11",
+            "due_time": "16:46:24",
+            "contact_method": [
+                "mail",
+                "phone"
+            ],
+            "exclude_from_google_translate": false
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/sponsor-assignments\/1001",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/sponsor-assignments"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/types\/assignment"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 3,
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/sponsor-assignments\/1001\/revisions"
+                }
+            ],
+            "predecessor-version": [
+                {
+                    "id": 1000,
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/sponsor-assignments\/1001\/revisions\/1000"
+                }
+            ],
+            "acf:term": [
+                {
+                    "embeddable": true,
+                    "taxonomy": "activity",
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/activity\/7"
+                },
+                {
+                    "embeddable": true,
+                    "taxonomy": "resource",
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/resource\/35"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/media?parent=1001"
+                }
+            ],
+            "wp:term": [
+                {
+                    "taxonomy": "activity",
+                    "embeddable": true,
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/activity?post=1001"
+                },
+                {
+                    "taxonomy": "resource",
+                    "embeddable": true,
+                    "href": "https:\/\/example.invalid\/wp-json\/wp\/v2\/resource?post=1001"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    }
+]
