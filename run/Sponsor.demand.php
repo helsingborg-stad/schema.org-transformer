@@ -25,7 +25,7 @@ $storage        = StorageFactory::create(
     logger: $logger,
     options: [
         'collection'            => TypesenseCollection::SponsorDemandEvent,
-        'collectionClearFilter' => ['filter_by' => '@type:=SponsorDemand'],
+        'collectionClearFilter' => ['filter_by' => '@type:=SponsorDemandEvent'],
     ],
 );
 
