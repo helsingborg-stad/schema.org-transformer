@@ -12,6 +12,11 @@ class EventsSearchClientOnTypesense implements EventsSearchClient
     public function __construct(private TypesenseClient $typesenseClient)
     {
     }
+
+    public function escapeAndQuoteQuery(string $query): string
+    {
+        return '"' . preg_replace('/([\\\\"])/', '\\\\$1', $query) . '"';
+    }
     public function searchEventsBySchoolName(string $schoolName): array
     {
         if (empty($schoolName)) {
@@ -19,8 +24,8 @@ class EventsSearchClientOnTypesense implements EventsSearchClient
         }
 
         $result = $this->typesenseClient->collections[TypesenseCollection::Event->value]->documents->search([
-            'q'        => '"' . $schoolName . '"',
-            'query_by' => 'keywords.name',
+            'q'        => $this->escapeAndQuoteQuery($schoolName),
+            'query_by' => 'organizer.name, keywords.name',
         ]);
 
         // $result['hits'][index]['document'] contains a wellformed event object (albeit not a constructed Schema::event)
