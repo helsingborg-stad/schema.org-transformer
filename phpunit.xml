@@ -25,6 +25,7 @@
     <testsuite name="default">
       <directory suffix="Test.php">src</directory>
       <directory suffix="Test.php">run</directory>
+      <directory suffix="Test.php">tests</directory>
     </testsuite>
   </testsuites>
   <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">

@@ -17,7 +17,8 @@
         ],
         "psr-4": {
             "SchemaTransformer\\": "src/",
-            "SchemaTransformer\\Run\\": "run/"
+            "SchemaTransformer\\Run\\": "run/",
+            "SchemaTransformer\\Tests\\": "tests/"
         }
     },
     "require-dev": {
