@@ -17,7 +17,7 @@ final class MapEventTest extends TestCase
     public function testItWorks()
     {
         $mockEventSearchClient = new class implements \SchemaTransformer\Transforms\School\Events\EventsSearchClient {
-            public function searchEventsBySchoolName(string $schoolName): array
+            public function searchEventsBySchool(string $schoolName, array $eventOrganizations): array
             {
                 return [
                 [

@@ -18,9 +18,11 @@ class MapEvent extends AbstractPreSchoolDataMapper
 
     public function map(Preschool $school, array $data): Preschool
     {
-        $schoolName = $data['title']['rendered'] ?? '';
         return $school->event(
-            $this->eventsSearchClient->searchEventsBySchoolName($schoolName)
+            $this->eventsSearchClient->searchEventsBySchool(
+                $data['title']['rendered'] ?? '',
+                $data['acf']['event_organization'] ?? []
+            )
         );
     }
 }

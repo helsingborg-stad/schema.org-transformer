@@ -6,5 +6,5 @@ namespace SchemaTransformer\Transforms\School\Events;
 
 interface EventsSearchClient
 {
-    public function searchEventsBySchoolName(string $schoolName): array;
+    public function searchEventsBySchool(string $schoolName, array $eventOrganizations): array;
 }
