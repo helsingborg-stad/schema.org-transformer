@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49daf5f5c34d31f3bb225c49d4c6b819",
+    "content-hash": "ae279d78465c8b1f5eddd3d46159e2e0",
     "packages": [
         {
             "name": "clue/stream-filter",
