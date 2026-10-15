@@ -6,7 +6,7 @@ namespace SchemaTransformer\Transforms\School\Events;
 
 class NullEventsSearchClient implements EventsSearchClient
 {
-    public function searchEventsBySchoolName(string $schoolName): array
+    public function searchEventsBySchool(string $schoolName, array $eventOrganizations): array
     {
         return [];
     }

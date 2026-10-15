@@ -13,13 +13,40 @@ use SchemaTransformer\Transforms\School\Events\EventsSearchClientOnTypesense;
 #[CoversClass(EventsSearchClientOnTypesense::class)]
 final class EventsSearchClientOnTypesenseTest extends TestCase
 {
-    #[TestDox('it should escape and quote queries')]
-    #[TestWith(['', '""'])]
-    #[TestWith(['school name', '"school name"'])]
-    #[TestWith(['school"name', '"school\\"name"'])]
-    #[TestWith(['"school" name', '"\\"school\\" name"'])]
-    public function testEscapeAndQuoteQuery(string $input, string $expected): void
+    #[TestWith(['', [], null])]
+    #[TestWith(['', [''], null])]
+    #[TestWith(['', ['',''], null])]
+    #[TestWith(['', ['a','', 'b'], [
+        'q'         => '*',
+        'query_by'  => 'organizer.name,keywords.name',
+        'filter_by' => 'organizer.name:[`a`,`b`]',
+    ]])]
+    #[TestWith(['', ['Happy School','"illegal quote', 'Happy Children'], [
+        'q'         => '*',
+        'query_by'  => 'organizer.name,keywords.name',
+        'filter_by' => 'organizer.name:[`Happy School`,`Happy Children`]',
+    ]])]
+    #[TestWith(['Happy School', [], [
+        'q'         => '*',
+        'query_by'  => 'organizer.name,keywords.name',
+        'filter_by' => 'keywords.name:`Happy School`',
+    ]])]
+    #[TestWith(['n', ['o1','02'], [
+        'q'         => '*',
+        'query_by'  => 'organizer.name,keywords.name',
+        'filter_by' => 'keywords.name:`n` || organizer.name:[`o1`,`02`]',
+    ]])]
+    public function testCreateTypesenseQuery(string $schoolName, array $eventOrganizations, ?array $expected): void
     {
-        $this->assertEquals($expected, (new EventsSearchClientOnTypesense($this->createMock(\Typesense\Client::class)))->escapeAndQuoteQuery($input));
+        $this->assertEquals($expected, (new EventsSearchClientOnTypesense($this->createMock(\Typesense\Client::class)))->createTypesenseQuery($schoolName, $eventOrganizations));
+    }
+
+    #[TestWith(['keywords.name', [], null])]
+    #[TestWith(['keywords.name', ['a'], 'keywords.name:`a`'])]
+    #[TestWith(['keywords.name', ['a','b'], 'keywords.name:[`a`,`b`]'])]
+    #[TestWith(['keywords.name', ['é"&\'<>'], null])]
+    public function testCreateFilterBy(string $field, array $values, ?string $expected): void
+    {
+        $this->assertEquals($expected, (new EventsSearchClientOnTypesense($this->createMock(\Typesense\Client::class)))->createFilterBy($field, $values));
     }
 }
