@@ -28,8 +28,8 @@ class EventsSearchClientOnTypesense implements EventsSearchClient
 
     public function createFilterBy($field, array $values): ?string
     {
-        $sanitizedValues = array_filter(
-            array_values(
+        $sanitizedValues = array_values(
+            array_filter(
                 array_map(
                     fn($q) => is_string($q) && !empty($q) && !preg_match('/[<>\'\"&`]/', $q) ? trim($q) : null,
                     $values
