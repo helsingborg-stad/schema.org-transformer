@@ -23,12 +23,13 @@ final class MapHiringOrganizationTest extends TestCase
                     {
                         "nameorgunit": "Testförvaltning"
                     }
-                ]
+                ],
+                "suffix_text": "our ethics policy"
             }',
             Schema::jobPosting()->hiringOrganization([
                 Schema::organization()
                     ->name('Testförvaltning')
-                    ->ethicsPolicy(null)
+                    ->ethicsPolicy('our ethics policy')
             ])
         );
     }

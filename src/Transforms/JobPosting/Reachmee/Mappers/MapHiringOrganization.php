@@ -20,7 +20,7 @@ class MapHiringOrganization extends AbstractReachmeeJobPostingMapper
         return $jobPosting->hiringOrganization($name !== null ? [
             Schema::organization()
                         ->name($name)
-                        ->ethicsPolicy($data['organizations'][0]['suffix_text'] ?? null)
+                        ->ethicsPolicy($data['suffix_text'] ?? null)
         ] : []);
     }
 }
