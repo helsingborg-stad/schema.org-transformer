@@ -45,4 +45,18 @@ final class MapEndDateTest extends TestCase
             Schema::event()->endDate(null)
         );
     }
+
+    #[TestDox('event::endDate falls back to occasions.end_date when all_occasions is missing')]
+    public function testFallsBackToOccasions()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapEndDate(),
+            '{
+                "occasions": [
+                    { "end_date": "2026-10-17 23:55" }
+                ]
+            }',
+            Schema::event()->endDate('2026-10-17 23:55')
+        );
+    }
 }

@@ -27,7 +27,7 @@ class MapEventSchedule extends AbstractWPLegacyEventMapper
                             $d['content_mode'] === 'custom' ? ($d['content'] ?? null) : null
                         )
                         ->url($d['booking_link'] ?? null),
-                    $data['all_occasions'] ?? [ ]
+                    $data['all_occasions'] ?? $data['occasions'] ?? [ ]
                 )
             )
         );

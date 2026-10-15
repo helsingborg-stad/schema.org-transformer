@@ -70,4 +70,18 @@ final class MapEventStatusTest extends TestCase
             Schema::event()->eventStatus(Schema::eventStatusType()::EventCancelled)
         );
     }
+
+    #[TestDox('event::eventStatus falls back to occasions when all_occasions is missing')]
+    public function testFallsBackToOccasions()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapEventStatus(),
+            '{
+                "occasions": [
+                    { "status": "cancelled" }
+                ]
+            }',
+            Schema::event()->eventStatus(Schema::eventStatusType()::EventCancelled)
+        );
+    }
 }

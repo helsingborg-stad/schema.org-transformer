@@ -95,4 +95,29 @@ final class MapEventScheduleTest extends TestCase
                 ])
         );
     }
+
+    #[TestDox('event::eventSchedule falls back to occasions when all_occasions is missing')]
+    public function testMapEventScheduleFromOccasions()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapEventSchedule(),
+            '{
+                "occasions": [
+                    {
+                        "start_date": "2026-10-17 10:55",
+                        "end_date": "2026-10-17 23:55",
+                        "content_mode": "master",
+                        "booking_link": null
+                    }
+                ]
+            }',
+            Schema::event()
+                ->eventSchedule([
+                    Schema::schedule()
+                        ->startDate('2026-10-17 10:55')
+                        ->endDate('2026-10-17 23:55')
+                        ->url(null),
+                ])
+        );
+    }
 }
