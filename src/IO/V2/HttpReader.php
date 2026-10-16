@@ -44,7 +44,7 @@ class HttpReader implements ReaderInterface
 
             $transformed = $this->transformer->transform($preprocessedData);
             $result      = [...$result, ...$transformed];
-            $next        = $this->paginator->getNext($next, $headers);
+            $next        = $this->paginator->getNext($next, $headers, $response);
         };
 
         $this->logger->info("Finished reading data from HTTP source");
