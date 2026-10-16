@@ -27,10 +27,23 @@ class MapImage extends AbstractWPLegacyEventMapper
                             ->description($item['alt_text'] ?? null)
                             ->caption($item['alt_text'] ?? null)
                         : null,
-                        $data['_embedded']['wp:featuredmedia'] ?? []
+                        $this->getMedia($data)
                     )
                 )
             )
         );
+    }
+
+    private function getMedia(array $data): array
+    {
+        $embedded = $data['_embedded']['wp:featuredmedia'] ?? [];
+
+        if (!empty($embedded)) {
+            return $embedded;
+        }
+
+        $featured = $data['featured_media'] ?? null;
+
+        return is_array($featured) && !empty($featured['source_url']) ? [$featured] : [];
     }
 }
