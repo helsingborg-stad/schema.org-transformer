@@ -25,7 +25,7 @@ $storage        = StorageFactory::create(
     logger: $logger,
     options: [
         'collection'            => TypesenseCollection::JobPostingPrivate,
-        'collectionClearFilter' => ['filter_by' => '@type:=JobPosting'],
+        'collectionClearFilter' => ['filter_by' => 'x-created-by:=municipio://schema.org-transformer/reachmee-jobposting'],
     ],
 );
 
