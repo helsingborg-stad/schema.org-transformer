@@ -11,12 +11,16 @@ use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
 use SchemaTransformer\Transforms\School\ElementarySchool\ElementarySchoolTransform;
 use SchemaTransformer\Webhooks\Webhooks;
 
-$id         = 'ElementarySchool';
-$logger     = new TerminalLogger($id);
-$lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
-$options    = new \SchemaTransformer\Run\Cli\Options();
+$id           = 'ElementarySchool';
+$dependentIds = ['Event', 'Event.legacy', 'Event.library'];
+$logger       = new TerminalLogger($id);
+$lockRunners  = array_map(fn($dependentId) => new \SchemaTransformer\LockRunner\LockRunner($dependentId, $logger), [$id,...$dependentIds]);
+$options      = new \SchemaTransformer\Run\Cli\Options();
 
-$lockRunner->lock();
+foreach ($lockRunners as $lockRunner) {
+    $lockRunner->lock();
+}
+
 
 $httpReaderPath = getenv('ELEMENTARY_SCHOOL_API_URL');
 $transformer    = new ElementarySchoolTransform('R', TypesenseClientFactory::create());
