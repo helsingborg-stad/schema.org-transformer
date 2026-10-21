@@ -18,11 +18,11 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # Schema Transformer: Exhibitions: Every 10 minutes
 */10 * * * * root php $SCRIPTS_HOME/ExhibitionEvent.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
 
-# Schema Transformer: Pre School At every 11th minute from 3 through 59
-3-59/11 * * * * root php $SCRIPTS_HOME/PreSchool.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
+# Schema Transformer: Pre School At every 11th minute from 6 through 59
+6-59/11 * * * * root php $SCRIPTS_HOME/PreSchool.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
 
-# Schema Transformer: Elementary School At every 11th minute from 3 through 59
-3-59/11 * * * * root php $SCRIPTS_HOME/ElementarySchool.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
+# Schema Transformer: Elementary School At every 11th minute from 9 through 59
+9-59/11 * * * * root php $SCRIPTS_HOME/ElementarySchool.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
 
 # Schema Transformer: Legacy Events: At every 11th minute from 3 through 59
 3-59/11 * * * * root php $SCRIPTS_HOME/Event.legacy.php --target=typesense >> /proc/1/fd/1 2>> /proc/1/fd/2
