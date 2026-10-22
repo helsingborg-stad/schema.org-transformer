@@ -16,7 +16,7 @@ final class GetParamPaginator implements AbstractPaginator
     ) {
     }
 
-    public function getNext(string $previous, array $headers): string | false
+    public function getNext(string $previous, array $headers, array $response): string | false
     {
         $nextPageNumber = $this->getPreviousPageNumber($previous) + 1;
 

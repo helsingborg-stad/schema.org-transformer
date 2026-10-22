@@ -23,7 +23,7 @@ class GetParamPaginatorTest extends TestCase
     {
         $paginator = new \SchemaTransformer\Paginators\GetParamPaginator("page");
 
-        $nextUrl = $paginator->getNext("http://example.com?page=1", []);
+        $nextUrl = $paginator->getNext("http://example.com?page=1", [], []);
 
         $this->assertSame("http://example.com?page=2", $nextUrl);
     }
@@ -36,7 +36,7 @@ class GetParamPaginatorTest extends TestCase
 
         $dataReader->expects($this->once())->method('read')->with('http://example.com?page=1');
 
-        $paginator->getNext("http://example.com", []);
+        $paginator->getNext("http://example.com", [], []);
     }
 
     #[TestDox('getNext() increases page number by 1 if page parameter is present')]
@@ -47,7 +47,7 @@ class GetParamPaginatorTest extends TestCase
 
         $dataReader->expects($this->once())->method('read')->with('http://example.com?page=2');
 
-        $paginator->getNext("http://example.com?page=1", []);
+        $paginator->getNext("http://example.com?page=1", [], []);
     }
 
     #[TestDox('getNext() returns false if the next page is not available')]
@@ -57,7 +57,7 @@ class GetParamPaginatorTest extends TestCase
         $dataReader->method('read')->willReturn(false);
         $paginator = new \SchemaTransformer\Paginators\GetParamPaginator("page", $dataReader);
 
-        $this->assertFalse($paginator->getNext("http://example.com?page=1", []));
+        $this->assertFalse($paginator->getNext("http://example.com?page=1", [], []));
     }
 
     #[TestDox('getNext() returns the next page URL if it is available')]
@@ -67,7 +67,7 @@ class GetParamPaginatorTest extends TestCase
         $dataReader->method('read')->willReturn([]);
         $paginator = new \SchemaTransformer\Paginators\GetParamPaginator("page", $dataReader);
 
-        $this->assertEquals("http://example.com?page=2", $paginator->getNext("http://example.com?page=1", []));
+        $this->assertEquals("http://example.com?page=2", $paginator->getNext("http://example.com?page=1", [], []));
     }
 
     private function getAbstractDataReader(): AbstractDataReader|MockObject
