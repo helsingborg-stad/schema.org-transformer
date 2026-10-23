@@ -16,6 +16,6 @@ services:
     volumes:
       - typesense-data:/data
     ports:
-      - 8108:8108
+      - 8808:8108
 volumes:
   typesense-data:

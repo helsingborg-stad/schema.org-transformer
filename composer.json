@@ -3,7 +3,7 @@
     "description": "Fetching and transforming data from API to JSON-LD using spatie/schema-org",
     "type": "project",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "helsingborg-stad/schema-library": "0.5.8",
         "php-http/curl-client": "^2.3",
         "typesense/typesense-php": "^5.1",
