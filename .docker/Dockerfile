@@ -1,6 +1,6 @@
 FROM debian:bookworm
 
-ENV PHP_VERSION=8.4
+ENV PHP_VERSION=8.4.27
 
 # Install base tools required to add third-party repositories.
 RUN apt-get update && apt-get install -y --no-install-recommends \
