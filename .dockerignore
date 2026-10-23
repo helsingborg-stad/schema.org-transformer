@@ -20,3 +20,4 @@ README.MD
 
 !.docker/cronjobs
 !.docker/run-cron-job.sh
+!.docker/healthcheck

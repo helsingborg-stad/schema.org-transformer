@@ -20,6 +20,22 @@ cd schema.org-transformer
 composer install
 ```
 
+When using the VS Code devcontainer, rebuild it after changing its Dockerfile.
+The devcontainer includes PHP's zip extension and `unzip` for Composer downloads.
+
+## Docker image
+
+The image uses PHP 8.4.27 CLI on Debian Bookworm and runs the ingestion jobs through cron.
+Install production Composer dependencies before building the image, then build from the repository root:
+
+```bash
+composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+docker build -f .docker/Dockerfile -t schema-transformer:latest .
+docker run --rm schema-transformer:latest php -v
+```
+
+The final `.` is the build context; `.docker` alone does not include the application files.
+
 ## How The Project Is Structured
 
 - `run/*.php`: executable ingestion entrypoints used in deployments and cron jobs
