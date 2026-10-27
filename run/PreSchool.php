@@ -12,7 +12,7 @@ use SchemaTransformer\Transforms\School\PreSchool\PreSchoolTransform;
 use SchemaTransformer\Webhooks\Webhooks;
 
 $id           = 'PreSchool';
-$dependentIds = ['Event', 'Event.legacy'];
+$dependentIds = ['Event-update', 'Event.legacy-update'];
 $logger       = new TerminalLogger($id);
 $lockRunners  = array_map(fn($dependentId) => new \SchemaTransformer\LockRunner\LockRunner($dependentId, $logger), [$id,...$dependentIds]);
 $options      = new \SchemaTransformer\Run\Cli\Options();

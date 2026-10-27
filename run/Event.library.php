@@ -29,6 +29,7 @@ $storage        = StorageFactory::create(
     ],
 );
 
+(new \SchemaTransformer\LockRunner\LockRunner($id . '-update', $logger))->lock();
 $storage->store($reader->read());
 
 (new Webhooks(logger: $logger))->trigger(getenv('AXIELL_EVENTS_MONITOR_URL'));
