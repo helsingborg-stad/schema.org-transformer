@@ -49,6 +49,42 @@ final class MapImageTest extends TestCase
         );
     }
 
+    #[TestDox('event::image() uses when missing _embedded.acf:attachment.source_url as fallback')]
+    public function testItUsesSourceUrlAsFallback()
+    {
+        (new TestHelper())->expectMapperToConvertSourceTo(
+            new MapImage(),
+            '{
+                "_embedded": {
+                    "acf:attachment": [
+                        {
+                            "media_type": "image",
+                            "media_details": {
+                                "sizes": {
+                                    "thumbnail": {
+                                        "source_url": "https://example.com/image-thumb.jpg"
+                                    }
+                                }
+                            },
+                            "source_url": "https://example.com/image.jpg",
+                            "title": {
+                                "rendered": "Test event"
+                            },
+                            "alt_text": "Test event alt text"
+                        }
+                    ]
+                }
+            }',
+            Schema::event()->image([
+                Schema::imageObject()
+                    ->url("https://example.com/image.jpg")
+                    ->name("Test event")
+                    ->description("Test event alt text")
+                    ->caption("Test event")
+            ])
+        );
+    }
+
     #[TestDox('event::image([]) when missing _embedded.acf:attachment.*.full')]
     public function testNoFullImages()
     {
