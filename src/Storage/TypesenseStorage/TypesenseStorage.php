@@ -24,12 +24,22 @@ class TypesenseStorage implements StorageInterface
             $this->logger->info("No data to store in Typesense collection: " . $this->config->getCollection()->value);
             return;
         }
-
-        $result          = $this->getCollection()->documents->import($data);
-        $errors          = $this->getImportErrors($result);
-        $successfulCount = count($data) - count($errors);
+        $chunker         = new TypesenseDataChunker();
+        $chunks          = $chunker->getChunks($data);
+        $successfulCount = 0;
+        $errorCount      = 0;
+        foreach ($chunks as $chunk) {
+            $this->logger->info("Storing chunk of " . count($chunk) . " records in Typesense collection: " . $this->config->getCollection()->value);
+            $result           = $this->getCollection()->documents->import($chunk);
+            $errors           = $this->getImportErrors($result);
+            $successfulCount += count($chunk) - count($errors);
+            $errorCount      += count($errors);
+        }
 
         $this->logger->info("Stored " . $successfulCount . " records in Typesense collection: " . $this->config->getCollection()->value);
+        if ($errorCount > 0) {
+            $this->logger->warning("Failed to store " . $errorCount . " records in Typesense collection: " . $this->config->getCollection()->value);
+        }
     }
 
     private function getCollection(): Collection
