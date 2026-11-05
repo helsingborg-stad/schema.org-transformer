@@ -20,7 +20,7 @@ class VismaApi
     private const ITEM_URL = 'https://recruit.visma.com/External/Feeds/AssignmentItem.ashx';
 
     /**
-     * @param string $listUrl   AssignmentList.ashx URL.
+     * @param string $listUrl   AssignmentList.ashx URL. guidGroup is appended when the URL has none.
      * @param string $guidGroup Visma Recruit guidGroup used to load each assignment item.
      */
     public function __construct(
@@ -76,9 +76,23 @@ class VismaApi
      */
     private function getAssignments(): array
     {
-        $xml = $this->parse($this->fetchXml($this->listUrl));
+        $xml = $this->parse($this->fetchXml($this->getListUrl()));
 
         return $xml->xpath('//Assignment') ?: [];
+    }
+
+    private function getListUrl(): string
+    {
+        $query = (string) parse_url($this->listUrl, PHP_URL_QUERY);
+        parse_str($query, $params);
+
+        if (isset($params['guidGroup'])) {
+            return $this->listUrl;
+        }
+
+        $separator = $query === '' ? (str_contains($this->listUrl, '?') ? '' : '?') : '&';
+
+        return $this->listUrl . $separator . 'guidGroup=' . rawurlencode($this->guidGroup);
     }
 
     private function getItem(string $guid): SimpleXMLElement

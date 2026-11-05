@@ -74,6 +74,52 @@ final class VismaApiTest extends TestCase
         $this->api([self::LIST_URL => ''])->getAllAssignmentsWithItems();
     }
 
+    #[TestDox('appends guidGroup to a list url that has none')]
+    public function testAppendsGuidGroupToListUrl(): void
+    {
+        $requested = [];
+        $api       = new class ('https://example.test/List.ashx', 'g1', $requested) extends VismaApi {
+            public function __construct(string $url, string $group, private array &$requested)
+            {
+                parent::__construct($url, $group);
+            }
+
+            protected function fetchXml(string $url): string
+            {
+                $this->requested[] = $url;
+
+                return '<Assignments></Assignments>';
+            }
+        };
+
+        $api->getAllAssignmentsWithItems();
+
+        $this->assertSame(['https://example.test/List.ashx?guidGroup=g1'], $requested);
+    }
+
+    #[TestDox('keeps a list url that already contains guidGroup')]
+    public function testKeepsExistingGuidGroup(): void
+    {
+        $requested = [];
+        $api       = new class ('https://example.test/List.ashx?guidGroup=g1', 'g1', $requested) extends VismaApi {
+            public function __construct(string $url, string $group, private array &$requested)
+            {
+                parent::__construct($url, $group);
+            }
+
+            protected function fetchXml(string $url): string
+            {
+                $this->requested[] = $url;
+
+                return '<Assignments></Assignments>';
+            }
+        };
+
+        $api->getAllAssignmentsWithItems();
+
+        $this->assertSame(['https://example.test/List.ashx?guidGroup=g1'], $requested);
+    }
+
     #[TestDox('requires a list url and guid group')]
     public function testRequiresConfiguration(): void
     {
