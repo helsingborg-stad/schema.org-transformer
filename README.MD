@@ -75,7 +75,7 @@ The scripts accept `--target=console` and `--target=typesense`. The default is `
 | `run/ExhibitionEvent.php` | `WORDPRESS_EXHIBITION_EVENT_PATH` | `WPExhibitionEventTransform` | `ExhibitionEvent` | `WordpressPaginator` |
 | `run/JobPosting.public.php` | `REACHMEE_HELSINGBORG_PATH` | `ReachmeeJobPostingTransform` | `JobPosting.public` | `NullPaginator` |
 | `run/JobPosting.private.php` | `REACHMEE_INTRANAT_HELSINGBORG_PATH` | `ReachmeeJobPostingTransform` | `JobPosting.private` | `NullPaginator` |
-| `run/JobPosting.visma.php` | `VISMA_RECRUIT_PATH`, `VISMA_RECRUIT_GUID_GROUP` | `VismaJobPostingTransform` | `JobPosting.public` (or `VISMA_RECRUIT_COLLECTION`) | `NullPaginator` |
+| `run/JobPosting.visma.php` | `VISMA_RECRUIT_PATH`, `VISMA_RECRUIT_GUID_GROUP` | `VismaJobPostingTransform` (data fetched by `VismaApi`) | `JobPosting.public` (or `VISMA_RECRUIT_COLLECTION`) | `NullPaginator` |
 | `run/ElementarySchool.php` | `ELEMENTARY_SCHOOL_API_URL` | `ElementarySchoolTransform` | `ElementarySchool` | `WordpressPaginator` |
 | `run/PreSchool.php` | `PRE_SCHOOL_API_URL` | `PreSchoolTransform` | `PreSchool` | `WordpressPaginator` |
 | `run/Project.stratsys.innovation.php` | `STRATSYS_INNOVATION_PATH` | `StratsysTransform` | `Project` | `WordpressPaginator` |

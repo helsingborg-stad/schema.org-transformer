@@ -2,11 +2,10 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use SchemaTransformer\IO\V2\XmlHttpReader;
 use SchemaTransformer\Loggers\TerminalLogger;
-use SchemaTransformer\Paginators\NullPaginator;
 use SchemaTransformer\Run\Factories\StorageFactory;
 use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
+use SchemaTransformer\Transforms\JobPosting\Visma\Api\VismaApi;
 use SchemaTransformer\Transforms\JobPosting\Visma\VismaJobPostingTransform;
 use SchemaTransformer\Webhooks\Webhooks;
 
@@ -28,8 +27,8 @@ if (!is_string($collectionName) || trim($collectionName) === '') {
     $collectionName = TypesenseCollection::JobPostingPublic->value;
 }
 
-$transformer = new VismaJobPostingTransform($guidGroup);
-$reader      = new XmlHttpReader($httpReaderPath, $transformer, [ 'Accept' => 'application/xml, text/xml' ], new NullPaginator(), $logger);
+$vismaApi    = new VismaApi($httpReaderPath, $guidGroup, $logger);
+$transformer = new VismaJobPostingTransform();
 $storage     = StorageFactory::create(
     target: $options->getTarget(),
     logger: $logger,
@@ -40,6 +39,6 @@ $storage     = StorageFactory::create(
     ],
 );
 
-$storage->store($reader->read());
+$storage->store($transformer->transform($vismaApi->getAllAssignmentsWithItems()));
 
 (new Webhooks(logger: $logger))->trigger(getenv('VISMA_RECRUIT_MONITOR_URL'));

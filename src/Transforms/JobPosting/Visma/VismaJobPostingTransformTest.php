@@ -14,7 +14,7 @@ final class VismaJobPostingTransformTest extends TestCase
     #[TestDox('maps a Visma list assignment and its item feed to a JobPosting')]
     public function testMapsAssignmentToJobPosting(): void
     {
-        $transform = $this->transformWithItem(<<<'XML'
+        $itemXml = <<<'XML'
             <Assignment>
                 <EmploymentStartDate>2024-06-01T00:00:00</EmploymentStartDate>
                 <ReadMoreUrl>https://example.test/job</ReadMoreUrl>
@@ -54,9 +54,11 @@ final class VismaJobPostingTransformTest extends TestCase
                     </AssignmentLoc>
                 </Localization>
             </Assignment>
-            XML);
+            XML;
 
-        $jobs = $transform->transform(['content' => $this->listXml()]);
+        $jobs = (new VismaJobPostingTransform())->transform([
+            ['assignment' => $this->assignmentXml(), 'item' => $itemXml],
+        ]);
 
         $this->assertCount(1, $jobs);
         $job = $jobs[0];
@@ -107,7 +109,7 @@ final class VismaJobPostingTransformTest extends TestCase
     #[TestDox('uses 1753-01-01 as an empty start date and keeps the description')]
     public function testSentinelStartDateKeepsDescriptionOnly(): void
     {
-        $transform = $this->transformWithItem(<<<'XML'
+        $itemXml = <<<'XML'
             <Assignment>
                 <EmploymentStartDate>1753-01-01T00:00:00</EmploymentStartDate>
                 <Localization>
@@ -119,64 +121,52 @@ final class VismaJobPostingTransformTest extends TestCase
                     </AssignmentLoc>
                 </Localization>
             </Assignment>
-            XML);
+            XML;
 
-        $jobs = $transform->transform(['content' => $this->listXml('1753-01-01T00:00:00')]);
+        $jobs = (new VismaJobPostingTransform())->transform([
+            ['assignment' => $this->assignmentXml('1753-01-01T00:00:00'), 'item' => $itemXml],
+        ]);
 
         $this->assertSame('Snarast', $jobs[0]['jobStartDate']);
     }
 
-    #[TestDox('throws when the list feed has no XML content')]
-    public function testMissingContentThrows(): void
+    #[TestDox('returns an empty list when there is nothing to transform')]
+    public function testEmptyInputReturnsEmptyArray(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-
-        (new VismaJobPostingTransform('group-id'))->transform(['content' => '']);
+        $this->assertSame([], (new VismaJobPostingTransform())->transform([]));
     }
 
-    #[TestDox('throws when Visma reports an unknown group')]
-    public function testUnknownGroupThrows(): void
+    #[TestDox('skips entries with unusable XML and keeps the rest')]
+    public function testSkipsBrokenEntries(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $item = '<Assignment><Localization><AssignmentLoc><WorkDescr>x</WorkDescr></AssignmentLoc></Localization></Assignment>';
 
-        (new VismaJobPostingTransform('group-id'))->transform([
-            'content' => '<Error>Kunde inte hitta gruppen</Error>',
+        $jobs = (new VismaJobPostingTransform())->transform([
+            ['assignment' => 'not xml', 'item' => $item],
+            ['assignment' => $this->assignmentXml(), 'item' => $item],
         ]);
+
+        $this->assertCount(1, $jobs);
+        $this->assertSame('C100', $jobs[0]['@id']);
     }
 
-    #[TestDox('returns an empty list when the feed has no assignments')]
-    public function testEmptyFeedReturnsEmptyArray(): void
+    #[TestDox('prefixes the identifier like the other JobPosting transforms')]
+    public function testIdentifierUsesPrefix(): void
     {
-        $transform = new VismaJobPostingTransform('group-id');
+        $item = '<Assignment><Localization><AssignmentLoc><WorkDescr>x</WorkDescr></AssignmentLoc></Localization></Assignment>';
+        $jobs = (new VismaJobPostingTransform('visma-'))->transform([
+            ['assignment' => $this->assignmentXml(), 'item' => $item],
+        ]);
 
-        $this->assertSame([], $transform->transform(['content' => '<Assignments></Assignments>']));
+        $this->assertSame('visma-C100', $jobs[0]['@id']);
     }
 
     /**
-     * Build a transform whose detail request returns a fixed item feed.
+     * One list assignment as XML. The start date can be overridden for the sentinel case.
      */
-    private function transformWithItem(string $itemXml): VismaJobPostingTransform
-    {
-        return new class ('group-id', $itemXml) extends VismaJobPostingTransform {
-            public function __construct(string $guidGroup, private string $itemXml)
-            {
-                parent::__construct($guidGroup);
-            }
-
-            protected function fetchXml(string $url): string
-            {
-                return $this->itemXml;
-            }
-        };
-    }
-
-    /**
-     * Assignment list XML. The start date can be overridden for the sentinel case.
-     */
-    private function listXml(string $employmentStartDate = '2024-06-01T00:00:00'): string
+    private function assignmentXml(string $employmentStartDate = '2024-06-01T00:00:00'): string
     {
         return <<<XML
-            <Assignments>
                 <Assignment>
                     <Guid>GUID-1</Guid>
                     <RefNo>C100</RefNo>
@@ -204,7 +194,6 @@ final class VismaJobPostingTransformTest extends TestCase
                         </AssignmentLoc>
                     </Localization>
                 </Assignment>
-            </Assignments>
             XML;
     }
 }

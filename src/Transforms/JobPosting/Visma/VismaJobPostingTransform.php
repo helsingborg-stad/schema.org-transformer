@@ -10,110 +10,72 @@ use SchemaTransformer\Transforms\TransformBase;
 use SimpleXMLElement;
 
 /**
- * Transforms a Visma Recruit assignment list into schema.org JobPosting documents.
+ * Transforms Visma Recruit assignments into schema.org JobPosting documents.
  *
- * Each list item is enriched from AssignmentItem.ashx. The mapped fields match
- * the previous VismaJobPostingTransform in this project.
+ * Input is produced by VismaApi: the list assignment and its detail item as XML.
  */
 class VismaJobPostingTransform extends TransformBase implements AbstractDataTransform
 {
     public const CREATED_BY = 'municipio://schema.org-transformer/visma-recruit';
 
-    private const ITEM_URL = 'https://recruit.visma.com/External/Feeds/AssignmentItem.ashx';
-
-    /**
-     * @param string $guidGroup Visma Recruit guidGroup used to load each assignment item.
-     */
-    public function __construct(private string $guidGroup)
+    public function __construct(string $idprefix = '')
     {
-        parent::__construct('');
-
-        if ($this->guidGroup === '') {
-            throw new \InvalidArgumentException('Visma guid group is missing');
-        }
+        parent::__construct($idprefix);
     }
 
     /**
-     * Transform a Visma assignment list feed into JobPosting documents.
+     * Transform Visma assignments into JobPosting documents.
      *
-     * @param array<string, mixed> $data Reader payload. The list XML is in content.
+     * Each entry holds the XML of one list assignment and its detail item, as
+     * fetched by VismaApi. No network access happens here.
+     *
+     * @param array<int, array{assignment: string, item: string}> $data
      *
      * @return array<int, array<string, mixed>>
      */
     public function transform(array $data): array
     {
-        $xmlString = $data['content'] ?? '';
-        if (!is_string($xmlString) || $xmlString === '') {
-            throw new \InvalidArgumentException('No XML content provided');
-        }
-
-        $cleanXml = $this->sanitizeXML($xmlString);
-        if (str_contains($cleanXml, 'Kunde inte hitta gruppen')) {
-            throw new \InvalidArgumentException('Visma could not find the assignment group');
-        }
-
-        try {
-            $xml = new SimpleXMLElement($cleanXml, LIBXML_NOCDATA | LIBXML_NOWARNING);
-        } catch (\Exception $e) {
-            throw new \InvalidArgumentException('XML parse error: ' . $e->getMessage(), 0, $e);
-        }
-
-        $assignments = $xml->xpath('//Assignment');
-        if (!is_array($assignments) || $assignments === []) {
-            return [];
-        }
-
         $output = [];
-        foreach ($assignments as $assignment) {
-            $jobPosting = $this->tryTransformAssignment($assignment);
-            if ($jobPosting === null) {
-                continue;
+        foreach ($data as $entry) {
+            $jobPosting = $this->tryTransformAssignment($entry);
+            if ($jobPosting !== null) {
+                $output[] = $jobPosting;
             }
-
-            $output[] = $jobPosting;
-        }
-
-        if ($output === []) {
-            throw new \RuntimeException('Visma feed contained assignments but none could be transformed');
         }
 
         return $output;
     }
 
     /**
-     * Map one list assignment, or return null when the item feed cannot be used.
+     * Map one assignment, or return null when its XML cannot be used.
+     *
+     * @param array{assignment?: string, item?: string} $entry
      *
      * @return array<string, mixed>|null
      */
-    private function tryTransformAssignment(SimpleXMLElement $assignment): ?array
+    private function tryTransformAssignment(array $entry): ?array
     {
+        $previous = libxml_use_internal_errors(true);
+
         try {
+            $assignment = new SimpleXMLElement((string) ($entry['assignment'] ?? ''), LIBXML_NOCDATA | LIBXML_NOWARNING);
+            $singleItem = new SimpleXMLElement((string) ($entry['item'] ?? ''), LIBXML_NOCDATA | LIBXML_NOWARNING);
+
             $localization = $assignment->Localization->AssignmentLoc[0] ?? null;
-            if (!$localization instanceof SimpleXMLElement) {
-                return null;
-            }
-
-            $guid = (string) $assignment->Guid;
-            if ($guid === '') {
-                return null;
-            }
-
-            $assignmentItem = $this->getSingleItemData($guid);
-            if (!isset($assignmentItem[0])) {
-                return null;
-            }
-
-            $singleItem = $assignmentItem[0];
-            $singleLoc  = $singleItem->Localization->AssignmentLoc;
-            if (!$singleLoc instanceof SimpleXMLElement) {
+            $singleLoc    = $singleItem->Localization->AssignmentLoc[0] ?? null;
+            if (!$localization instanceof SimpleXMLElement || !$singleLoc instanceof SimpleXMLElement) {
                 return null;
             }
 
             return $this->mapJobPosting($assignment, $localization, $singleItem, $singleLoc);
         } catch (\Throwable) {
             return null;
+        } finally {
+            libxml_clear_errors();
+            libxml_use_internal_errors($previous);
         }
     }
+
 
     /**
      * Build the JobPosting document for one assignment.
@@ -184,7 +146,7 @@ class VismaJobPostingTransform extends TransformBase implements AbstractDataTran
         $fullDescription  = $this->formatText($fullDescription);
 
         $jobPosting = Schema::jobPosting()
-            ->identifier((string) $assignment->RefNo)
+            ->identifier($this->formatId((string) $assignment->RefNo))
             ->totalJobOpenings((string) $assignment->NumberOfJobs)
             ->title((string) $localization->AssignmentTitle)
             ->description($fullDescription)
@@ -233,48 +195,6 @@ class VismaJobPostingTransform extends TransformBase implements AbstractDataTran
         $jobPosting->setProperty('@version', md5(json_encode($jobPosting->toArray())));
 
         return $jobPosting->toArray();
-    }
-
-    /**
-     * Load the detail feed for one assignment guid.
-     *
-     * @return array<int, SimpleXMLElement>
-     */
-    private function getSingleItemData(string $guid): array
-    {
-        $url            = self::ITEM_URL . '?guidGroup=' . $this->guidGroup . '&guidAssignment=' . $guid;
-        $xml            = new SimpleXMLElement($this->sanitizeXML($this->fetchXml($url)), LIBXML_NOCDATA | LIBXML_NOWARNING);
-        $assignmentItem = $xml->xpath('//Assignment');
-
-        return is_array($assignmentItem) ? $assignmentItem : [];
-    }
-
-    /**
-     * Fetch an assignment item feed.
-     *
-     * @param string $url AssignmentItem.ashx URL.
-     */
-    protected function fetchXml(string $url): string
-    {
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept: application/xml']);
-
-        $response = curl_exec($curl);
-        if ($response === false) {
-            $error = curl_error($curl);
-            curl_close($curl);
-            throw new \RuntimeException('Could not retrieve Visma assignment: ' . $error);
-        }
-
-        $code = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
-
-        if ($code >= 400) {
-            throw new \RuntimeException('Could not retrieve Visma assignment. HTTP ' . $code);
-        }
-
-        return (string) $response;
     }
 
     /**
@@ -510,17 +430,6 @@ class VismaJobPostingTransform extends TransformBase implements AbstractDataTran
 
         return array_pad($in, $length, $fallback);
     }
-
-    /**
-     * Escape stray ampersands and strip characters XML 1.0 rejects.
-     */
-    private function sanitizeXML(string $xml): string
-    {
-        $xml = preg_replace('/&(?!(?:amp|quot|apos|lt|gt);)/', '&amp;', $xml) ?? $xml;
-
-        return preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $xml) ?? $xml;
-    }
-
     /**
      * Read a nested element as text. A missing step yields an empty string.
      */
