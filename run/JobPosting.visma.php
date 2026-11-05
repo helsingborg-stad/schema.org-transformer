@@ -22,11 +22,6 @@ if (!is_string($httpReaderPath) || $httpReaderPath === '' || !is_string($guidGro
     throw new \RuntimeException('VISMA_RECRUIT_PATH and VISMA_RECRUIT_GUID_GROUP must be set');
 }
 
-$collectionName = getenv('VISMA_RECRUIT_COLLECTION');
-if (!is_string($collectionName) || trim($collectionName) === '') {
-    $collectionName = TypesenseCollection::JobPostingPublic->value;
-}
-
 $vismaApi    = new VismaApi($httpReaderPath, $guidGroup, $logger);
 $transformer = new VismaJobPostingTransform();
 $storage     = StorageFactory::create(
@@ -34,7 +29,6 @@ $storage     = StorageFactory::create(
     logger: $logger,
     options: [
         'collection'            => TypesenseCollection::JobPostingPublic,
-        'collectionName'        => trim($collectionName),
         'collectionClearFilter' => ['filter_by' => 'x-created-by:=' . VismaJobPostingTransform::CREATED_BY],
     ],
 );
