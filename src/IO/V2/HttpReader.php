@@ -80,8 +80,19 @@ class HttpReader implements ReaderInterface
 
         curl_close($curl);
 
-        // Decode JSON response
-        return [json_decode($body, true), $resHeaders];
+        return [$this->decodeBody($body), $resHeaders];
+    }
+
+    /**
+     * Decode an HTTP response body.
+     *
+     * @param string $body Raw response body.
+     *
+     * @return mixed Decoded payload. JSON sources return an array or null.
+     */
+    protected function decodeBody(string $body): mixed
+    {
+        return json_decode($body, true);
     }
 
     /**
