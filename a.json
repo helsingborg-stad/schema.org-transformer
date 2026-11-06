@@ -1,0 +1,381 @@
+[
+    {
+        "data": {
+            "type": "job",
+            "id": "987717",
+            "attributes": {
+                "reference": "2026/297",
+                "positions": 1,
+                "translations": {
+                    "languages": {
+                        "included": "sv",
+                        "primary": "sv",
+                        "available": [
+                            "sv"
+                        ]
+                    },
+                    "texts": {
+                        "title": "Testannons - Fritidsledare till vår fantastiska fritidsgård!",
+                        "profession": null,
+                        "organization": "xxxTestavdelning, xxxTestavdelning nivå 2",
+                        "placement": "Helsingborg"
+                    }
+                },
+                "dates": {
+                    "published": "2026-11-05T00:00:00+01:00",
+                    "deadline": "2026-12-05T23:59:59+01:00",
+                    "updated": "2026-11-05T15:27:39+01:00"
+                },
+                "location": [
+                    {
+                        "country": "SE",
+                        "subdivision_1": "SE-12",
+                        "subdivision_2": "1283",
+                        "unspecified": false
+                    }
+                ],
+                "media": {
+                    "logotype": "https://helsingborg.varbi.com/Graphics/Img/CompanyLogos/helsingborg_logo.png"
+                }
+            },
+            "links": {
+                "self": "https://api.varbi.com/v1/jobs/987717",
+                "ad_rendered": "https://helsingborg.varbi.com/se/what:job/jobID:987717/type:job/where:4/apply:1",
+                "apply": "https://helsingborg.varbi.com/se/what:login/jobID:987717/type:job/where:4/apply:1"
+            },
+            "relationships": {
+                "ad": {
+                    "links": {
+                        "related": "https://api.varbi.com/v1/jobs/987717/ad"
+                    },
+                    "data": {
+                        "type": "job-ad",
+                        "id": "987717"
+                    }
+                },
+                "employment_type": {
+                    "data": {
+                        "type": "employment-type",
+                        "id": "1"
+                    }
+                },
+                "categories": {
+                    "data": []
+                },
+                "taxonomy": {
+                    "data": {
+                        "type": "occupation-field",
+                        "id": "GazW_2TU_kJw"
+                    }
+                },
+                "organization": {
+                    "data": {
+                        "type": "organization",
+                        "id": "1365"
+                    }
+                },
+                "salary_scales": {
+                    "data": []
+                }
+            }
+        },
+        "included": [
+            {
+                "type": "occupation-field",
+                "id": "GazW_2TU_kJw",
+                "attributes": {
+                    "name": "Yrken med social inriktning"
+                }
+            },
+            {
+                "type": "job-ad",
+                "id": "987717",
+                "attributes": {
+                    "language": "sv",
+                    "texts": {
+                        "title": "Testannons - Fritidsledare till vår fantastiska fritidsgård!",
+                        "descriptions": {
+                            "combined": "<p></p><p>Fritid Helsingborg arbetar för att skapa ett rikt och varaktigt fritidsutbud för alla i Helsingborg. Det gör vi genom att erbjuda attraktiva fritidsgårdar, aktivitetshus och mötesplatser, öppna och tillgängliga idrottsanläggningar, spännande evenemang och upplevelser och stöd till föreningslivet i staden.</p><h2>Om arbetsplatsen</h2><p>På våra fritidsgårdar, aktivitetshus och mötesplatser arbetar vi mot mål i linje med vad nämnden beslutat och verksamhetens utveckling. Vår fokus är  ungdomsinflytande, hälsa, upplevelser och intressen som berikar ungdomens fria tid. Vi samarbetar nära skola, civilsamhälle, föreningsliv och andra förvaltningar inom staden.</p><p>Följ oss gärna på Instagram Joinaoss för att få veta mer om våra verksamheter!  <a href=\"https://helsingborg.se/uppleva-och-gora/fritidsgardar-och-motesplatser/\">Klicka här för att läsa om våra fritidsgårdar och mötesplatser!</a></p><p>Vi är medlemmar i KEKS nätverk. Vad detta innebär kan du läsa mer om här: <a title=\"Keks\" href=\"#h12sl1q9972crsimuv1q4swy1dhos2f\">https://www.keks.se/</a></p><h2>Arbetsuppgifter</h2><p>Som fritidsledare hos oss arbetar du för att skapa en trygg, kreativ och stimulerande miljö tilsammans med Helsingborgs ungdomar. Med ungdomsperspektivet som utgångspunkt är du med och utvecklar framtidens fritidsverksamhet. Dina huvudsakliga arbetsuppgifter innebär att:</p><ul><li>Coacha och stötta unga i att planera och genomföra egna idéer, aktiviteter och evenemang.</li><li>Utveckla verksamheten med fokus på ungdomars delaktighet, där gaming och fysisk aktivitet möts.</li><li>Leda, planera och utvärdera ditt eget arbete, både självständigt och i samverkan med andra.</li></ul><h2><strong>Kvalifikationer</strong></h2><p>Vi söker dig som är nyfiken, engagerad och nytänkande! Du är en initiativrik och drivande lagspelare som har lätt för att samverka och skapa engagemang tillsammans med ungdomar. Eftersom rollen kräver eget ansvar är du också självständig, serviceinriktad och bra på att arbeta systematiskt och kommunicera i tal och skrift. </p><ul><li><strong>Krav: </strong>Eftergymnasial utbildning som fritidsledare, hälsopedagog, socionom på minst 2 år eller eftergymnasial utbildning som arbetsgivaren bedömer relevant för yrket. Dokumenterad erfarenhet av att arbeta med ungdomar i åldern 12–19 år. God IT-vana (Officepaketet) och B-körkort krävs också.</li><li><strong>Plus i kanten: </strong>Det är ett stort plus om du har kunskap/erfarenhet av föreningsliv/fysisk aktivitet, projektledning eller dokumenterad kunskap om normkritik och jämställdhet. </li></ul><p>Stämmer detta in på dig? Välkommen med din ansökan! </p><p>För att kvalitetssäkra rekryteringsprocessen i Helsingborgs stad använder vi rekryteringsverktyget Varbi. Därför ber vi dig att skicka in din ansökan via Varbi genom att klicka på ansökningslänken i annonsen. I ansökan ska CV och övriga för tjänsten relevanta handlingar bifogas, exempelvis utbildningsbevis eller yrkeslegitimation. Du kommer även få besvara urvalsfrågor. Om du saknar svar från oss, kontrollera skräpposten då mejl ibland sorteras dit.<br />\n<br />\nDu som söker jobb och har skyddade personuppgifter ska kontakta rekryterande chef i annonsen som kommer guida dig vidare för en säker ansökningsprocess. Du ska inte ansöka digitalt via ansökningslänken.<br />\n<br />\nFackliga företrädare https://intranat.helsingborg.se/hr/samverkan-och-delaktighet/fackliga-foretradare/<br />\n<br />\nDå vi inför denna rekrytering redan tagit ställning till de rekryteringskanaler vi önskar använda undanber vi oss vänligen men bestämt att bli kontaktade för ytterligare erbjudanden om kompetensförmedling, annonserings- och rekryteringshjälp.</p>"
+                        },
+                        "details": [
+                            {
+                                "type": "organization",
+                                "label": "Avdelning",
+                                "text": "xxxTestavdelning, xxxTestavdelning nivå 2"
+                            },
+                            {
+                                "type": "employment-type",
+                                "label": "Anställningsform",
+                                "text": "Tillsvidareanställning"
+                            },
+                            {
+                                "type": "employment-hours",
+                                "label": "Anställningens omfattning",
+                                "text": "Heltid"
+                            },
+                            {
+                                "type": "working-hours",
+                                "label": "Sysselsättningsgrad",
+                                "text": "100%"
+                            },
+                            {
+                                "type": "admission",
+                                "label": "Tillträde",
+                                "text": "2035-01-01"
+                            },
+                            {
+                                "type": "driving_licenses",
+                                "label": "Körkort",
+                                "text": "B"
+                            },
+                            {
+                                "type": "positions",
+                                "label": "Antal lediga befattningar",
+                                "text": "1"
+                            },
+                            {
+                                "type": "placement",
+                                "label": "Arbetsort",
+                                "text": "Helsingborg"
+                            },
+                            {
+                                "type": "subdivision_1",
+                                "label": "Län",
+                                "text": "Skåne län"
+                            },
+                            {
+                                "type": "country",
+                                "label": "Land",
+                                "text": "Sverige"
+                            },
+                            {
+                                "type": "reference",
+                                "label": "Referensnummer",
+                                "text": "2026/297"
+                            },
+                            {
+                                "type": "published",
+                                "label": "Publicerat",
+                                "text": "2026-11-05"
+                            },
+                            {
+                                "type": "deadline",
+                                "label": "Sista ansökningsdag",
+                                "text": "2026-12-05"
+                            }
+                        ]
+                    },
+                    "media": {
+                        "top_image": "https://cdn.varbi.com/1365/b5dccb07a93ce20792ccfc3810188c54.jpg",
+                        "top_image_alt_text": "_A6A9050-1200px.jpg",
+                        "youtube": null
+                    },
+                    "contacts": [
+                        {
+                            "name": "Anna Test",
+                            "phone": "042-105989",
+                            "email": "annika.segerheden@helsingborg.se",
+                            "title": null
+                        }
+                    ],
+                    "union_contacts": [
+                        {
+                            "name": "Emil Test",
+                            "phone": "",
+                            "email": "",
+                            "title": null
+                        }
+                    ],
+                    "metadata": {
+                        "open_graph": {
+                            "image": "https://cdn.varbi.com/1365/b5dccb07a93ce20792ccfc3810188c54.jpg"
+                        }
+                    }
+                },
+                "links": {
+                    "self": "https://api.varbi.com/v1/jobs/987717/ad"
+                }
+            }
+        ]
+    },
+    {
+        "data": {
+            "type": "job",
+            "id": "980572",
+            "attributes": {
+                "reference": "2026/85",
+                "positions": 1,
+                "translations": {
+                    "languages": {
+                        "included": "sv",
+                        "primary": "sv",
+                        "available": [
+                            "sv"
+                        ]
+                    },
+                    "texts": {
+                        "title": "Lärare SV/SO i åk 4 (TESTANNONS FÖR WEBBEN)",
+                        "profession": null,
+                        "organization": "Skol- och fritidsförvaltningen, VO 1 Förskola",
+                        "placement": "Helsingborg"
+                    }
+                },
+                "dates": {
+                    "published": "2026-10-16T00:00:00+02:00",
+                    "deadline": "2026-11-16T23:59:59+01:00",
+                    "updated": "2026-11-05T09:47:43+01:00"
+                },
+                "location": [
+                    {
+                        "country": "SE",
+                        "subdivision_1": "SE-12",
+                        "subdivision_2": "1283",
+                        "unspecified": false
+                    }
+                ],
+                "media": {
+                    "logotype": "https://helsingborg.varbi.com/Graphics/Img/CompanyLogos/helsingborg_logo.png"
+                }
+            },
+            "links": {
+                "self": "https://api.varbi.com/v1/jobs/980572",
+                "ad_rendered": "https://helsingborg.varbi.com/se/what:job/jobID:980572/type:job/where:4/apply:1",
+                "apply": "https://helsingborg.varbi.com/se/apply/positionquick/980572/?where=4"
+            },
+            "relationships": {
+                "ad": {
+                    "links": {
+                        "related": "https://api.varbi.com/v1/jobs/980572/ad"
+                    },
+                    "data": {
+                        "type": "job-ad",
+                        "id": "980572"
+                    }
+                },
+                "employment_type": {
+                    "data": {
+                        "type": "employment-type",
+                        "id": "1"
+                    }
+                },
+                "categories": {
+                    "data": []
+                },
+                "taxonomy": {
+                    "data": {
+                        "type": "occupation-field",
+                        "id": "MVqp_eS8_kDZ"
+                    }
+                },
+                "organization": {
+                    "data": {
+                        "type": "organization",
+                        "id": "1365"
+                    }
+                },
+                "salary_scales": {
+                    "data": []
+                }
+            }
+        },
+        "included": [
+            {
+                "type": "occupation-field",
+                "id": "MVqp_eS8_kDZ",
+                "attributes": {
+                    "name": "Pedagogik"
+                }
+            },
+            {
+                "type": "job-ad",
+                "id": "980572",
+                "attributes": {
+                    "language": "sv",
+                    "texts": {
+                        "title": "Lärare SV/SO i åk 4 (TESTANNONS FÖR WEBBEN)",
+                        "descriptions": {
+                            "combined": "<p></p><p>Vill du vara med och göra skillnad på riktigt? Välkommen med din ansökan redan idag!</p><h2>Om arbetsplatsen</h2><p>Helsingborgs stads skolor är en resursstark och värdestyrd organisation. Här blir du som medarbetare en viktig del i vår gemensamma vision att skapa den bästa skolan för varje barn och elev.</p><p>Drottninghögsskolan är en F-6 skola med ca 300 elever. Majoriteten av våra elever har annat modersmål än svenska. Vi lägger stor vikt vid att alla elever utvecklar ett rikt språk för att nå sina mål - alla ska få chans att bli sitt bästa jag. Tillsammans utvecklas vi för att se till att alla elever blir duktiga läsare. Drottninghögsskolan ska vara den bästa skolan för varje elev!</p><p>Vi har ”Pulsglädje” varje förmiddag med våra elever för en aktiv satsning på hälsoarbete där du som lärare deltar tillsammans med våra elever. Vi tror på att ge eleverna verktygen de behöver för att utveckla sina förmågor i skolan och för framtiden. Det synliggörs bland annat genom rastaktiviteter och brain breaks på lektionerna. </p><p>Ett av våra viktigaste verksamhetsmål är att elevernas språkutveckling ska stimuleras och utvecklas genom hela sin skoldag och oavsett ämne och eleverna ska utveckla sin läs- och skrivförmåga.</p><p>Utifrån forskning och beprövad erfarenhet utvecklar vi elevernas utbildning utifrån behov som finns på just vår skola.</p><h2>Arbetsuppgifter</h2><p>Vi söker dig som är en driven och engagerad lärare som vill vara med och utveckla undervisningen och vår pedagogiska verksamhet på Drottninghögsskolan. Vi är nyfikna på dina idéer, ditt bidrag och vill ta del av dina erfarenheter på vår resa framåt. Om du brinner för elevers stimulans och utveckling i en skolmiljö med fantastisk mångfald är du varmt välkommen att söka!</p><p>Du kommer ansvara för undervisning i SV/SO i åk 4 och ha mentorsuppdrag. Som lärare hos oss får du vara med att påverka framtiden. Tillsammans med dina kollegor skapar du förutsättningar och inspirerar eleverna att bli sitt bästa jag. Du kommer aktivt att bidra till högre måluppfyllelse på skolan gällande såväl kunskaper som demokratiuppdrag. Tillsammans skapar vi en skola som är likvärdig och inkluderande. I din tjänst ingår mentorskap, planering, undervisning, dokumentation och bedömning. Du utvecklar den pedagogiska verksamheten i enlighet med skolans styrdokument tillsammans med dina kollegor och ledningen. Tillsammans med kollegorna bidrar du till en god arbetsmiljö där du stärker varje elev i såväl kunskapsutveckling som den personliga utvecklingen.</p><p><strong>Vad vi erbjuder</strong></p><p>Vi erbjuder dig ett omväxlande, ansvarsfullt och stimulerande arbete med möjligheter till egen utveckling. Arbetsplatsen är rökfri och hälsomedveten. Som anställd får du ett friskvårdsbidrag på 3000 kronor per år. </p><h2>Kvalifikationer</h2><p>Vi söker en lärare som har en stark tro på allas möjligheter och vill driva utvecklingen framåt tillsammans med kollegor. Du är legitimerad lärare med behörighet att undervisa i åk 4-6. I din behörighetsförteckning ser vi att svenska, svenska som andraspråk, samt SO-ämnen finns med. Utifrån dina drivkrafter och behörigheter lägger vi organisationen tillsammans.<br /><br />Du har en god nivå på dina kunskaper i svenska såväl muntligt som skriftligt. Du är van att arbeta språkutvecklande, har erfarenhet av den tidiga läsinlärningen och följer aktivt med i forskning och utveckling. Du har erfarenhet av att synliggöra kvalitet och likvärdighet,<br />vad som görs, varför och vad det leder till. Genom att planera, följa upp, analysera, dokumentera och utveckla utbildningen skapar och delar du med dig av kunskap om vad som leder till högre måluppfyllelse.</p><p>Du ser möjligheter i stället för hinder, är idérik och ser positivt på vårt hälsoarbete och att utmaningar är till för att lösas. Genom att vara lösningsfokuserad och ha ett medvetet förhållningssätt skapar du trygghet, förtroende och goda relationer till kollegor, vårdnadshavare och elever. Du ser samarbete som självklart och är en kollega som tar ansvar för dina arbetsuppgifter. Du är en skicklig pedagog och har ett tydligt och medvetet ledarskap där du utformar en öppen och trygg lärandemiljö. Du är duktig på att se både den enskilda elevens och klassens behov och möjligheter.</p><p>Stor vikt kommer att läggas vid personlig lämplighet.</p><h2>Att jobba i Helsingborgs stad</h2><p>Vill du vara med och skapa en bättre stad tillsammans med helsingborgarna? Då ska du jobba i Helsingborgs stad. Här kan du använda din kreativitet och drivkraft till att göra livet lättare och tryggare för våra invånare, besökare och näringsliv. Tillsammans med nyfikna och hjälpsamma kollegor gör du skillnad i människors liv, både idag och i framtiden. Ett bra jobb idag, en bättre stad imorgon.</p><p>Här kan du läsa mer om hur det är att jobba i staden: <a href=\"https://helsingborg.se/arbete/sa-ar-det-att-jobba-i-staden/\">https://helsingborg.se/arbete/sa-ar-det-att-jobba-i-staden/</a></p><p>För att kvalitetssäkra rekryteringsprocessen i Helsingborgs stad använder vi rekryteringsverktyget Varbi. Därför ber vi dig att skicka in din ansökan via Varbi genom att klicka på ansökningslänken i annonsen. I ansökan ska CV och övriga för tjänsten relevanta handlingar bifogas, exempelvis utbildningsbevis eller yrkeslegitimation. Du kommer även få besvara urvalsfrågor. Om du saknar svar från oss, kontrollera skräpposten då mejl ibland sorteras dit.<br />\n<br />\nInnan anställning kommer vi göra en kontroll av medborgarskap. Du kommer behöva uppvisa pass, nationellt ID-kort eller personbevis. Är du inte medborgare i Sverige, EU, EES eller Schweiz måste du även styrka ett giltigt arbetstillstånd eller att du är undantagen från skyldigheten att ha arbetstillstånd enligt Utlänningsförordningen 6 kap. §13a.<br />\n<br />\nDu som söker jobb och har skyddade personuppgifter ska kontakta rekryterande chef i annonsen som kommer guida dig vidare för en säker ansökningsprocess. Du ska inte ansöka digitalt via ansökningslänken.<br />\n<br />\nFackliga företrädare https://intranat.helsingborg.se/hr/samverkan-och-delaktighet/fackliga-foretradare/<br />\n<br />\nDå vi inför denna rekrytering redan tagit ställning till de rekryteringskanaler vi önskar använda undanber vi oss vänligen men bestämt att bli kontaktade för ytterligare erbjudanden om kompetensförmedling, annonserings- och rekryteringshjälp.</p>"
+                        },
+                        "details": [
+                            {
+                                "type": "organization",
+                                "label": "Avdelning",
+                                "text": "Skol- och fritidsförvaltningen, VO 1 Förskola"
+                            },
+                            {
+                                "type": "employment-type",
+                                "label": "Anställningsform",
+                                "text": "Tillsvidareanställning"
+                            },
+                            {
+                                "type": "employment-hours",
+                                "label": "Anställningens omfattning",
+                                "text": "Heltid"
+                            },
+                            {
+                                "type": "working-hours",
+                                "label": "Sysselsättningsgrad",
+                                "text": "100%"
+                            },
+                            {
+                                "type": "admission",
+                                "label": "Tillträde",
+                                "text": "2035-01-01"
+                            },
+                            {
+                                "type": "positions",
+                                "label": "Antal lediga befattningar",
+                                "text": "1"
+                            },
+                            {
+                                "type": "placement",
+                                "label": "Arbetsort",
+                                "text": "Helsingborg"
+                            },
+                            {
+                                "type": "subdivision_1",
+                                "label": "Län",
+                                "text": "Skåne län"
+                            },
+                            {
+                                "type": "country",
+                                "label": "Land",
+                                "text": "Sverige"
+                            },
+                            {
+                                "type": "reference",
+                                "label": "Referensnummer",
+                                "text": "2026/85"
+                            },
+                            {
+                                "type": "published",
+                                "label": "Publicerat",
+                                "text": "2026-10-16"
+                            },
+                            {
+                                "type": "deadline",
+                                "label": "Sista ansökningsdag",
+                                "text": "2026-11-16"
+                            }
+                        ]
+                    },
+                    "media": {
+                        "top_image": null,
+                        "top_image_alt_text": null,
+                        "youtube": null
+                    },
+                    "contacts": [],
+                    "union_contacts": [],
+                    "metadata": {
+                        "open_graph": {
+                            "image": "https://helsingborg.varbi.com/Graphics/Img/CompanyLogos/helsingborg_logo_ogimage.png"
+                        }
+                    }
+                },
+                "links": {
+                    "self": "https://api.varbi.com/v1/jobs/980572/ad"
+                }
+            }
+        ]
+    }
+]
