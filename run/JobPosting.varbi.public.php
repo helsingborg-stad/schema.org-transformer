@@ -20,7 +20,7 @@ $lockRunner->lock();
  * We are joining multiple results from Varbi so we can aggregate them into a single dataset.
  * This allows us to work with a unified view of the data across different endpoints.
  */
-$varbiApi    = new VarbiApi(getenv('VARBI_JOB_POSTING_API_URL'), getenv('VARBI_JOB_POSTING_API_KEY'), $logger);
+$varbiApi    = new VarbiApi('PUBLIC', getenv('VARBI_JOB_POSTING_API_URL'), getenv('VARBI_JOB_POSTING_API_KEY'), $logger);
 $jobs        = $varbiApi->getAllJobsWithAds();
 $transformer = new VarbiJobPostingTransform('varbi-');
 
@@ -41,4 +41,4 @@ $storage->store($transformer->transform($jobs));
 // $storage->store($varbiApi->getJobPostings());
 
 // show aggregation of all job postings with ads
-// $storage->store($jobs);
+//$storage->store($jobs);
