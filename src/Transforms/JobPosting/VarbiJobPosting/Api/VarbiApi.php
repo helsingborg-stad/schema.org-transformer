@@ -18,15 +18,17 @@ use SchemaTransformer\Paginators\NullPaginator;
  */
 class VarbiApi
 {
+    protected string $visibility;
     protected string $apiUrl;
     protected string $apiKey;
     protected LoggerInterface $logger;
 
-    public function __construct(string $apiUrl, string $apiKey, LoggerInterface $logger)
+    public function __construct(string $visibility, string $apiUrl, string $apiKey, LoggerInterface $logger)
     {
-        $this->apiUrl = $apiUrl;
-        $this->apiKey = $apiKey;
-        $this->logger = $logger;
+        $this->visibility = $visibility ?? 'PUBLIC' ?? 'INTERNAL';
+        $this->apiUrl     = $apiUrl;
+        $this->apiKey     = $apiKey;
+        $this->logger     = $logger;
     }
 
     public function getAllJobsWithAds(): array
@@ -41,7 +43,7 @@ class VarbiApi
 
     public function getJobPostings(): array
     {
-        return $this->fetchPaginated('');
+        return $this->fetchPaginated('?visibility=' . $this->visibility);
     }
 
     protected function fetch(string $endpoint): array
