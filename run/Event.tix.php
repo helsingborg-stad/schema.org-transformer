@@ -18,9 +18,16 @@ $options    = new \SchemaTransformer\Run\Cli\Options();
 $lockRunner->lock();
 
 $httpReaderPath = getenv('TIX_EVENTS_API_URL');
-$transformer    = new TixEventTransform('TIX');
-$reader         = new HttpReader($httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger);
-$storage        = StorageFactory::create(
+$transformer    = new TixEventTransform(
+    'TIX',
+    [
+        fn($item) => !str_starts_with($item['Name'] ?? '', 'Sofiero Entré'),
+        fn($item) => !str_starts_with($item['Name'] ?? '', 'Terrasspaket'),
+    ]
+);
+
+$reader  = new HttpReader($httpReaderPath, $transformer, [ 'Content-Type' => 'application/json', 'Accept' => 'application/json', ], new WordpressPaginator(), $logger);
+$storage = StorageFactory::create(
     target: $options->getTarget(),
     logger: $logger,
     options: [

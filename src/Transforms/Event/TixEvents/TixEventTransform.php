@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms\Event\TixEvents;
 
 use Municipio\Schema\Schema;
+use Override;
 use SchemaTransformer\Transforms\TransformBase;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use SchemaTransformer\Transforms\Event\TixEvents\Mappers\MapDescription;
@@ -26,9 +27,31 @@ use SchemaTransformer\Transforms\Event\TixEvents\Mappers\MapXCreatedBy;
 
 class TixEventTransform extends TransformBase implements AbstractDataTransform
 {
-    public function __construct(string $idprefix)
+    private array $filters = [];
+    public function __construct(string $idprefix, array $filters = [])
     {
         parent::__construct($idprefix);
+        $this->filters = $filters;
+    }
+
+    #[Override]
+    public function preprocessData(array $data): array
+    {
+        if (empty($this->filters)) {
+            return parent::preprocessData($data);
+        }
+
+        return array_values(array_filter(
+            parent::preprocessData($data),
+            function ($item) {
+                foreach ($this->filters as $filter) {
+                    if (!$filter($item)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        ));
     }
 
     public function transform(array $data): array
