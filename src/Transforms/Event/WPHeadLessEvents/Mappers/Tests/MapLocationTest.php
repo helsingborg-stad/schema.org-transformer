@@ -48,16 +48,16 @@ final class MapLocationTest extends TestCase
         );
     }
 
-    #[TestDox('event::location[] when missing acf.locationAddress.name')]
+    #[TestDox('event::location[] when missing acf.locationAddress.address')]
     public function testMissingName()
     {
         (new TestHelper())->expectMapperToConvertSourceTo(
             new MapLocation(),
             '{
                 "acf": {
-                    "locationName": null,
+                    "locationName": "Dunkers kulturhus",
                     "locationAddress": {
-                        "address": "Dunkers kulturhus, Kungsgatan, Helsingborg, Sverige",
+                        "address": "",
                         "lat": 56.0478422,
                         "lng": 12.6890694,
                         "zoom": 14,

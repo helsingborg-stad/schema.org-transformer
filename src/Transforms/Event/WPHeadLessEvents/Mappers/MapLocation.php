@@ -20,7 +20,7 @@ class MapLocation extends AbstractWPHeadlessEventMapper
         return $event
                 ->location(
                     array_filter([
-                        empty($data['acf']['locationName'] ?? null)
+                        empty($data['acf']['locationAddress']['address'] ?? null)
                             ? null
                             : Schema::place()
                                 ->name($data['acf']['locationName'] ?? null)
