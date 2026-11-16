@@ -92,8 +92,8 @@ final class VismaJobPostingTransformTest extends TestCase
         $this->assertStringContainsString('<h2>Arbetsuppgifter</h2>', $job['description']);
         $this->assertStringContainsString('<h2>Kvalifikationer</h2>', $job['description']);
         $this->assertStringContainsString('<h2>Övrig information</h2>', $job['description']);
-        $this->assertStringContainsString('<h3>Beskrivning</h3>', $job['description']);
-        $this->assertStringContainsString('Yrkesbeskrivning från Visma', $job['description']);
+        $this->assertStringNotContainsString('Beskrivning', $job['description']);
+        $this->assertStringNotContainsString('Yrkesbeskrivning från Visma', $job['description']);
         $this->assertStringContainsString(
             '<a href="https://example.test/info">https://example.test/info</a>',
             $job['description']
