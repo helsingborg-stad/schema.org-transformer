@@ -75,6 +75,7 @@ The scripts accept `--target=console` and `--target=typesense`. The default is `
 | `run/ExhibitionEvent.php` | `WORDPRESS_EXHIBITION_EVENT_PATH` | `WPExhibitionEventTransform` | `ExhibitionEvent` | `WordpressPaginator` |
 | `run/JobPosting.public.php` | `REACHMEE_HELSINGBORG_PATH` | `ReachmeeJobPostingTransform` | `JobPosting.public` | `NullPaginator` |
 | `run/JobPosting.private.php` | `REACHMEE_INTRANAT_HELSINGBORG_PATH` | `ReachmeeJobPostingTransform` | `JobPosting.private` | `NullPaginator` |
+| `run/JobPosting.visma.php` | `VISMA_RECRUIT_PATH`, `VISMA_RECRUIT_GUID_GROUP` | `VismaJobPostingTransform` (data fetched by `VismaApi`) | `JobPosting.public` | `NullPaginator` |
 | `run/ElementarySchool.php` | `ELEMENTARY_SCHOOL_API_URL` | `ElementarySchoolTransform` | `ElementarySchool` | `WordpressPaginator` |
 | `run/PreSchool.php` | `PRE_SCHOOL_API_URL` | `PreSchoolTransform` | `PreSchool` | `WordpressPaginator` |
 | `run/Project.stratsys.innovation.php` | `STRATSYS_INNOVATION_PATH` | `StratsysTransform` | `Project` | `WordpressPaginator` |
@@ -101,6 +102,8 @@ The `run/*` scripts expect these variables unless noted otherwise:
 - `WORDPRESS_EXHIBITION_EVENT_PATH`
 - `REACHMEE_HELSINGBORG_PATH`
 - `REACHMEE_INTRANAT_HELSINGBORG_PATH`
+- `VISMA_RECRUIT_PATH`
+- `VISMA_RECRUIT_GUID_GROUP`
 - `ELEMENTARY_SCHOOL_API_URL`
 - `PRE_SCHOOL_API_URL`
 - `STRATSYS_INNOVATION_PATH`
@@ -126,6 +129,7 @@ After a successful run, a script triggers its monitor webhook when the correspon
 - `WORDPRESS_EXHIBITION_EVENTS_MONITOR_URL`
 - `REACHMEE_HELSINGBORG_MONITOR_URL`
 - `REACHMEE_INTRANAT_HELSINGBORG_MONITOR_URL`
+- `VISMA_RECRUIT_MONITOR_URL`
 - `ELEMENTARY_SCHOOL_MONITOR_URL`
 - `PRE_SCHOOL_MONITOR_URL`
 - `STRATSYS_INNOVATION_MONITOR_URL`
