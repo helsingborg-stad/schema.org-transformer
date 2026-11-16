@@ -126,6 +126,7 @@ class VismaJobPostingTransform extends TransformBase implements AbstractDataTran
         $workDescrBody            = $this->linkifyUrlsInPlainText((string) ($singleLoc->WorkDescr ?? ''));
         $qualificationsBody       = $this->linkifyUrlsInPlainText((string) ($singleLoc->Qualifications ?? ''));
         $additionalInfoLinked     = $this->linkifyUrlsInPlainText($additionalInfoRaw);
+        $occupationClassification = $this->occupationClassificationText($singleLoc);
 
         $fullDescription  = '<h2>Om arbetsplatsen</h2>';
         $fullDescription .= $departmentDescr;
@@ -134,7 +135,14 @@ class VismaJobPostingTransform extends TransformBase implements AbstractDataTran
         $fullDescription .= '<h2>Kvalifikationer</h2>';
         $fullDescription .= $qualificationsBody;
         $fullDescription .= '<h2>Övrig information</h2>';
-        $fullDescription .= $additionalInfoLinked;
+        $otherInfoParts   = [];
+        if ($additionalInfoRaw !== '') {
+            $otherInfoParts[] = $additionalInfoLinked;
+        }
+        if ($occupationClassification !== '') {
+            $otherInfoParts[] = '<h3>Beskrivning</h3>' . "\n\n" . $occupationClassification;
+        }
+        $fullDescription .= implode("\n\n", $otherInfoParts);
         $fullDescription  = $this->formatText($fullDescription);
 
         $jobPosting = Schema::jobPosting()
@@ -187,6 +195,51 @@ class VismaJobPostingTransform extends TransformBase implements AbstractDataTran
         $jobPosting->setProperty('@version', md5(json_encode($jobPosting->toArray())));
 
         return $jobPosting->toArray();
+    }
+
+    /**
+     * Occupation area text shown under Övrig information.
+     *
+     * The additional-ad-info branch reads OccupationClassification[@LevelId="2"].
+     * This feed stores that text on the Level 1 classification instead.
+     */
+    private function occupationClassificationText(SimpleXMLElement $singleLoc): string
+    {
+        $queries = [
+            'OccupationClassifications/OccupationClassification[@LevelId="2"]',
+            'OccupationClassifications/OccupationClassification[Level="1"]',
+        ];
+
+        foreach ($queries as $query) {
+            $text = $this->occupationDescr($singleLoc, $query);
+            if ($text !== '') {
+                return $this->linkifyUrlsInPlainText($text);
+            }
+        }
+
+        foreach ($singleLoc->OccupationClassifications->OccupationClassification ?? [] as $classification) {
+            $text = trim((string) ($classification->Descr ?? ''));
+            if ($text === '') {
+                continue;
+            }
+
+            return $this->linkifyUrlsInPlainText($text);
+        }
+
+        return '';
+    }
+
+    /**
+     * First non-empty Descr for an occupation xpath.
+     */
+    private function occupationDescr(SimpleXMLElement $singleLoc, string $query): string
+    {
+        $nodes = $singleLoc->xpath($query);
+        if (!is_array($nodes) || !isset($nodes[0])) {
+            return '';
+        }
+
+        return trim((string) ($nodes[0]->Descr ?? ''));
     }
 
     /**
