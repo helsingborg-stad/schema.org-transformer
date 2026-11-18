@@ -20,7 +20,7 @@ class MapOffer extends AbstractMapper
             ->name($data['title']['rendered'] ?? '')
             ->description($acf['description'] ?? null)
             ->sponsorshipDate($date)
-            ->practicalInformation($acf['location']['address'] ?? null)
+            ->practicalInformation($acf['requirements'] ?? null)
             ->requestedCounterPerformance($acf['proposal_for_counter_performance'] ?? null);
     }
 }
