@@ -15,13 +15,12 @@ final class MapImageTest extends TestCase
     /** Maps image URL, title, and alternative text. */
     public function testMapsImageObject(): void
     {
-        $result = (new MapImage())->map(Schema::SponsorDemandEvent(), TestHelper::fixture())->toArray();
+        $result = (new MapImage())->map(Schema::SponsorDemand(), TestHelper::fixture())->toArray();
 
         self::assertSame(
             [
                 '@type'       => 'ImageObject',
                 'url'         => 'https://example.invalid/wp-content/uploads/sites/7/2026/08/målgrupp2.png',
-                'name'        => 'målgrupp2',
                 'description' => 'asdadada',
             ],
             $result['image'],
@@ -34,7 +33,7 @@ final class MapImageTest extends TestCase
         $data                 = TestHelper::fixture();
         $data['acf']['image'] = false;
 
-        $result = (new MapImage())->map(Schema::SponsorDemandEvent(), $data)->toArray();
+        $result = (new MapImage())->map(Schema::SponsorDemand(), $data)->toArray();
 
         self::assertArrayNotHasKey('image', $result);
     }

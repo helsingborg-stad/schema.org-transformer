@@ -14,10 +14,10 @@ final class TransformTest extends TestCase
     public function testPreservesTopLevelFieldsWhenAcfIsMissing(): void
     {
         $result = (new Transform())->transform([
-            ['id' => 42, 'title' => ['rendered' => 'Demand without ACF']],
+            ['guid' => ['rendered' => 'https://example.invalid/?p=42'], 'title' => ['rendered' => 'Demand without ACF']],
         ])[0];
 
-        self::assertSame(42, $result['@id']);
+        self::assertSame('https://example.invalid/?p=42', $result['@id']);
         self::assertSame('Demand without ACF', $result['name']);
     }
 
@@ -25,29 +25,29 @@ final class TransformTest extends TestCase
     {
         $result = (new Transform())->transform([
             [
-                'id'    => 42,
+                'guid'    => ['rendered' => 'https://example.invalid/?p=42'],
                 'title' => ['rendered' => 'Demand'],
                 'acf'   => [
                     'organization_website'             => 'https://example.invalid',
                     'location'                         => false,
-                    'organization_eligible_for_grants' => false,
                 ],
             ],
         ])[0];
 
-        self::assertSame('https://example.invalid', $result['organization']['url']);
-        self::assertArrayNotHasKey('location', $result);
+        self::assertSame('https://example.invalid', $result['@reverse']['seeks']['url']);
+        self::assertArrayNotHasKey('municipio:supportLocation', $result);
         self::assertSame([], $result['keywords'] ?? []);
     }
 
-    public function testMapsTrueGrantEligibilityAsText(): void
+    public function testMapsPublicationPage(): void
     {
-        $result = (new Transform())->transform([
-            [
-                'acf' => ['organization_eligible_for_grants' => true],
-            ],
-        ])[0];
+        $result = (new Transform())->transform([TestHelper::fixture()])[0];
+        $page = $result['mainEntityOfPage'];
 
-        self::assertSame('eligible', $result['keywords'][0]['name']);
+        self::assertSame('SponsorDemand', $result['@type']);
+        self::assertSame('WebPage', $page['@type']);
+        self::assertSame(['@id' => $result['@id']], $page['mainEntity']);
+        self::assertSame('2026-09-11T07:46:51Z', $page['datePublished']);
+        self::assertSame('2026-11-12T00:00:00+01:00', $page['expires']);
     }
 }

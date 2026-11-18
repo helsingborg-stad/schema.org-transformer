@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SchemaTransformer\Transforms\Sponsor\Demand;
 
-use Municipio\Schema\SponsorDemandEvent;
+use Municipio\Schema\SponsorDemand;
 
 interface MapperInterface
 {
-    public function map(SponsorDemandEvent $event, array $data): SponsorDemandEvent;
+    public function map(SponsorDemand $event, array $data): SponsorDemand;
 }

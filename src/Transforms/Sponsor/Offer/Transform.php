@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms\Sponsor\Offer;
 
 use Municipio\Schema\Schema;
+use SchemaTransformer\Transforms\Sponsor\MapWebPage;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use SchemaTransformer\Transforms\Sponsor\Offer\Mappers\MapImage;
 use SchemaTransformer\Transforms\Sponsor\Offer\Mappers\MapKeywords;
-use SchemaTransformer\Transforms\Sponsor\Offer\Mappers\MapLocation;
 use SchemaTransformer\Transforms\Sponsor\Offer\Mappers\MapOffer;
 use SchemaTransformer\Transforms\Sponsor\Offer\Mappers\MapOfferedBy;
 
@@ -24,9 +24,9 @@ class Transform implements AbstractDataTransform
         $mappers = [
             new MapOffer(),
             new MapImage(),
-            new MapLocation(),
             new MapKeywords(),
             new MapOfferedBy(),
+            new MapWebPage(),
         ];
         return array_map(fn ($item) =>
             array_reduce(

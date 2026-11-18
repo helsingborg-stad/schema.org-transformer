@@ -12,15 +12,15 @@ use SchemaTransformer\Transforms\Sponsor\Offer\Mappers\MapOffer;
 #[CoversClass(MapOffer::class)]
 final class MapOfferTest extends TestCase
 {
-    /** Maps offer identity, title, end date, and resource categories. */
+    /** Maps offer identity, title, description, and support date. */
     public function testMapsOfferFields(): void
     {
         $result = (new MapOffer())->map(Schema::SponsorOffer(), TestHelper::fixture('offering.data.json'))->toArray();
 
-        self::assertSame(1002, $result['@id']);
+        self::assertSame('https://example.invalid/offering/exempelerbjudande/', $result['@id']);
         self::assertSame('Exempelerbjudande', $result['name']);
-        self::assertSame('2027-02-05T19:04:00', $result['availabilityEnds']);
-        self::assertSame(['stöd och hjälp', 'pengar', 'mat- och dryck', 'logistik', 'övrigt'], $result['category']);
+        self::assertSame('2027-09-03T18:05:00+02:00', $result['municipio:sponsorshipDate']);
+        self::assertNotEmpty($result['description']);
     }
 
     /** Maps identity and title even when ACF data is absent. */
@@ -28,11 +28,11 @@ final class MapOfferTest extends TestCase
     {
         $result = (new MapOffer())->map(
             Schema::SponsorOffer(),
-            ['id' => 42, 'title' => ['rendered' => 'Offer']],
+            ['guid' => ['rendered' => 'https://example.invalid/?p=42'], 'title' => ['rendered' => 'Offer']],
         )->toArray();
 
-        self::assertSame(42, $result['@id']);
+        self::assertSame('https://example.invalid/?p=42', $result['@id']);
         self::assertSame('Offer', $result['name']);
-        self::assertSame([], $result['category']);
+        self::assertArrayNotHasKey('municipio:sponsorshipDate', $result);
     }
 }

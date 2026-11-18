@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms\Sponsor\Demand\Mappers;
 
 use Municipio\Schema\Schema;
-use Municipio\Schema\SponsorDemandEvent;
+use Municipio\Schema\SponsorDemand;
 use SchemaTransformer\Transforms\Sponsor\Demand\AbstractMapper;
 
 class MapImage extends AbstractMapper
 {
     private const IMAGE_KEY = 'image';
 
-    public function map(SponsorDemandEvent $event, array $data): SponsorDemandEvent
+    public function map(SponsorDemand $event, array $data): SponsorDemand
     {
         return $event->image(
             $this->withAcfFields(
@@ -20,7 +20,7 @@ class MapImage extends AbstractMapper
                 fn(array $acf) =>
                 Schema::imageObject()
                     ->url($acf['url'] ?? null)
-                    ->name($acf['title'] ?? null)
+
                     ->description($acf['alt'] ?? null),
                 self::IMAGE_KEY
             )
