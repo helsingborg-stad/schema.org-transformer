@@ -19,7 +19,7 @@ final class MapOfferTest extends TestCase
 
         self::assertSame('https://example.invalid/offering/exempelerbjudande/', $result['@id']);
         self::assertSame('Exempelerbjudande', $result['name']);
-        self::assertSame('2027-09-03T18:05:00+02:00', $result['municipio:sponsorshipDate']);
+        self::assertSame('2027-09-03T18:05:00+02:00', $result['sponsorshipDate']);
         self::assertNotEmpty($result['description']);
     }
 
@@ -33,6 +33,6 @@ final class MapOfferTest extends TestCase
 
         self::assertSame('https://example.invalid/?p=42', $result['@id']);
         self::assertSame('Offer', $result['name']);
-        self::assertArrayNotHasKey('municipio:sponsorshipDate', $result);
+        self::assertArrayNotHasKey('sponsorshipDate', $result);
     }
 }

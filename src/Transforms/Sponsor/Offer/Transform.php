@@ -6,6 +6,7 @@ namespace SchemaTransformer\Transforms\Sponsor\Offer;
 
 use Municipio\Schema\Schema;
 use SchemaTransformer\Transforms\Sponsor\MapWebPage;
+use SchemaTransformer\Transforms\Sponsor\ListingJsonLd;
 use SchemaTransformer\Interfaces\AbstractDataTransform;
 use SchemaTransformer\Transforms\Sponsor\Offer\Mappers\MapImage;
 use SchemaTransformer\Transforms\Sponsor\Offer\Mappers\MapKeywords;
@@ -28,11 +29,12 @@ class Transform implements AbstractDataTransform
             new MapOfferedBy(),
             new MapWebPage(),
         ];
-        return array_map(fn ($item) =>
+        return array_map(fn ($item) => ListingJsonLd::serialize(
             array_reduce(
                 $mappers,
                 fn ($project, $mapper) => $mapper->map($project, $item),
                 Schema::SponsorOffer()
-            )->toArray(), array_values($data));
+            )->toArray()
+        ), array_values($data));
     }
 }

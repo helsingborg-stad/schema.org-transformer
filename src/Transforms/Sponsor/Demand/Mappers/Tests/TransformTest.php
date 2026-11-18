@@ -35,7 +35,7 @@ final class TransformTest extends TestCase
         ])[0];
 
         self::assertSame('https://example.invalid', $result['@reverse']['seeks']['url']);
-        self::assertArrayNotHasKey('municipio:supportLocation', $result);
+        self::assertArrayNotHasKey('sponsor:supportLocation', $result);
         self::assertSame([], $result['keywords'] ?? []);
     }
 

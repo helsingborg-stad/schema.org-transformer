@@ -11,6 +11,7 @@ use SchemaTransformer\Transforms\Sponsor\Demand\Mappers\MapKeywords;
 use SchemaTransformer\Transforms\Sponsor\Demand\Mappers\MapOrganization;
 use Municipio\Schema\Schema;
 use SchemaTransformer\Transforms\Sponsor\MapWebPage;
+use SchemaTransformer\Transforms\Sponsor\ListingJsonLd;
 
 class Transform implements AbstractDataTransform
 {
@@ -28,11 +29,12 @@ class Transform implements AbstractDataTransform
             new MapKeywords(),
             new MapWebPage(),
         ];
-        return array_map(fn ($item) =>
+        return array_map(fn ($item) => ListingJsonLd::serialize(
             array_reduce(
                 $mappers,
                 fn ($project, $mapper) => $mapper->map($project, $item),
                 Schema::SponsorDemand()
-            )->toArray(), array_values($data));
+            )->toArray()
+        ), array_values($data));
     }
 }
