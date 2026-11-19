@@ -19,7 +19,7 @@ class MapImage extends AbstractMapper
                 $data,
                 fn(array $acf) => Schema::imageObject()
                 ->url($acf['url'] ?? null)
-                ->name($acf['title'] ?? null)
+
                 ->description($acf['alt'] ?? null),
                 self::IMAGE_KEY
             )

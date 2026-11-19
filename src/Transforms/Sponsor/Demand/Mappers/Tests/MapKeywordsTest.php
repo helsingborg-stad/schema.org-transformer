@@ -12,25 +12,22 @@ use SchemaTransformer\Transforms\Sponsor\Demand\Mappers\MapKeywords;
 #[CoversClass(MapKeywords::class)]
 final class MapKeywordsTest extends TestCase
 {
-    /** Omits the grant keyword when eligibility is false. */
-    public function testOmitsKeywordWhenNotEligible(): void
+    /** Omits keywords when resources are absent. */
+    public function testOmitsKeywordsWhenResourcesAreMissing(): void
     {
-        $result = (new MapKeywords())->map(Schema::SponsorDemandEvent(), TestHelper::fixture())->toArray();
+        $result = (new MapKeywords())->map(Schema::SponsorDemand(), [])->toArray();
 
         self::assertSame([], $result['keywords'] ?? []);
     }
 
-    /** Maps true grant eligibility to a textual defined term. */
-    public function testMapsEligibleGrantKeyword(): void
+    /** Maps resources to defined terms. */
+    public function testMapsResources(): void
     {
-        $data                                            = TestHelper::fixture();
-        $data['acf']['organization_eligible_for_grants'] = true;
+        $result = (new MapKeywords())->map(Schema::SponsorDemand(), TestHelper::fixture())->toArray();
 
-        $result = (new MapKeywords())->map(Schema::SponsorDemandEvent(), $data)->toArray();
-
-        self::assertSame('eligible', $result['keywords'][0]['name']);
+        self::assertSame('ekonomi', $result['keywords'][0]['name']);
         self::assertSame(
-            'organization_eligible_for_grants',
+            'resource',
             $result['keywords'][0]['inDefinedTermSet']['name'],
         );
     }

@@ -15,19 +15,19 @@ final class MapOrganizationTest extends TestCase
     /** Maps organization fields, website, and contact point. */
     public function testMapsOrganization(): void
     {
-        $result = (new MapOrganization())->map(Schema::SponsorDemandEvent(), TestHelper::fixture())->toArray();
+        $result = (new MapOrganization())->map(Schema::SponsorDemand()->setProperty('@id', 'https://example.invalid/?p=42'), TestHelper::fixture())->toArray();
 
-        self::assertSame('Exempelföreningen', $result['organization']['name']);
-        self::assertSame('https://example.invalid', $result['organization']['url']);
-        self::assertSame('0000000000', $result['organization']['taxID']);
-        self::assertSame('kontakt@example.invalid', $result['organization']['contactPoint']['email']);
+        self::assertSame('Exempelföreningen', $result['@reverse']['seeks']['name']);
+        self::assertSame('https://example.invalid', $result['@reverse']['seeks']['url']);
+        self::assertSame('bollsport', $result['@reverse']['seeks']['keywords'][0]['name']);
+        self::assertSame('kontakt@example.invalid', $result['@reverse']['seeks']['contactPoint']['email']);
     }
 
-    /** Leaves the event unchanged when ACF data is absent. */
-    public function testKeepsEventWithoutAcf(): void
+    /** Leaves the demand unchanged when ACF data is absent. */
+    public function testKeepsDemandWithoutAcf(): void
     {
-        $result = (new MapOrganization())->map(Schema::SponsorDemandEvent(), ['id' => 42])->toArray();
+        $result = (new MapOrganization())->map(Schema::SponsorDemand(), ['id' => 42])->toArray();
 
-        self::assertArrayNotHasKey('organization', $result);
+        self::assertArrayNotHasKey('@reverse', $result);
     }
 }

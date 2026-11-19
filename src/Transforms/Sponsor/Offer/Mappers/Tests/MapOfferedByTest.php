@@ -12,22 +12,15 @@ use SchemaTransformer\Transforms\Sponsor\Offer\Mappers\MapOfferedBy;
 #[CoversClass(MapOfferedBy::class)]
 final class MapOfferedByTest extends TestCase
 {
-    /** Maps the offering organization and its contact, demand, and keyword. */
+    /** Maps the offering organization and its contact. */
     public function testMapsOfferedByOrganization(): void
     {
-        $result = (new MapOfferedBy())->map(Schema::SponsorOffer(), TestHelper::fixture('offering.data.json'))->toArray();
+        $result = (new MapOfferedBy())->map(Schema::SponsorOffer()->setProperty('@id', 'https://example.invalid/?p=42'), TestHelper::fixture('offering.data.json'))->toArray();
 
         self::assertSame('Exempelföreningen', $result['offeredBy']['name']);
         self::assertSame('https://example.invalid', $result['offeredBy']['url']);
         self::assertSame('kontakt@example.invalid', $result['offeredBy']['contactPoint']['email']);
-        self::assertSame(
-            'Deleo temptatio verus valetudo theatrum a aufero.',
-            $result['offeredBy']['demand']['description'],
-        );
-        self::assertSame(
-            'Vapulus vulgo barba aer censura cui ipsa stabilis substantia fugiat.',
-            $result['offeredBy']['keywords'][0]['name'],
-        );
+        self::assertArrayNotHasKey('keywords', $result['offeredBy']);
     }
 
     /** Leaves the offer unchanged when ACF data is absent. */
