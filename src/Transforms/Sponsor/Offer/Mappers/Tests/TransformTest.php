@@ -25,7 +25,7 @@ final class TransformTest extends TestCase
     {
         $result = (new Transform())->transform([
             [
-                'guid'    => ['rendered' => 'https://example.invalid/?p=42'],
+                'guid'  => ['rendered' => 'https://example.invalid/?p=42'],
                 'title' => ['rendered' => 'Offer'],
                 'acf'   => [
                     'organization_website' => 'https://example.invalid',

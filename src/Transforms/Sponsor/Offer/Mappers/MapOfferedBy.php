@@ -13,7 +13,7 @@ class MapOfferedBy extends AbstractMapper
     public function map(SponsorOffer $listing, array $data): SponsorOffer
     {
         $acf = $data['acf'] ?? [];
-        $id = $listing->getProperty('@id');
+        $id  = $listing->getProperty('@id');
         if (!$acf || !$id) {
             return $listing;
         }

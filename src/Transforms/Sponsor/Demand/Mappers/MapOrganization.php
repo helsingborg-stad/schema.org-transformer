@@ -14,7 +14,7 @@ class MapOrganization extends AbstractMapper
     public function map(SponsorDemand $listing, array $data): SponsorDemand
     {
         $acf = $data['acf'] ?? [];
-        $id = $listing->getProperty('@id');
+        $id  = $listing->getProperty('@id');
         if (!$acf || !$id) {
             return $listing;
         }

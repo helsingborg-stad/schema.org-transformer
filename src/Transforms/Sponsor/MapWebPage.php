@@ -21,9 +21,9 @@ class MapWebPage
 
     public function map(SponsorDemand|SponsorOffer $listing, array $data): SponsorDemand|SponsorOffer
     {
-        $id = $listing->getProperty('@id');
+        $id        = $listing->getProperty('@id');
         $published = $data['date_gmt'] ?? null;
-        $dueDate = $data['acf']['due_date'] ?? null;
+        $dueDate   = $data['acf']['due_date'] ?? null;
         if (!$id || !$published || !$dueDate) {
             return $listing;
         }

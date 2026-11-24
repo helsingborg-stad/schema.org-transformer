@@ -25,11 +25,11 @@ final class TransformTest extends TestCase
     {
         $result = (new Transform())->transform([
             [
-                'guid'    => ['rendered' => 'https://example.invalid/?p=42'],
+                'guid'  => ['rendered' => 'https://example.invalid/?p=42'],
                 'title' => ['rendered' => 'Demand'],
                 'acf'   => [
-                    'organization_website'             => 'https://example.invalid',
-                    'location'                         => false,
+                    'organization_website' => 'https://example.invalid',
+                    'location'             => false,
                 ],
             ],
         ])[0];
@@ -42,7 +42,7 @@ final class TransformTest extends TestCase
     public function testMapsPublicationPage(): void
     {
         $result = (new Transform())->transform([TestHelper::fixture()])[0];
-        $page = $result['mainEntityOfPage'];
+        $page   = $result['mainEntityOfPage'];
 
         self::assertSame('SponsorDemand', $result['@type']);
         self::assertSame('WebPage', $page['@type']);

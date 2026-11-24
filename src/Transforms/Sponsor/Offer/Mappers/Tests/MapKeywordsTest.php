@@ -24,7 +24,7 @@ final class MapKeywordsTest extends TestCase
     /** Maps empty resources to an empty keyword list. */
     public function testMapsEmptyResources(): void
     {
-        $data                      = TestHelper::fixture('offering.data.json');
+        $data                     = TestHelper::fixture('offering.data.json');
         $data['acf']['resources'] = [];
 
         $result = (new MapKeywords())->map(Schema::SponsorOffer(), $data)->toArray();
@@ -35,7 +35,7 @@ final class MapKeywordsTest extends TestCase
     /** Leaves the offer unchanged when the resources field is false. */
     public function testSkipsFalseResourcesField(): void
     {
-        $data                      = TestHelper::fixture('offering.data.json');
+        $data                     = TestHelper::fixture('offering.data.json');
         $data['acf']['resources'] = false;
 
         $result = (new MapKeywords())->map(Schema::SponsorOffer(), $data)->toArray();
