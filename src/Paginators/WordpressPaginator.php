@@ -11,7 +11,6 @@ final class WordpressPaginator implements AbstractPaginator
 {
     public function getNext(string $previous, array $headers, array $response): string | false
     {
-        $headers = array_change_key_case($headers, CASE_LOWER);
         if (array_key_exists("link", $headers)) {
             $components = explode(',', $headers["link"]);
             foreach ($components as $row) {
