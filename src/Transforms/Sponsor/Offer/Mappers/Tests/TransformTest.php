@@ -14,10 +14,10 @@ final class TransformTest extends TestCase
     public function testPreservesTopLevelFieldsWhenAcfIsMissing(): void
     {
         $result = (new Transform())->transform([
-            ['id' => 42, 'title' => ['rendered' => 'Offer without ACF']],
+            ['guid' => ['rendered' => 'https://example.invalid/?p=42'], 'title' => ['rendered' => 'Offer without ACF']],
         ])[0];
 
-        self::assertSame(42, $result['@id']);
+        self::assertSame('https://example.invalid/?p=42', $result['@id']);
         self::assertSame('Offer without ACF', $result['name']);
     }
 
@@ -25,7 +25,7 @@ final class TransformTest extends TestCase
     {
         $result = (new Transform())->transform([
             [
-                'id'    => 42,
+                'guid'  => ['rendered' => 'https://example.invalid/?p=42'],
                 'title' => ['rendered' => 'Offer'],
                 'acf'   => [
                     'organization_website' => 'https://example.invalid',
@@ -36,6 +36,6 @@ final class TransformTest extends TestCase
         ])[0];
 
         self::assertSame('https://example.invalid', $result['offeredBy']['url']);
-        self::assertSame([], $result['category'] ?? []);
+        self::assertSame([], $result['keywords'] ?? []);
     }
 }

@@ -8,12 +8,23 @@ use DateTime;
 
 abstract class AbstractMapper implements MapperInterface
 {
-    public function mapDateTime(?string $date, ?string $time): ?DateTime
+    public function mapDateTime(?string $date, ?string $time): ?string
     {
-        return DateTime::createFromFormat(
-            'Y-m-d H:i:s',
-            trim($date . ' ' . $time)
+        if (!$date) {
+            return null;
+        }
+
+        if (!$time) {
+            return $date;
+        }
+
+        $value = DateTime::createFromFormat(
+            '!Y-m-d H:i:s',
+            $date . ' ' . $time,
+            new \DateTimeZone('Europe/Stockholm')
         ) ?: null;
+
+        return $value?->format(DATE_ATOM);
     }
 
     public function withAcfFields(?array $data, callable $callback, ?string $subField): mixed

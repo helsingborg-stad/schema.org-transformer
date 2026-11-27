@@ -5,29 +5,35 @@ declare(strict_types=1);
 namespace SchemaTransformer\Transforms\Sponsor\Demand\Mappers;
 
 use Municipio\Schema\Schema;
-use Municipio\Schema\SponsorDemandEvent;
+use Municipio\Schema\SponsorDemand;
 use SchemaTransformer\Transforms\Sponsor\Demand\AbstractMapper;
+use SchemaTransformer\Transforms\Sponsor\MapTerms;
 
 class MapOrganization extends AbstractMapper
 {
-    public function map(SponsorDemandEvent $event, array $data): SponsorDemandEvent
+    public function map(SponsorDemand $listing, array $data): SponsorDemand
     {
-        return $event->organization(
-            $this->withAcfFields(
-                $data,
-                fn(array $acf) =>
-                 Schema::Organization()
-                    ->name($acf['organization_name'] ?? null)
-                    ->description($acf['organization_description'] ?? null)
-                    ->url($acf['organization_website'] ?? $acf['organization_url'] ?? null)
-                    ->taxID($acf['organization_number'] ?? null)
-                    ->contactPoint(Schema::ContactPoint()
-                        ->name($acf['organization_contact'] ?? null)
-                        ->role($acf['organization_contact_role'] ?? null)
-                        ->email($acf['organization_email'] ?? null)
-                        ->telephone($acf['organization_phone'] ?? null),),
-                null
-            )
-        );
+        $acf = $data['acf'] ?? [];
+        $id  = $listing->getProperty('@id');
+        if (!$acf || !$id) {
+            return $listing;
+        }
+
+        $organization = Schema::organization()
+            ->setProperty('@id', $id . '#organization')
+            ->name($acf['organization_name'] ?? null)
+            ->description($acf['organization_description'] ?? null)
+            ->url($acf['organization_website'] ?? null)
+            ->contactPoint(
+                Schema::contactPoint()
+                    ->name($acf['organization_contact'] ?? null)
+                    ->description($acf['organization_contact_role'] ?? null)
+                    ->email($acf['organization_email'] ?? null)
+                    ->telephone((string) ($acf['organization_phone'] ?? ''))
+            );
+
+        $organization->keywords(MapTerms::fromRows($acf['activities'] ?? [], 'activity'));
+
+        return $listing->setProperty('@reverse', ['seeks' => $organization]);
     }
 }

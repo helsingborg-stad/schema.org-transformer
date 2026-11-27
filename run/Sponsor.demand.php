@@ -10,7 +10,7 @@ use SchemaTransformer\Storage\TypesenseStorage\TypesenseCollection;
 use SchemaTransformer\Transforms\Sponsor\Demand\Transform;
 use SchemaTransformer\Webhooks\Webhooks;
 
-$id         = 'SponsorDemandEvent';
+$id         = 'SponsorDemand';
 $logger     = new TerminalLogger($id);
 $lockRunner = new \SchemaTransformer\LockRunner\LockRunner($id, $logger);
 $options    = new \SchemaTransformer\Run\Cli\Options();
@@ -24,8 +24,8 @@ $storage        = StorageFactory::create(
     target: $options->getTarget(),
     logger: $logger,
     options: [
-        'collection'            => TypesenseCollection::SponsorDemandEvent,
-        'collectionClearFilter' => ['filter_by' => '@type:=SponsorDemandEvent'],
+        'collection'            => TypesenseCollection::SponsorDemand,
+        'collectionClearFilter' => ['filter_by' => '@type:=SponsorDemand'],
     ],
 );
 
